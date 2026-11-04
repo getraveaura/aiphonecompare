@@ -38,10 +38,10 @@
   --ink-soft: #3f3a33;
   --muted: #5c564c;
   --line: #e4d9c8;
-  --pine: #0f5c42;
-  --pine-deep: #0c4a36;
+  --pine: #1f5f4a;
+  --pine-deep: #163f32;
   --checked-bg: #e7f3ec;
-  --brass: #c4a36a;
+  --brass: #1f5f4a;
   --sponsored-bg: #f8efd4;
   --sponsored-ink: #6a4b09;
   --serif: "Newsreader", "Iowan Old Style", "Palatino Linotype", Palatino, serif;
@@ -155,14 +155,15 @@ img { max-width: 100%; height: auto; }
 .mark { display: block; flex: none; }
 
 .hero {
-  background: var(--ink);
-  color: #f6f1e7;
+  background: var(--paper);
+  color: var(--ink);
   padding: 1.25rem 0 1.5rem;
+  border-bottom: 1px solid var(--line);
 }
 .hero h1 {
   margin: 0;
   max-width: 28ch;
-  color: #f6f1e7;
+  color: var(--ink);
   font-size: 2.125rem;
   font-weight: 600;
   line-height: 1.12;
@@ -177,7 +178,7 @@ img { max-width: 100%; height: auto; }
   width: 4.5rem;
   height: 2px;
   margin-top: 0.85rem;
-  background: var(--brass);
+  background: var(--pine);
   transform-origin: left center;
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -190,10 +191,9 @@ img { max-width: 100%; height: auto; }
 .hero .lead {
   margin-top: 0.75rem;
   max-width: 46rem;
-  color: #e7d7bc;
+  color: var(--ink-soft);
   font-size: 1.05rem;
 }
-.hero :focus-visible { outline-color: #f6f1e7; }
 .cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem; }
 .btn {
   display: inline-flex;
@@ -205,10 +205,10 @@ img { max-width: 100%; height: auto; }
   font: 600 1rem/1 var(--sans);
   text-decoration: none;
 }
-.btn-primary { background: #f6f1e7; color: var(--ink); }
-.btn-primary:hover { background: #fffdf8; color: var(--ink); }
-.btn-ghost { color: #f6f1e7; border: 1px solid #cbb892; background: transparent; }
-.btn-ghost:hover { background: #2a261f; color: #f6f1e7; }
+.btn-primary { background: var(--pine); color: #f6f1e7; }
+.btn-primary:hover { background: var(--pine-deep); color: #f6f1e7; }
+.btn-ghost { color: var(--pine); border: 1px solid var(--pine); background: transparent; }
+.btn-ghost:hover { background: var(--checked-bg); color: var(--pine-deep); }
 
 .picks-band { padding: 1.35rem 0 0.25rem; }
 .picks-band .section-title { margin-bottom: 0.35rem; font-size: 1.7rem; }
