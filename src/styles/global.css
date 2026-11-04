@@ -326,7 +326,7 @@ img { max-width: 100%; height: auto; }
 @media (max-width: 880px) {
   .compare { table-layout: auto; }
   .compare caption { display: block; width: auto; max-width: 100%; }
-  .compare tr > * { width: auto; }
+  .compare tr > :nth-child(n) { width: 100%; max-width: none; }
   .compare thead {
     position: absolute;
     width: 1px;
