@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import data from '../data/vendors.json';
+const latest = data.map((v) => v.last_checked).filter(Boolean).sort().at(-1) || '';
+const latestLabel = latest
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${latest}T00:00:00Z`))
+  : '';
+---
+<Base title="Open vendor dataset" description="Download the aiphonecompare vendor dataset as CSV or JSON under a CC BY 4.0 license. Blank fields mean not verified.">
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>Open vendor dataset</h1>
+      <p class="lead">These files are generated from the same vendor list the site uses. Blank fields mean we have not verified that fact.</p>
+    </div>
+  </header>
+  <div class="wrap stack prose">
+    <p>{latestLabel ? <>Last updated {latestLabel}. That is the latest last-checked date in the vendor file.</> : 'Last-checked dates are on each vendor row.'}</p>
+    <p>License: <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a>.</p>
+    <p>If you use the data, attribute aiphonecompare and link to <a href="https://aiphonecompare.com/data/">https://aiphonecompare.com/data/</a>.</p>
+    <ul>
+      <li><a href="/data/vendors.csv">vendors.csv</a> ({data.length} rows, plus a header)</li>
+      <li><a href="/data/vendors.json">vendors.json</a> ({data.length} vendors)</li>
+    </ul>
+    <p>Prices are the text published on the vendor page, with a source and a last-checked date. They are not estimates we calculated.</p>
+    <p>Compare them on the <a href="/pricing/">pricing page</a> or in the <a href="/missed-call-calculator/">missed-call calculator</a>.</p>
+  </div>
+</Base>

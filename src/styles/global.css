@@ -205,6 +205,7 @@ img { max-width: 100%; height: auto; }
   font: 600 1rem/1 var(--sans);
   text-decoration: none;
 }
+button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 var(--sans); }
 .btn-primary { background: var(--pine); color: #f6f1e7; }
 .btn-primary:hover { background: var(--pine-deep); color: #f6f1e7; }
 .btn-ghost { color: var(--pine); border: 1px solid var(--pine); background: transparent; }
@@ -460,6 +461,28 @@ img { max-width: 100%; height: auto; }
 
 .prose { max-width: 68ch; padding-bottom: 24px; }
 .prose h2 { margin: 2rem 0 0.45rem; font-size: 1.7rem; }
+.calc-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.calc-form { display: grid; gap: 14px; }
+.calc-form label { display: block; font-weight: 600; margin-bottom: 4px; }
+.calc-form input {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 1rem/1.4 var(--sans);
+}
+.estimate {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.estimate h2 { margin: 0 0 8px; font-size: 1.5rem; }
+.estimate p { margin: 0 0 8px; }
+@media (max-width: 800px) { .calc-grid { grid-template-columns: 1fr; } }
 .faq-item { margin: 0 0 1.25rem; }
 .faq-item h3 { margin: 0 0 0.35rem; font-size: 1.35rem; }
 .prose p { margin: 0 0 0.75rem; }

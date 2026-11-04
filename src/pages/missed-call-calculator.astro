@@ -1,0 +1,116 @@
+---
+import Base from '../layouts/Base.astro';
+import data from '../data/vendors.json';
+import { byPublishedMonthlyPrice, lowestMonthly } from '../lib/price.mjs';
+const cheapest = byPublishedMonthlyPrice(data)
+  .filter((v) => lowestMonthly(v.starting_price) != null)
+  .slice(0, 5)
+  .map((v) => ({ ...v, monthly: lowestMonthly(v.starting_price) }));
+const money = (n) => Number.isInteger(n) ? `$${n}` : `$${n}`;
+---
+<Base title="Missed-call cost calculator" description="Estimate monthly revenue from missed calls using your own numbers, next to the lowest published monthly starting prices in this directory.">
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>Missed-call cost calculator</h1>
+      <p class="lead">This is an estimate from the four numbers you enter. It is not a forecast, and it does not use outside statistics.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <p>The monthly figure is your weekly result times 52 divided by 12, which spreads a year of weeks across 12 months. Vendor amounts are the lowest monthly dollar figure written in each listing, not a quote.</p>
+    <div class="calc-grid">
+      <form id="missed-call-form" class="calc-form">
+        <div>
+          <label for="calls">Calls per week</label>
+          <input id="calls" name="calls" type="number" inputmode="decimal" min="0" step="any" required>
+        </div>
+        <div>
+          <label for="missed">Percent of calls missed</label>
+          <input id="missed" name="missed" type="number" inputmode="decimal" min="0" max="100" step="any" required>
+        </div>
+        <div>
+          <label for="customers">Percent of missed calls that would become customers</label>
+          <input id="customers" name="customers" type="number" inputmode="decimal" min="0" max="100" step="any" required>
+        </div>
+        <div>
+          <label for="job">Average job value (USD)</label>
+          <input id="job" name="job" type="number" inputmode="decimal" min="0" step="any" required>
+        </div>
+        <button class="btn btn-primary" type="submit">Calculate lost revenue</button>
+      </form>
+      <div id="estimate" class="estimate" aria-live="polite" aria-atomic="true">
+        <h2>Your estimate</h2>
+        <p>Enter all four numbers. The result uses only those inputs.</p>
+      </div>
+    </div>
+    <section aria-labelledby="cheapest-heading">
+      <h2 id="cheapest-heading" class="section-title">Cheapest verified monthly prices</h2>
+      <p class="note">These are the five listings with the lowest monthly dollar amount written in the published price. Checked dates are on each vendor page. This is not a ranking of quality.</p>
+      <div class="tablewrap" tabindex="0" aria-labelledby="cheapest-caption">
+        <table class="compare">
+          <caption id="cheapest-caption">Lowest monthly amounts written in verified listings.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Vendor</th>
+              <th scope="col">Monthly amount in the listing</th>
+              <th scope="col">Published price</th>
+              <th scope="col">Checked</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cheapest.map((v) => (
+              <tr>
+                <th scope="row"><a href={`/vendors/${v.slug}/`}>{v.name}</a></th>
+                <td data-label="Monthly amount in the listing">{money(v.monthly)}/mo</td>
+                <td data-label="Published price">{v.starting_price}</td>
+                <td data-label="Checked">{v.last_checked ? <time datetime={v.last_checked}>{v.last_checked}</time> : <span class="missing">Not verified</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</Base>
+<script is:inline>
+(function () {
+  var form = document.getElementById('missed-call-form');
+  var out = document.getElementById('estimate');
+  if (!form || !out) return;
+  var money = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+  function num(id) {
+    var el = document.getElementById(id);
+    if (!el || el.value.trim() === '') return null;
+    var n = Number(el.value);
+    return Number.isFinite(n) ? n : NaN;
+  }
+  function show(html) { out.innerHTML = html; }
+  function calculate() {
+    var calls = num('calls');
+    var missed = num('missed');
+    var customers = num('customers');
+    var job = num('job');
+    if (calls === null || missed === null || customers === null || job === null) {
+      show('<h2>Your estimate</h2><p>Enter all four numbers. The result uses only those inputs.</p>');
+      return;
+    }
+    if ([calls, missed, customers, job].some(function (n) { return Number.isNaN(n) || n < 0; }) || missed > 100 || customers > 100) {
+      show('<h2>Your estimate</h2><p>Use numbers that are zero or greater. Both percents must be from 0 to 100.</p>');
+      return;
+    }
+    var missedCalls = calls * (missed / 100);
+    var lostCustomers = missedCalls * (customers / 100);
+    var perWeek = lostCustomers * job;
+    var perMonth = perWeek * 52 / 12;
+    show(
+      '<h2>Your estimate</h2>' +
+      '<p><strong>' + money.format(perMonth) + '</strong> of revenue per month, from the numbers you entered. This is not a forecast.</p>' +
+      '<p>' + calls + ' calls a week × ' + missed + '% missed × ' + customers + '% that would become customers × ' + money.format(job) + ' = ' + money.format(perWeek) + ' per week. Per month is that weekly amount × 52 ÷ 12.</p>'
+    );
+  }
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    calculate();
+  });
+  form.addEventListener('input', calculate);
+})();
+</script>
