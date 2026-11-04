@@ -1,6 +1,35 @@
 ---
 const { vendors } = Astro.props;
+const cols = [
+  ['starting_price', 'Starting price'],
+  ['billing_model', 'Billing'],
+  ['free_trial', 'Trial'],
+  ['human_handoff', 'Human handoff'],
+  ['hipaa_baa', 'HIPAA / BAA'],
+  ['integrations', 'Integrations'],
+];
 ---
-<div class="tablewrap"><table><caption class="muted" style="text-align:left;padding:8px">Blank = not verified. Click a vendor for sources.</caption>
-<thead><tr><th scope="col">Vendor</th><th scope="col">Starting price</th><th scope="col">Billing</th><th scope="col">Trial</th><th scope="col">Human handoff</th><th scope="col">HIPAA / BAA</th><th scope="col">Integrations</th></tr></thead>
-<tbody>{vendors.map(v=>(<tr><th scope="row"><a href={`/vendors/${v.slug}/`}>{v.name}</a>{v.sponsored && <span class="badge">Sponsored</span>}</th><td>{v.starting_price}</td><td>{v.billing_model}</td><td>{v.free_trial}</td><td>{v.human_handoff}</td><td>{v.hipaa_baa}</td><td>{v.integrations}</td></tr>))}</tbody></table></div>
+<div class="tablewrap">
+  <table class="compare">
+    <caption>Blank means not verified. Open a vendor for sources and the date we checked.</caption>
+    <thead>
+      <tr>
+        <th scope="col">Vendor</th>
+        {cols.map(([, label]) => <th scope="col">{label}</th>)}
+      </tr>
+    </thead>
+    <tbody>
+      {vendors.map((v) => (
+        <tr>
+          <th scope="row">
+            <a href={`/vendors/${v.slug}/`}>{v.name}</a>
+            {v.sponsored && <span class="badge">Sponsored</span>}
+          </th>
+          {cols.map(([key, label]) => (
+            <td data-label={label}>{v[key] || <span class="missing">Not verified</span>}</td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>

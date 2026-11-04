@@ -1,14 +1,59 @@
 ---
-import Base from '../layouts/Base.astro'; import data from '../data/vendors.json';
-const c=k=>data.filter(v=>v.industries.includes(k)).length;
+import Base from '../layouts/Base.astro';
+import data from '../data/vendors.json';
+const c = (k) => data.filter((v) => v.industries.includes(k)).length;
 ---
-<Base title="Independent, verified AI receptionist price comparison" description="The independent, verified price comparison for AI receptionists. Every price sourced and dated, compared by industry. Sponsored spots are labeled; rankings are not for sale." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}><h1>The independent, verified price comparison for AI receptionists</h1>
-<p class="lead">{data.length} AI receptionists compared by industry. Every price links to its source and shows the date we checked it. Sponsored spots are labeled, and rankings are not for sale.</p>
-<ul class="pillars"><li><strong>Independent.</strong> Not owned by any vendor; payment never changes data or order.</li><li><strong>Verified.</strong> Every price sourced and dated; blank means we could not verify it.</li><li><strong>By industry.</strong> Dental, legal and plumbing, with what matters for each.</li></ul>
-<div class="cards">
-<a class="card" href="/industries/dental/"><h2>Dental</h2><p>{c('dental')} tools · PMS write-back, BAAs</p></a>
-<a class="card" href="/industries/legal/"><h2>Law firms</h2><p>{c('legal')} tools · intake, Clio/MyCase</p></a>
-<a class="card" href="/industries/plumbing/"><h2>Plumbing</h2><p>{c('plumbing')} tools · emergency routing, ServiceTitan/Jobber</p></a>
-<a class="card" href="/pricing/"><h2>All pricing</h2><p>Every published starting price</p></a>
-</div>
-<h2>All vendors</h2><ul class="cards" style="list-style:none;padding:0">{data.map(v=><li><a href={`/vendors/${v.slug}/`}>{v.name}</a></li>)}</ul></Base>
+<Base title="Independent, verified AI receptionist price comparison" description="The independent, verified price comparison for AI receptionists. Every price sourced and dated, compared by industry. Sponsored spots are labeled; rankings are not for sale." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}>
+  <section class="hero">
+    <div class="wrap">
+      <h1>The independent, verified price comparison for AI receptionists</h1>
+      <p class="lead">{data.length} AI receptionists compared by industry. Every price links to its source and shows the date we checked it. Sponsored spots are labeled, and rankings are not for sale.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#industries">Browse by industry</a>
+        <a class="btn btn-ghost" href="/pricing/">See pricing</a>
+      </div>
+    </div>
+  </section>
+  <section class="band">
+    <div class="wrap">
+      <ul class="principles">
+        <li><strong>Independent.</strong> Not owned by any vendor; payment never changes data or order.</li>
+        <li><strong>Verified.</strong> Every price sourced and dated; blank means we could not verify it.</li>
+        <li><strong>By industry.</strong> Dental, legal and plumbing, with what matters for each.</li>
+      </ul>
+    </div>
+  </section>
+  <section class="band" id="industries" style="padding-top:0">
+    <div class="wrap">
+      <h2 class="section-title">Browse by industry</h2>
+      <div class="industries">
+        <a class="industry" href="/industries/dental/">
+          <h2>Dental</h2>
+          <p>{c('dental')} tools · PMS write-back, BAAs</p>
+          <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="industry" href="/industries/legal/">
+          <h2>Law firms</h2>
+          <p>{c('legal')} tools · intake, Clio/MyCase</p>
+          <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="industry" href="/industries/plumbing/">
+          <h2>Plumbing</h2>
+          <p>{c('plumbing')} tools · emergency routing, ServiceTitan/Jobber</p>
+          <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="industry" href="/pricing/">
+          <h2>All pricing</h2>
+          <p>Every published starting price</p>
+          <span class="go">See pricing <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+  <section class="band" style="padding-top:8px">
+    <div class="wrap">
+      <h2 class="section-title">All vendors</h2>
+      <ul class="directory">{data.map((v) => <li><a href={`/vendors/${v.slug}/`}>{v.name}</a></li>)}</ul>
+    </div>
+  </section>
+</Base>

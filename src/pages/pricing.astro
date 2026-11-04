@@ -1,5 +1,17 @@
 ---
-import Base from '../layouts/Base.astro'; import VendorTable from '../components/VendorTable.astro'; import data from '../data/vendors.json';
-const v=[...data].sort((a,b)=>(b.starting_price?1:0)-(a.starting_price?1:0)||a.name.localeCompare(b.name));
+import Base from '../layouts/Base.astro';
+import VendorTable from '../components/VendorTable.astro';
+import data from '../data/vendors.json';
+const v = [...data].sort((a, b) => (b.starting_price ? 1 : 0) - (a.starting_price ? 1 : 0) || a.name.localeCompare(b.name));
 ---
-<Base title="AI receptionist pricing" description="Published starting prices for 40 AI receptionists, with sources and last-checked dates."><h1>AI receptionist pricing, all vendors</h1><p class="lead">Published starting prices only. We never estimate a price; blank means the vendor quotes privately or we could not verify it.</p><VendorTable vendors={v}/></Base>
+<Base title="AI receptionist pricing" description="Published starting prices for 40 AI receptionists, with sources and last-checked dates.">
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>AI receptionist pricing, all vendors</h1>
+      <p class="lead">Published starting prices only. We never estimate a price; blank means the vendor quotes privately or we could not verify it.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <VendorTable vendors={v}/>
+  </div>
+</Base>

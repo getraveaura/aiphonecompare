@@ -1,9 +1,61 @@
 ---
-import Base from '../../layouts/Base.astro'; import data from '../../data/vendors.json';
-export function getStaticPaths(){ return data.map(v=>({params:{slug:v.slug},props:{v}})); }
+import Base from '../../layouts/Base.astro';
+import data from '../../data/vendors.json';
+export function getStaticPaths(){ return data.map((v) => ({ params: { slug: v.slug }, props: { v } })); }
 const { v } = Astro.props;
-const rows=[["Website",v.website],["Starting price",v.starting_price],["Billing model",v.billing_model],["Free trial",v.free_trial],["Human handoff",v.human_handoff],["HIPAA / BAA",v.hipaa_baa],["Integrations",v.integrations],["Industries",v.industries.join(", ")],["Notes",v.notes]];
+const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing' };
+const checkedLabel = v.last_checked
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${v.last_checked}T00:00:00Z`))
+  : '';
+const facts = [
+  ['Starting price', v.starting_price],
+  ['HIPAA / BAA', v.hipaa_baa],
+  ['Integrations', v.integrations],
+];
+const details = [
+  ['Billing model', v.billing_model],
+  ['Free trial', v.free_trial],
+  ['Human handoff', v.human_handoff],
+  ['Industries', v.industries.map((k) => industryLabel[k] || k).join(', ')],
+  ['Notes', v.notes],
+];
+if (!v.website) details.unshift(['Website', '']);
 ---
-<Base title={`${v.name} review & pricing`} description={`${v.name} AI receptionist: ${v.starting_price?("pricing "+v.starting_price+", "):""}features, integrations and sources. Last checked ${v.last_checked}.`.slice(0,300)} jsonld={{"@context":"https://schema.org","@type":"SoftwareApplication","name":v.name,"applicationCategory":"BusinessApplication","url":v.website||undefined,"description":v.notes||undefined}}><h1>{v.name}</h1>{v.sponsored && <p><span class="badge">Sponsored</span></p>}
-<div class="tablewrap"><table><tbody>{rows.map(([k,val])=>(<tr><th scope="row">{k}</th><td>{k==="Website"&&val?<a href={val} rel="nofollow noopener">{val}</a>:(val||<span class="muted">Not verified</span>)}</td></tr>))}</tbody></table></div>
-<h2>Sources</h2><ul>{v.sources.map(s=><li><a href={s} rel="nofollow noopener">{s}</a></li>)}</ul><p class="muted">Last checked {v.last_checked}. Prices change; confirm on the vendor's site.</p></Base>
+<Base title={`${v.name} review & pricing`} description={`${v.name} AI receptionist: ${v.starting_price ? ("pricing " + v.starting_price + ", ") : ""}features, integrations and sources. Last checked ${v.last_checked}.`.slice(0,300)} jsonld={{"@context":"https://schema.org","@type":"SoftwareApplication","name":v.name,"applicationCategory":"BusinessApplication","url":v.website||undefined,"description":v.notes||undefined}}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>{v.name}</h1>
+      {v.sponsored && <p><span class="badge">Sponsored</span></p>}
+      {v.last_checked && (
+        <p class="checked">
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#0f5c42"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Last checked <time datetime={v.last_checked}>{checkedLabel}</time>
+        </p>
+      )}
+      {v.website && <p class="lead" style="margin-top:14px"><a href={v.website} rel="nofollow noopener">{v.website}</a></p>}
+    </div>
+  </header>
+  <div class="wrap stack">
+    <div class="facts">
+      {facts.map(([label, val]) => (
+        <section class="fact">
+          <h2>{label}</h2>
+          <p>{val || <span class="missing">Not verified</span>}</p>
+        </section>
+      ))}
+    </div>
+    <dl class="record">
+      {details.map(([label, val]) => (
+        <div>
+          <dt>{label}</dt>
+          <dd>{val || <span class="missing">Not verified</span>}</dd>
+        </div>
+      ))}
+    </dl>
+    <section>
+      <h2 class="section-title">Sources</h2>
+      <ul class="sources">{v.sources.map((s) => <li><a href={s} rel="nofollow noopener">{s}</a></li>)}</ul>
+      <p class="note">Prices change; confirm on the vendor's site.</p>
+    </section>
+  </div>
+</Base>

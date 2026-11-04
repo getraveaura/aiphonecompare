@@ -1,25 +1,65 @@
 ---
+import '../styles/global.css';
+import Wordmark from '../components/Wordmark.astro';
 const { title, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/og.png', Astro.site).href;
+const path = Astro.url.pathname;
+const current = (href) => (path === href || path.startsWith(href) ? 'page' : undefined);
+const links = [
+  ['/industries/dental/', 'Dental'],
+  ['/industries/legal/', 'Legal'],
+  ['/industries/plumbing/', 'Plumbing'],
+  ['/pricing/', 'Pricing'],
+  ['/about/', 'How we rank'],
+  ['/badge/', 'Badge'],
+  ['/get-featured/', 'Get featured'],
+];
 ---
-<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>{title} | aiphonecompare</title><meta name="description" content={description}/><link rel="canonical" href={canonical}/><meta property="og:title" content={title}/><meta property="og:description" content={description}/><meta property="og:type" content="website"/>{jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)}/>}
-<style is:global>
-:root{--ink:#14213d;--muted:#5b6475;--line:#e3e7ee;--brand:#0b6e4f;--bg:#f7f9fc}
-*{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
-a{color:var(--brand)}a:focus,button:focus{outline:3px solid #f4a261;outline-offset:2px}
-.pillars{list-style:none;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.pillars li{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px}pre{white-space:pre-wrap;word-break:break-all;background:#fff;border:1px solid var(--line);padding:10px;border-radius:6px;font-size:13px}.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px}
-header{background:#fff;border-bottom:1px solid var(--line)}nav{max-width:1100px;margin:auto;display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:12px 16px}
-nav .logo{font-weight:800;text-decoration:none;color:var(--ink);margin-right:auto}nav a{text-decoration:none}
-main{max-width:1100px;margin:auto;padding:24px 16px}h1{line-height:1.2}.lead{color:var(--muted);font-size:1.1rem}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px}
-.tablewrap{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:12px}table{border-collapse:collapse;width:100%;font-size:.92rem}
-th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#eef2f7;position:sticky;top:0}
-.muted{color:var(--muted)}.badge{display:inline-block;background:#fff3cd;border:1px solid #e0c36a;border-radius:6px;padding:0 6px;font-size:.8rem}
-.note{background:#fff;border-left:4px solid var(--brand);padding:12px 16px;border-radius:6px}.warn{background:#fff3cd;border:2px dashed #c99a06;padding:12px 16px;border-radius:8px}
-footer{max-width:1100px;margin:32px auto;padding:16px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
-</style></head><body><a class="skip" href="#main">Skip to content</a>
-<header><nav aria-label="Main"><a class="logo" href="/">aiphonecompare</a><a href="/industries/dental/">Dental</a><a href="/industries/legal/">Legal</a><a href="/industries/plumbing/">Plumbing</a><a href="/pricing/">Pricing</a><a href="/about/">How we rank</a><a href="/badge/">Badge</a><a href="/get-featured/">Get featured</a></nav></header>
-<main id="main"><slot/></main>
-<footer>Independent directory. Sponsored placements are always labeled. Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it. Preview build.</footer>
-</body></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{title} | aiphonecompare</title>
+  <meta name="description" content={description}/>
+  <link rel="canonical" href={canonical}/>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+  <meta name="theme-color" content="#f3efe6"/>
+  <meta property="og:title" content={title}/>
+  <meta property="og:description" content={description}/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content={canonical}/>
+  <meta property="og:image" content={ogImage}/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:title" content={title}/>
+  <meta name="twitter:description" content={description}/>
+  <meta name="twitter:image" content={ogImage}/>
+  {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)}/>}
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="wrap bar">
+      <Wordmark />
+      <nav aria-label="Main">
+        {links.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
+      </nav>
+    </div>
+  </header>
+  <main id="main"><slot/></main>
+  <footer class="site-footer">
+    <div class="wrap foot">
+      <div>
+        <Wordmark />
+        <p>Independent directory. Sponsored placements are always labeled.</p>
+      </div>
+      <nav aria-label="Directory">
+        {links.map(([href, label]) => <a href={href}>{label}</a>)}
+      </nav>
+      <p class="fine">Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it. Preview build.</p>
+    </div>
+  </footer>
+</body>
+</html>
