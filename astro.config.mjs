@@ -1,2 +1,2 @@
 import { defineConfig } from 'astro/config';
-export default defineConfig({ output: 'static', site: 'https://getraveaura.github.io/aiphonecompare', base: '/aiphonecompare', trailingSlash: 'always' });
+export default defineConfig({ output: 'static', site: 'https://aiphonecompare.com', base: '/', trailingSlash: 'always' });

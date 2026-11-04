@@ -1,0 +1,12 @@
+---
+import Base from '../layouts/Base.astro'; import data from '../data/vendors.json';
+const SITE='https://aiphonecompare.com';
+const snip=v=>`<a href="${SITE}/vendors/${v.slug}/" rel="noopener"><img src="${SITE}/badge.svg" alt="Listed on aiphonecompare" width="200" height="44"></a>`;
+---
+<Base title="Listed on aiphonecompare badge" description="A free badge for AI receptionist vendors listed on aiphonecompare, linking to their verified listing."><h1>"Listed on aiphonecompare" badge</h1>
+<p class="lead">Free for every listed vendor. It links to your listing, where buyers can see your sourced, dated pricing. Using the badge doesn't affect your order or data.</p>
+<p><img src="/badge.svg" alt="Listed on aiphonecompare" width="200" height="44"/></p>
+<p class="muted">Snippets use https://aiphonecompare.com.</p>
+<h2>Embed snippets</h2>
+{data.map(v=>(<section><h3 id={v.slug}><a href={`/vendors/${v.slug}/`}>{v.name}</a></h3><label class="muted" for={`s-${v.slug}`}>HTML</label><pre id={`s-${v.slug}`}><code>{snip(v)}</code></pre></section>))}
+</Base>

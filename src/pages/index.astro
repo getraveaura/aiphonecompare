@@ -2,8 +2,9 @@
 import Base from '../layouts/Base.astro'; import data from '../data/vendors.json';
 const c=k=>data.filter(v=>v.industries.includes(k)).length;
 ---
-<Base title="Compare AI receptionists by industry" description="Compare 40 AI receptionists for dental, legal and plumbing businesses: pricing, HIPAA/BAA, human handoff and integrations, with sources." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`vendors/${v.slug}/`,Astro.site+"/").href}))}}><h1>Compare AI receptionists by industry</h1>
-<p class="lead">{data.length} AI receptionists and voice agents, with pricing, HIPAA/BAA status and integrations pulled from vendor sites and cited sources. Independent; sponsored spots are labeled.</p>
+<Base title="Independent, verified AI receptionist price comparison" description="The independent, verified price comparison for AI receptionists. Every price sourced and dated, compared by industry. Sponsored spots are labeled; rankings are not for sale." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}><h1>The independent, verified price comparison for AI receptionists</h1>
+<p class="lead">{data.length} AI receptionists compared by industry. Every price links to its source and shows the date we checked it. Sponsored spots are labeled, and rankings are not for sale.</p>
+<ul class="pillars"><li><strong>Independent.</strong> Not owned by any vendor; payment never changes data or order.</li><li><strong>Verified.</strong> Every price sourced and dated; blank means we could not verify it.</li><li><strong>By industry.</strong> Dental, legal and plumbing, with what matters for each.</li></ul>
 <div class="cards">
 <a class="card" href="/industries/dental/"><h2>Dental</h2><p>{c('dental')} tools · PMS write-back, BAAs</p></a>
 <a class="card" href="/industries/legal/"><h2>Law firms</h2><p>{c('legal')} tools · intake, Clio/MyCase</p></a>

@@ -1,5 +1,5 @@
 ---
-const { title, description = "Independent comparison of AI receptionists and voice agents by industry.", jsonld } = Astro.props;
+const { title, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 ---
 <html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
@@ -8,7 +8,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site).href;
 :root{--ink:#14213d;--muted:#5b6475;--line:#e3e7ee;--brand:#0b6e4f;--bg:#f7f9fc}
 *{box-sizing:border-box}body{margin:0;font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:var(--bg)}
 a{color:var(--brand)}a:focus,button:focus{outline:3px solid #f4a261;outline-offset:2px}
-.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px}
+.pillars{list-style:none;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}.pillars li{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px}pre{white-space:pre-wrap;word-break:break-all;background:#fff;border:1px solid var(--line);padding:10px;border-radius:6px;font-size:13px}.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px}
 header{background:#fff;border-bottom:1px solid var(--line)}nav{max-width:1100px;margin:auto;display:flex;flex-wrap:wrap;gap:16px;align-items:center;padding:12px 16px}
 nav .logo{font-weight:800;text-decoration:none;color:var(--ink);margin-right:auto}nav a{text-decoration:none}
 main{max-width:1100px;margin:auto;padding:24px 16px}h1{line-height:1.2}.lead{color:var(--muted);font-size:1.1rem}
@@ -19,7 +19,7 @@ th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-
 .note{background:#fff;border-left:4px solid var(--brand);padding:12px 16px;border-radius:6px}.warn{background:#fff3cd;border:2px dashed #c99a06;padding:12px 16px;border-radius:8px}
 footer{max-width:1100px;margin:32px auto;padding:16px;color:var(--muted);font-size:.9rem;border-top:1px solid var(--line)}
 </style></head><body><a class="skip" href="#main">Skip to content</a>
-<header><nav aria-label="Main"><a class="logo" href="/">aiphonecompare</a><a href="/industries/dental/">Dental</a><a href="/industries/legal/">Legal</a><a href="/industries/plumbing/">Plumbing</a><a href="/pricing/">Pricing</a><a href="/about/">How we rank</a><a href="/get-featured/">Get featured</a></nav></header>
+<header><nav aria-label="Main"><a class="logo" href="/">aiphonecompare</a><a href="/industries/dental/">Dental</a><a href="/industries/legal/">Legal</a><a href="/industries/plumbing/">Plumbing</a><a href="/pricing/">Pricing</a><a href="/about/">How we rank</a><a href="/badge/">Badge</a><a href="/get-featured/">Get featured</a></nav></header>
 <main id="main"><slot/></main>
 <footer>Independent directory. Sponsored placements are always labeled. Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it. Preview build.</footer>
 </body></html>
