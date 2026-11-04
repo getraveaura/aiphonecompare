@@ -2,6 +2,15 @@
 import Base from '../layouts/Base.astro';
 import data from '../data/vendors.json';
 const c = (k) => data.filter((v) => v.industries.includes(k)).length;
+const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing' };
+const checkedLabel = (iso) => iso
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`))
+  : '';
+const picks = [...data]
+  .filter((v) => v.starting_price)
+  .sort((a, b) => a.name.localeCompare(b.name))
+  .slice(0, 5);
+const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || k).filter(Boolean).join(', ');
 ---
 <Base title="Independent, verified AI receptionist price comparison" description="The independent, verified price comparison for AI receptionists. Every price sourced and dated, compared by industry. Sponsored spots are labeled; rankings are not for sale." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}>
   <section class="hero">
@@ -11,6 +20,36 @@ const c = (k) => data.filter((v) => v.industries.includes(k)).length;
       <div class="cta">
         <a class="btn btn-primary" href="#industries">Browse by industry</a>
         <a class="btn btn-ghost" href="/pricing/">See pricing</a>
+      </div>
+    </div>
+  </section>
+  <section class="picks-band" aria-labelledby="top-picks-heading">
+    <div class="wrap">
+      <h2 class="section-title" id="top-picks-heading">Top picks</h2>
+      <div class="tablewrap picks" tabindex="0" aria-labelledby="top-picks-caption">
+        <table class="compare">
+          <caption id="top-picks-caption">Not a ranking. The first five vendors, A to Z, that have a published starting price.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Vendor</th>
+              <th scope="col">Starting price</th>
+              <th scope="col">Checked</th>
+              <th scope="col">Source</th>
+              <th scope="col">Industry</th>
+            </tr>
+          </thead>
+          <tbody>
+            {picks.map((v) => (
+              <tr>
+                <th scope="row"><a href={`/vendors/${v.slug}/`}>{v.name}</a></th>
+                <td data-label="Starting price">{v.starting_price || <span class="missing">Not verified</span>}</td>
+                <td data-label="Checked">{v.last_checked ? <time datetime={v.last_checked}>{checkedLabel(v.last_checked)}</time> : <span class="missing">Not verified</span>}</td>
+                <td data-label="Source">{v.sources?.[0] ? <a href={v.sources[0]} rel="nofollow noopener">Price source<span class="vh"> for {v.name}</span></a> : <span class="missing">Not verified</span>}</td>
+                <td data-label="Industry">{industryText(v) || <span class="missing">Not verified</span>}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -28,22 +67,22 @@ const c = (k) => data.filter((v) => v.industries.includes(k)).length;
       <h2 class="section-title">Browse by industry</h2>
       <div class="industries">
         <a class="industry" href="/industries/dental/">
-          <h2>Dental</h2>
+          <h3>Dental</h3>
           <p>{c('dental')} tools · PMS write-back, BAAs</p>
           <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
         <a class="industry" href="/industries/legal/">
-          <h2>Law firms</h2>
+          <h3>Law firms</h3>
           <p>{c('legal')} tools · intake, Clio/MyCase</p>
           <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
         <a class="industry" href="/industries/plumbing/">
-          <h2>Plumbing</h2>
+          <h3>Plumbing</h3>
           <p>{c('plumbing')} tools · emergency routing, ServiceTitan/Jobber</p>
           <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
         <a class="industry" href="/pricing/">
-          <h2>All pricing</h2>
+          <h3>All pricing</h3>
           <p>Every published starting price</p>
           <span class="go">See pricing <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>

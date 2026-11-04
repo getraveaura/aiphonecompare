@@ -43,9 +43,12 @@ const links = [
   <header class="site-header">
     <div class="wrap bar">
       <Wordmark />
-      <nav aria-label="Main">
-        {links.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
-      </nav>
+      <details class="nav-disclosure">
+        <summary>Menu</summary>
+        <nav class="nav-panel" aria-label="Main">
+          {links.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
+        </nav>
+      </details>
     </div>
   </header>
   <main id="main"><slot/></main>
@@ -57,6 +60,7 @@ const links = [
       </div>
       <nav aria-label="Directory">
         {links.map(([href, label]) => <a href={href}>{label}</a>)}
+        <a href="/accessibility/">Accessibility</a>
       </nav>
       <p class="fine">Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it. Preview build.</p>
     </div>
