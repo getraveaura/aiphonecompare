@@ -340,17 +340,15 @@ img { max-width: 100%; height: auto; }
   vertical-align: top;
   padding: 12px 10px;
   border-bottom: 1px solid var(--line);
+  overflow-wrap: break-word;
 }
 .compare thead th {
-  position: sticky;
-  top: 4.75rem;
   background: #ebe4d6;
   color: var(--ink);
   font-family: var(--sans);
   font-size: 0.82rem;
   font-weight: 600;
   letter-spacing: 0;
-  z-index: 1;
 }
 .compare tbody th a { color: var(--ink); font-weight: 600; text-decoration: none; }
 .compare tbody th a:hover { color: var(--pine); text-decoration: underline; }
