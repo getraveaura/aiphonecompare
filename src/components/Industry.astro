@@ -1,0 +1,8 @@
+---
+import Base from '../layouts/Base.astro'; import VendorTable from './VendorTable.astro'; import data from '../data/vendors.json';
+const { key, title, guide } = Astro.props;
+const vendors = data.filter(v=>v.industries.includes(key)).sort((a,b)=>(b.sponsored-a.sponsored)||a.name.localeCompare(b.name));
+---
+<Base title={title} description={`${title}: ${vendors.length} tools compared on price, HIPAA/BAA, human handoff and integrations, with sources.`} jsonld={{"@context":"https://schema.org","@type":"ItemList","name":title,"itemListElement":vendors.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`vendors/${v.slug}/`,Astro.site+"/").href}))}}><h1>{title}</h1><p class="lead">{vendors.length} AI receptionists compared. Listed alphabetically; sponsored listings are labeled.</p>
+<section class="note" aria-label="Buying guide"><h2>What to check before you buy</h2><ul>{guide.map(g=><li set:html={g}/>)}</ul></section>
+<h2>Comparison table</h2><VendorTable vendors={vendors}/></Base>

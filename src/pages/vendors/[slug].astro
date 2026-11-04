@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro'; import data from '../../data/vendors.json';
+export function getStaticPaths(){ return data.map(v=>({params:{slug:v.slug},props:{v}})); }
+const { v } = Astro.props;
+const rows=[["Website",v.website],["Starting price",v.starting_price],["Billing model",v.billing_model],["Free trial",v.free_trial],["Human handoff",v.human_handoff],["HIPAA / BAA",v.hipaa_baa],["Integrations",v.integrations],["Industries",v.industries.join(", ")],["Notes",v.notes]];
+---
+<Base title={`${v.name} review & pricing`} description={`${v.name} AI receptionist: ${v.starting_price?("pricing "+v.starting_price+", "):""}features, integrations and sources. Last checked ${v.last_checked}.`.slice(0,300)} jsonld={{"@context":"https://schema.org","@type":"SoftwareApplication","name":v.name,"applicationCategory":"BusinessApplication","url":v.website||undefined,"description":v.notes||undefined}}><h1>{v.name}</h1>{v.sponsored && <p><span class="badge">Sponsored</span></p>}
+<div class="tablewrap"><table><tbody>{rows.map(([k,val])=>(<tr><th scope="row">{k}</th><td>{k==="Website"&&val?<a href={val} rel="nofollow noopener">{val}</a>:(val||<span class="muted">Not verified</span>)}</td></tr>))}</tbody></table></div>
+<h2>Sources</h2><ul>{v.sources.map(s=><li><a href={s} rel="nofollow noopener">{s}</a></li>)}</ul><p class="muted">Last checked {v.last_checked}. Prices change; confirm on the vendor's site.</p></Base>

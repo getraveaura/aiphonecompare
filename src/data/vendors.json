@@ -1,0 +1,838 @@
+[
+ {
+  "slug": "smith-ai",
+  "name": "Smith.ai",
+  "website": "https://smith.ai",
+  "starting_price": "Free AI tier (25 calls); AI paid from $150/mo; live agents from $300/mo",
+  "billing_model": "Per call",
+  "free_trial": "25 free calls",
+  "human_handoff": "Yes (live agents)",
+  "hipaa_baa": "Public pages name no BAA (per Keragon); states it is not HIPAA-compliant (per LegalTexas)",
+  "integrations": "Clio, MyCase, Lawmatics, CallRail, Salesforce, Calendly, Zapier; ServiceTitan/Jobber native on live tier",
+  "industries": [
+   "dental",
+   "legal",
+   "plumbing"
+  ],
+  "notes": "AI plus 500+ legally trained live agents.",
+  "sponsored": false,
+  "sources": [
+   "https://smith.ai/blog/top-9-best-ai-answering-services-for-law-firms-and-agencies",
+   "https://justcall.io/blog/best-ai-receptionists-dental.html",
+   "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/",
+   "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "goodcall",
+  "name": "Goodcall",
+  "website": "https://www.goodcall.com",
+  "starting_price": "From $79/mo",
+  "billing_model": "Flat monthly, metered on unique callers",
+  "free_trial": "Self-serve",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "Zapier, calendars",
+  "industries": [
+   "dental",
+   "legal",
+   "plumbing"
+  ],
+  "notes": "No native dental PMS write-back (per JustCall).",
+  "sponsored": false,
+  "sources": [
+   "https://justcall.io/blog/best-ai-receptionists-dental.html",
+   "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
+   "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "dialzara",
+  "name": "Dialzara",
+  "website": "",
+  "starting_price": "From $29/mo for 60 minutes",
+  "billing_model": "Per minute bundles",
+  "free_trial": "7-day trial",
+  "human_handoff": "Blind transfer on entry plan; warm transfer on Pro",
+  "hipaa_baa": "States HIPAA compliance on all plans (per LegalTexas)",
+  "integrations": "Zapier, Make, Google Calendar",
+  "industries": [
+   "dental",
+   "legal",
+   "plumbing"
+  ],
+  "notes": "10 languages advertised (per Technology.org).",
+  "sponsored": false,
+  "sources": [
+   "https://justcall.io/blog/best-ai-receptionists-dental.html",
+   "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
+   "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/",
+   "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "ruby",
+  "name": "Ruby",
+  "website": "",
+  "starting_price": "$250/mo for 50 minutes",
+  "billing_model": "Per minute",
+  "free_trial": "",
+  "human_handoff": "Human-first (live receptionists)",
+  "hipaa_baa": "",
+  "integrations": "Clio, Rocket Matter",
+  "industries": [
+   "dental",
+   "legal",
+   "plumbing"
+  ],
+  "notes": "Human receptionists with optional AI front end.",
+  "sponsored": false,
+  "sources": [
+   "https://justcall.io/blog/best-ai-receptionists-dental.html",
+   "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
+   "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "justcall",
+  "name": "JustCall",
+  "website": "https://justcall.io",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "Transfers to a human",
+  "hipaa_baa": "HIPAA in Business Plan (per JustCall)",
+  "integrations": "CRM logging; PMS via custom API",
+  "industries": [
+   "dental"
+  ],
+  "notes": "AI and phone system on one bill.",
+  "sponsored": false,
+  "sources": [
+   "https://justcall.io/blog/best-ai-receptionists-dental.html"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "arini",
+  "name": "Arini",
+  "website": "",
+  "starting_price": "Reported from ~$249/mo; custom (per Keragon)",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "SOC 2 Type II and HIPAA; confirm BAA (per Keragon)",
+  "integrations": "Open Dental, Eaglesoft, Denticon, Curve, Dentrix, Dentrix Ascend",
+  "industries": [
+   "dental"
+  ],
+  "notes": "Dental-only, native PMS write-back.",
+  "sponsored": false,
+  "sources": [
+   "https://www.keragon.com/blog/ai-receptionist-dental",
+   "https://justcall.io/blog/best-ai-receptionists-dental.html",
+   "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "weave",
+  "name": "Weave",
+  "website": "",
+  "starting_price": "Platform from $199/mo",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "Phones, reminders, scheduling, payments",
+  "industries": [
+   "dental"
+  ],
+  "notes": "AI Receptionist in early access (per JustCall).",
+  "sponsored": false,
+  "sources": [
+   "https://justcall.io/blog/best-ai-receptionists-dental.html",
+   "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "peerlogic",
+  "name": "Peerlogic",
+  "website": "",
+  "starting_price": "$399 or $699/mo flat",
+  "billing_model": "Flat monthly",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "HIPAA compliant; confirm BAA (per Keragon)",
+  "integrations": "Dentrix, Dentrix Ascend, Eaglesoft, Open Dental, Denticon, Curve, CareStack",
+  "industries": [
+   "dental"
+  ],
+  "notes": "Replaces phone lines; AI 'Aimee'.",
+  "sponsored": false,
+  "sources": [
+   "https://justcall.io/blog/best-ai-receptionists-dental.html",
+   "https://www.keragon.com/blog/ai-receptionist-dental",
+   "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "viva-ai",
+  "name": "Viva AI",
+  "website": "",
+  "starting_price": "$349 to $1,199/mo",
+  "billing_model": "Credit-based monthly tiers",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "Signs a BAA with every practice; SOC 2 Type II",
+  "integrations": "Dentrix, Eaglesoft, Open Dental, Curve, Dentrix Ascend, CareStack, Cloud9",
+  "industries": [
+   "dental"
+  ],
+  "notes": "100+ languages (per Keragon).",
+  "sponsored": false,
+  "sources": [
+   "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/",
+   "https://www.keragon.com/blog/ai-receptionist-dental"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "dentina",
+  "name": "Dentina",
+  "website": "https://dentina.ai",
+  "starting_price": "From $299/mo (billed annually, per location)",
+  "billing_model": "Flat monthly, unlimited calls & minutes",
+  "free_trial": "30-day free trial",
+  "human_handoff": "Route to live representative on Premium",
+  "hipaa_baa": "",
+  "integrations": "Dentrix, Eaglesoft, Open Dental, Curve, Denticon",
+  "industries": [
+   "dental"
+  ],
+  "notes": "Built by a dentist; English + Spanish.",
+  "sponsored": false,
+  "sources": [
+   "https://dentina.ai/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "keragon",
+  "name": "Keragon",
+  "website": "https://www.keragon.com",
+  "starting_price": "$99/mo annual, $149/mo monthly",
+  "billing_model": "",
+  "free_trial": "Two-week trial",
+  "human_handoff": "",
+  "hipaa_baa": "BAA on every paid plan; SOC 2 Type II",
+  "integrations": "Open Dental, Planet DDS, Dentalink; Dentrix on request",
+  "industries": [
+   "dental"
+  ],
+  "notes": "Phone via connected voice AI (per Keragon's own article).",
+  "sponsored": false,
+  "sources": [
+   "https://www.keragon.com/blog/ai-receptionist-dental"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "rondah-ai",
+  "name": "Rondah AI",
+  "website": "https://www.rondah.ai",
+  "starting_price": "Custom quote",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "Routing/follow-up when a person is needed",
+  "hipaa_baa": "HIPAA compliant with BAAs (per Keragon)",
+  "integrations": "Practice management systems via integration",
+  "industries": [
+   "dental"
+  ],
+  "notes": "DSO-focused offering.",
+  "sponsored": false,
+  "sources": [
+   "https://www.keragon.com/blog/ai-receptionist-dental"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "nexhealth",
+  "name": "NexHealth",
+  "website": "",
+  "starting_price": "Reported from ~$350/mo (per Keragon)",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "Standard BAA in every contract (per Keragon)",
+  "integrations": "~70 systems incl. Open Dental, Dentrix, Eaglesoft, Curve, Denticon",
+  "industries": [
+   "dental"
+  ],
+  "notes": "Online booking focus rather than voice.",
+  "sponsored": false,
+  "sources": [
+   "https://www.keragon.com/blog/ai-receptionist-dental"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "mango-voice-margo",
+  "name": "Mango Voice (Margo)",
+  "website": "",
+  "starting_price": "AI Suite from $419/mo incl. phones",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "dental"
+  ],
+  "notes": "Takes a structured message rather than booking (per AIDentalTools).",
+  "sponsored": false,
+  "sources": [
+   "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "voicestack",
+  "name": "VoiceStack",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "Reviews compliance during contracting (per AIDentalTools)",
+  "integrations": "CareStack",
+  "industries": [
+   "dental"
+  ],
+  "notes": "Sold by CareStack as an add-on.",
+  "sponsored": false,
+  "sources": [
+   "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "dental-intelligence",
+  "name": "Dental Intelligence",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "dental"
+  ],
+  "notes": "Says its agent books during the call (per AIDentalTools).",
+  "sponsored": false,
+  "sources": [
+   "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "lexidesk",
+  "name": "Lexidesk",
+  "website": "",
+  "starting_price": "Flat monthly fee, custom quote",
+  "billing_model": "Flat monthly",
+  "free_trial": "",
+  "human_handoff": "Warm transfer with summary",
+  "hipaa_baa": "ISO 27001/SOC 2 Type II-aligned Azure infra (per LegalTexas)",
+  "integrations": "Clio Manage, Clio Grow, Lawmatics, HubSpot, HighLevel, Actionstep, Calendly, Acuity, Zapier",
+  "industries": [
+   "legal"
+  ],
+  "notes": "Legal-only; English & Spanish standard.",
+  "sponsored": false,
+  "sources": [
+   "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
+   "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "abby-connect",
+  "name": "Abby Connect",
+  "website": "",
+  "starting_price": "AI plans from $99/mo; $164/mo for 50 minutes",
+  "billing_model": "Per minute",
+  "free_trial": "",
+  "human_handoff": "AI, human, or hybrid",
+  "hipaa_baa": "",
+  "integrations": "Clio, Clio Grow, Lawmatics, Salesforce, HubSpot, Zapier; ServiceTitan, Housecall Pro, Jobber native",
+  "industries": [
+   "legal",
+   "plumbing"
+  ],
+  "notes": "",
+  "sponsored": false,
+  "sources": [
+   "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
+   "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "rosie",
+  "name": "Rosie",
+  "website": "",
+  "starting_price": "From $49/mo for 250 minutes; booking & transfers from $149/mo",
+  "billing_model": "Per minute bundles",
+  "free_trial": "7-day trial",
+  "human_handoff": "Live transfers on $149 tier",
+  "hipaa_baa": "",
+  "integrations": "Zapier, calendars",
+  "industries": [
+   "legal",
+   "plumbing"
+  ],
+  "notes": "English and Spanish.",
+  "sponsored": false,
+  "sources": [
+   "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
+   "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
+   "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "my-ai-front-desk",
+  "name": "My AI Front Desk",
+  "website": "",
+  "starting_price": "$99/mo, or $79/mo billed annually",
+  "billing_model": "Flat monthly",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "Clio, MyCase, Lawmatics (advertised), Zapier",
+  "industries": [
+   "legal"
+  ],
+  "notes": "20+ languages (per Technology.org).",
+  "sponsored": false,
+  "sources": [
+   "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
+   "https://theraindex.com/blog/best-ai-tools-for-therapists-2026"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "legalclerk-ai",
+  "name": "LegalClerk.ai",
+  "website": "",
+  "starting_price": "$400 per seat/mo, unlimited calls",
+  "billing_model": "Per seat",
+  "free_trial": "",
+  "human_handoff": "Live-agent escalation on Enterprise",
+  "hipaa_baa": "States HIPAA and ABA compliance (per LegalTexas)",
+  "integrations": "Clio, MyCase, Lawmatics, Google Calendar, Calendly",
+  "industries": [
+   "legal"
+  ],
+  "notes": "",
+  "sponsored": false,
+  "sources": [
+   "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/",
+   "https://smith.ai/blog/top-9-best-ai-answering-services-for-law-firms-and-agencies"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "hona-voice-ai",
+  "name": "Hona Voice AI",
+  "website": "",
+  "starting_price": "Quote via demo",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "Routes live calls to your team",
+  "hipaa_baa": "",
+  "integrations": "Clio, MyCase, Filevine, Litify, Zapier",
+  "industries": [
+   "legal"
+  ],
+  "notes": "31 languages (per LegalTexas).",
+  "sponsored": false,
+  "sources": [
+   "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "nextphone",
+  "name": "NextPhone",
+  "website": "https://www.getnextphone.com",
+  "starting_price": "From $199/mo, unlimited inbound calls",
+  "billing_model": "Flat monthly",
+  "free_trial": "",
+  "human_handoff": "Transfers emergencies to on-call number",
+  "hipaa_baa": "",
+  "integrations": "Jobber direct (Growth $299 plan); Zapier for ServiceTitan, Housecall Pro",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "",
+  "sponsored": false,
+  "sources": [
+   "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "avoca",
+  "name": "Avoca",
+  "website": "",
+  "starting_price": "Not published (demo only)",
+  "billing_model": "",
+  "free_trial": "Demo first",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "ServiceTitan (certified app), Housecall Pro, Jobber",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Fit for larger ServiceTitan shops.",
+  "sponsored": false,
+  "sources": [
+   "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers",
+   "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
+   "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "sameday-ai",
+  "name": "Sameday AI",
+  "website": "",
+  "starting_price": "From $449/mo for 500 minutes",
+  "billing_model": "Minute bundles",
+  "free_trial": "Demo first",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "ServiceTitan native; Housecall Pro, Jobber direct",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Targets high-ticket inbound sales.",
+  "sponsored": false,
+  "sources": [
+   "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers",
+   "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "oncrew",
+  "name": "OnCrew",
+  "website": "",
+  "starting_price": "Starter $49/mo (100 calls); Pro $149; Multi-Truck $349",
+  "billing_model": "Per answered call",
+  "free_trial": "14-day free trial, no card",
+  "human_handoff": "Live transfers, on-call rotation",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "No setup fee.",
+  "sponsored": false,
+  "sources": [
+   "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "pickupbell",
+  "name": "PickupBell",
+  "website": "",
+  "starting_price": "$199/mo, unlimited calls and minutes",
+  "billing_model": "Flat monthly",
+  "free_trial": "7-day free trial, no card",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "Calendar booking",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "",
+  "sponsored": false,
+  "sources": [
+   "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "turnkey-dispatch",
+  "name": "Turnkey Dispatch",
+  "website": "",
+  "starting_price": "From $299/mo with 300 minutes, then $1/min",
+  "billing_model": "Per minute",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Done-for-you setup.",
+  "sponsored": false,
+  "sources": [
+   "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "upfirst",
+  "name": "Upfirst",
+  "website": "",
+  "starting_price": "From $24.95/mo",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "Warm transfers",
+  "hipaa_baa": "",
+  "integrations": "Google, Outlook, Calendly, Acuity",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Not trade-specific.",
+  "sponsored": false,
+  "sources": [
+   "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "byvoice",
+  "name": "byVoice",
+  "website": "https://www.byvoice.io",
+  "starting_price": "From $29/mo; Pro $99/mo",
+  "billing_model": "",
+  "free_trial": "Trial after demo",
+  "human_handoff": "Live handoff",
+  "hipaa_baa": "",
+  "integrations": "APIs and webhooks for trade software",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "",
+  "sponsored": false,
+  "sources": [
+   "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "allo",
+  "name": "Allo",
+  "website": "",
+  "starting_price": "$45/user/mo",
+  "billing_model": "Per user",
+  "free_trial": "7-day trial",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Replaces phone system too.",
+  "sponsored": false,
+  "sources": [
+   "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
+   "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "futuro-ai",
+  "name": "Futuro AI",
+  "website": "https://www.futurocorp.com",
+  "starting_price": "$200/mo",
+  "billing_model": "Flat monthly",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "Housecall Pro",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "",
+  "sponsored": false,
+  "sources": [
+   "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "serviceagent",
+  "name": "ServiceAgent",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "For shops without field-service software (per Futuro).",
+  "sponsored": false,
+  "sources": [
+   "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "bland-ai",
+  "name": "Bland AI",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Listed in Futuro's comparison.",
+  "sponsored": false,
+  "sources": [
+   "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "the-dbt-ai",
+  "name": "The DBT AI",
+  "website": "https://www.thedbt.ai",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Done-for-you setup with emergency alerts (per its own site).",
+  "sponsored": false,
+  "sources": [
+   "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "jobber-ai-receptionist",
+  "name": "Jobber AI Receptionist",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "Jobber",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Built into Jobber.",
+  "sponsored": false,
+  "sources": [
+   "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "housecall-pro-csr-ai",
+  "name": "Housecall Pro CSR AI",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "Housecall Pro",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Built into Housecall Pro.",
+  "sponsored": false,
+  "sources": [
+   "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "servicetitan-ai-voice-agent",
+  "name": "ServiceTitan AI Voice Agent",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "ServiceTitan",
+  "industries": [
+   "plumbing"
+  ],
+  "notes": "Built into ServiceTitan.",
+  "sponsored": false,
+  "sources": [
+   "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "agentzap",
+  "name": "AgentZap",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "",
+  "industries": [
+   "therapy"
+  ],
+  "notes": "AI receptionist for therapy practices with crisis routing.",
+  "sponsored": false,
+  "sources": [
+   "https://theraindex.com/blog/best-ai-tools-for-therapists-2026"
+  ],
+  "last_checked": "2026-11-04"
+ },
+ {
+  "slug": "elevenlabs-ai-receptionist",
+  "name": "ElevenLabs AI Receptionist",
+  "website": "",
+  "starting_price": "",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "",
+  "integrations": "Answers from your website",
+  "industries": [
+   "general"
+  ],
+  "notes": "Launch reported on X, Oct 2026.",
+  "sponsored": false,
+  "sources": [
+   "https://x.com/MarkLindheimer/status/2113720372470186465"
+  ],
+  "last_checked": "2026-11-04"
+ }
+]
