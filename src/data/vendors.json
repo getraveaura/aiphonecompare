@@ -101,9 +101,9 @@
   "slug": "justcall",
   "name": "JustCall",
   "website": "https://justcall.io",
-  "starting_price": "",
-  "billing_model": "",
-  "free_trial": "",
+  "starting_price": "Phone plans from $29/user/mo billed annually (2-user minimum); AI Voice Agent: first 100 minutes free, volume pricing down to $0.15",
+  "billing_model": "Per user + AI usage",
+  "free_trial": "14-day free trial",
   "human_handoff": "Transfers to a human",
   "hipaa_baa": "HIPAA in Business Plan (per JustCall)",
   "integrations": "CRM logging; PMS via custom API",
@@ -113,6 +113,7 @@
   "notes": "AI and phone system on one bill.",
   "sponsored": false,
   "sources": [
+   "https://www.justcall.io/pricing/",
    "https://justcall.io/blog/best-ai-receptionists-dental.html"
   ],
   "last_checked": "2026-11-04"
@@ -679,9 +680,9 @@
   "slug": "serviceagent",
   "name": "ServiceAgent",
   "website": "",
-  "starting_price": "",
-  "billing_model": "",
-  "free_trial": "",
+  "starting_price": "Launch $0/mo (pay-as-you-go credits); Core $39/mo annual ($49 monthly, 2,000 credits); Growth $95/mo annual; AI voice minute = 15 credits",
+  "billing_model": "Monthly + credits",
+  "free_trial": "Free Launch plan",
   "human_handoff": "",
   "hipaa_baa": "",
   "integrations": "",
@@ -691,6 +692,7 @@
   "notes": "For shops without field-service software (per Futuro).",
   "sponsored": false,
   "sources": [
+   "https://serviceagent.ai/pricing",
    "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
   ],
   "last_checked": "2026-11-04"
@@ -699,9 +701,9 @@
   "slug": "bland-ai",
   "name": "Bland AI",
   "website": "",
-  "starting_price": "",
-  "billing_model": "",
-  "free_trial": "",
+  "starting_price": "Start: $0.14/min, $0 platform fee; Build: $0.12/min + $299/mo platform fee; Enterprise custom",
+  "billing_model": "Per minute",
+  "free_trial": "Start plan: 2 credits + inbound number, no card required",
   "human_handoff": "",
   "hipaa_baa": "",
   "integrations": "",
@@ -711,6 +713,7 @@
   "notes": "Listed in Futuro's comparison.",
   "sponsored": false,
   "sources": [
+   "https://www.bland.ai/pricing",
    "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
   ],
   "last_checked": "2026-11-04"
@@ -739,9 +742,9 @@
   "slug": "jobber-ai-receptionist",
   "name": "Jobber AI Receptionist",
   "website": "",
-  "starting_price": "",
-  "billing_model": "",
-  "free_trial": "",
+  "starting_price": "Receptionist add-on $29/mo on Core/Connect/Grow plans (Core from $29/mo billed annually); included in Plus plan",
+  "billing_model": "Monthly add-on",
+  "free_trial": "14-day free trial",
   "human_handoff": "",
   "hipaa_baa": "",
   "integrations": "Jobber",
@@ -751,6 +754,7 @@
   "notes": "Built into Jobber.",
   "sponsored": false,
   "sources": [
+   "https://www.getjobber.com/pricing/",
    "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
   ],
   "last_checked": "2026-11-04"
@@ -799,9 +803,9 @@
   "slug": "agentzap",
   "name": "AgentZap",
   "website": "",
-  "starting_price": "",
-  "billing_model": "",
-  "free_trial": "",
+  "starting_price": "Starter $109/mo (150 min, $0.85/min overage); Professional $295/mo (450 min); Business $899/mo (1,500 min); + $499 one-time setup",
+  "billing_model": "Monthly + per-minute overage",
+  "free_trial": "30-day money-back guarantee",
   "human_handoff": "",
   "hipaa_baa": "",
   "integrations": "",
@@ -811,6 +815,7 @@
   "notes": "AI receptionist for therapy practices with crisis routing.",
   "sponsored": false,
   "sources": [
+   "https://agentzap.ai/pricing",
    "https://theraindex.com/blog/best-ai-tools-for-therapists-2026"
   ],
   "last_checked": "2026-11-04"
@@ -819,9 +824,9 @@
   "slug": "elevenlabs-ai-receptionist",
   "name": "ElevenLabs AI Receptionist",
   "website": "",
-  "starting_price": "",
-  "billing_model": "",
-  "free_trial": "",
+  "starting_price": "ElevenAgents: Free (15 call min/mo); Starter $6/mo (75 min); Creator $22/mo (275 min); Pro $99/mo (1,238 min); Scale $299/mo; Business $990/mo",
+  "billing_model": "Monthly with included call minutes",
+  "free_trial": "Free plan (15 minutes of calls)",
   "human_handoff": "",
   "hipaa_baa": "",
   "integrations": "Answers from your website",
@@ -831,6 +836,7 @@
   "notes": "Launch reported on X, Oct 2026.",
   "sponsored": false,
   "sources": [
+   "https://elevenlabs.io/pricing/agents",
    "https://x.com/MarkLindheimer/status/2113720372470186465"
   ],
   "last_checked": "2026-11-04"
