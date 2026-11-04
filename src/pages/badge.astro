@@ -18,8 +18,8 @@ const snip = (v) => `<a href="${SITE}/vendors/${v.slug}/" rel="noopener"><img sr
     {data.map((v) => (
       <section class="snippet">
         <h3 id={v.slug}><a href={`/vendors/${v.slug}/`}>{v.name}</a></h3>
-        <label class="muted" for={`s-${v.slug}`}>HTML</label>
-        <pre id={`s-${v.slug}`}><code>{snip(v)}</code></pre>
+        <p class="note" id={`l-${v.slug}`}>HTML embed code for {v.name}</p>
+        <pre id={`s-${v.slug}`} tabindex="0" aria-labelledby={`l-${v.slug}`}><code>{snip(v)}</code></pre>
       </section>
     ))}
   </div>
