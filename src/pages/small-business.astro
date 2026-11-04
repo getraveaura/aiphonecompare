@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import VendorTable from '../components/VendorTable.astro';
+import data from '../data/vendors.json';
+import { byPublishedMonthlyPrice, lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
+const vendors = byPublishedMonthlyPrice(data);
+const low = lowestMonthlyListing(data);
+const lowAmount = low ? lowestMonthly(low.starting_price) : null;
+const lowText = lowAmount == null ? null : (Number.isInteger(lowAmount) ? `$${lowAmount}` : `$${lowAmount}`);
+const checked = low?.last_checked
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${low.last_checked}T00:00:00Z`))
+  : '';
+const priceAnswer = low
+  ? `The lowest monthly amount written in a listing is ${lowText}/mo, for ${low.name}.${checked ? ` That figure was checked on ${checked}.` : ''} Where no monthly amount is published, the table says Not verified.`
+  : 'No listing currently publishes a monthly starting price. Those rows say Not verified.';
+const faqs = [
+  { q: 'What can a small business compare here?', a: 'The published starting price, whether the listing names a human handoff, and the source on the vendor page. If a field is blank, we have not verified it.' },
+  { q: 'What is the lowest published monthly price in this directory?', a: priceAnswer },
+  { q: 'Are these tools ranked for small businesses?', a: 'No. The table sorts by the lowest monthly dollar amount written in each listing. That is not a quality score. Sponsored listings are labeled, and payment does not change the price text.' },
+  { q: 'Which small-business industries are covered?', a: 'Dental practices, law firms, and plumbing companies. Each industry has its own page listing only the tools that name that industry.' },
+];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+};
+const caption = 'Sorted by the lowest monthly dollar amount written in each listing. Per-minute rates are not converted into a monthly price. Not verified means no starting price was published. This is not a quality ranking.';
+---
+<Base title="AI receptionist for small business" description="Compare AI receptionists for small businesses by the monthly starting price published in each listing. Unknown prices are marked Not verified." jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>AI receptionist for small business</h1>
+      <p class="lead">Start with the starting price each vendor publishes, then open the listing for the source and the date we checked it. This directory covers tools listed for dental practices, law firms, and plumbing companies.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <p>Industry pages: <a href="/industries/dental/">dental</a>, <a href="/industries/legal/">legal</a>, and <a href="/industries/plumbing/">plumbing</a>. The full price list is on <a href="/pricing/">pricing</a>.</p>
+    <section aria-labelledby="compare-heading">
+      <h2 id="compare-heading" class="section-title">Comparison table</h2>
+      <VendorTable vendors={vendors} caption={caption}/>
+    </section>
+    <Faq items={faqs}/>
+  </div>
+</Base>

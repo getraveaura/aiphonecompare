@@ -1,5 +1,5 @@
 ---
-const { vendors } = Astro.props;
+const { vendors, caption = 'Blank means not verified. Open a vendor for sources and the date we checked.' } = Astro.props;
 const cols = [
   ['starting_price', 'Starting price'],
   ['billing_model', 'Billing'],
@@ -11,7 +11,7 @@ const cols = [
 ---
 <div class="tablewrap" tabindex="0" aria-labelledby="vendor-compare-caption">
   <table class="compare">
-    <caption id="vendor-compare-caption">Blank means not verified. Open a vendor for sources and the date we checked.</caption>
+    <caption id="vendor-compare-caption">{caption}</caption>
     <thead>
       <tr>
         <th scope="col">Vendor</th>

@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import VendorTable from '../components/VendorTable.astro';
+import data from '../data/vendors.json';
+import { byPublishedMonthlyPrice, lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
+const vendors = byPublishedMonthlyPrice(data);
+const low = lowestMonthlyListing(data);
+const lowAmount = low ? lowestMonthly(low.starting_price) : null;
+const lowText = lowAmount == null ? null : (Number.isInteger(lowAmount) ? `$${lowAmount}` : `$${lowAmount}`);
+const checked = low?.last_checked
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${low.last_checked}T00:00:00Z`))
+  : '';
+const priceAnswer = low
+  ? `The lowest monthly amount written in a listing is ${lowText}/mo, for ${low.name}.${checked ? ` That figure was checked on ${checked}.` : ''} Where no monthly amount is published, the table says Not verified.`
+  : 'No listing currently publishes a monthly starting price. Those rows say Not verified.';
+const faqs = [
+  { q: 'What is an AI answering service?', a: 'An AI answering service uses software to answer inbound phone calls. It can take a message and, on some products, book or transfer the call. A person is not on the line for that first answer.' },
+  { q: 'How much does an AI answering service cost?', a: priceAnswer },
+  { q: 'Do you rank these services?', a: 'No. The table sorts by the lowest monthly dollar amount written in each listing. That is not a quality score. Sponsored listings are labeled, and payment does not change the price text.' },
+  { q: 'Where are prices checked?', a: 'Each price is copied from the vendor site or from a cited source, and the vendor page shows the date we checked it. A blank price means we have not verified one.' },
+];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+};
+const caption = 'Sorted by the lowest monthly dollar amount written in each listing. Per-minute rates are not converted into a monthly price. Not verified means no starting price was published. This is not a quality ranking.';
+---
+<Base title="AI answering service comparison" description="Compare AI answering services by the monthly starting price published in each listing. Prices we could not verify are marked Not verified." jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>AI answering service comparison</h1>
+      <p class="lead">An AI answering service uses software to pick up inbound calls. This page lists every AI receptionist in the directory. The order uses only the monthly dollar amount written in each published price, checked against the source on the vendor page.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <p>Compare by industry: <a href="/industries/dental/">dental practices</a>, <a href="/industries/legal/">law firms</a>, and <a href="/industries/plumbing/">plumbing companies</a>. Every published starting price is also on <a href="/pricing/">the pricing page</a>.</p>
+    <section aria-labelledby="compare-heading">
+      <h2 id="compare-heading" class="section-title">Comparison table</h2>
+      <VendorTable vendors={vendors} caption={caption}/>
+    </section>
+    <Faq items={faqs}/>
+  </div>
+</Base>

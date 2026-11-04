@@ -460,6 +460,8 @@ img { max-width: 100%; height: auto; }
 
 .prose { max-width: 68ch; padding-bottom: 24px; }
 .prose h2 { margin: 2rem 0 0.45rem; font-size: 1.7rem; }
+.faq-item { margin: 0 0 1.25rem; }
+.faq-item h3 { margin: 0 0 0.35rem; font-size: 1.35rem; }
 .prose p { margin: 0 0 0.75rem; }
 .prose h1 { max-width: 16ch; }
 
