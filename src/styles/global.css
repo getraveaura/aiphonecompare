@@ -499,17 +499,9 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 .offer h2 { margin: 0 0 8px; font-size: 1.55rem; }
 .offer .price { margin: 0 0 8px; font-family: var(--serif); font-size: 1.7rem; letter-spacing: -0.03em; }
 .offer p { color: var(--ink-soft); }
-.offer button {
-  margin-top: 16px;
-  min-height: 44px;
-  padding: 0 14px;
-  border-radius: 8px;
-  border: 1px solid #d9d0c2;
-  background: #e6dfd2;
-  color: #3f3a33;
-  font: 600 0.95rem/1 var(--sans);
-  cursor: not-allowed;
-}
+.offer .price span { font-family: var(--sans); font-size: 1rem; letter-spacing: 0; }
+.offer .btn { margin-top: 16px; height: auto; min-height: 3rem; white-space: normal; text-align: left; padding: 0.75rem 1rem; }
+.offer .status { margin: 16px 0 0; color: var(--muted); font-weight: 600; }
 .warn {
   background: var(--sponsored-bg);
   color: var(--ink);
