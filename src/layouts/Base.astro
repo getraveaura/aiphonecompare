@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Wordmark from '../components/Wordmark.astro';
+import PostHog from '../components/PostHog.astro';
 const { title, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL('/og.png', Astro.site).href;
@@ -24,6 +25,7 @@ const links = [
   <meta name="description" content={description}/>
   <link rel="canonical" href={canonical}/>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+  <PostHog />
   <meta name="theme-color" content="#f3efe6"/>
   <meta property="og:title" content={title}/>
   <meta property="og:description" content={description}/>
@@ -64,6 +66,7 @@ const links = [
         <a href="/small-business/">Small business</a>
         <a href="/missed-call-calculator/">Missed-call calculator</a>
         <a href="/data/">Open dataset</a>
+        <a href="/privacy/">Privacy</a>
         <a href="/accessibility/">Accessibility</a>
       </nav>
       <p class="fine">Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it. Preview build.</p>

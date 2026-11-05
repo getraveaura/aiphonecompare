@@ -35,6 +35,10 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          # Public PostHog project token. It is embedded in the browser bundle.
+          PUBLIC_POSTHOG_KEY: phc_zZDf6BdaqGMsULwgWG4SHPHoqKiFeWaDqct8d4X7hMPs
+          PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

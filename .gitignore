@@ -1,5 +1,8 @@
 node_modules/
 dist/
+.env
+.env.*
+!.env.example
 screenshots/
 outreach/vendors.csv
 outreach/sent_log.csv
