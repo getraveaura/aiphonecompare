@@ -1,0 +1,32 @@
+<script>
+  const apiKey = import.meta.env.PUBLIC_POSTHOG_KEY;
+  const apiHost = import.meta.env.PUBLIC_POSTHOG_HOST || 'https://us.i.posthog.com';
+
+  function trackingOff() {
+    const nav = navigator as Navigator & { msDoNotTrack?: string };
+    const win = window as Window & { doNotTrack?: string };
+    const dnt = nav.doNotTrack || win.doNotTrack || nav.msDoNotTrack;
+    return dnt === '1' || dnt === 'yes';
+  }
+
+  if (apiKey && !trackingOff()) {
+    const { default: posthog } = await import('posthog-js');
+    let initialPageLoad = true;
+    posthog.init(apiKey, {
+      api_host: apiHost,
+      respect_dnt: true,
+      persistence: 'memory',
+      capture_pageview: true,
+      autocapture: false,
+      disable_session_recording: true,
+      person_profiles: 'identified_only',
+    });
+    document.addEventListener('astro:page-load', () => {
+      if (initialPageLoad) {
+        initialPageLoad = false;
+        return;
+      }
+      posthog.capture('$pageview');
+    });
+  }
+</script>
