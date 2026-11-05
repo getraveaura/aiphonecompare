@@ -513,7 +513,19 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 .offer p { color: var(--ink-soft); }
 .offer .price span { font-family: var(--sans); font-size: 1rem; font-weight: 600; letter-spacing: 0; color: var(--muted); }
 .offer .btn { display: flex; width: 100%; margin-top: 0; height: auto; min-height: 3rem; align-items: center; justify-content: center; white-space: normal; text-align: center; padding: 0.75rem 1rem; }
-.featured-offers .after { margin: 0; max-width: 62ch; font-size: 0.98rem; color: var(--ink-soft); }
+.featured-offers .after {
+  margin: 2.25rem 0 0.35rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--line);
+}
+.featured-offers .after p {
+  margin: 0;
+  max-width: 38rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
 .offer .status { margin: 0; min-height: 3rem; display: flex; align-items: center; color: var(--muted); font-weight: 600; }
 .warn {
   background: var(--sponsored-bg);
