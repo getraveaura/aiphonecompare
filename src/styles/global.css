@@ -488,20 +488,33 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 .prose p { margin: 0 0 0.75rem; }
 .prose h1 { max-width: 16ch; }
 
-.offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.featured-intro { padding: 2rem 0 0.25rem; }
+.featured-intro h1 {
+  max-width: 18em;
+  font-size: clamp(2rem, 3vw, 2.75rem);
+  text-wrap: balance;
+}
+.featured-offers { padding-top: 1.25rem; }
+.offers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
 .offer {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 20px;
+  padding: 22px 22px 20px;
   box-shadow: var(--shadow);
 }
-.offer h2 { margin: 0 0 8px; font-size: 1.55rem; }
-.offer .price { margin: 0 0 8px; font-family: var(--serif); font-size: 1.7rem; letter-spacing: -0.03em; }
+.offer-copy { flex: 1 1 auto; }
+.offer-foot { margin-top: auto; padding-top: 1.25rem; }
+.offer h2 { margin: 0 0 10px; font-size: 1.45rem; }
+.offer .price { margin: 0 0 12px; min-height: 2.4rem; color: var(--ink); font-family: var(--serif); font-size: 1.85rem; letter-spacing: -0.03em; line-height: 1.15; }
 .offer p { color: var(--ink-soft); }
-.offer .price span { font-family: var(--sans); font-size: 1rem; letter-spacing: 0; }
-.offer .btn { margin-top: 16px; height: auto; min-height: 3rem; white-space: normal; text-align: left; padding: 0.75rem 1rem; }
-.offer .status { margin: 16px 0 0; color: var(--muted); font-weight: 600; }
+.offer .price span { font-family: var(--sans); font-size: 1rem; font-weight: 600; letter-spacing: 0; color: var(--muted); }
+.offer .btn { display: flex; width: 100%; margin-top: 0; height: auto; min-height: 3rem; align-items: center; justify-content: center; white-space: normal; text-align: center; padding: 0.75rem 1rem; }
+.featured-offers .after { margin: 0; max-width: 62ch; font-size: 0.98rem; color: var(--ink-soft); }
+.offer .status { margin: 0; min-height: 3rem; display: flex; align-items: center; color: var(--muted); font-weight: 600; }
 .warn {
   background: var(--sponsored-bg);
   color: var(--ink);
