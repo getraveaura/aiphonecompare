@@ -1,7 +1,24 @@
 ---
 import Base from '../layouts/Base.astro';
+const pageUrl = new URL('/get-featured/', Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: 'Industry spotlight',
+  description: 'Top spot on one industry page for 30 days, labeled Sponsored. No contract. Early-bird price is $49.',
+  image: new URL('/og.png', Astro.site).href,
+  brand: { '@type': 'Brand', 'name': 'aiphonecompare' },
+  url: pageUrl,
+  offers: {
+    '@type': 'Offer',
+    price: '49',
+    priceCurrency: 'USD',
+    availability: 'https://schema.org/InStock',
+    url: pageUrl,
+  },
+};
 ---
-<Base title="Get featured" description="Industry spotlight is $49 for 30 days: the top spot on one industry page, labeled Sponsored, with no contract.">
+<Base title="Get featured" description="Industry spotlight is $49 for 30 days: the top spot on one industry page, labeled Sponsored, with no contract." jsonld={jsonld}>
   <header class="page-intro featured-intro">
     <div class="wrap">
       <h1>Get your AI receptionist featured</h1>
