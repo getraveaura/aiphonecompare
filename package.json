@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test": "node --test tests/cost.test.mjs",
     "build": "astro build && node postbuild.mjs",
     "dev": "astro dev"
   },
