@@ -1,7 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
 import data from '../../data/vendors.json';
-import { lowestMonthly } from '../../lib/price.mjs';
 export function getStaticPaths(){ return data.map((v) => ({ params: { slug: v.slug }, props: { v } })); }
 const { v } = Astro.props;
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing' };
@@ -21,26 +20,16 @@ const details = [
   ['Notes', v.notes],
 ];
 if (!v.website) details.unshift(['Website', '']);
-const monthly = lowestMonthly(v.starting_price);
+const description = `${v.name} AI receptionist: ${v.starting_price ? ("pricing " + v.starting_price + ", ") : ""}features, integrations and sources. Last checked ${v.last_checked}.`.slice(0, 300);
 const jsonld = {
   '@context': 'https://schema.org',
-  '@type': ['Product', 'SoftwareApplication'],
+  '@type': 'WebPage',
   name: v.name,
-  applicationCategory: 'BusinessApplication',
-  url: v.website || undefined,
-  description: v.notes || undefined,
+  url: new URL(`/vendors/${v.slug}/`, Astro.site).href,
+  description,
 };
-if (monthly != null) {
-  jsonld.offers = {
-    '@type': 'Offer',
-    price: String(monthly),
-    priceCurrency: 'USD',
-    description: v.starting_price,
-    ...(v.last_checked ? { validFrom: v.last_checked } : {}),
-  };
-}
 ---
-<Base title={`${v.name} review & pricing`} description={`${v.name} AI receptionist: ${v.starting_price ? ("pricing " + v.starting_price + ", ") : ""}features, integrations and sources. Last checked ${v.last_checked}.`.slice(0,300)} jsonld={jsonld}>
+<Base title={`${v.name} review & pricing`} description={description} jsonld={jsonld}>
   <header class="page-intro">
     <div class="wrap">
       <h1>{v.name}</h1>
