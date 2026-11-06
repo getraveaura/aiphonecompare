@@ -1,0 +1,371 @@
+{
+  "checked": "2026-11-06",
+  "providers": [
+    {
+      "id": "agentzap",
+      "name": "AgentZap",
+      "slug": "agentzap",
+      "unit": "minute",
+      "sources": [{ "href": "https://agentzap.ai/pricing", "label": "agentzap.ai/pricing" }],
+      "booking": "Appointment scheduling is listed on Starter, Professional, and Business.",
+      "transfer": "Call transfers and live-agent handoff are listed on every plan. A separate handoff price is not published, so none is added.",
+      "caveats": [
+        "The pricing page does not say whether a partial minute is rounded. This estimate multiplies your calls by the length you enter and does not round up.",
+        "Professional's monthly card lists a $499 setup fee. The same page says a 6-month term waives that fee. This row uses the monthly card.",
+        "Some practice-management integrations are not included in the setup fee. Those fees are not published here, so they are not added.",
+        "Annual billing is described as two months free. The annual charge is not printed, so it is not calculated."
+      ],
+      "plans": [
+        {
+          "id": "starter",
+          "name": "Starter",
+          "publishedMonthly": 109,
+          "included": 150,
+          "overage": 0.85,
+          "setupFee": 499,
+          "publishedLabel": "$109/month for 150 minutes, then $0.85/min"
+        },
+        {
+          "id": "professional",
+          "name": "Professional",
+          "publishedMonthly": 295,
+          "included": 450,
+          "overage": 0.75,
+          "setupFee": 499,
+          "publishedLabel": "$295/month for 450 minutes, then $0.75/min"
+        },
+        {
+          "id": "business",
+          "name": "Business",
+          "publishedMonthly": 899,
+          "included": 1500,
+          "overage": 0.7,
+          "setupFee": 499,
+          "publishedLabel": "$899/month for 1,500 minutes, then $0.70/min"
+        },
+        {
+          "id": "managed",
+          "name": "Managed",
+          "publishedMonthly": 899,
+          "included": 1500,
+          "overage": null,
+          "setupFee": 0,
+          "publishedLabel": "$899/month for 1,500 minutes on a 6-month term. The page says the $499 setup fee is included. An overage rate is not printed.",
+          "notes": "Setup is treated as $0 because the page says the setup fee is included. Past 1,500 minutes the row becomes a partial subtotal."
+        },
+        {
+          "id": "enterprise",
+          "name": "Enterprise",
+          "estimable": false,
+          "publishedMonthly": null,
+          "setupFee": null,
+          "publishedLabel": "Custom",
+          "reason": "Enterprise is custom. No public price, allowance, or overage is printed, so this cannot be estimated."
+        }
+      ]
+    },
+    {
+      "id": "bland-ai",
+      "name": "Bland AI",
+      "slug": "bland-ai",
+      "unit": "minute",
+      "sources": [
+        { "href": "https://www.bland.ai/pricing", "label": "bland.ai/pricing" },
+        { "href": "https://docs.bland.ai/platform/billing", "label": "docs.bland.ai billing" }
+      ],
+      "booking": "The pricing comparison lists an appointment scheduling node on Enterprise only. It is not listed on Start or Build.",
+      "transfer": "Start lists transfer time at $0.05/min and Build at $0.04/min, separate from talk time. Warm and live transfers are listed on Enterprise only. Transfer minutes are not in this estimate.",
+      "caveats": [
+        "The billing docs say connected talk time is prorated to the second. This estimate uses your average length as exact minutes and does not round up.",
+        "Telephony is billed separately, on your carrier or Bland's at pass-through cost. That charge is not published as a single rate, so it is not included.",
+        "Start lists a 100-call daily cap and Build lists 2,000. This estimate does not check whether your month fits those caps.",
+        "A setup fee is not published. It is not treated as $0."
+      ],
+      "plans": [
+        {
+          "id": "start",
+          "name": "Start",
+          "publishedMonthly": 0,
+          "included": 0,
+          "overage": 0.14,
+          "setupFee": null,
+          "publishedLabel": "$0 platform fee and $0.14 per talk minute. The page also includes an inbound number it values at $15/month."
+        },
+        {
+          "id": "build",
+          "name": "Build",
+          "publishedMonthly": 299,
+          "included": 0,
+          "overage": 0.12,
+          "setupFee": null,
+          "publishedLabel": "$299/month platform fee plus $0.12 per talk minute"
+        },
+        {
+          "id": "enterprise",
+          "name": "Enterprise",
+          "estimable": false,
+          "publishedMonthly": null,
+          "setupFee": null,
+          "publishedLabel": "Custom",
+          "reason": "Enterprise is contracted to volume. No public rate is printed, so this cannot be estimated."
+        }
+      ]
+    },
+    {
+      "id": "dialzara",
+      "name": "Dialzara",
+      "slug": "dialzara",
+      "unit": "minute",
+      "sources": [{ "href": "https://dialzara.com/pricing", "label": "dialzara.com/pricing" }],
+      "booking": "Calendar sync is listed on Pro, Plus, Elite, and Done for You. It is not listed on Lite.",
+      "transfer": "Blind transfer is listed on every inbound plan. Warm transfer is listed from Pro upward, not on Lite.",
+      "caveats": [
+        "Only live talk time counts, tracked to the second. Partial minutes are not rounded up, and this estimate does not round them up either.",
+        "The page says there is no setup fee.",
+        "Plan cards say a US number is included. A FAQ on the same page says US and Canada local numbers are $3/month and US toll-free numbers are $5/month. This estimate does not add a number fee, and it does not call the number free.",
+        "Outbound calling, SMS, and website chat are separate prices and are not included.",
+        "Annual prices are mentioned and not printed, so they are not calculated."
+      ],
+      "plans": [
+        {
+          "id": "lite",
+          "name": "Business Lite",
+          "publishedMonthly": 29,
+          "included": 60,
+          "overage": 0.48,
+          "setupFee": 0,
+          "publishedLabel": "$29/month for 60 minutes, then $0.48/min"
+        },
+        {
+          "id": "pro",
+          "name": "Business Pro",
+          "publishedMonthly": 99,
+          "included": 220,
+          "overage": 0.45,
+          "setupFee": 0,
+          "publishedLabel": "$99/month for 220 minutes, then $0.45/min"
+        },
+        {
+          "id": "plus",
+          "name": "Business Plus",
+          "publishedMonthly": 199,
+          "included": 500,
+          "overage": 0.4,
+          "setupFee": 0,
+          "publishedLabel": "$199/month for 500 minutes, then $0.40/min"
+        },
+        {
+          "id": "elite",
+          "name": "Business Elite",
+          "publishedMonthly": 349,
+          "included": 1000,
+          "overage": 0.35,
+          "setupFee": 0,
+          "publishedLabel": "$349/month for 1,000 minutes, then $0.35/min"
+        },
+        {
+          "id": "done-for-you",
+          "name": "Done for You",
+          "estimable": false,
+          "publishedMonthly": null,
+          "setupFee": 0,
+          "publishedLabel": "Starting at $1,500/month. Included minutes are inquire-only.",
+          "reason": "Done for You publishes a starting price only. Included minutes are not printed, so a scenario total cannot be estimated."
+        }
+      ]
+    },
+    {
+      "id": "elevenlabs",
+      "name": "ElevenLabs ElevenAgents",
+      "slug": "elevenlabs-ai-receptionist",
+      "unit": "minute",
+      "sources": [{ "href": "https://elevenlabs.io/pricing/agents", "label": "elevenlabs.io/pricing/agents" }],
+      "booking": "Not verified. The agents pricing page does not say whether a plan books appointments.",
+      "transfer": "Not verified. The agents pricing page does not say whether a plan transfers calls.",
+      "caveats": [
+        "Additional call minutes are $0.08. Burst pricing is $0.16 per minute when you exceed the concurrency limit. This estimate uses $0.08, not burst, because concurrency is not an input.",
+        "LLM usage is billed separately and varies by model. It is not included.",
+        "If you connect Twilio or a SIP trunk, that provider bills you. That carrier cost is not included.",
+        "A help-center page says silence longer than 10 seconds is discounted, and connection time can be longer than the words spoken. This estimate uses the average length you enter and does not apply a silence discount.",
+        "Prices exclude taxes, levies, and duties.",
+        "Starter's first month is $1 and Creator's first month is $11. The monthly figure here is the ongoing price, not the first month.",
+        "A setup fee is not published. It is not treated as $0."
+      ],
+      "plans": [
+        {
+          "id": "free",
+          "name": "Free",
+          "publishedMonthly": 0,
+          "included": 15,
+          "overage": 0.08,
+          "setupFee": null,
+          "publishedLabel": "$0/month with 15 call minutes, then $0.08/min"
+        },
+        {
+          "id": "starter",
+          "name": "Starter",
+          "publishedMonthly": 6,
+          "included": 75,
+          "overage": 0.08,
+          "setupFee": null,
+          "publishedLabel": "$6/month after the first month, 75 call minutes, then $0.08/min"
+        },
+        {
+          "id": "creator",
+          "name": "Creator",
+          "publishedMonthly": 22,
+          "included": 275,
+          "overage": 0.08,
+          "setupFee": null,
+          "publishedLabel": "$22/month after the first month, 275 call minutes, then $0.08/min"
+        },
+        {
+          "id": "pro",
+          "name": "Pro",
+          "publishedMonthly": 99,
+          "included": 1238,
+          "overage": 0.08,
+          "setupFee": null,
+          "publishedLabel": "$99/month for 1,238 call minutes, then $0.08/min"
+        },
+        {
+          "id": "scale",
+          "name": "Scale",
+          "publishedMonthly": 299,
+          "included": 3738,
+          "overage": 0.08,
+          "setupFee": null,
+          "publishedLabel": "$299/month for 3,738 call minutes, then $0.08/min"
+        },
+        {
+          "id": "business",
+          "name": "Business",
+          "publishedMonthly": 990,
+          "included": 12375,
+          "overage": 0.08,
+          "setupFee": null,
+          "publishedLabel": "$990/month for 12,375 call minutes, then $0.08/min"
+        },
+        {
+          "id": "enterprise",
+          "name": "Enterprise",
+          "estimable": false,
+          "publishedMonthly": null,
+          "setupFee": null,
+          "publishedLabel": "Custom",
+          "reason": "Enterprise is custom. No public minute allowance or price is printed, so this cannot be estimated."
+        }
+      ]
+    },
+    {
+      "id": "goodcall",
+      "name": "Goodcall",
+      "slug": "goodcall",
+      "unit": "customer",
+      "sources": [
+        { "href": "https://www.goodcall.com/pricing", "label": "goodcall.com/pricing" },
+        { "href": "https://www.goodcall.com/faq", "label": "goodcall.com/faq" }
+      ],
+      "booking": "Not verified. The pricing page describes a booker as a worker you can add. It does not say every plan books appointments.",
+      "transfer": "The pricing page says you choose who receives transfers. It does not publish a transfer fee, so none is added.",
+      "caveats": [
+        "Goodcall bills unique customers: one phone number, once a month. Repeat calls from the same number count once. Spam and wrong numbers do not count. Call length does not change the bill.",
+        "The page's 'about 150 calls' line is their example, not a conversion this tool uses. Calls are not turned into customers.",
+        "The FAQ says there is no setup fee and plans are month to month.",
+        "Enterprise volume pricing is not published."
+      ],
+      "plans": [
+        {
+          "id": "starter",
+          "name": "Starter",
+          "publishedMonthly": 79,
+          "included": 100,
+          "overage": 0.79,
+          "setupFee": 0,
+          "publishedLabel": "$79/month for 100 unique customers, then $0.79 each"
+        },
+        {
+          "id": "growth",
+          "name": "Growth",
+          "publishedMonthly": 129,
+          "included": 500,
+          "overage": 0.26,
+          "setupFee": 0,
+          "publishedLabel": "$129/month for 500 unique customers, then $0.26 each"
+        },
+        {
+          "id": "scale",
+          "name": "Scale",
+          "publishedMonthly": 299,
+          "included": 2000,
+          "overage": 0.15,
+          "setupFee": 0,
+          "publishedLabel": "$299/month for 2,000 unique customers, then $0.15 each"
+        },
+        {
+          "id": "enterprise",
+          "name": "Enterprise",
+          "estimable": false,
+          "publishedMonthly": null,
+          "setupFee": null,
+          "publishedLabel": "Volume pricing",
+          "reason": "Enterprise pricing is not published, so this cannot be estimated."
+        }
+      ]
+    },
+    {
+      "id": "smith-ai",
+      "name": "Smith.ai",
+      "slug": "smith-ai",
+      "unit": "call",
+      "sources": [{ "href": "https://smith.ai/pricing/ai-receptionist", "label": "smith.ai/pricing/ai-receptionist" }],
+      "booking": "AI Scheduling (Calendly and more) is listed on the Free plan. Pro and Enterprise include everything in Free.",
+      "transfer": "The FAQ says a call can be transferred to a live receptionist. The add-on price for that transfer is not on this pricing page, so it is not added.",
+      "caveats": [
+        "Billed per call, not per minute. The length you enter does not change these rows.",
+        "Known spam numbers are filtered before answer and do not count. You can also remove up to 10% of calls as spam. This estimate does not subtract spam.",
+        "The 150-call and 300-call Pro bands, and the 500-call Enterprise band, print a per-call rate but not a monthly package total. Those bands are not estimated.",
+        "Cancelling needs 30 days' notice. The plan is month to month.",
+        "A setup fee is not printed on this pricing page. It is not treated as $0."
+      ],
+      "plans": [
+        {
+          "id": "free",
+          "name": "Free",
+          "publishedMonthly": 0,
+          "included": 25,
+          "overage": 3,
+          "setupFee": null,
+          "publishedLabel": "$0/month for 25 calls, then $3.00 per call"
+        },
+        {
+          "id": "pro-75",
+          "name": "Pro, 75 calls",
+          "publishedMonthly": 150,
+          "included": 75,
+          "overage": 2.5,
+          "setupFee": null,
+          "publishedLabel": "$150/month for 75 calls, then $2.50 per extra call"
+        },
+        {
+          "id": "pro-150",
+          "name": "Pro, 150 calls",
+          "estimable": false,
+          "publishedMonthly": null,
+          "setupFee": null,
+          "publishedLabel": "$1.80 per real call, extra calls $2.30. A monthly package total is not printed.",
+          "reason": "The 150-call band prints a per-call rate, not a monthly total, so a bill cannot be estimated without assuming a package price."
+        },
+        {
+          "id": "enterprise-300",
+          "name": "Enterprise, 300 calls",
+          "publishedMonthly": 500,
+          "included": 300,
+          "overage": 2.17,
+          "setupFee": null,
+          "publishedLabel": "$500/month for 300 calls, then $2.17 per extra call"
+        }
+      ]
+    }
+  ]
+}

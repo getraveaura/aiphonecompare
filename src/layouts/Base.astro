@@ -11,6 +11,7 @@ const links = [
   ['/industries/dental/', 'Dental'],
   ['/industries/legal/', 'Legal'],
   ['/industries/plumbing/', 'Plumbing'],
+  ['/cost/', 'Cost'],
   ['/pricing/', 'Pricing'],
   ['/about/', 'How we rank'],
   ['/badge/', 'Badge'],
@@ -51,6 +52,12 @@ const links = [
           {links.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
         </nav>
       </details>
+      <script is:inline>
+        (function () {
+          var nav = document.currentScript.previousElementSibling;
+          if (nav && window.matchMedia('(min-width: 861px)').matches) nav.open = true;
+        })();
+      </script>
     </div>
   </header>
   <main id="main"><slot/></main>

@@ -12,14 +12,14 @@ const picks = [...data]
   .slice(0, 5);
 const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || k).filter(Boolean).join(', ');
 ---
-<Base title="Independent, verified AI receptionist price comparison" description="The independent, verified price comparison for AI receptionists. Every price sourced and dated, compared by industry. Sponsored spots are labeled; rankings are not for sale." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}>
+<Base title="What an AI receptionist will cost" description="Match your call volume to official published plans, and see where a fee is still unknown. The directory keeps sourced starting prices. Sponsored spots are labeled; rankings are not for sale." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}>
   <section class="hero">
     <div class="wrap">
-      <h1>The independent, verified price comparison for AI receptionists</h1>
-      <p class="lead">{data.length} AI receptionists compared by industry. Every price links to its source and shows the date we checked it. Sponsored spots are labeled, and rankings are not for sale.</p>
+      <h1>What an AI receptionist will cost</h1>
+      <p class="lead">Put in a monthly call volume and see a scenario bill for providers that publish allowances and overage rates. The directory still lists a sourced starting price for every vendor we track. Sponsored spots are labeled, and rankings are not for sale.</p>
       <div class="cta">
-        <a class="btn btn-primary" href="#industries">Browse by industry</a>
-        <a class="btn btn-ghost" href="/pricing/">See pricing</a>
+        <a class="btn btn-primary" href="/cost/">Estimate from your calls</a>
+        <a class="btn btn-ghost" href="#industries">Browse the directory</a>
       </div>
     </div>
   </section>
@@ -56,9 +56,9 @@ const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || 
   <section class="band">
     <div class="wrap">
       <ul class="principles">
-        <li><strong>Independent.</strong> Not owned by any vendor; payment never changes data or order.</li>
-        <li><strong>Verified.</strong> Every price sourced and dated; blank means we could not verify it.</li>
-        <li><strong>By industry.</strong> Dental, legal and plumbing, with what matters for each.</li>
+        <li><strong>Your volume.</strong> A starting price is not the bill at your call count. The cost tool separates the monthly scenario from one-time fees.</li>
+        <li><strong>Official math only.</strong> That tool covers providers whose own pricing page publishes the unit, allowance, and overage. Everyone else stays in the directory.</li>
+        <li><strong>Unknowns stay unknown.</strong> A missing fee is “not verified” or “cannot estimate.” Payment never changes the data or the order.</li>
       </ul>
     </div>
   </section>
