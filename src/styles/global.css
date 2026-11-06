@@ -299,6 +299,9 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 @media (max-width: 900px) { .directory { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 560px) { .directory { grid-template-columns: 1fr; } }
 
+.vendor-index .compare tr > :nth-child(1) { width: 34%; }
+.vendor-index .compare tr > :nth-child(2) { width: 66%; }
+
 .page-intro { padding: 52px 0 8px; }
 .page-intro h1, .prose h1 {
   margin: 0 0 14px;

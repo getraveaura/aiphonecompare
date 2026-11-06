@@ -92,6 +92,7 @@ const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || 
   <section class="band" style="padding-top:8px">
     <div class="wrap">
       <h2 class="section-title">All vendors</h2>
+      <p style="margin: 0 0 18px; max-width: 66ch;">The <a href="/vendors/">vendor directory</a> lists every one, with the sourced starting price.</p>
       <ul class="directory">{data.map((v) => <li><a href={`/vendors/${v.slug}/`}>{v.name}</a></li>)}</ul>
     </div>
   </section>
