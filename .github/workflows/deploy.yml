@@ -62,3 +62,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          # Default is 10 minutes. A slow Pages update was cancelled while still
+          # in updating_pages, which left the previous site live.
+          timeout: 1800000
