@@ -1,6 +1,7 @@
 ---
-import { formatDate, industryHref, industryLabel } from '../lib/stories.mjs';
+import { byEvidence, formatDate, industryHref, industryLabel } from '../lib/stories.mjs';
 const { stories, showFilters = false } = Astro.props;
+const ordered = byEvidence(stories);
 const filters = [
   ['all', 'All'],
   ['dental', 'Dental'],
@@ -21,30 +22,44 @@ const filters = [
 )}
 <p id="story-filter-status" class="note" role="status" aria-live="polite"></p>
 <div class="story-list">
-  {stories.map((story) => (
-    <article class="story-card" data-industries={(story.industries || []).join(' ')}>
-      <p class="story-meta">
-        <span class="badge-source">{story.sourceLabel}</span>
-        {(story.industries || []).map((id, index) => (
-          <>
-            {index ? <span aria-hidden="true"> · </span> : null}
-            {industryHref(id)
-              ? <a href={industryHref(id)}>{industryLabel(id)}</a>
-              : <span>{industryLabel(id)}</span>}
-          </>
-        ))}
-        {story.sources?.[0] && <time datetime={story.sources[0].date}>{formatDate(story.sources[0].date)}</time>}
-      </p>
-      <h2><a href={`/stories/${story.slug}/`}>{story.title}</a></h2>
-      <p>{story.business || 'Business name not stated'}{story.vendorName ? ` · ${story.vendorName}` : ''}</p>
-      <p>{story.cost ? story.cost : <span class="missing">Cost not stated</span>}</p>
-      <p>
-        {story.vendorSlug
-          ? <a href={`/vendors/${story.vendorSlug}/`}>Vendor page</a>
-          : <span class="missing">No matching vendor page</span>}
-      </p>
-    </article>
-  ))}
+  {ordered.map((story) => {
+    const source = story.sources?.[0];
+    const proof = source
+      ? `${story.source_publisher}: ${source.title} (dated ${formatDate(source.date)})`
+      : '';
+    return (
+      <article class="story-card" data-industries={(story.industries || []).join(' ')} data-evidence={story.evidence}>
+        <p class="story-meta">
+          <span class:list={['badge-source', story.evidence === 'vendor-told' ? 'badge-vendor' : 'badge-independent']}>
+            {story.evidence === 'vendor-told' ? 'Vendor-told' : 'Independent'}
+          </span>
+          {(story.industries || []).map((id, index) => (
+            <>
+              {index ? <span aria-hidden="true"> · </span> : null}
+              {industryHref(id)
+                ? <a href={industryHref(id)}>{industryLabel(id)}</a>
+                : <span>{industryLabel(id)}</span>}
+            </>
+          ))}
+          {source && <time datetime={source.date}>{formatDate(source.date)}</time>}
+        </p>
+        <p class="told-by">{story.told_by}</p>
+        <h2><a href={`/stories/${story.slug}/`}>{story.title}</a></h2>
+        <p>
+          {story.business || 'Business name not stated'}
+          {story.vendorName ? ' · ' : ''}
+          {story.vendorSlug
+            ? <a href={`/vendors/${story.vendorSlug}/`}>{story.vendorName}</a>
+            : story.vendorName}
+        </p>
+        <p class="story-proof">
+          {source && <a href={source.url} rel="nofollow noopener">{proof}</a>}
+          {story.archive_url && <> · <a href={story.archive_url} rel="noopener">Saved copy</a></>}
+        </p>
+        <p class="checked-line">What we checked: {story.verified_claims}</p>
+      </article>
+    );
+  })}
 </div>
 {showFilters && (
   <script is:inline>

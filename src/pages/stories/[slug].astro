@@ -29,9 +29,13 @@ const jsonld = {
   <header class="page-intro">
     <div class="wrap">
       <p class="story-meta">
-        <span class="badge-source">{story.sourceLabel}</span>
+        <span class:list={['badge-source', story.evidence === 'vendor-told' ? 'badge-vendor' : 'badge-independent']}>
+          {story.evidence === 'vendor-told' ? 'Vendor-told' : 'Independent'}
+        </span>
         <a href="/stories/">All stories</a>
+        <a href="/stories/#how-we-source">How we source stories</a>
       </p>
+      <p class="told-by">{story.told_by}</p>
       <h1>{story.title}</h1>
       {primary && <p class="checked"><time datetime={primary.date}>{formatDate(primary.date)}</time></p>}
     </div>
@@ -66,6 +70,11 @@ const jsonld = {
         <dd>{story.cost || <span class="missing">Not stated</span>}</dd>
       </div>
     </dl>
+    <p class="story-proof">
+      {primary && <a href={primary.url} rel="nofollow noopener">{story.source_publisher}: {primary.title} (dated {formatDate(primary.date)})</a>}
+      {story.archive_url && <> · <a href={story.archive_url} rel="noopener">Saved copy</a></>}
+    </p>
+    <p class="checked-line">What we checked: {story.verified_claims}</p>
     <section>
       <h2 class="section-title">What they did</h2>
       <p>{story.whatTheyDid}</p>
@@ -87,8 +96,8 @@ const jsonld = {
       <ul class="sources">
         {story.sources.map((source) => (
           <li>
-            <a href={source.url} rel="nofollow noopener">{source.title}</a>
-            {' '}<span class="missing">({source.publisher}, <time datetime={source.date}>{formatDate(source.date)}</time>)</span>
+            <a href={source.url} rel="nofollow noopener">{source.publisher}: {source.title} (dated {formatDate(source.date)})</a>
+            {source.archive_url && <> · <a href={source.archive_url} rel="noopener">Saved copy</a></>}
           </li>
         ))}
       </ul>

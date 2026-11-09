@@ -4,8 +4,8 @@ import StoryCards from '../../components/StoryCards.astro';
 import Catches from '../../components/Catches.astro';
 import Signup from '../../components/Signup.astro';
 import stories from '../../data/stories.json';
-import { catchGroups, formatDate } from '../../lib/stories.mjs';
-const groups = catchGroups(stories);
+import { byEvidence, catchGroups, formatDate } from '../../lib/stories.mjs';
+const groups = catchGroups(byEvidence(stories));
 const description = `${stories.length} sourced accounts of small businesses using an AI receptionist or phone agent. Cost and the catch are included only when the source states them.`;
 const jsonld = {
   '@context': 'https://schema.org',
@@ -28,10 +28,14 @@ const jsonld = {
   <header class="page-intro">
     <div class="wrap">
       <h1>Real stories</h1>
-      <p class="lead">Sourced accounts of small businesses using an AI receptionist or phone agent: what they set up, what it cost, and what went wrong. If the source does not say it, the field says not stated. Vendor-published pieces are labeled. Nothing here is a rating.</p>
+      <p class="lead">Sourced accounts of small businesses using an AI receptionist or phone agent. Independent reports are listed first. Vendor-told stories are labeled, because a vendor's own customer story is marketing, not a separate check. If a source does not say it, the field says not stated. Nothing here is a rating.</p>
     </div>
   </header>
   <div class="wrap stack">
+    <section id="how-we-source" aria-labelledby="how-we-source-heading">
+      <h2 id="how-we-source-heading">How we source stories</h2>
+      <p>Every story links its original source. When the Wayback Machine has a copy that actually contains the article, the card also links that saved copy. A snapshot that does not contain the article is left off. Vendor-told stories are labeled. We do not accept payment for stories. To report a correction, email <a href="mailto:timothy@aiphonecompare.com">timothy@aiphonecompare.com</a>.</p>
+    </section>
     <StoryCards stories={stories} showFilters />
     <Catches groups={groups} />
     <Signup />

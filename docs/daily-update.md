@@ -1,6 +1,8 @@
 # Daily update
 
-A weekday job can append a story or a price change, then open a pull request. Do not invent a name, a number, a quote, or a date. If the source does not say it, leave the field null or write nothing.
+A weekday job can append a story or a price change, then open a pull request. Do not invent a name, a number, a quote, a date, or an archive link. If the source does not say it, leave the field null or write nothing.
+
+Prefer an independent source: a press article, a review, or the customer's own words on a site the vendor does not control. Use a vendor case study, vendor podcast, or vendor-sponsored episode only when you cannot find an independent account of the same facts, and label it vendor-told.
 
 Validate and build:
 
@@ -26,11 +28,24 @@ Append one object to `src/data/stories.json`. Do not rewrite older objects.
 | `vendorName` | no | The name the source uses. `null` if it names none. |
 | `vendorPublished` | yes | `true` when the source is the vendor, or an episode made with the vendor. |
 | `sourceLabel` | yes | `Press`, `Vendor case study`, `Vendor podcast`, `Vendor-sponsored podcast`, `Podcast`, or `Review analysis`. |
+| `source_type` | yes | `press`, `review`, `podcast`, `vendor-case-study`, `vendor-podcast`, or `vendor-sponsored`. |
+| `source_publisher` | yes | The publication or vendor that hosts the source. |
+| `told_by` | yes | Plain words, such as `Reported by Fortune` or `Told by ServiceTitan (the vendor)`. |
+| `evidence` | yes | `independent` or `vendor-told`. Vendor-hosted and vendor-sponsored sources are `vendor-told`. |
+| `archive_url` | yes | A `https://web.archive.org/web/...` playback URL, or `null`. |
+| `verified_claims` | yes | One line naming the concrete claims you re-read in the source: company, product, date, and any numbers. |
 | `whatTheyDid` | yes | Paraphrase. No long quotation. |
 | `cost` | no | `null` when the source gives no price. |
 | `outcome` | yes | What the source says happened. Say whose number it is. |
 | `catches` | yes | An array. Use `[]` when the source states no catch. |
-| `sources` | yes | At least one `{ url, title, date, publisher }`. `date` is the source date. |
+| `sources` | yes | At least one `{ url, title, date, publisher, archive_url }`. `date` is the source date. `archive_url` matches the story field for the first source. |
+
+Before you fill `archive_url`:
+
+1. Open `https://archive.org/wayback/available?url=` plus the source URL.
+2. If a snapshot comes back, open it and confirm the article text is actually in the capture. A 200 shell, paywall, or empty page is not a saved copy.
+3. If there is no usable snapshot, request `https://web.archive.org/save/` plus the source URL.
+4. Store only a playback URL you opened. If the save is blocked or the capture does not contain the article, set `archive_url` to `null`.
 
 A catch object:
 
