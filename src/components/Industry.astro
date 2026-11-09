@@ -1,12 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import IndustryIcon from './IndustryIcon.astro';
+import VerifyStrip from './VerifyStrip.astro';
 import VendorTable from './VendorTable.astro';
 import Faq from './Faq.astro';
 import StoryCards from './StoryCards.astro';
 import Catches from './Catches.astro';
 import data from '../data/vendors.json';
 import stories from '../data/stories.json';
-import { catchGroups, storiesForIndustry } from '../lib/stories.mjs';
+import { catchGroups, industryLabel, storiesForIndustry } from '../lib/stories.mjs';
+import { accent } from '../lib/industries.mjs';
 import { lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
 const { key, title, guide, faqs = [], guideTitle = 'What to check before you buy', note = '' } = Astro.props;
 const vendors = data.filter((v) => v.industries.includes(key)).sort((a, b) => (b.sponsored - a.sponsored) || a.name.localeCompare(b.name));
@@ -45,13 +48,15 @@ const jsonld = {
 };
 ---
 <Base title={title} description={`${title}. ${priceSentence} HIPAA/BAA, human handoff and integrations are compared with sources.`} jsonld={jsonld}>
-  <header class="page-intro">
+  <header class="page-intro" data-industry={key} style={`--accent:${accent(key)}`}>
     <div class="wrap">
+      <VerifyStrip />
+      <p class="industry-kicker"><IndustryIcon name={key} />{industryLabel(key)}</p>
       <h1>{title}</h1>
       {latest && (
         <p class="checked">
           <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Last checked <time datetime={latest}>{latestLabel}</time>
+          Prices checked <time datetime={latest}>{latestLabel}</time>
         </p>
       )}
       <p class="lead">{priceSentence} {vendors.length} AI receptionists are listed. Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates.</p>

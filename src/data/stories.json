@@ -43,7 +43,9 @@
     "source_publisher": "Contractor Magazine",
     "told_by": "Reported by Contractor Magazine",
     "verified_claims": "The 12 September 2025 article names Good Guy Plumbing, owner Rob Castelao, and Housecall Pro. It quotes him that the voice agent answers 24/7 and stopped calls rolling to voicemail after 5 p.m. It states no dollar price.",
-    "archive_url": "https://web.archive.org/web/20260520110134/https://www.contractormag.com/technology/article/55316255/innovative-plumbing-solutions-how-good-guy-plumbing-uses-ai-to-enhance-customer-care"
+    "archive_url": "https://web.archive.org/web/20260520110134/https://www.contractormag.com/technology/article/55316255/innovative-plumbing-solutions-how-good-guy-plumbing-uses-ai-to-enhance-customer-care",
+    "quote": "That stopped the bleed of missed calls that used to roll to voicemail after 5:00 p.m.",
+    "quoteBy": "Rob Castelao, quoted by Contractor Magazine"
   },
   {
     "slug": "air-one-jenny-after-hours",
@@ -122,7 +124,9 @@
     "source_publisher": "ServiceTitan",
     "told_by": "Told by ServiceTitan (the vendor)",
     "verified_claims": "The 20 April 2026 page names Bill Joplin's, Randi Thompson, and Karen. It says more than 90% of calls she answered were booked and that she handled more than 1,300 calls in three and a half months. It states no dollar price.",
-    "archive_url": null
+    "archive_url": null,
+    "quote": "Nobody was on hold. Nobody was in the queue. She was just knocking them out.",
+    "quoteBy": "Randi Thompson, quoted by ServiceTitan"
   },
   {
     "slug": "echo-janitorial-jobber",
@@ -260,7 +264,9 @@
     "source_publisher": "ZenMaid",
     "told_by": "Told by Kyleigh Lipsitz, on a ZenMaid podcast",
     "verified_claims": "The transcript names Kyleigh Lipsitz and Grand Rapids. She describes an after-hours AI assistant and customers who said they would cancel because they hate talking to the robot. It names no product and no price. The page was last updated 4 August 2026.",
-    "archive_url": null
+    "archive_url": null,
+    "quote": "I hate talking to this robot.",
+    "quoteBy": "A customer, as told by Kyleigh Lipsitz on the ZenMaid podcast"
   },
   {
     "slug": "plunkett-breezy-after-hours",
@@ -352,7 +358,9 @@
     "source_publisher": "ServiceTitan",
     "told_by": "Vendor podcast by ServiceTitan",
     "verified_claims": "The 27 August 2026 episode page names Amanda Root, Tri-City Home Solutions, and Aria. It states booked-call revenue up 186% and more than 400 calls handled. It says the agent is billed per call and prints no dollar rate. It does not name the trade.",
-    "archive_url": null
+    "archive_url": null,
+    "quote": "The thing is, you're only paying for the calls that it takes.",
+    "quoteBy": "Amanda Root, on ServiceTitan's podcast"
   },
   {
     "slug": "geek-window-zyratalk",
@@ -430,7 +438,9 @@
     "source_publisher": "Eve",
     "told_by": "Told by Eve (the vendor)",
     "verified_claims": "The case study names Farnaz Ghaffari, Ghaffari Law Firm, and the agent Jenny. It says missed calls went from about 20% to zero. It states no price. The page date is 19 May 2026.",
-    "archive_url": "https://web.archive.org/web/20260716195009/https://www.eve.legal/case-studies/ghaffari-law-firm"
+    "archive_url": "https://web.archive.org/web/20260716195009/https://www.eve.legal/case-studies/ghaffari-law-firm",
+    "quote": "The handoff was so smooth that Jenny did what an experienced intake person could have done",
+    "quoteBy": "Farnaz Ghaffari, quoted by Eve"
   },
   {
     "slug": "stg-divorce-lexidesk",
@@ -476,7 +486,9 @@
     "source_publisher": "Lexidesk",
     "told_by": "Told by Lexidesk (the vendor)",
     "verified_claims": "The case study names STG Divorce Law and Lexidesk. Staff quotes call the agent Emma. It states the missed-call rate went from 13.7% to 3.7%. It states no price. Published 23 April 2026.",
-    "archive_url": "https://web.archive.org/web/20260519100007/https://lexidesk.ai/case-studies/stg-divorce-law"
+    "archive_url": "https://web.archive.org/web/20260519100007/https://lexidesk.ai/case-studies/stg-divorce-law",
+    "quote": "To me, the drop in missed calls alone is a win, especially over time.",
+    "quoteBy": "Raiford Palmer, quoted by Lexidesk"
   },
   {
     "slug": "duckworth-after-hours",
@@ -691,7 +703,9 @@
     "source_publisher": "Hire Bloom",
     "told_by": "Independent review by Hire Bloom",
     "verified_claims": "The 13 July 2026 article says Hire Bloom read 10,938 Google reviews and that 125 mentioned AI answering, of which 78% were negative. It names no single business and no single vendor. Hire Bloom sells human agents.",
-    "archive_url": "https://web.archive.org/web/20260807113507/https://www.hirebloom.com/blog/what-customer-reviews-say-about-ai-in-home-services"
+    "archive_url": "https://web.archive.org/web/20260807113507/https://www.hirebloom.com/blog/what-customer-reviews-say-about-ai-in-home-services",
+    "quote": "The AI booked me for a time slot they didn't have, and I didn't have an appointment.",
+    "quoteBy": "HVAC customer, quoted by Hire Bloom"
   },
   {
     "slug": "davis-ac-nell",

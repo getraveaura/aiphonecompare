@@ -1,4 +1,5 @@
 ---
+import IndustryIcon from './IndustryIcon.astro';
 import { byEvidence, formatDate, industryHref, industryLabel } from '../lib/stories.mjs';
 const { stories, showFilters = false } = Astro.props;
 const ordered = byEvidence(stories);
@@ -28,22 +29,20 @@ const filters = [
       ? `${story.source_publisher}: ${source.title} (dated ${formatDate(source.date)})`
       : '';
     return (
-      <article class="story-card" data-industries={(story.industries || []).join(' ')} data-evidence={story.evidence}>
+      <article class="story-card reveal" data-industries={(story.industries || []).join(' ')} data-evidence={story.evidence}>
         <p class="story-meta">
           <span class:list={['badge-source', story.evidence === 'vendor-told' ? 'badge-vendor' : 'badge-independent']}>
             {story.evidence === 'vendor-told' ? 'Vendor-told' : 'Independent'}
           </span>
-          {(story.industries || []).map((id, index) => (
-            <>
-              {index ? <span aria-hidden="true"> · </span> : null}
-              {industryHref(id)
-                ? <a href={industryHref(id)}>{industryLabel(id)}</a>
-                : <span>{industryLabel(id)}</span>}
-            </>
+          {(story.industries || []).map((id) => (
+            industryHref(id)
+              ? <a class="itag" data-industry={id} href={industryHref(id)}><IndustryIcon name={id} />{industryLabel(id)}</a>
+              : <span class="itag" data-industry={id}><IndustryIcon name={id} />{industryLabel(id)}</span>
           ))}
-          {source && <time datetime={source.date}>{formatDate(source.date)}</time>}
+          {source && <time class="updated" datetime={source.date}>Source dated {formatDate(source.date)}</time>}
         </p>
         <p class="told-by">{story.told_by}</p>
+        {story.quote && <blockquote class="pull"><p>{story.quote}</p><footer>{story.quoteBy}</footer></blockquote>}
         <h2><a href={`/stories/${story.slug}/`}>{story.title}</a></h2>
         <p>
           {story.business || 'Business name not stated'}
