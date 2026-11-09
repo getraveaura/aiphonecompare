@@ -4,11 +4,13 @@ import stories from '../src/data/stories.json' with { type: 'json' };
 import vendors from '../src/data/vendors.json' with { type: 'json' };
 import baseline from '../src/data/price-baseline.json' with { type: 'json' };
 import priceLog from '../src/data/price-changes.json' with { type: 'json' };
-import { catchGroups, addedThisWeek } from '../src/lib/stories.mjs';
+import { byEvidence, catchGroups, addedThisWeek } from '../src/lib/stories.mjs';
 import { questionsFor } from '../src/lib/checklist.mjs';
 import { renderFeed } from '../src/lib/feed.mjs';
 
 const ISO = /^\d{4}-\d{2}-\d{2}$/;
+const SOURCE_TYPES = new Set(['press', 'review', 'podcast', 'vendor-case-study', 'vendor-podcast', 'vendor-sponsored']);
+const ARCHIVE = /^https:\/\/web\.archive\.org\/web\/\d+\//;
 const vendorSlugs = new Set(vendors.map((vendor) => vendor.slug));
 const industries = new Set(['dental', 'medical', 'legal', 'plumbing', 'hvac', 'roofing', 'other']);
 
@@ -33,12 +35,32 @@ test('every story has a source URL and date', () => {
     if (story.vendorSlug) assert.ok(vendorSlugs.has(story.vendorSlug), story.vendorSlug);
     assert.ok(story.sources.length, story.slug);
     for (const source of story.sources) assertSource(source, story.slug);
+    assert.ok(story.source_publisher, story.slug);
+    assert.ok(SOURCE_TYPES.has(story.source_type), story.source_type);
+    assert.ok(story.told_by, story.slug);
+    assert.ok(story.verified_claims, story.slug);
+    const vendorTold = story.source_type.startsWith('vendor');
+    assert.equal(story.evidence, vendorTold ? 'vendor-told' : 'independent', story.slug);
+    if (story.archive_url != null) {
+      assert.match(story.archive_url, ARCHIVE, story.slug);
+      assert.equal(story.sources[0].archive_url, story.archive_url);
+    } else {
+      assert.equal(story.archive_url, null);
+    }
     for (const item of story.catches || []) {
       assert.ok(item.id && item.summary, story.slug);
       assert.ok(item.sources.length, item.id);
       for (const source of item.sources) assertSource(source, item.id);
     }
   }
+});
+
+test('independent stories sort ahead of vendor-told stories', () => {
+  const sorted = byEvidence(stories);
+  const firstVendor = sorted.findIndex((story) => story.evidence === 'vendor-told');
+  assert.ok(firstVendor > 0);
+  assert.ok(sorted.slice(0, firstVendor).every((story) => story.evidence === 'independent'));
+  assert.ok(sorted.slice(firstVendor).every((story) => story.evidence === 'vendor-told'));
 });
 
 test('shared catches count independent source URLs', () => {

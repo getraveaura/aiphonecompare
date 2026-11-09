@@ -641,6 +641,16 @@ pre {
   font-size: 0.75rem;
   font-weight: 600;
 }
+.badge-vendor {
+  background: transparent;
+  color: var(--muted);
+  border-color: var(--line);
+}
+.told-by { margin: 0 0 6px; color: var(--ink-soft); font-size: 0.95rem; }
+.story-proof { overflow-wrap: anywhere; }
+.checked-line { color: var(--ink-soft); font-size: 0.95rem; }
+#how-we-source { scroll-margin-top: 88px; }
+#how-we-source h2 { margin: 0 0 8px; font-size: 1.7rem; }
 .share { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
 .share-label { margin: 0; font-weight: 600; }
 .share a { font-weight: 600; }

@@ -86,8 +86,17 @@ export function catchGroups(stories, { industry, vendorSlug } = {}) {
     .sort((a, b) => b.sources.length - a.sources.length || a.label.localeCompare(b.label));
 }
 
+export function byEvidence(stories) {
+  return [...stories].sort((a, b) => {
+    const rank = (story) => (story.evidence === 'independent' ? 0 : 1);
+    const evidence = rank(a) - rank(b);
+    if (evidence) return evidence;
+    return sourceDate(b).localeCompare(sourceDate(a)) || (a.title || '').localeCompare(b.title || '');
+  });
+}
+
 export function storiesForIndustry(stories, industry) {
-  return stories.filter((story) => (story.industries || []).includes(industry));
+  return byEvidence(stories.filter((story) => (story.industries || []).includes(industry)));
 }
 
 export function storiesForVendor(stories, slug) {
