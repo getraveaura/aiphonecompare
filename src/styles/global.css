@@ -337,6 +337,11 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
   color: var(--muted);
   padding: 0 0 12px;
 }
+.compare.states { table-layout: auto; }
+.compare.states tr > :nth-child(1) { width: 14%; }
+.compare.states tr > :nth-child(2) { width: 12%; }
+.compare.states tr > :nth-child(3) { width: 24%; }
+.compare.states tr > :nth-child(4) { width: 50%; }
 .compare th, .compare td {
   text-align: left;
   vertical-align: top;

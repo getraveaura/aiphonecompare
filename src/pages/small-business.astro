@@ -18,7 +18,7 @@ const faqs = [
   { q: 'What can a small business compare here?', a: 'The published starting price, whether the listing names a human handoff, and the source on the vendor page. If a field is blank, we have not verified it.' },
   { q: 'What is the lowest published monthly price in this directory?', a: priceAnswer },
   { q: 'Are these tools ranked for small businesses?', a: 'No. The table sorts by the lowest monthly dollar amount written in each listing. That is not a quality score. Sponsored listings are labeled, and payment does not change the price text.' },
-  { q: 'Which small-business industries are covered?', a: 'Dental practices, law firms, and plumbing companies. Each industry has its own page listing only the tools that name that industry.' },
+  { q: 'Which small-business industries are covered?', a: 'Dental practices, law firms, plumbing companies, and medical practices. Each industry has its own page listing only the tools that name that industry.' },
 ];
 const jsonld = {
   '@context': 'https://schema.org',
@@ -31,11 +31,11 @@ const caption = 'Sorted by the lowest monthly dollar amount written in each list
   <header class="page-intro">
     <div class="wrap">
       <h1>AI receptionist for small business</h1>
-      <p class="lead">Start with the starting price each vendor publishes, then open the listing for the source and the date we checked it. This directory covers tools listed for dental practices, law firms, and plumbing companies.</p>
+      <p class="lead">Start with the starting price each vendor publishes, then open the listing for the source and the date we checked it. This directory covers tools listed for dental practices, law firms, plumbing companies, and medical practices.</p>
     </div>
   </header>
   <div class="wrap stack">
-    <p>Industry pages: <a href="/industries/dental/">dental</a>, <a href="/industries/legal/">legal</a>, and <a href="/industries/plumbing/">plumbing</a>. The full price list is on <a href="/pricing/">pricing</a>.</p>
+    <p>Industry pages: <a href="/industries/dental/">dental</a>, <a href="/industries/legal/">legal</a>, <a href="/industries/plumbing/">plumbing</a>, and <a href="/industries/medical/">medical</a>. The full price list is on <a href="/pricing/">pricing</a>. Phone-recording statutes are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.</p>
     <section aria-labelledby="compare-heading">
       <h2 id="compare-heading" class="section-title">Comparison table</h2>
       <VendorTable vendors={vendors} caption={caption}/>

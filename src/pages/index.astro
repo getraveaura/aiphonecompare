@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import data from '../data/vendors.json';
 const c = (k) => data.filter((v) => v.industries.includes(k)).length;
-const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing' };
+const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
 const checkedLabel = (iso) => iso
   ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`))
   : '';
@@ -79,6 +79,11 @@ const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || 
         <a class="industry" href="/industries/plumbing/">
           <h3>Plumbing</h3>
           <p>{c('plumbing')} tools · emergency routing, ServiceTitan/Jobber</p>
+          <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="industry" href="/industries/medical/">
+          <h3>Medical</h3>
+          <p>{c('medical')} tools · scheduling, HIPAA BAA</p>
           <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
         <a class="industry" href="/pricing/">

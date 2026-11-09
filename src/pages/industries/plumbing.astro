@@ -1,4 +1,9 @@
 ---
 import Industry from '../../components/Industry.astro';
+const faqs = [
+  { q: 'What should a plumbing company test in a demo?', a: 'Place a burst-pipe call and see whether it reaches the on-call plumber. Check ServiceTitan, Jobber, or Housecall Pro support on the vendor page. Compare per-minute, per-call, and flat prices against a busy week of your own calls. The cost page does that math only where the vendor publishes allowances and overage.' },
+  { q: 'Where are the recording rules?', a: 'AI receptionists often record or transcribe. The call recording consent by state page lists the statute we found, or Verify when the text does not support one label. It is not legal advice.' },
+  { q: 'Are plumbing tools ranked?', a: 'No. The table is alphabetical. Sponsored listings are labeled.' },
+];
 ---
-<Industry key="plumbing" title="AI receptionists for plumbers" guide={["<strong>Emergency routing:</strong> ask for a demo of a burst-pipe call reaching your on-call plumber at 2 AM.","<strong>Dispatch software:</strong> check native ServiceTitan, Jobber or Housecall Pro support; built-in receptionists exist on those platforms.","<strong>Billing model:</strong> per-minute, per-call and flat-rate plans cost very differently in a busy freeze week."]}/>
+<Industry key="plumbing" title="AI receptionists for plumbers" faqs={faqs} guide={["<strong>Emergency routing:</strong> ask for a demo of a burst-pipe call reaching your on-call plumber at 2 AM.","<strong>Dispatch software:</strong> check native ServiceTitan, Jobber or Housecall Pro support; built-in receptionists exist on those platforms.","<strong>Billing model:</strong> per-minute, per-call and flat-rate plans cost very differently in a busy freeze week.","<strong>Recording:</strong> if calls are recorded, check the caller's state on the <a href='/call-recording-consent-by-state/'>call recording consent</a> page."]}/>

@@ -3,7 +3,8 @@ import Base from '../../layouts/Base.astro';
 import data from '../../data/vendors.json';
 export function getStaticPaths(){ return data.map((v) => ({ params: { slug: v.slug }, props: { v } })); }
 const { v } = Astro.props;
-const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing' };
+const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
+const industryHref = { dental: '/industries/dental/', legal: '/industries/legal/', plumbing: '/industries/plumbing/', medical: '/industries/medical/' };
 const checkedLabel = v.last_checked
   ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${v.last_checked}T00:00:00Z`))
   : '';
@@ -56,10 +57,15 @@ const jsonld = {
       {details.map(([label, val]) => (
         <div>
           <dt>{label}</dt>
-          <dd>{val || <span class="missing">Not verified</span>}</dd>
+          <dd>
+            {label === 'Industries'
+              ? v.industries.map((k, i) => <>{i ? ', ' : ''}{industryHref[k] ? <a href={industryHref[k]}>{industryLabel[k] || k}</a> : (industryLabel[k] || k)}</>)
+              : (val || <span class="missing">Not verified</span>)}
+          </dd>
         </div>
       ))}
     </dl>
+    <p>All published starting prices are on <a href="/pricing/">the pricing page</a>. Phone-recording statutes are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.</p>
     <section>
       <h2 class="section-title">Sources</h2>
       <ul class="sources">{v.sources.map((s) => <li><a href={s} rel="nofollow noopener">{s}</a></li>)}</ul>
