@@ -61,7 +61,7 @@ const jsonld = {
           Prices checked <time datetime={latest}>{latestLabel}</time>
         </p>
       )}
-      <p class="lead">{priceSentence} {vendors.length} AI receptionists are listed. Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}</p>
+      <p class="lead">{priceSentence} {vendors.length} AI receptionists are listed. Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates. <a href={`/cost/calculator/?industry=${key}&calls=150&minutes=3`}>Open the calculator</a>.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}</p>
     </div>
   </header>
   <div class="wrap stack">

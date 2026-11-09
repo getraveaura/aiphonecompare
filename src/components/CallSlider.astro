@@ -20,7 +20,7 @@ function figure(est) {
   <p class="slider-kicker">Scenario, not a quote</p>
   <label for="call-slider">Monthly calls <output id="call-count" for="call-slider">{calls}</output></label>
   <input id="call-slider" type="range" min="20" max="400" step="10" value={calls} aria-describedby="slider-note">
-  <p id="slider-note" class="hint">Uses a {minutes}-minute average call for minute-priced plans. Per-call plans ignore length. <a href="/cost/">See the method</a>.</p>
+  <p id="slider-note" class="hint">Uses a {minutes}-minute average call for minute-priced plans. Per-call plans ignore length. <a id="slider-calc" href={`/cost/calculator/?calls=${calls}&minutes=${minutes}`}>Price this in the calculator</a>. <a href="/cost/">See the method</a>.</p>
   <ul class="est-list">
     {rows.map((row) => (
       <li data-slug={row.slug}>
@@ -47,6 +47,8 @@ function figure(est) {
   function paint() {
     const calls = Number(input.value);
     count.textContent = String(calls);
+    var calc = document.getElementById('slider-calc');
+    if (calc) calc.href = '/cost/calculator/?calls=' + calls + '&minutes=' + minutes;
     slugs.forEach((slug) => {
       const vendor = vendors.find((item) => item.slug === slug);
       const est = estimateVendor(vendor, models, { mode: 'calls', amount: calls, durationMinutes: minutes, budget: '' });

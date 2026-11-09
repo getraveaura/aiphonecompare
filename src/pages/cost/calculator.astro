@@ -1,0 +1,301 @@
+---
+import Base from '../../layouts/Base.astro';
+import models from '../../data/cost-models.json';
+import vendors from '../../data/vendors.json';
+import { DEFAULT_INPUT, INDUSTRY_OPTIONS, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
+import { formatDate } from '../../lib/stories.mjs';
+const quote = quoteDirectory(vendors, models, DEFAULT_INPUT);
+const description = 'Monthly and first-year AI receptionist estimates from published plans. A missing setup fee or allowance stays “not enough public pricing”. The link keeps your call count.';
+const pageUrl = new URL('/cost/calculator/', Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', name: 'AI receptionist cost calculator', description, url: pageUrl },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: 'Cost', item: new URL('/cost/', Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: 'Calculator', item: pageUrl },
+      ],
+    },
+  ],
+};
+---
+<Base title="AI receptionist cost calculator" description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/cost/">Cost</a></li>
+          <li><span aria-current="page">Calculator</span></li>
+        </ol>
+      </nav>
+      <h1>AI receptionist cost calculator</h1>
+      <p class="lead">The default table is every industry, 150 calls a month, 3 minutes each. Change the numbers and the address bar keeps them, so a copied link opens the same result. After-hours share is stored and not priced: no page here publishes a separate after-hours rate.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <form id="calc-form" class="calc-form cost-form">
+      <div>
+        <label for="industry">Industry</label>
+        <select id="industry" name="industry">
+          {INDUSTRY_OPTIONS.map(([id, label]) => <option value={id} selected={id === quote.input.industry}>{label}</option>)}
+        </select>
+      </div>
+      <div>
+        <label for="calls">Calls per month</label>
+        <input id="calls" name="calls" type="number" inputmode="numeric" min="0" step="1" value={quote.input.calls}>
+      </div>
+      <div>
+        <label for="minutes">Average call length in minutes</label>
+        <input id="minutes" name="minutes" type="number" inputmode="decimal" min="0" step="any" value={quote.input.minutes} aria-describedby="minutes-hint">
+        <p id="minutes-hint" class="hint">Used for minute-billed plans. Per-call plans ignore it.</p>
+      </div>
+      <div>
+        <label for="after">After-hours share, percent, optional</label>
+        <input id="after" name="after" type="number" inputmode="numeric" min="0" max="100" step="1" aria-describedby="after-hint">
+        <p id="after-hint" class="hint">Leave blank if you do not know it. It is not turned into a surcharge.</p>
+      </div>
+      <div class="cta">
+        <button class="btn btn-primary" type="button" id="calc-update">Update estimates</button>
+        <button class="btn btn-ghost" type="button" id="copy-link">Copy link</button>
+      </div>
+      <p id="copy-status" class="note" role="status" aria-live="polite"></p>
+    </form>
+    <noscript>
+      <p>JavaScript is off, so this table stays on the default: all industries, 150 calls, 3 minutes. The buttons do not change it.</p>
+    </noscript>
+    <p id="calc-summary">{quoteSummary(quote)}</p>
+    <h2 class="section-title">Assumptions</h2>
+    <ul id="assumptions">
+      {quote.assumptions.map((item) => <li>{item}</li>)}
+    </ul>
+    <div class="tablewrap" tabindex="0">
+      <table class="compare">
+        <caption>Vendors with a complete monthly estimate. The highlighted row is the lowest first-year total among plans that also publish a setup fee. Checked <time datetime={quote.checked}>{formatDate(quote.checked)}</time>.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Vendor</th>
+            <th scope="col">Plan</th>
+            <th scope="col">Monthly</th>
+            <th scope="col">First year</th>
+            <th scope="col">Setup</th>
+            <th scope="col">Unknowns</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody id="priced-body">
+          {quote.priced.map((row) => (
+            <tr class:list={{ 'is-lowest': row.lowest }}>
+              <th scope="row" data-label="Vendor">
+                <a href={`/vendors/${row.slug}/`}>{row.name}</a>
+                {row.lowest && <span class="lowest-flag"> Lowest first-year total</span>}
+                {row.sponsored && <span class="badge">Sponsored</span>}
+              </th>
+              <td data-label="Plan">{row.planName}</td>
+              <td data-label="Monthly">{row.monthly}</td>
+              <td data-label="First year">{row.year}</td>
+              <td data-label="Setup">{row.setup}</td>
+              <td data-label="Unknowns">
+                {row.unknowns.length
+                  ? <ul>{row.unknowns.map((item) => <li>{item}</li>)}</ul>
+                  : 'None stated on the pricing page'}
+                {row.reason && <p>{row.reason}</p>}
+              </td>
+              <td data-label="Source">
+                {row.sourceHref
+                  ? <a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}</a>
+                  : row.sourceLabel}
+                {row.checked && <> · <time datetime={row.checked}>{row.checkedLabel}</time></>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <h2 class="section-title">Not enough public pricing</h2>
+    <div class="tablewrap" tabindex="0">
+      <table class="compare">
+        <caption>These vendors are in the selected industry, and the published record is not enough to price this call count.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Vendor</th>
+            <th scope="col">Why</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody id="missing-body">
+          {quote.missing.map((row) => (
+            <tr>
+              <th scope="row" data-label="Vendor">
+                <a href={`/vendors/${row.slug}/`}>{row.name}</a>
+                {row.sponsored && <span class="badge">Sponsored</span>}
+              </th>
+              <td data-label="Why">{row.reason}</td>
+              <td data-label="Source">
+                {row.sourceHref
+                  ? <a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}</a>
+                  : 'No source URL'}
+                {row.checked && <> · <time datetime={row.checked}>{row.checkedLabel}</time></>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>Plan-by-plan formulas, without picking one plan per vendor, are on the <a href="/cost/">cost method</a>.</p>
+  </div>
+</Base>
+<script>
+  import models from '../../data/cost-models.json';
+  import vendors from '../../data/vendors.json';
+  import { calculatorPath, parseCalculatorQuery, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
+
+  const form = document.getElementById('calc-form');
+  const summary = document.getElementById('calc-summary');
+  const assumptions = document.getElementById('assumptions');
+  const pricedBody = document.getElementById('priced-body');
+  const missingBody = document.getElementById('missing-body');
+  const copyStatus = document.getElementById('copy-status');
+
+  function readForm() {
+    return parseCalculatorQuery({
+      industry: document.getElementById('industry').value,
+      calls: document.getElementById('calls').value,
+      minutes: document.getElementById('minutes').value,
+      after: document.getElementById('after').value,
+    });
+  }
+
+  function textCell(tag, label, text) {
+    const cell = document.createElement(tag);
+    cell.setAttribute('data-label', label);
+    cell.textContent = text;
+    return cell;
+  }
+
+  function sourceCell(row) {
+    const cell = document.createElement('td');
+    cell.setAttribute('data-label', 'Source');
+    if (row.sourceHref) {
+      const link = document.createElement('a');
+      link.href = row.sourceHref;
+      link.rel = 'nofollow noopener';
+      link.textContent = row.sourceLabel;
+      cell.append(link);
+    } else {
+      cell.append(document.createTextNode(row.sourceLabel || 'No source URL'));
+    }
+    if (row.checked) {
+      cell.append(document.createTextNode(' · '));
+      const time = document.createElement('time');
+      time.dateTime = row.checked;
+      time.textContent = row.checkedLabel;
+      cell.append(time);
+    }
+    return cell;
+  }
+
+  function vendorCell(row) {
+    const cell = document.createElement('th');
+    cell.scope = 'row';
+    cell.setAttribute('data-label', 'Vendor');
+    const link = document.createElement('a');
+    link.href = `/vendors/${row.slug}/`;
+    link.textContent = row.name;
+    cell.append(link);
+    if (row.lowest) {
+      const flag = document.createElement('span');
+      flag.className = 'lowest-flag';
+      flag.textContent = ' Lowest first-year total';
+      cell.append(flag);
+    }
+    if (row.sponsored) {
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.textContent = 'Sponsored';
+      cell.append(badge);
+    }
+    return cell;
+  }
+
+  function paint(quote) {
+    summary.textContent = quoteSummary(quote);
+    assumptions.replaceChildren();
+    for (const item of quote.assumptions) {
+      const li = document.createElement('li');
+      li.textContent = item;
+      assumptions.append(li);
+    }
+    pricedBody.replaceChildren();
+    for (const row of quote.priced) {
+      const tr = document.createElement('tr');
+      if (row.lowest) tr.className = 'is-lowest';
+      tr.append(
+        vendorCell(row),
+        textCell('td', 'Plan', row.planName),
+        textCell('td', 'Monthly', row.monthly),
+        textCell('td', 'First year', row.year),
+        textCell('td', 'Setup', row.setup),
+      );
+      const unknowns = document.createElement('td');
+      unknowns.setAttribute('data-label', 'Unknowns');
+      if (row.unknowns.length) {
+        const list = document.createElement('ul');
+        for (const item of row.unknowns) {
+          const li = document.createElement('li');
+          li.textContent = item;
+          list.append(li);
+        }
+        unknowns.append(list);
+      } else {
+        unknowns.textContent = 'None stated on the pricing page';
+      }
+      if (row.reason) {
+        const note = document.createElement('p');
+        note.textContent = row.reason;
+        unknowns.append(note);
+      }
+      tr.append(unknowns, sourceCell(row));
+      pricedBody.append(tr);
+    }
+    missingBody.replaceChildren();
+    for (const row of quote.missing) {
+      const tr = document.createElement('tr');
+      const why = textCell('td', 'Why', row.reason);
+      tr.append(vendorCell(row), why, sourceCell(row));
+      missingBody.append(tr);
+    }
+    const path = calculatorPath(quote.input);
+    if (`${location.pathname}${location.search}` !== path) history.replaceState(null, '', path);
+  }
+
+  function update() {
+    paint(quoteDirectory(vendors, models, readForm()));
+  }
+
+  const params = Object.fromEntries(new URLSearchParams(location.search));
+  if (location.search) {
+    const parsed = parseCalculatorQuery(params);
+    document.getElementById('industry').value = parsed.industry;
+    document.getElementById('calls').value = String(parsed.calls);
+    document.getElementById('minutes').value = String(parsed.minutes);
+    document.getElementById('after').value = parsed.afterHours == null ? '' : String(parsed.afterHours);
+    update();
+  }
+
+  form.addEventListener('input', update);
+  document.getElementById('calc-update').addEventListener('click', update);
+  document.getElementById('copy-link').addEventListener('click', async () => {
+    const url = `${location.origin}${calculatorPath(readForm())}`;
+    copyStatus.textContent = url;
+    try {
+      await navigator.clipboard.writeText(url);
+      copyStatus.textContent = 'Link copied.';
+    } catch (error) {
+      copyStatus.textContent = url;
+    }
+  });
+</script>

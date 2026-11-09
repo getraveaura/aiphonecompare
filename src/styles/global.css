@@ -496,6 +496,8 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 .estimate p { margin: 0 0 8px; }
 @media (max-width: 800px) { .calc-grid { grid-template-columns: 1fr; } }
 .cost-form { max-width: 40rem; margin-bottom: 0.5rem; }
+.is-lowest { box-shadow: inset 4px 0 0 var(--pine); }
+.lowest-flag { display: inline-block; margin-left: 8px; color: var(--pine-deep); font-size: 0.78rem; font-weight: 600; }
 .cost-form .hint { margin: 0.35rem 0 0; color: var(--muted); font-size: 0.95rem; }
 .cost-list { display: grid; gap: 1.75rem; }
 .cost-provider {
