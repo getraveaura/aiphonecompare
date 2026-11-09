@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import StoryCards from '../../components/StoryCards.astro';
+import Catches from '../../components/Catches.astro';
+import Signup from '../../components/Signup.astro';
+import stories from '../../data/stories.json';
+import { catchGroups, formatDate } from '../../lib/stories.mjs';
+const groups = catchGroups(stories);
+const description = `${stories.length} sourced accounts of small businesses using an AI receptionist or phone agent. Cost and the catch are included only when the source states them.`;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: 'Real stories',
+  description,
+  url: new URL('/stories/', Astro.site).href,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: stories.map((story, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: story.title,
+      url: new URL(`/stories/${story.slug}/`, Astro.site).href,
+    })),
+  },
+};
+---
+<Base title="Real stories" description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>Real stories</h1>
+      <p class="lead">Sourced accounts of small businesses using an AI receptionist or phone agent: what they set up, what it cost, and what went wrong. If the source does not say it, the field says not stated. Vendor-published pieces are labeled. Nothing here is a rating.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <StoryCards stories={stories} showFilters />
+    <Catches groups={groups} />
+    <Signup />
+    <p class="note">Stories on this page were added to the site on <time datetime="2026-11-09">{formatDate('2026-11-09')}</time>. The date on each card is the source date.</p>
+  </div>
+</Base>

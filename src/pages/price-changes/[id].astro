@@ -1,0 +1,67 @@
+---
+import Base from '../../layouts/Base.astro';
+import Share from '../../components/Share.astro';
+import log from '../../data/price-changes.json';
+import vendors from '../../data/vendors.json';
+import { formatDate } from '../../lib/stories.mjs';
+export function getStaticPaths() {
+  return log.changes.map((change) => ({ params: { id: change.id }, props: { change } }));
+}
+const { change } = Astro.props;
+const vendor = vendors.find((item) => item.slug === change.vendorSlug);
+const name = vendor?.name || change.vendorSlug;
+const title = `${name} price change`;
+const description = change.summary.slice(0, 220);
+const url = new URL(`/price-changes/${change.id}/`, Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  url,
+  description,
+  citation: change.sources.map((source) => ({
+    '@type': 'CreativeWork',
+    name: source.title,
+    url: source.url,
+    datePublished: source.date,
+  })),
+};
+---
+<Base title={title} description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <p class="story-meta"><a href="/price-changes/">All price changes</a></p>
+      <h1>{title}</h1>
+      <p class="checked">Observed <time datetime={change.observed}>{formatDate(change.observed)}</time></p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <p>{change.summary}</p>
+    <dl class="record">
+      <div>
+        <dt>Vendor</dt>
+        <dd><a href={`/vendors/${change.vendorSlug}/`}>{name}</a></dd>
+      </div>
+      <div>
+        <dt>Before</dt>
+        <dd>{change.before}</dd>
+      </div>
+      <div>
+        <dt>After</dt>
+        <dd>{change.after}</dd>
+      </div>
+    </dl>
+    <Share url={url} title={title} />
+    <section>
+      <h2 class="section-title">Sources</h2>
+      <ul class="sources">
+        {change.sources.map((source) => (
+          <li>
+            <a href={source.url} rel="nofollow noopener">{source.title}</a>
+            {' '}<span class="missing">({source.publisher}, <time datetime={source.date}>{formatDate(source.date)}</time>)</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Base>

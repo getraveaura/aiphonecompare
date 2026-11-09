@@ -1,0 +1,97 @@
+---
+import Base from '../../layouts/Base.astro';
+import Share from '../../components/Share.astro';
+import Checklist from '../../components/Checklist.astro';
+import stories from '../../data/stories.json';
+import { formatDate, industryHref, industryLabel } from '../../lib/stories.mjs';
+export function getStaticPaths() {
+  return stories.map((story) => ({ params: { slug: story.slug }, props: { story } }));
+}
+const { story } = Astro.props;
+const primary = story.sources[0];
+const description = story.whatTheyDid.slice(0, 220);
+const url = new URL(`/stories/${story.slug}/`, Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: story.title,
+  url,
+  description,
+  citation: story.sources.map((source) => ({
+    '@type': 'CreativeWork',
+    name: source.title,
+    url: source.url,
+    datePublished: source.date,
+  })),
+};
+---
+<Base title={story.title} description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <p class="story-meta">
+        <span class="badge-source">{story.sourceLabel}</span>
+        <a href="/stories/">All stories</a>
+      </p>
+      <h1>{story.title}</h1>
+      {primary && <p class="checked"><time datetime={primary.date}>{formatDate(primary.date)}</time></p>}
+    </div>
+  </header>
+  <div class="wrap stack">
+    <dl class="record">
+      <div>
+        <dt>Business</dt>
+        <dd>{story.business || <span class="missing">Not stated</span>}</dd>
+      </div>
+      <div>
+        <dt>Industry</dt>
+        <dd>
+          {(story.industries || []).map((id, index) => (
+            <>
+              {index ? ', ' : ''}
+              {industryHref(id) ? <a href={industryHref(id)}>{industryLabel(id)}</a> : industryLabel(id)}
+            </>
+          ))}
+        </dd>
+      </div>
+      <div>
+        <dt>Vendor</dt>
+        <dd>
+          {story.vendorSlug
+            ? <a href={`/vendors/${story.vendorSlug}/`}>{story.vendorName}</a>
+            : (story.vendorName || <span class="missing">Not stated</span>)}
+        </dd>
+      </div>
+      <div>
+        <dt>Cost</dt>
+        <dd>{story.cost || <span class="missing">Not stated</span>}</dd>
+      </div>
+    </dl>
+    <section>
+      <h2 class="section-title">What they did</h2>
+      <p>{story.whatTheyDid}</p>
+    </section>
+    <section>
+      <h2 class="section-title">What went wrong, or the catch</h2>
+      {story.catches?.length
+        ? story.catches.map((item) => <p>{item.summary}</p>)
+        : <p class="missing">Not stated</p>}
+    </section>
+    <section>
+      <h2 class="section-title">Outcome</h2>
+      <p>{story.outcome}</p>
+    </section>
+    <Share url={url} title={story.title} />
+    <Checklist catches={story.catches || []} />
+    <section>
+      <h2 class="section-title">Sources</h2>
+      <ul class="sources">
+        {story.sources.map((source) => (
+          <li>
+            <a href={source.url} rel="nofollow noopener">{source.title}</a>
+            {' '}<span class="missing">({source.publisher}, <time datetime={source.date}>{formatDate(source.date)}</time>)</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</Base>

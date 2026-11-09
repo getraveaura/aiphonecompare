@@ -1,6 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import data from '../data/vendors.json';
+import stories from '../data/stories.json';
+import priceLog from '../data/price-changes.json';
+import { addedThisWeek, formatDate, latestByAdded, sourceDate } from '../lib/stories.mjs';
 const c = (k) => data.filter((v) => v.industries.includes(k)).length;
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
 const checkedLabel = (iso) => iso
@@ -11,6 +14,11 @@ const picks = [...data]
   .sort((a, b) => a.name.localeCompare(b.name))
   .slice(0, 5);
 const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || k).filter(Boolean).join(', ');
+const built = new Date().toISOString().slice(0, 10);
+const names = Object.fromEntries(data.map((vendor) => [vendor.slug, vendor.name]));
+const freshStories = latestByAdded(stories, 5);
+const freshPrices = latestByAdded(priceLog.changes.map((change) => ({ ...change, title: names[change.vendorSlug] || change.vendorSlug })), 3);
+const newThisWeek = addedThisWeek(stories, built).length + addedThisWeek(priceLog.changes, built).length;
 ---
 <Base title="What an AI receptionist will cost" description="Match your call volume to official published plans, and see where a fee is still unknown. The directory keeps sourced starting prices. Sponsored spots are labeled; rankings are not for sale." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}>
   <section class="hero">
@@ -19,7 +27,8 @@ const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || 
       <p class="lead">Put in a monthly call volume and see a scenario bill for providers that publish allowances and overage rates. The directory still lists a sourced starting price for every vendor we track. Sponsored spots are labeled, and rankings are not for sale.</p>
       <div class="cta">
         <a class="btn btn-primary" href="/cost/">Estimate from your calls</a>
-        <a class="btn btn-ghost" href="#industries">Browse the directory</a>
+        <a class="btn btn-ghost" href="/match/">Match a tool</a>
+        <a class="btn btn-ghost" href="/stories/">Real stories</a>
       </div>
     </div>
   </section>
@@ -62,6 +71,28 @@ const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || 
       </ul>
     </div>
   </section>
+  <section class="band" aria-labelledby="fresh-heading">
+    <div class="wrap">
+      <h2 class="section-title" id="fresh-heading">New on the site</h2>
+      <p class="lead">Last updated <time datetime={built}>{formatDate(built)}</time>. {newThisWeek} new this week.</p>
+      <div class="story-list">
+        {freshStories.map((story) => (
+          <article class="story-card">
+            <p class="story-meta">Story · <time datetime={sourceDate(story)}>{formatDate(sourceDate(story))}</time></p>
+            <h3><a href={`/stories/${story.slug}/`}>{story.title}</a></h3>
+          </article>
+        ))}
+        {freshPrices.map((change) => (
+          <article class="story-card">
+            <p class="story-meta">Price change · <time datetime={change.observed}>{formatDate(change.observed)}</time></p>
+            <h3><a href={`/price-changes/${change.id}/`}>{names[change.vendorSlug] || change.vendorSlug}</a></h3>
+            <p>{change.summary}</p>
+          </article>
+        ))}
+      </div>
+      {priceLog.changes.length === 0 && <p>No price change is logged yet. Tracking started <time datetime={priceLog.trackingStarted}>{formatDate(priceLog.trackingStarted)}</time>.</p>}
+    </div>
+  </section>
   <section class="band" id="industries" style="padding-top:0">
     <div class="wrap">
       <h2 class="section-title">Browse by industry</h2>
@@ -97,6 +128,7 @@ const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || 
   <section class="band" style="padding-top:8px">
     <div class="wrap">
       <h2 class="section-title">All vendors</h2>
+      <p style="margin: 0 0 18px; max-width: 66ch;">The <a href="/vendors/">vendor directory</a> lists every one, with the sourced starting price.</p>
       <ul class="directory">{data.map((v) => <li><a href={`/vendors/${v.slug}/`}>{v.name}</a></li>)}</ul>
     </div>
   </section>

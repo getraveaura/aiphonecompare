@@ -1,0 +1,40 @@
+---
+const { url, title } = Astro.props;
+const text = encodeURIComponent(title);
+const link = encodeURIComponent(url);
+const targets = [
+  [`https://twitter.com/intent/tweet?url=${link}&text=${text}`, 'X'],
+  [`https://www.linkedin.com/sharing/share-offsite/?url=${link}`, 'LinkedIn'],
+  [`https://www.facebook.com/sharer/sharer.php?u=${link}`, 'Facebook'],
+  [`mailto:?subject=${text}&body=${link}`, 'Email'],
+];
+---
+<div class="share">
+  <p class="share-label">Share</p>
+  <button type="button" class="btn btn-ghost" data-copy-link={url}>Copy link</button>
+  {targets.map(([href, label]) => <a href={href} rel="noopener noreferrer">{label}</a>)}
+</div>
+<script is:inline>
+  if (!window.__aicShare) {
+    window.__aicShare = true;
+    document.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-copy-link]');
+      if (!button) return;
+      var value = button.getAttribute('data-copy-link');
+      var label = button.textContent;
+      function done() { button.textContent = 'Copied'; setTimeout(function () { button.textContent = label; }, 2000); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(done).catch(function () { fallback(); });
+      } else fallback();
+      function fallback() {
+        var area = document.createElement('textarea');
+        area.value = value;
+        area.setAttribute('aria-hidden', 'true');
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand('copy'); done(); } catch (error) { button.textContent = 'Copy failed'; }
+        area.remove();
+      }
+    });
+  }
+</script>

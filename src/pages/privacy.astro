@@ -1,13 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 ---
-<Base title="Privacy" description="How aiphonecompare counts page views with PostHog, without a tracking cookie, and how sponsored listings are labeled.">
+<Base title="Privacy" description="How aiphonecompare counts page views with PostHog, without a tracking cookie, how the stories email list is stored, and how sponsored listings are labeled.">
   <article class="wrap prose page-intro">
     <h1>Privacy</h1>
     <p>We use <a href="https://posthog.com/">PostHog</a> to count anonymous page views. A page view includes the page address and the basic technical details PostHog sends with that request. We do not ask you to sign in, and we do not attach these counts to your name.</p>
     <p>The counter keeps its id in memory for the page session. It does not set a tracking cookie.</p>
     <p>If your browser sends Do Not Track, we do not start PostHog.</p>
     <p>Sponsored placements are labeled on the page. They are separate from these traffic counts. Payment does not change listed prices or the order of unsponsored listings.</p>
+    <p>The stories page has an email form. If you join, we store the email address and the industry you pick in a Supabase table. The page can add a row. It cannot read the table. We use that list to send new stories and logged price changes for the industry you picked. We do not sell the list. To be taken off it, email <a href="mailto:timothy@aiphonecompare.com">timothy@aiphonecompare.com</a>. The form is separate from the PostHog page-view counter.</p>
     <p>This note describes what the site does. It is not a legal policy.</p>
   </article>
 </Base>

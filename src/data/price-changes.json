@@ -1,0 +1,28 @@
+{
+  "trackingStarted": "2026-11-09",
+  "changes": [
+    {
+      "id": "agentzap-per-call-to-per-minute",
+      "vendorSlug": "agentzap",
+      "added": "2026-11-09",
+      "observed": "2026-11-09",
+      "summary": "AgentZap's public pricing page changed from per-call bundles to per-minute bundles. The day the page switched is not known. This entry compares the 14 February 2026 archive with the pricing page recorded in the cost model on 6 November 2026.",
+      "before": "Archive of agentzap.ai/pricing on 14 February 2026: Starter $79/month for 50 calls, then $2.00/call; Basic $199/month for 150 calls, then $1.80/call; Pro $499/month for 500 calls, then $1.50/call; Enterprise custom. That page said 24/7 answering and appointment scheduling were included.",
+      "after": "Pricing page checked 6 November 2026 and stored in src/data/cost-models.json: Starter $109/month for 150 minutes, then $0.85/min, plus a $499 setup fee; Professional $295/month for 450 minutes, then $0.75/min, plus $499 setup; Business $899/month for 1,500 minutes, then $0.70/min, plus $499 setup; Managed $899/month for 1,500 minutes with setup included and no overage rate printed; Enterprise custom. The unit is minutes, not calls.",
+      "sources": [
+        {
+          "url": "https://web.archive.org/web/20260214172701/https://agentzap.ai/pricing",
+          "title": "agentzap.ai/pricing archived 14 February 2026",
+          "date": "2026-02-14",
+          "publisher": "Internet Archive"
+        },
+        {
+          "url": "https://agentzap.ai/pricing",
+          "title": "agentzap.ai/pricing as recorded in the cost model",
+          "date": "2026-11-06",
+          "publisher": "AgentZap"
+        }
+      ]
+    }
+  ]
+}

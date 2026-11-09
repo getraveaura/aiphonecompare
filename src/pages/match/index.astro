@@ -1,0 +1,166 @@
+---
+import Base from '../../layouts/Base.astro';
+const description = 'Pick an industry, a call volume, a budget, and the must-haves you can verify. The three fits come from the published listings. A blank field stays unknown.';
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Match an AI receptionist',
+  url: new URL('/match/', Astro.site).href,
+  description,
+};
+---
+<Base title="Match an AI receptionist" description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>Match an AI receptionist</h1>
+      <p class="lead">Three fits from the listings we already publish. A must-have counts only when the listing text says so. Blank means not verified, and not verified is not a yes. Sponsored listings do not move up this list.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <form id="match-form" class="calc-form">
+      <div>
+        <label for="match-industry">Industry</label>
+        <select id="match-industry" name="industry" required>
+          <option value="dental">Dental</option>
+          <option value="medical">Medical</option>
+          <option value="legal">Legal</option>
+          <option value="plumbing">Plumbing</option>
+        </select>
+      </div>
+      <fieldset>
+        <legend>Volume</legend>
+        <label><input type="radio" name="mode" value="calls" checked> Calls per month</label>
+        <label><input type="radio" name="mode" value="minutes"> Minutes per month</label>
+      </fieldset>
+      <div>
+        <label for="match-amount">How many</label>
+        <input id="match-amount" name="amount" type="number" inputmode="numeric" min="0" step="1" value="100" required>
+      </div>
+      <div>
+        <label for="match-length">Average call length in minutes</label>
+        <input id="match-length" name="duration" type="number" inputmode="decimal" min="0" step="any" aria-describedby="match-length-hint">
+        <p id="match-length-hint" class="hint">Used when you enter calls and the vendor bills by the minute. Leave it blank if you do not know it.</p>
+      </div>
+      <div>
+        <label for="match-budget">Monthly budget in dollars</label>
+        <input id="match-budget" name="budget" type="number" inputmode="decimal" min="0" step="1" aria-describedby="match-budget-hint">
+        <p id="match-budget-hint" class="hint">Optional. Compared with the scenario bill, not the one-time setup fee.</p>
+      </div>
+      <fieldset>
+        <legend>Must-haves</legend>
+        <label><input type="checkbox" name="baa"> Signed BAA</label>
+        <label><input type="checkbox" name="spanish"> Spanish</label>
+        <label><input type="checkbox" name="alwaysOn"> 24/7 answering</label>
+        <label><input type="checkbox" name="booking"> Calendar or job booking</label>
+        <label><input type="checkbox" name="human"> Live human fallback</label>
+      </fieldset>
+      <button class="btn btn-primary" type="submit">Show fits</button>
+    </form>
+    <p id="match-status" class="note" role="status" aria-live="polite">Choose an industry and a volume, then show fits.</p>
+    <div id="match-results"></div>
+    <aside id="match-sponsored" hidden>
+      <h2 class="section-title">Sponsored</h2>
+      <p>This slot is separate from the three fits. Payment does not change their order.</p>
+      <div id="match-sponsored-body"></div>
+    </aside>
+  </div>
+</Base>
+<script>
+  import vendors from '../../data/vendors.json';
+  import models from '../../data/cost-models.json';
+  import { matchVendors, money, MUST_LABEL } from '../../lib/match.mjs';
+
+  const form = document.getElementById('match-form');
+  const status = document.getElementById('match-status');
+  const results = document.getElementById('match-results');
+  const sponsoredBox = document.getElementById('match-sponsored');
+  const sponsoredBody = document.getElementById('match-sponsored-body');
+  const params = new URLSearchParams(window.location.search);
+  const industry = params.get('industry');
+  const allowed = ['dental', 'medical', 'legal', 'plumbing'];
+  if (industry && allowed.includes(industry)) form.elements.industry.value = industry;
+
+  function line(label, value) {
+    const row = document.createElement('p');
+    const strong = document.createElement('strong');
+    strong.textContent = label;
+    row.append(strong, document.createTextNode(' ' + value));
+    return row;
+  }
+
+  function card(row) {
+    const article = document.createElement('article');
+    article.className = 'story-card';
+    const heading = document.createElement('h2');
+    const link = document.createElement('a');
+    link.href = `/vendors/${row.slug}/`;
+    link.textContent = row.name;
+    heading.append(link);
+    article.append(heading);
+    const cost = row.estimate.status === 'unknown' || row.estimate.cents == null
+      ? 'Scenario bill not verified'
+      : `${money(row.estimate.cents)} on ${row.estimate.planName}${row.estimate.status === 'partial' ? ' (partial subtotal)' : ''}`;
+    article.append(line('Scenario:', cost));
+    if (row.estimate.reason) article.append(line('Unknown:', row.estimate.reason));
+    if (row.estimate.formula) article.append(line('Math:', row.estimate.formula));
+    if (row.estimate.oneTimeKnown && row.estimate.oneTimeCents) {
+      article.append(line('Setup:', `${money(row.estimate.oneTimeCents)} one time, not in the monthly figure.`));
+    }
+    const names = (keys) => keys.map((key) => MUST_LABEL[key]).join(', ');
+    if (row.met.length) article.append(line('Listing says yes:', names(row.met)));
+    if (row.unknown.length) article.append(line('Not verified:', names(row.unknown)));
+    if (row.budget === 'within') article.append(line('Budget:', 'The scenario is within the budget you entered.'));
+    if (row.budget === 'over') article.append(line('Budget:', 'The known scenario is over the budget you entered.'));
+    if (row.budget === 'partial') article.append(line('Budget:', 'The partial subtotal is within budget. Missing fees could push it over.'));
+    if (row.budget === 'unknown') article.append(line('Budget:', 'Cannot tell. The scenario bill is not verified.'));
+    return article;
+  }
+
+  function render() {
+    const data = new FormData(form);
+    const result = matchVendors(vendors, models, {
+      industry: String(data.get('industry') || ''),
+      mode: String(data.get('mode') || 'calls'),
+      amount: data.get('amount'),
+      durationMinutes: data.get('duration'),
+      budget: data.get('budget'),
+      must: {
+        baa: data.get('baa') != null,
+        spanish: data.get('spanish') != null,
+        alwaysOn: data.get('alwaysOn') != null,
+        booking: data.get('booking') != null,
+        human: data.get('human') != null,
+      },
+    });
+    results.replaceChildren();
+    status.textContent = result.picks.length
+      ? `${result.picks.length} fit${result.picks.length === 1 ? '' : 's'} from ${result.considered} listings in this industry. ${result.eligible} had no must-have the listing contradicts.`
+      : `No listing in this industry is free of a contradicted must-have. ${result.considered} were considered.`;
+    const heading = document.createElement('h2');
+    heading.className = 'section-title';
+    heading.textContent = 'Three fits';
+    results.append(heading);
+    if (!result.picks.length) {
+      const empty = document.createElement('p');
+      empty.textContent = 'Nothing to show. Uncheck a must-have the listings do not confirm, or pick another industry.';
+      results.append(empty);
+    }
+    result.picks.forEach((row) => results.append(card(row)));
+    const featured = result.sponsored;
+    sponsoredBox.hidden = featured.length === 0;
+    sponsoredBody.replaceChildren();
+    featured.forEach((row) => {
+      const note = document.createElement('p');
+      const link = document.createElement('a');
+      link.href = `/vendors/${row.slug}/`;
+      link.textContent = row.name;
+      note.append(link, document.createTextNode(' is labeled sponsored. It is not one of the three fits unless it also appears above.'));
+      sponsoredBody.append(note);
+    });
+  }
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    render();
+  });
+</script>

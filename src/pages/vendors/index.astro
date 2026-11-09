@@ -1,0 +1,50 @@
+---
+import Base from '../../layouts/Base.astro';
+import data from '../../data/vendors.json';
+const vendors = [...data].sort((a, b) => a.name.localeCompare(b.name));
+const description = 'Directory of the AI receptionist vendors we track. Starting prices are sourced. Sponsored spots are labeled.';
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'AI receptionist vendors',
+  itemListElement: vendors.map((vendor, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: vendor.name,
+    url: new URL(`/vendors/${vendor.slug}/`, Astro.site).href,
+  })),
+};
+---
+<Base title="AI receptionist vendors" description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>AI receptionist vendors</h1>
+      <p class="lead">This is the directory of AI receptionist vendors we track. Starting prices are sourced. Sponsored spots are labeled.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <p>Names are alphabetical. That order is not a ranking. Where the dataset has no starting price, the row says Not verified. Open a vendor for the source and the date we checked it. The same list is the <a href="/data/">open dataset</a>.</p>
+    <div class="tablewrap vendor-index" tabindex="0" aria-labelledby="vendor-index-caption">
+      <table class="compare">
+        <caption id="vendor-index-caption">Every vendor we track, A to Z. Sponsored spots are labeled. Not verified means no starting price was sourced.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Vendor</th>
+            <th scope="col">Starting price</th>
+          </tr>
+        </thead>
+        <tbody>
+          {vendors.map((vendor) => (
+            <tr>
+              <th scope="row">
+                <a href={`/vendors/${vendor.slug}/`}>{vendor.name}</a>
+                {vendor.sponsored && <span class="badge">Sponsored</span>}
+              </th>
+              <td data-label="Starting price">{vendor.starting_price || <span class="missing">Not verified</span>}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</Base>
