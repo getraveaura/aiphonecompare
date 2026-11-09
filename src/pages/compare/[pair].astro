@@ -1,0 +1,11 @@
+---
+import Landing from '../../components/Landing.astro';
+import { getLandings } from '../../lib/landings.mjs';
+export function getStaticPaths() {
+  return getLandings()
+    .filter((page) => page.kind === 'compare')
+    .map((page) => ({ params: { pair: page.pair }, props: { page } }));
+}
+const { page } = Astro.props;
+---
+<Landing page={page} />

@@ -1,0 +1,11 @@
+---
+import Landing from '../../components/Landing.astro';
+import { getLandings } from '../../lib/landings.mjs';
+export function getStaticPaths() {
+  return getLandings()
+    .filter((page) => page.path.startsWith('/cost/') && page.topic)
+    .map((page) => ({ params: { topic: page.topic }, props: { page } }));
+}
+const { page } = Astro.props;
+---
+<Landing page={page} />

@@ -1,0 +1,6 @@
+---
+import Landing from '../../components/Landing.astro';
+import { getLandings } from '../../lib/landings.mjs';
+const page = getLandings().find((item) => item.path === '/worth-it/');
+---
+<Landing page={page} />

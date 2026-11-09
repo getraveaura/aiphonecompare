@@ -10,6 +10,7 @@ import data from '../data/vendors.json';
 import stories from '../data/stories.json';
 import { catchGroups, industryLabel, storiesForIndustry } from '../lib/stories.mjs';
 import { accent } from '../lib/industries.mjs';
+import { linkForIndustry } from '../lib/landings.mjs';
 import { lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
 const { key, title, guide, faqs = [], guideTitle = 'What to check before you buy', note = '' } = Astro.props;
 const vendors = data.filter((v) => v.industries.includes(key)).sort((a, b) => (b.sponsored - a.sponsored) || a.name.localeCompare(b.name));
@@ -32,6 +33,7 @@ const allFaqs = [
   ...faqs,
 ];
 const relatedStories = storiesForIndustry(stories, key);
+const costGuide = linkForIndustry(key);
 const catchSet = catchGroups(stories, { industry: key });
 const industries = [
   ['dental', 'Dental', '/industries/dental/'],
@@ -59,7 +61,7 @@ const jsonld = {
           Prices checked <time datetime={latest}>{latestLabel}</time>
         </p>
       )}
-      <p class="lead">{priceSentence} {vendors.length} AI receptionists are listed. Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates.</p>
+      <p class="lead">{priceSentence} {vendors.length} AI receptionists are listed. Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}</p>
     </div>
   </header>
   <div class="wrap stack">

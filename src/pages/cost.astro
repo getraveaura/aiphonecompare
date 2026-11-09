@@ -36,7 +36,7 @@ function oneTime(plan) {
       <button class="btn btn-primary" type="submit">Update estimates</button>
     </form>
     <p id="cost-status" class="note" aria-live="polite">Enter calls and an average length. Estimates stay blank until those numbers are usable.</p>
-    <p>These providers are the ones whose own sites, checked <time datetime={models.checked}>{checkedLabel}</time>, publish enough to do this math. The other vendors stay in the <a href="/pricing/">starting-price directory</a>. Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not printed are not included.</p>
+    <p>These providers are the ones whose own sites, checked <time datetime={models.checked}>{checkedLabel}</time>, publish enough to do this math. The other vendors stay in the <a href="/pricing/">starting-price directory</a>. Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not printed are not included. Worked examples for 50, 150, and 300 calls: <a href="/cost/dental/">dental</a>, <a href="/cost/legal/">legal</a>, <a href="/cost/home-services/">home services</a>, <a href="/cost/medical/">medical</a>. <a href="/cost/hidden-fees/">Hidden fees</a> lists the printed setup fees and the story catches.</p>
     <div class="cost-list">
       {models.providers.map((provider) => (
         <article class="cost-provider" aria-labelledby={`${provider.id}-heading`}>

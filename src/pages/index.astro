@@ -8,6 +8,7 @@ import data from '../data/vendors.json';
 import stories from '../data/stories.json';
 import priceLog from '../data/price-changes.json';
 import { addedThisWeek, formatDate, latestByAdded, sourceDate, weekStart } from '../lib/stories.mjs';
+import { getLandings } from '../lib/landings.mjs';
 const c = (k) => data.filter((v) => v.industries.includes(k)).length;
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
 const checkedLabel = (iso) => iso
@@ -36,6 +37,7 @@ const latestItems = [...freshStories.map((story) => ({
 const start = weekStart(built);
 const priceChangesWeek = priceLog.changes.filter((change) => change.observed >= start && change.observed <= built).length;
 const lastUpdated = data.map((vendor) => vendor.last_checked).filter(Boolean).sort().at(-1) || built;
+const guides = getLandings();
 const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
 ---
 <Base title="What an AI receptionist will cost" description="Match your call volume to official published plans, and see where a fee is still unknown. The directory keeps sourced starting prices. Sponsored spots are labeled; rankings are not for sale." jsonld={{"@context":"https://schema.org","@type":"ItemList","name":"AI receptionists","itemListElement":data.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}>
@@ -112,6 +114,14 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
             {item.date && <time datetime={item.date}>{formatDate(item.date)}</time>}
           </li>
         ))}
+      </ul>
+    </div>
+  </section>
+  <section class="band" aria-labelledby="guides-heading">
+    <div class="wrap">
+      <h2 class="section-title" id="guides-heading">Questions the directory can answer</h2>
+      <ul>
+        {guides.map((page) => <li><a href={page.path}>{page.h1}</a></li>)}
       </ul>
     </div>
   </section>
