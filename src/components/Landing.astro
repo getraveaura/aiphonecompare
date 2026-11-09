@@ -1,0 +1,126 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from './Faq.astro';
+const { page } = Astro.props;
+const url = new URL(page.path, Astro.site).href;
+const graph = [
+  {
+    '@type': 'WebPage',
+    name: page.h1,
+    description: page.description,
+    url,
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: page.crumbs.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: new URL(crumb.href, Astro.site).href,
+    })),
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: page.faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.q,
+      acceptedAnswer: { '@type': 'Answer', text: item.a },
+    })),
+  },
+];
+for (const block of page.blocks) {
+  if (block.type !== 'table') continue;
+  graph.push({
+    '@type': 'ItemList',
+    name: block.caption,
+    itemListElement: block.rows.map((row, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: row.map((item) => item.text).join(' · '),
+      url: row.map((item) => item.href).find((href) => href && href.startsWith('/'))
+        ? new URL(row.find((item) => item.href && item.href.startsWith('/')).href, Astro.site).href
+        : url,
+    })),
+  });
+}
+if (page.kind === 'fees' || page.kind === 'worth') {
+  graph.push({
+    '@type': 'Article',
+    headline: page.h1,
+    description: page.description,
+    datePublished: page.date,
+    dateModified: page.date,
+    mainEntityOfPage: url,
+    author: { '@type': 'Organization', name: 'aiphonecompare', url: Astro.site.href },
+    publisher: { '@type': 'Organization', name: 'aiphonecompare', url: Astro.site.href },
+  });
+}
+---
+<Base title={page.title} description={page.description} jsonld={{ '@context': 'https://schema.org', '@graph': graph }}>
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          {page.crumbs.map((crumb, index) => (
+            <li>
+              {index < page.crumbs.length - 1
+                ? <a href={crumb.href}>{crumb.name}</a>
+                : <span aria-current="page">{crumb.name}</span>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <h1>{page.h1}</h1>
+      <div class="answer-box">
+        {page.answer.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+    </div>
+  </header>
+  <div class="wrap stack">
+    {page.blocks.map((block) => block.type === 'table' ? (
+      <div class="tablewrap" tabindex="0">
+        <table class="compare">
+          <caption>{block.caption}</caption>
+          <thead>
+            <tr>{block.headers.map((header) => <th scope="col">{header}</th>)}</tr>
+          </thead>
+          <tbody>
+            {block.rows.map((row) => (
+              <tr>
+                {row.map((item, index) => index === 0 ? (
+                  <th scope="row" data-label={block.headers[index]}>
+                    {item.href
+                      ? <a href={item.href} rel={item.external ? 'nofollow noopener' : undefined}>{item.text}</a>
+                      : item.datetime ? <time datetime={item.datetime}>{item.text}</time> : item.text}
+                  </th>
+                ) : (
+                  <td data-label={block.headers[index]}>
+                    {item.href
+                      ? <a href={item.href} rel={item.external ? 'nofollow noopener' : undefined}>{item.text}</a>
+                      : item.datetime ? <time datetime={item.datetime}>{item.text}</time> : item.text}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : (
+      <section>
+        <h2 class="section-title">{block.heading}</h2>
+        <ul>
+          {block.items.map((item) => (
+            <li>{item.href ? <a href={item.href} rel={item.external ? 'nofollow noopener' : undefined}>{item.text}</a> : item.text}</li>
+          ))}
+        </ul>
+      </section>
+    ))}
+    <nav aria-label="Related">
+      <h2 class="section-title">Related</h2>
+      <ul>
+        {page.related.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+    <Faq items={page.faqs} />
+  </div>
+</Base>
