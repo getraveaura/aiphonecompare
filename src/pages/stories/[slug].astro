@@ -37,7 +37,7 @@ const jsonld = {
       </p>
       <p class="told-by">{story.told_by}</p>
       <h1>{story.title}</h1>
-      {primary && <p class="checked"><time datetime={primary.date}>{formatDate(primary.date)}</time></p>}
+      {primary && <p class="checked">Source dated <time datetime={primary.date}>{formatDate(primary.date)}</time></p>}
     </div>
   </header>
   <div class="wrap stack">

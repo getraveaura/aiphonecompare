@@ -29,6 +29,9 @@ const links = [
   <link rel="canonical" href={canonical}/>
   <link rel="alternate" type="application/rss+xml" title="Stories and price changes" href="/feed.xml"/>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+  <script is:inline>
+    document.documentElement.classList.add('js');
+  </script>
   <PostHog />
   <meta name="theme-color" content="#f3efe6"/>
   <meta property="og:title" content={title}/>
@@ -68,7 +71,7 @@ const links = [
     <div class="wrap foot">
       <div>
         <Wordmark />
-        <p>Independent directory. Sponsored placements are always labeled.</p>
+        <p>Independent directory for what an AI receptionist costs, and what actually happened when a small business turned one on. Sponsored placements are always labeled.</p>
       </div>
       <nav aria-label="Directory">
         {links.map(([href, label]) => <a href={href}>{label}</a>)}
@@ -83,8 +86,31 @@ const links = [
         <a href="/privacy/">Privacy</a>
         <a href="/accessibility/">Accessibility</a>
       </nav>
-      <p class="fine">Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it.</p>
+      <p class="fine">Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it. Vendor icons are saved copies of each site's own favicon.</p>
     </div>
   </footer>
+  <nav class="dock" aria-label="Shortcuts">
+    <a class="btn btn-primary" href="/match/">Match me</a>
+    <a class="btn btn-ghost" href="/vendors/">Compare</a>
+  </nav>
+  <script is:inline>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var nodes = document.querySelectorAll('.reveal');
+      if (!nodes.length) return;
+      if (!('IntersectionObserver' in window)) {
+        nodes.forEach(function (node) { node.classList.add('is-in'); });
+        return;
+      }
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          observer.unobserve(entry.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      nodes.forEach(function (node) { observer.observe(node); });
+    })();
+  </script>
 </body>
 </html>

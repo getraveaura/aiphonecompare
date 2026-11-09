@@ -1,0 +1,17 @@
+---
+import icons from '../data/vendor-icons.json';
+const { slug, name } = Astro.props;
+const file = icons[slug] || '';
+const initials = String(name || slug || '?')
+  .split(/[^A-Za-z0-9]+/)
+  .filter(Boolean)
+  .slice(0, 2)
+  .map((part) => part[0])
+  .join('')
+  .toUpperCase() || '?';
+---
+<span class="vmark" aria-hidden="true">
+  {file
+    ? <img src={file} alt="" width="28" height="28" loading="lazy" decoding="async"/>
+    : <span class="mono">{initials}</span>}
+</span>

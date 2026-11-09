@@ -1,6 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
+import VendorMark from '../../components/VendorMark.astro';
 import data from '../../data/vendors.json';
+import { formatDate } from '../../lib/stories.mjs';
 const vendors = [...data].sort((a, b) => a.name.localeCompare(b.name));
 const description = 'Directory of the AI receptionist vendors we track. Starting prices are sourced. Sponsored spots are labeled.';
 const jsonld = {
@@ -37,7 +39,8 @@ const jsonld = {
           {vendors.map((vendor) => (
             <tr>
               <th scope="row">
-                <a href={`/vendors/${vendor.slug}/`}>{vendor.name}</a>
+                <span class="name-mark"><VendorMark slug={vendor.slug} name={vendor.name} /><a href={`/vendors/${vendor.slug}/`}>{vendor.name}</a></span>
+                {vendor.last_checked && <span class="updated">Price checked <time datetime={vendor.last_checked}>{formatDate(vendor.last_checked)}</time></span>}
                 {vendor.sponsored && <span class="badge">Sponsored</span>}
               </th>
               <td data-label="Starting price">{vendor.starting_price || <span class="missing">Not verified</span>}</td>
