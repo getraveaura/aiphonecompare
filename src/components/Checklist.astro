@@ -1,0 +1,42 @@
+---
+import { questionsFor } from '../lib/checklist.mjs';
+const { catches = [], heading = 'Questions to ask before you sign' } = Astro.props;
+const questions = questionsFor(catches);
+const copyId = `questions-${Math.random().toString(36).slice(2, 8)}`;
+---
+<section class="guide" aria-labelledby={copyId + '-heading'}>
+  <h2 id={copyId + '-heading'}>{heading}</h2>
+  <p>These are questions to ask. They are not claims about a vendor.</p>
+  <ol class="questions" id={copyId}>
+    {questions.map((question) => <li>{question}</li>)}
+  </ol>
+  <p>
+    <button type="button" class="btn btn-ghost" data-copy-questions={copyId}>Copy questions</button>
+  </p>
+</section>
+<script is:inline>
+  if (!window.__aicQuestions) {
+    window.__aicQuestions = true;
+    document.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-copy-questions]');
+      if (!button) return;
+      var list = document.getElementById(button.getAttribute('data-copy-questions'));
+      var text = list ? Array.prototype.map.call(list.querySelectorAll('li'), function (item, index) {
+        return (index + 1) + '. ' + item.textContent;
+      }).join('\n') : '';
+      var label = 'Copy questions';
+      function done() { button.textContent = 'Copied'; setTimeout(function () { button.textContent = label; }, 2000); }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function () { fallback(); });
+      } else fallback();
+      function fallback() {
+        var area = document.createElement('textarea');
+        area.value = text;
+        document.body.appendChild(area);
+        area.select();
+        try { document.execCommand('copy'); done(); } catch (error) { button.textContent = 'Copy failed'; }
+        area.remove();
+      }
+    });
+  }
+</script>

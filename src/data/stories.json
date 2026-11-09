@@ -1,0 +1,580 @@
+[
+  {
+    "slug": "good-guy-plumbing-housecall-pro",
+    "title": "A Torrance plumber's AI voice agent books jobs after 5 p.m.",
+    "added": "2026-11-09",
+    "industries": ["plumbing"],
+    "business": "Good Guy Plumbing",
+    "vendorSlug": "housecall-pro-csr-ai",
+    "vendorName": "Housecall Pro CSR AI",
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Rob Castelao, owner of Good Guy Plumbing in Torrance, California, told Contractor Magazine that Housecall Pro's CSR AI voice agent answers the phone 24/7, triages the issue, and books the job on the calendar. He said that stopped calls rolling to voicemail after 5 p.m. The same article describes other Housecall Pro AI tools for quotes and follow-up texts. Those are separate from the voice agent.",
+    "cost": null,
+    "outcome": "Castelao said the impact of the AI tools is still hard to measure directly, and that the company has grown faster this year than in earlier years. The article's figure of more than 500 hours a year is about AI adoption overall, not the voice agent alone.",
+    "catches": [
+      {
+        "id": "human-override",
+        "label": "A person still has to override the AI",
+        "summary": "Castelao said suggestions need a human override, because one AI mistake can lose a customer's trust, and the data the system learns from has to be accurate.",
+        "sources": [
+          {
+            "url": "https://www.contractormag.com/technology/article/55316255/innovative-plumbing-solutions-how-good-guy-plumbing-uses-ai-to-enhance-customer-care",
+            "title": "How Good Guy Plumbing Uses AI to Enhance Customer Care",
+            "date": "2025-09-12",
+            "publisher": "Contractor Magazine"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.contractormag.com/technology/article/55316255/innovative-plumbing-solutions-how-good-guy-plumbing-uses-ai-to-enhance-customer-care",
+        "title": "How Good Guy Plumbing Uses AI to Enhance Customer Care",
+        "date": "2025-09-12",
+        "publisher": "Contractor Magazine"
+      }
+    ]
+  },
+  {
+    "slug": "air-one-jenny-after-hours",
+    "title": "Air One replaced an answering service that could not book or speak Spanish",
+    "added": "2026-11-09",
+    "industries": ["hvac", "plumbing"],
+    "business": "Air One Air Conditioning, Heating, Plumbing & Electric",
+    "vendorSlug": "servicetitan-ai-voice-agent",
+    "vendorName": "ServiceTitan AI Virtual Agent",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor case study",
+    "whatTheyDid": "Julissa Moulder, CSR and dispatcher at Air One in Colton, California, is quoted in a ServiceTitan story. After 5 p.m. and on weekends, calls went to an answering service that could not book into their software and could not take Spanish calls. They turned on ServiceTitan's AI Virtual Agent, named Jenny, in January. The July 2026 story says that between March and mid-June nearly every lead the company counted converted to a booked call.",
+    "cost": null,
+    "outcome": "Jenny books in English and Spanish. The story says the old answering service told Spanish-speaking callers it did not know Spanish. The story also says Jenny's booking figure and Moulder's recollection of about 30% conversion on the old summer answering service are not the same period or the same measure.",
+    "catches": [
+      {
+        "id": "urgent-booked-next-day",
+        "label": "Urgent jobs were offered for the next day until the shop changed the setup",
+        "summary": "Moulder said Jenny first offered a next-day time for urgent jobs, and customers would not wait. They changed job types so a plumbing emergency could be booked the same night. She said that limit was the setup, not the agent inventing a time.",
+        "sources": [
+          {
+            "url": "https://www.servicetitan.com/blog/success-story-air-one-ai-virtual-agent",
+            "title": "Air One's virtual agent makes sure after-hours and weekend callers don't just call someone else",
+            "date": "2026-07-24",
+            "publisher": "ServiceTitan"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.servicetitan.com/blog/success-story-air-one-ai-virtual-agent",
+        "title": "Air One's virtual agent makes sure after-hours and weekend callers don't just call someone else",
+        "date": "2026-07-24",
+        "publisher": "ServiceTitan"
+      }
+    ]
+  },
+  {
+    "slug": "bill-joplins-karen",
+    "title": "Bill Joplin's agent Karen took a 15-caller queue after a maintenance text",
+    "added": "2026-11-09",
+    "industries": ["hvac"],
+    "business": "Bill Joplin's Air Conditioning and Heating",
+    "vendorSlug": "servicetitan-ai-voice-agent",
+    "vendorName": "ServiceTitan AI Virtual Agent",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor case study",
+    "whatTheyDid": "Randi Thompson, service operations manager at Bill Joplin's in the Dallas-Fort Worth area, describes a maintenance text to about 400 customers. The story says the queue hit 15 callers. Callers can press 1 to reach Karen, the name they gave ServiceTitan's AI Virtual Agent, instead of a person. The story says Karen books and reschedules maintenance calls inside ServiceTitan and escalates to a CSR when needed.",
+    "cost": null,
+    "outcome": "The ServiceTitan story says more than 90% of calls Karen answered ended in a booked job, 72% with no human, and that she handled more than 1,300 calls in three and a half months. A CSR had left, taking the desk from five people to four. Thompson says she does not pay Karen PTO or overtime. A dollar price is not stated.",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://www.servicetitan.com/blog/success-story-bill-joplins-ai-virtual-agent-karen",
+        "title": "Summer Is Coming. But Bill Joplin's Has Karen",
+        "date": "2026-04-20",
+        "publisher": "ServiceTitan"
+      }
+    ]
+  },
+  {
+    "slug": "echo-janitorial-jobber",
+    "title": "A cleaning company owner says Jobber's receptionist costs him $99 a month",
+    "added": "2026-11-09",
+    "industries": ["other"],
+    "business": "Echo Janitorial Services",
+    "vendorSlug": "jobber-ai-receptionist",
+    "vendorName": "Jobber AI Receptionist",
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Fortune profiled Rick Chorney of Echo Janitorial Services in Abbotsford, British Columbia. He said he spent about half a day connecting an intake form to his job software, turning on an AI receptionist, and sending automatic acknowledgements. Fortune identifies the receptionist as Jobber's. It says the receptionist fields up to 15 calls an hour, including vendor pitches, and escalates only what matters.",
+    "cost": "Chorney told Fortune he pays $99. The article says a person doing the same phone work would cost roughly $4,000 a month in wages and payroll taxes.",
+    "outcome": "Fortune says it reviewed his records: about $242,000 two years before the article, just under $1 million the following year, and a $1.3 million projection for the year of the article. The article ties that growth to several AI tools, not to the receptionist alone.",
+    "catches": [
+      {
+        "id": "data-sharing-concern",
+        "label": "The owner said handing over business data felt uncomfortable",
+        "summary": "Chorney told Fortune that how much information these companies hold is a little scary, and that he still gives the tools his information because it makes the work easier.",
+        "sources": [
+          {
+            "url": "https://fortune.com/2026/03/28/ai-small-business-entrepreneur-1-million-blue-collar/",
+            "title": "Meet a 29-year-old blue-collar founder who used AI to triple his revenue in 3 years",
+            "date": "2026-03-28",
+            "publisher": "Fortune"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://fortune.com/2026/03/28/ai-small-business-entrepreneur-1-million-blue-collar/",
+        "title": "Meet a 29-year-old blue-collar founder who used AI to triple his revenue in 3 years",
+        "date": "2026-03-28",
+        "publisher": "Fortune"
+      }
+    ]
+  },
+  {
+    "slug": "red-dogs-roofing-stopped-ai",
+    "title": "A roofing company asked its after-hours service to turn the AI off",
+    "added": "2026-11-09",
+    "industries": ["roofing"],
+    "business": "Red Dog's Roofing",
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Patrick Cochran, CEO of Red Dog's Roofing, told RoofersCoffeeShop the company tried an AI responder on Facebook Messenger and stopped because it was very glitchy. Their after-hours answering service then started using AI. The answering service is not named.",
+    "cost": null,
+    "outcome": "Customers did not give good feedback on the after-hours AI, so the company asked the service to stop using it. Cochran said they had no plan to introduce more AI at that time, and that he still prefers a person.",
+    "catches": [
+      {
+        "id": "callers-reject-ai",
+        "label": "Callers pushed back and the business stopped the AI",
+        "summary": "Cochran said customers did not give good feedback on the after-hours AI, and the Messenger tool was very glitchy, so the company stopped both.",
+        "sources": [
+          {
+            "url": "https://www.rooferscoffeeshop.com/post/experimenting-with-ai-in-the-workplace",
+            "title": "Experimenting with AI in the workplace",
+            "date": "2024-06-27",
+            "publisher": "RoofersCoffeeShop"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.rooferscoffeeshop.com/post/experimenting-with-ai-in-the-workplace",
+        "title": "Experimenting with AI in the workplace",
+        "date": "2024-06-27",
+        "publisher": "RoofersCoffeeShop"
+      }
+    ]
+  },
+  {
+    "slug": "blissful-clean-removed-ai",
+    "title": "A Grand Rapids cleaning company pulled an after-hours AI assistant",
+    "added": "2026-11-09",
+    "industries": ["other"],
+    "business": "The Blissful Clean",
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": false,
+    "sourceLabel": "Podcast",
+    "whatTheyDid": "Kyleigh Lipsitz of The Blissful Clean in Grand Rapids said on a ZenMaid podcast that she put an AI virtual assistant on after-hours calls so evening and weekend quote requests would not go to voicemail. The product is not named. The transcript page was last updated on 4 August 2026.",
+    "cost": null,
+    "outcome": "She removed it and went back to voicemail, with a person calling back the next day.",
+    "catches": [
+      {
+        "id": "callers-reject-ai",
+        "label": "Callers pushed back and the business stopped the AI",
+        "summary": "Lipsitz said a few customers told her they would cancel because they hate talking to the robot. She also described a pause where the caller is talking and the AI still has to think.",
+        "sources": [
+          {
+            "url": "https://www.zenmaid.com/magazine/the-mother-daughter-duo-running-two-cleaning-companies/",
+            "title": "The mother-daughter duo running two cleaning companies",
+            "date": "2026-08-04",
+            "publisher": "ZenMaid"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.zenmaid.com/magazine/the-mother-daughter-duo-running-two-cleaning-companies/",
+        "title": "The mother-daughter duo running two cleaning companies",
+        "date": "2026-08-04",
+        "publisher": "ZenMaid"
+      }
+    ]
+  },
+  {
+    "slug": "plunkett-breezy-after-hours",
+    "title": "A Tucson HVAC shop sends after-hours calls to a person only on trigger words",
+    "added": "2026-11-09",
+    "industries": ["hvac"],
+    "business": null,
+    "vendorSlug": null,
+    "vendorName": "Breezy",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor-sponsored podcast",
+    "whatTheyDid": "Chris Plunkett, who runs an HVAC company in Tucson, described Breezy's AI voice agent on Service Business Mastery. The page says the episode was made in partnership with Breezy. The agent answers after-hours and overflow calls. Words such as flood or emergency send the call to the technician on call. Asking for a person, without describing an urgent problem, does not override that. The company name is not stated on the page.",
+    "cost": null,
+    "outcome": "The page says customer comments he described were largely positive, including one caller who did not realize it was AI at first. A sponsor line on the same page about capturing more clients is Breezy's advertisement, not a result Plunkett reported, so it is not listed as an outcome.",
+    "catches": [
+      {
+        "id": "awkward-bot-reply",
+        "label": "An early version sounded like a bot",
+        "summary": "Plunkett said an early version gave an awkward reply that was obviously a bot. He said Breezy's support answered quickly, and he kept the tool.",
+        "sources": [
+          {
+            "url": "https://servicebusinessmastery.com/ai-diagnostics-hvac-contractors-breezy-plunkett/",
+            "title": "AI Diagnostics and AI Voice in HVAC",
+            "date": "2026-08-05",
+            "publisher": "Service Business Mastery"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://servicebusinessmastery.com/ai-diagnostics-hvac-contractors-breezy-plunkett/",
+        "title": "AI Diagnostics and AI Voice in HVAC",
+        "date": "2026-08-05",
+        "publisher": "Service Business Mastery"
+      }
+    ]
+  },
+  {
+    "slug": "tri-city-aria",
+    "title": "Tri-City turned on a ServiceTitan agent before after-hours coverage",
+    "added": "2026-11-09",
+    "industries": ["other"],
+    "business": "Tri-City Home Solutions",
+    "vendorSlug": "servicetitan-ai-voice-agent",
+    "vendorName": "ServiceTitan AI Virtual Agent",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor podcast",
+    "whatTheyDid": "Amanda Root, CEO of Tri-City Home Solutions in Milford, Connecticut, talked to ServiceTitan's podcast on 27 August 2026. The page calls the company a family-owned trade business and does not name the trade. The team named the agent Aria. Callers in queue could choose Aria, and later any call not answered within a set number of seconds went to it. The same week it went live, a promo email went to the whole customer list by accident on a Friday. Root said she coached the agent through that surge.",
+    "cost": "The page says the agent is billed per call, and that you pay for the calls it takes. It does not print a dollar rate.",
+    "outcome": "The page gives the prior month as the team tracked it: revenue from booked calls up 186%, booking rate 65.6% and up 26 points, and calls the agent handled up 19% to more than 400.",
+    "catches": [
+      {
+        "id": "after-hours-waiting",
+        "label": "After-hours coverage was not on yet",
+        "summary": "Root said the after-hours agent, which the page calls Vanessa, was waiting on a manager-escalation feature before going live.",
+        "sources": [
+          {
+            "url": "https://www.servicetitan.com/podcasts/mastering-servicetitan/amanda-root-interview",
+            "title": "Unlocking 186% Booked Revenue with ServiceTitan Voice Agents",
+            "date": "2026-08-27",
+            "publisher": "ServiceTitan"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.servicetitan.com/podcasts/mastering-servicetitan/amanda-root-interview",
+        "title": "Unlocking 186% Booked Revenue with ServiceTitan Voice Agents",
+        "date": "2026-08-27",
+        "publisher": "ServiceTitan"
+      }
+    ]
+  },
+  {
+    "slug": "geek-window-zyratalk",
+    "title": "A window-cleaning owner uses ZyraTalk for missed and weekend calls",
+    "added": "2026-11-09",
+    "industries": ["other"],
+    "business": "Geek Window Cleaning",
+    "vendorSlug": null,
+    "vendorName": "ZyraTalk",
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Business Insider profiled Kyle Ray, founder of Geek Window Cleaning, which serves Houston and Austin. He said he does not want calls to go to voicemail, and he uses AI for calls after hours or on weekends. The article says ZyraTalk is the AI voice assistant that answers missed calls, and Chiirp handles basic texts.",
+    "cost": null,
+    "outcome": "Ray said a smaller shop cannot hire and train customer-service staff as fast as it can train an AI voice bot to answer. The article does not give a booking count or a dollar result for the voice bot.",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://www.businessinsider.com/how-one-business-owner-is-leveraging-ai-to-grow-company-2025-9",
+        "title": "How one business owner is using AI to grow his company",
+        "date": "2025-09-26",
+        "publisher": "Business Insider"
+      }
+    ]
+  },
+  {
+    "slug": "ghaffari-eve-intake",
+    "title": "A personal-injury firm says missed calls fell from about 20% to zero",
+    "added": "2026-11-09",
+    "industries": ["legal"],
+    "business": "Ghaffari Law Firm",
+    "vendorSlug": null,
+    "vendorName": "Eve",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor case study",
+    "whatTheyDid": "Eve's case study quotes Farnaz Ghaffari, owner of Ghaffari Law Firm, a small personal-injury practice. Every inbound call goes through Eve's intake agent, named Jenny. The study says Jenny runs the intake, scores the lead, and can warm-transfer a qualified caller: she puts them on hold, briefs the staff, and connects the call.",
+    "cost": null,
+    "outcome": "The case study says the firm went from missing about 20% of calls to zero, and signed its first client from a warm transfer within a day of turning that feature on.",
+    "catches": [
+      {
+        "id": "caller-not-told",
+        "label": "A caller did not know she was talking to AI",
+        "summary": "The case study says the first client from the warm transfer, an older woman calling about a trip-and-fall, did not know she had been talking to AI.",
+        "sources": [
+          {
+            "url": "https://www.eve.legal/case-studies/ghaffari-law-firm",
+            "title": "Ghaffari Law Firm case study",
+            "date": "2026-05-19",
+            "publisher": "Eve"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.eve.legal/case-studies/ghaffari-law-firm",
+        "title": "Ghaffari Law Firm case study",
+        "date": "2026-05-19",
+        "publisher": "Eve"
+      }
+    ]
+  },
+  {
+    "slug": "stg-divorce-lexidesk",
+    "title": "An Illinois family firm reports a lower missed-call rate after Lexidesk",
+    "added": "2026-11-09",
+    "industries": ["legal"],
+    "business": "STG Divorce Law, P.C.",
+    "vendorSlug": "lexidesk",
+    "vendorName": "Lexidesk",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor case study",
+    "whatTheyDid": "Lexidesk's case study says STG Divorce Law, P.C., an Illinois family-law firm of about 50 people, has used Lexidesk since January 2026. The study says the firm was missing inbound calls before any intake conversation. Staff quotes refer to the agent as Emma.",
+    "cost": null,
+    "outcome": "The study says that in July through September 2025 the firm missed about 33 calls a month, and the miss rate peaked at 18.3% in September. In the three months after Lexidesk, the missed-call rate went from 13.7% to 3.7%. Lexidesk describes that as a 73% reduction and about 24 calls a month that would have gone unanswered. By March 2026 the miss rate was 1.8%. The page was published in April 2026 and updated on 4 June 2026.",
+    "catches": [
+      {
+        "id": "comparable-firm-stat",
+        "label": "A hiring-rate claim on the page is not this firm's number",
+        "summary": "The case study says self-scheduling was still early at STG. It also says leads who self-scheduled with Emma at a comparable firm hired at twice the rate of that firm's intake team. That comparison is not STG's own result.",
+        "sources": [
+          {
+            "url": "https://lexidesk.ai/case-studies/stg-divorce-law",
+            "title": "STG Law case study",
+            "date": "2026-04-23",
+            "publisher": "Lexidesk"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://lexidesk.ai/case-studies/stg-divorce-law",
+        "title": "STG Law case study",
+        "date": "2026-04-23",
+        "publisher": "Lexidesk"
+      }
+    ]
+  },
+  {
+    "slug": "duckworth-after-hours",
+    "title": "A Columbia, Missouri solo lawyer uses an AI answering service after hours",
+    "added": "2026-11-09",
+    "industries": ["legal"],
+    "business": null,
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Missouri Lawyers Media quoted E.C. Duckworth, a solo practitioner in Columbia, Missouri. He said he uses an AI answering service after hours, and a receptionist covers normal business hours. The article does not name the service or the firm.",
+    "cost": null,
+    "outcome": "He said the after-hours service helps so leads are not lost, and so information from clients or insurance adjusters is written down.",
+    "catches": [
+      {
+        "id": "does-not-replace-staff",
+        "label": "He said AI does not replace his staff",
+        "summary": "Duckworth said he does not think AI fully replaces legal assistants or paralegals. He said it can help a smaller firm.",
+        "sources": [
+          {
+            "url": "https://molawyersmedia.com/2026/07/20/how-large-language-models-are-leveling-the-personal-injury-playing-field/",
+            "title": "How large language models are leveling the personal injury playing field",
+            "date": "2026-07-20",
+            "publisher": "Missouri Lawyers Media"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://molawyersmedia.com/2026/07/20/how-large-language-models-are-leveling-the-personal-injury-playing-field/",
+        "title": "How large language models are leveling the personal injury playing field",
+        "date": "2026-07-20",
+        "publisher": "Missouri Lawyers Media"
+      }
+    ]
+  },
+  {
+    "slug": "carolina-pines-allie",
+    "title": "A dental host says one AI-booked patient covered a year at $299 a month",
+    "added": "2026-11-09",
+    "industries": ["dental"],
+    "business": "Carolina Pines Dentistry",
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": true,
+    "sourceLabel": "Vendor podcast",
+    "whatTheyDid": "On a 29 June 2026 podcast, host Gary Bird talked with Dr. Shane Wingler. The show notes list carolinapinesdentistry.com as the guest's site. Bird says the practice added his company's AI agent, named Allie, for missed new-patient calls. He says that over five months the team missed 28 new-patient calls and Allie scheduled 19 of them. The product's brand name is not said on the transcript, beyond AI receptionist and AI agent.",
+    "cost": "Bird says the AI agent is $299 a month.",
+    "outcome": "Bird says one patient who scheduled through the agent paid for the platform for the year. He also says that before 2025 those missed calls would have gone to voicemail. The numbers are the host's, read on a show that sells the agent.",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://www.buzzsprout.com/2310402/episodes/19407909-282-one-ai-scheduled-patient-paid-for-the-entire-year",
+        "title": "One AI-Scheduled Patient Paid for the Entire Year",
+        "date": "2026-06-29",
+        "publisher": "Buzzsprout"
+      }
+    ]
+  },
+  {
+    "slug": "la-dental-call-log",
+    "title": "An LA-area dental office's AI finished 41% of calls that asked for something",
+    "added": "2026-11-09",
+    "industries": ["dental"],
+    "business": null,
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "A page on howdentistsuse.ai, published 20 October 2026, says a part-time staff member read 15 months of call logs from an unnamed dental AI receptionist at an Open Dental general practice near Los Angeles, about $1.5 million in production. Since June 2025 the AI answered overflow and after-hours calls. About half the calls were overflow during busy hours.",
+    "cost": "The author says the subscription was about $300 a month. He puts the cost at about $400 a month if staff time to return messages is counted, using his own assumption of 10 minutes per callback at $25 an hour. The vendor, contract, and setup fee are not named.",
+    "outcome": "The page says the office logged 1,432 calls. In 709 the caller was silent or hung up at the greeting. Of 637 calls where someone wanted something done, the AI completed 263 (41%). The page's own arithmetic says bookings, reschedules, and cancellations made on the call totalled 142, including 70 appointments booked. The author later built a competing product. Treat the comparisons on that page with that in mind.",
+    "catches": [
+      {
+        "id": "no-transfer-to-person",
+        "label": "Callers could not be transferred to a person",
+        "summary": "The page says the AI never put a caller through to a person. Across failed calls, the author says only one caller mentioned that it was AI, while callers asked for a person far more often.",
+        "sources": [
+          {
+            "url": "https://howdentistsuse.ai/cases/la-dental-office-ai-receptionist-15-month-call-log-audit",
+            "title": "An LA dental office's 15-month call log audit",
+            "date": "2026-10-20",
+            "publisher": "How Dentists Use AI"
+          }
+        ]
+      },
+      {
+        "id": "spanish-names",
+        "label": "Spanish and spelled names were a problem",
+        "summary": "The page says the AI had trouble with Spanish and with spelling names. A follow-up note on the page says the office sees many elderly patients and a large Spanish-speaking patient base.",
+        "sources": [
+          {
+            "url": "https://howdentistsuse.ai/cases/la-dental-office-ai-receptionist-15-month-call-log-audit",
+            "title": "An LA dental office's 15-month call log audit",
+            "date": "2026-10-20",
+            "publisher": "How Dentists Use AI"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://howdentistsuse.ai/cases/la-dental-office-ai-receptionist-15-month-call-log-audit",
+        "title": "An LA dental office's 15-month call log audit",
+        "date": "2026-10-20",
+        "publisher": "How Dentists Use AI"
+      }
+    ]
+  },
+  {
+    "slug": "home-services-review-roundup",
+    "title": "125 home-services reviews: most comments on AI answering were negative",
+    "added": "2026-11-09",
+    "industries": ["hvac", "plumbing", "roofing", "other"],
+    "business": null,
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": false,
+    "sourceLabel": "Review analysis",
+    "whatTheyDid": "Eric Engebretsen at Hire Bloom published a review on 13 July 2026. Hire Bloom read 10,938 Google reviews of HVAC, pest control, plumbing, electrical, and roofing companies, most posted between 2024 and May 2026. Of those, 125 mentioned an AI answering service, a chatbot, or an automated phone system. This is a sample across those trades, not one shop, and the quoted reviews do not name the businesses.",
+    "cost": "The article's cost table gives a general range of $200 to $2,000 or more a month, or about $1 to $3 per resolution. That is not one vendor's bill, and it is not tied to a named company in the reviews.",
+    "outcome": "Of the 125 reviews, the article says 78% were negative, 16% neutral, and 6% positive. It says every positive review described an after-hours booking that a person honored.",
+    "catches": [
+      {
+        "id": "callers-reject-ai",
+        "label": "Callers pushed back and the business stopped the AI",
+        "summary": "The article says most of the 125 comments were negative, and that reviewers could tell the receptionist was AI. Hire Bloom sells human agents, so this is not an independent lab.",
+        "industries": [],
+        "sources": [
+          {
+            "url": "https://www.hirebloom.com/blog/what-customer-reviews-say-about-ai-in-home-services",
+            "title": "Do Customers Like AI Answering Services? What 125 Reviews Say",
+            "date": "2026-07-13",
+            "publisher": "Hire Bloom"
+          }
+        ]
+      },
+      {
+        "id": "no-transfer-to-person",
+        "label": "Callers could not be transferred to a person",
+        "summary": "The article says the reviews that ended in a cancelled service or a warning to others were mostly emergencies where the AI stood between the caller and a person.",
+        "industries": [],
+        "sources": [
+          {
+            "url": "https://www.hirebloom.com/blog/what-customer-reviews-say-about-ai-in-home-services",
+            "title": "Do Customers Like AI Answering Services? What 125 Reviews Say",
+            "date": "2026-07-13",
+            "publisher": "Hire Bloom"
+          }
+        ]
+      },
+      {
+        "id": "phantom-booking",
+        "label": "The AI confirmed a time the company could not keep",
+        "summary": "The article says the most damaging pattern in its sample was an AI confirming a slot the company could not keep, including the wrong service or a time the dispatcher had to cancel.",
+        "industries": [],
+        "sources": [
+          {
+            "url": "https://www.hirebloom.com/blog/what-customer-reviews-say-about-ai-in-home-services",
+            "title": "Do Customers Like AI Answering Services? What 125 Reviews Say",
+            "date": "2026-07-13",
+            "publisher": "Hire Bloom"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.hirebloom.com/blog/what-customer-reviews-say-about-ai-in-home-services",
+        "title": "Do Customers Like AI Answering Services? What 125 Reviews Say",
+        "date": "2026-07-13",
+        "publisher": "Hire Bloom"
+      }
+    ]
+  },
+  {
+    "slug": "davis-ac-nell",
+    "title": "Davis Air Conditioning named its ServiceTitan agent Nell",
+    "added": "2026-11-09",
+    "industries": ["hvac"],
+    "business": "Davis Air Conditioning and Heating",
+    "vendorSlug": "servicetitan-ai-voice-agent",
+    "vendorName": "ServiceTitan AI Virtual Agent",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor case study",
+    "whatTheyDid": "A ServiceTitan story dated 25 September 2026 profiles Jonathan Davis of Davis Air Conditioning and Heating, a Houston-area company his grandfather started in 1971. The story says their AI virtual agent is named Nell, after his grandmother Lanelle.",
+    "cost": null,
+    "outcome": "The story says Nell books calls at a 90% rate and handles them in half the time of a live CSR. Other figures in the same story, including review responses and ticket size, are about the first six months on ServiceTitan and are not stated as Nell's results.",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://www.servicetitan.com/blog/success-story-davis-air-conditioning-heating",
+        "title": "How a Third-Generation Operator Is Future-Proofing a 50-Year Family Construction Business With ServiceTitan",
+        "date": "2026-09-25",
+        "publisher": "ServiceTitan"
+      }
+    ]
+  }
+]

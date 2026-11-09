@@ -1,6 +1,12 @@
 ---
 import Base from '../../layouts/Base.astro';
+import StoryCards from '../../components/StoryCards.astro';
+import Catches from '../../components/Catches.astro';
+import Checklist from '../../components/Checklist.astro';
 import data from '../../data/vendors.json';
+import stories from '../../data/stories.json';
+import priceLog from '../../data/price-changes.json';
+import { catchGroups, formatDate, storiesForVendor } from '../../lib/stories.mjs';
 export function getStaticPaths(){ return data.map((v) => ({ params: { slug: v.slug }, props: { v } })); }
 const { v } = Astro.props;
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
@@ -21,6 +27,10 @@ const details = [
   ['Notes', v.notes],
 ];
 if (!v.website) details.unshift(['Website', '']);
+const relatedStories = storiesForVendor(stories, v.slug);
+const vendorCatches = relatedStories.flatMap((story) => story.catches || []);
+const catchSet = catchGroups(stories, { vendorSlug: v.slug });
+const priceChanges = priceLog.changes.filter((change) => change.vendorSlug === v.slug);
 const description = `${v.name} AI receptionist: ${v.starting_price ? ("pricing " + v.starting_price + ", ") : ""}features, integrations and sources. Last checked ${v.last_checked}.`.slice(0, 300);
 const jsonld = {
   '@context': 'https://schema.org',
@@ -66,6 +76,24 @@ const jsonld = {
       ))}
     </dl>
     <p>All published starting prices are on <a href="/pricing/">the pricing page</a>. Phone-recording statutes are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.</p>
+    <section aria-labelledby="price-changes-heading">
+      <h2 id="price-changes-heading" class="section-title">Price changes</h2>
+      {priceChanges.length ? priceChanges.map((change) => (
+        <p>
+          <a href={`/price-changes/${change.id}/`}>Logged {formatDate(change.observed)}</a>. {change.summary}
+        </p>
+      )) : (
+        <p>No price change is logged for {v.name}. Tracking started <time datetime={priceLog.trackingStarted}>{formatDate(priceLog.trackingStarted)}</time>. <a href="/price-changes/">Price change log</a>.</p>
+      )}
+    </section>
+    {relatedStories.length > 0 && (
+      <section aria-labelledby="real-stories">
+        <h2 id="real-stories" class="section-title">Real stories</h2>
+        <StoryCards stories={relatedStories} />
+      </section>
+    )}
+    <Catches groups={catchSet} />
+    <Checklist catches={vendorCatches} />
     <section>
       <h2 class="section-title">Sources</h2>
       <ul class="sources">{v.sources.map((s) => <li><a href={s} rel="nofollow noopener">{s}</a></li>)}</ul>

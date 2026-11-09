@@ -2,7 +2,11 @@
 import Base from '../layouts/Base.astro';
 import VendorTable from './VendorTable.astro';
 import Faq from './Faq.astro';
+import StoryCards from './StoryCards.astro';
+import Catches from './Catches.astro';
 import data from '../data/vendors.json';
+import stories from '../data/stories.json';
+import { catchGroups, storiesForIndustry } from '../lib/stories.mjs';
 import { lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
 const { key, title, guide, faqs = [], guideTitle = 'What to check before you buy', note = '' } = Astro.props;
 const vendors = data.filter((v) => v.industries.includes(key)).sort((a, b) => (b.sponsored - a.sponsored) || a.name.localeCompare(b.name));
@@ -24,6 +28,8 @@ const allFaqs = [
   { q: 'Are these tools ranked?', a: 'No. Rows are alphabetical. A sponsored listing is labeled and can appear first. Payment does not change a price or the order of the other rows.' },
   ...faqs,
 ];
+const relatedStories = storiesForIndustry(stories, key);
+const catchSet = catchGroups(stories, { industry: key });
 const industries = [
   ['dental', 'Dental', '/industries/dental/'],
   ['legal', 'Legal', '/industries/legal/'],
@@ -57,6 +63,7 @@ const jsonld = {
       {industries.map(([id, label, href], i) => <>{i ? ', ' : ''}<a href={href}>{label}</a></>)}.
       All published starting prices are on <a href="/pricing/">pricing</a>.
       Call recording rules are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.
+      <a href={`/match/?industry=${key}`}>Match a tool to a call volume</a>.
     </p>
     <section class="guide" aria-label={guideTitle}>
       <h2>{guideTitle}</h2>
@@ -67,6 +74,14 @@ const jsonld = {
       <h2 class="section-title">Comparison table</h2>
       <VendorTable vendors={vendors}/>
     </section>
+    {relatedStories.length > 0 && (
+      <section aria-labelledby="real-stories">
+        <h2 id="real-stories" class="section-title">Real stories</h2>
+        <p><a href="/stories/">All stories</a></p>
+        <StoryCards stories={relatedStories} />
+      </section>
+    )}
+    <Catches groups={catchSet} />
     <Faq items={allFaqs}/>
   </div>
 </Base>

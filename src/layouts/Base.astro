@@ -12,6 +12,7 @@ const links = [
   ['/industries/legal/', 'Legal'],
   ['/industries/plumbing/', 'Plumbing'],
   ['/industries/medical/', 'Medical'],
+  ['/stories/', 'Stories'],
   ['/cost/', 'Cost'],
   ['/pricing/', 'Pricing'],
   ['/about/', 'How we rank'],
@@ -26,6 +27,7 @@ const links = [
   <title>{title} | aiphonecompare</title>
   <meta name="description" content={description}/>
   <link rel="canonical" href={canonical}/>
+  <link rel="alternate" type="application/rss+xml" title="Stories and price changes" href="/feed.xml"/>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
   <PostHog />
   <meta name="theme-color" content="#f3efe6"/>
@@ -74,11 +76,14 @@ const links = [
         <a href="/small-business/">Small business</a>
         <a href="/call-recording-consent-by-state/">Call recording consent</a>
         <a href="/missed-call-calculator/">Missed-call calculator</a>
+        <a href="/vendors/">Vendors</a>
+        <a href="/price-changes/">Price changes</a>
+        <a href="/match/">Match</a>
         <a href="/data/">Open dataset</a>
         <a href="/privacy/">Privacy</a>
         <a href="/accessibility/">Accessibility</a>
       </nav>
-      <p class="fine">Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it. Preview build.</p>
+      <p class="fine">Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it.</p>
     </div>
   </footer>
 </body>

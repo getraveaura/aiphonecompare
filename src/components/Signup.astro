@@ -1,0 +1,73 @@
+---
+import config from '../data/signup.json';
+const industries = [
+  ['dental', 'Dental'],
+  ['medical', 'Medical'],
+  ['legal', 'Legal'],
+  ['plumbing', 'Plumbing'],
+  ['hvac', 'HVAC'],
+  ['roofing', 'Roofing'],
+  ['other', 'Other'],
+];
+---
+<section class="guide" aria-labelledby="signup-heading">
+  <h2 id="signup-heading">Get new stories and price changes</h2>
+  <p>Pick an industry. We email when a story or a logged price change for that industry is added. No account. The address is stored only for that list.</p>
+  <form id="story-signup" class="calc-form">
+    <div>
+      <label for="signup-email">Email</label>
+      <input id="signup-email" name="email" type="email" autocomplete="email" required maxlength="320">
+    </div>
+    <div>
+      <label for="signup-industry">Industry</label>
+      <select id="signup-industry" name="industry" required>
+        <option value="">Choose an industry</option>
+        {industries.map(([value, label]) => <option value={value}>{label}</option>)}
+      </select>
+    </div>
+    <button class="btn btn-primary" type="submit">Join the list</button>
+    <p id="signup-status" class="note" role="status" aria-live="polite"></p>
+  </form>
+  <p class="note">We store the email and the industry in a table that this page can add to and cannot read. To be removed, email <a href="mailto:timothy@aiphonecompare.com">timothy@aiphonecompare.com</a>. Details are on the <a href="/privacy/">privacy note</a>.</p>
+  <noscript>
+    <p>This form needs JavaScript. Email <a href="mailto:timothy@aiphonecompare.com?subject=Stories%20list">timothy@aiphonecompare.com</a> with your industry instead.</p>
+  </noscript>
+</section>
+<script define:vars={{ url: config.url, key: config.anonKey, table: config.table }}>
+  var form = document.getElementById('story-signup');
+  var status = document.getElementById('signup-status');
+  if (form) {
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var data = new FormData(form);
+      var email = String(data.get('email') || '').trim().toLowerCase();
+      var industry = String(data.get('industry') || '');
+      status.textContent = 'Sending…';
+      fetch(url + '/rest/v1/' + table, {
+        method: 'POST',
+        headers: {
+          apikey: key,
+          Authorization: 'Bearer ' + key,
+          'Content-Type': 'application/json',
+          Prefer: 'return=minimal',
+        },
+        body: JSON.stringify({ email: email, industry: industry }),
+      }).then(function (response) {
+        if (response.status === 201 || response.status === 204) {
+          status.textContent = 'You are on the list for that industry.';
+          form.reset();
+          return;
+        }
+        return response.json().then(function (body) {
+          if (body && body.code === '23505') {
+            status.textContent = 'That email is already on the list.';
+            return;
+          }
+          status.textContent = 'That did not save. Check the email and the industry, then try again.';
+        });
+      }).catch(function () {
+        status.textContent = 'That did not save. Try again, or email timothy@aiphonecompare.com.';
+      });
+    });
+  }
+</script>

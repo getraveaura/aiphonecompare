@@ -1,0 +1,25 @@
+---
+import { formatDate } from '../lib/stories.mjs';
+const { groups = [], heading = 'Catches more than one source reports' } = Astro.props;
+---
+{groups.length > 0 && (
+  <section aria-labelledby="common-catches">
+    <h2 id="common-catches" class="section-title">{heading}</h2>
+    <ul class="catch-list">
+      {groups.map((group) => (
+        <li>
+          <p><strong>{group.sources.length} sources report this.</strong> {group.label}</p>
+          <ul class="sources">
+            {group.sources.map((source) => (
+              <li>
+                <a href={source.storySlug ? `/stories/${source.storySlug}/` : source.url}>{source.storyTitle || source.title}</a>
+                {' '}<span class="missing">(<time datetime={source.date}>{formatDate(source.date)}</time>, {source.publisher})</span>
+                {source.storySlug && <> · <a href={source.url} rel="nofollow noopener">{source.publisher}</a></>}
+              </li>
+            ))}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

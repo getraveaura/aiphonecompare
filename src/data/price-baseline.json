@@ -1,0 +1,314 @@
+{
+  "recorded": "2026-11-09",
+  "note": "Snapshot of the starting_price text already stored in src/data/vendors.json. The last_checked date is when that text was verified, which can be earlier than recorded. This is the baseline for a future diff. It is not a claim that every vendor pricing page was reopened on 2026-11-09.",
+  "vendors": [
+    {
+      "slug": "smith-ai",
+      "name": "Smith.ai",
+      "starting_price": "Free AI tier (25 calls); AI paid from $150/mo; live agents from $300/mo",
+      "last_checked": "2026-11-04",
+      "source": "https://smith.ai/blog/top-9-best-ai-answering-services-for-law-firms-and-agencies"
+    },
+    {
+      "slug": "goodcall",
+      "name": "Goodcall",
+      "starting_price": "Starter $79/mo for 100 unique customers, then 79¢ each; Growth $129/mo; Scale $299/mo",
+      "last_checked": "2026-11-09",
+      "source": "https://www.goodcall.com/answering-services/ai-answering-service-healthcare-medical-offices-2025"
+    },
+    {
+      "slug": "dialzara",
+      "name": "Dialzara",
+      "starting_price": "From $29/mo for 60 minutes",
+      "last_checked": "2026-11-04",
+      "source": "https://justcall.io/blog/best-ai-receptionists-dental.html"
+    },
+    {
+      "slug": "ruby",
+      "name": "Ruby",
+      "starting_price": "$250/mo for 50 minutes",
+      "last_checked": "2026-11-04",
+      "source": "https://justcall.io/blog/best-ai-receptionists-dental.html"
+    },
+    {
+      "slug": "justcall",
+      "name": "JustCall",
+      "starting_price": "Phone plans from $29/user/mo billed annually (2-user minimum); AI Voice Agent: first 100 minutes free, volume pricing down to $0.15",
+      "last_checked": "2026-11-09",
+      "source": "https://justcall.io/industry/healthcare/"
+    },
+    {
+      "slug": "arini",
+      "name": "Arini",
+      "starting_price": "Reported from ~$249/mo; custom (per Keragon)",
+      "last_checked": "2026-11-04",
+      "source": "https://www.keragon.com/blog/ai-receptionist-dental"
+    },
+    {
+      "slug": "weave",
+      "name": "Weave",
+      "starting_price": "Base plan from $199/mo. AI Receptionist is labeled Early access; its own price is not published",
+      "last_checked": "2026-11-09",
+      "source": "https://www.getweave.com/questions/"
+    },
+    {
+      "slug": "peerlogic",
+      "name": "Peerlogic",
+      "starting_price": "$399 or $699/mo flat",
+      "last_checked": "2026-11-04",
+      "source": "https://justcall.io/blog/best-ai-receptionists-dental.html"
+    },
+    {
+      "slug": "viva-ai",
+      "name": "Viva AI",
+      "starting_price": "$349 to $1,199/mo",
+      "last_checked": "2026-11-04",
+      "source": "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
+    },
+    {
+      "slug": "dentina",
+      "name": "Dentina",
+      "starting_price": "From $299/mo (billed annually, per location)",
+      "last_checked": "2026-11-04",
+      "source": "https://dentina.ai/"
+    },
+    {
+      "slug": "keragon",
+      "name": "Keragon",
+      "starting_price": "$99/mo annual, $149/mo monthly",
+      "last_checked": "2026-11-04",
+      "source": "https://www.keragon.com/blog/ai-receptionist-dental"
+    },
+    {
+      "slug": "rondah-ai",
+      "name": "Rondah AI",
+      "starting_price": "Custom quote",
+      "last_checked": "2026-11-04",
+      "source": "https://www.keragon.com/blog/ai-receptionist-dental"
+    },
+    {
+      "slug": "nexhealth",
+      "name": "NexHealth",
+      "starting_price": "Reported from ~$350/mo (per Keragon)",
+      "last_checked": "2026-11-04",
+      "source": "https://www.keragon.com/blog/ai-receptionist-dental"
+    },
+    {
+      "slug": "mango-voice-margo",
+      "name": "Mango Voice (Margo)",
+      "starting_price": "Pricing page: AI Suite $419/mo, including Margo. Dental practices page: Margo is on the Complete plan at $449/mo",
+      "last_checked": "2026-11-09",
+      "source": "https://mangovoice.com/pricing"
+    },
+    {
+      "slug": "voicestack",
+      "name": "VoiceStack",
+      "starting_price": "Comparison page: $399 per location/month, described as all-in including the AI receptionist. The pricing page does not print a dollar amount",
+      "last_checked": "2026-11-09",
+      "source": "https://voicestack.com/dental-phones/comparison/voicestack-vs-weave"
+    },
+    {
+      "slug": "dental-intelligence",
+      "name": "Dental Intelligence",
+      "starting_price": "",
+      "last_checked": "2026-11-09",
+      "source": "https://www.dentalintel.com/ai-receptionist"
+    },
+    {
+      "slug": "lexidesk",
+      "name": "Lexidesk",
+      "starting_price": "Flat monthly fee, custom quote",
+      "last_checked": "2026-11-04",
+      "source": "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/"
+    },
+    {
+      "slug": "abby-connect",
+      "name": "Abby Connect",
+      "starting_price": "AI plans from $99/mo; $164/mo for 50 minutes",
+      "last_checked": "2026-11-04",
+      "source": "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/"
+    },
+    {
+      "slug": "rosie",
+      "name": "Rosie",
+      "starting_price": "From $49/mo for 250 minutes; booking & transfers from $149/mo",
+      "last_checked": "2026-11-04",
+      "source": "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/"
+    },
+    {
+      "slug": "my-ai-front-desk",
+      "name": "My AI Front Desk",
+      "starting_price": "Pricing page: $99/mo, or $79/mo billed annually, including 200 voice minutes. The medical page also prints $109/mo",
+      "last_checked": "2026-11-09",
+      "source": "https://www.myaifrontdesk.com/answering-service-for-medical-offices"
+    },
+    {
+      "slug": "legalclerk-ai",
+      "name": "LegalClerk.ai",
+      "starting_price": "$400 per seat/mo, unlimited calls",
+      "last_checked": "2026-11-04",
+      "source": "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/"
+    },
+    {
+      "slug": "hona-voice-ai",
+      "name": "Hona Voice AI",
+      "starting_price": "Quote via demo",
+      "last_checked": "2026-11-04",
+      "source": "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/"
+    },
+    {
+      "slug": "nextphone",
+      "name": "NextPhone",
+      "starting_price": "From $199/mo, unlimited inbound calls",
+      "last_checked": "2026-11-04",
+      "source": "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+    },
+    {
+      "slug": "avoca",
+      "name": "Avoca",
+      "starting_price": "Not published (demo only)",
+      "last_checked": "2026-11-04",
+      "source": "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+    },
+    {
+      "slug": "sameday-ai",
+      "name": "Sameday AI",
+      "starting_price": "From $449/mo for 500 minutes",
+      "last_checked": "2026-11-04",
+      "source": "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+    },
+    {
+      "slug": "oncrew",
+      "name": "OnCrew",
+      "starting_price": "Starter $49/mo (100 calls); Pro $149; Multi-Truck $349",
+      "last_checked": "2026-11-04",
+      "source": "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
+    },
+    {
+      "slug": "pickupbell",
+      "name": "PickupBell",
+      "starting_price": "$199/mo, unlimited calls and minutes",
+      "last_checked": "2026-11-04",
+      "source": "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
+    },
+    {
+      "slug": "turnkey-dispatch",
+      "name": "Turnkey Dispatch",
+      "starting_price": "From $299/mo with 300 minutes, then $1/min",
+      "last_checked": "2026-11-04",
+      "source": "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
+    },
+    {
+      "slug": "upfirst",
+      "name": "Upfirst",
+      "starting_price": "Starter $24.95/mo billed monthly for 30 calls ($20/mo billed annually)",
+      "last_checked": "2026-11-09",
+      "source": "https://upfirst.ai/pricing"
+    },
+    {
+      "slug": "byvoice",
+      "name": "byVoice",
+      "starting_price": "From $29/mo; Pro $99/mo",
+      "last_checked": "2026-11-04",
+      "source": "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+    },
+    {
+      "slug": "allo",
+      "name": "Allo",
+      "starting_price": "$45/user/mo",
+      "last_checked": "2026-11-04",
+      "source": "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+    },
+    {
+      "slug": "futuro-ai",
+      "name": "Futuro AI",
+      "starting_price": "$200/mo",
+      "last_checked": "2026-11-04",
+      "source": "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
+    },
+    {
+      "slug": "serviceagent",
+      "name": "ServiceAgent",
+      "starting_price": "Launch $0/mo (pay-as-you-go credits); Core $39/mo annual ($49 monthly, 2,000 credits); Growth $95/mo annual; AI voice minute = 15 credits",
+      "last_checked": "2026-11-04",
+      "source": "https://serviceagent.ai/pricing"
+    },
+    {
+      "slug": "bland-ai",
+      "name": "Bland AI",
+      "starting_price": "Start: $0.14/min and $0 platform fee; Build: $0.12/min plus $299/mo platform fee; Enterprise custom. Healthcare FAQ also says $0.11 to $0.14 per minute",
+      "last_checked": "2026-11-09",
+      "source": "https://www.bland.ai/industries/healthcare"
+    },
+    {
+      "slug": "the-dbt-ai",
+      "name": "The DBT AI",
+      "starting_price": "",
+      "last_checked": "2026-11-09",
+      "source": "https://www.thedbt.ai/services/ai-receptionist/"
+    },
+    {
+      "slug": "jobber-ai-receptionist",
+      "name": "Jobber AI Receptionist",
+      "starting_price": "Receptionist add-on $29/mo on Core/Connect/Grow plans (Core from $29/mo billed annually); included in Plus plan",
+      "last_checked": "2026-11-04",
+      "source": "https://www.getjobber.com/pricing/"
+    },
+    {
+      "slug": "housecall-pro-csr-ai",
+      "name": "Housecall Pro CSR AI",
+      "starting_price": "",
+      "last_checked": "2026-11-09",
+      "source": "https://www.housecallpro.com/features/ai-team/csr-ai/"
+    },
+    {
+      "slug": "servicetitan-ai-voice-agent",
+      "name": "ServiceTitan AI Voice Agent",
+      "starting_price": "",
+      "last_checked": "2026-11-09",
+      "source": "https://www.servicetitan.com/features/pro/virtual-agent"
+    },
+    {
+      "slug": "agentzap",
+      "name": "AgentZap",
+      "starting_price": "Starter $109/mo (150 min, $0.85/min overage); Professional $295/mo (450 min); Business $899/mo (1,500 min); + $499 one-time setup",
+      "last_checked": "2026-11-04",
+      "source": "https://agentzap.ai/pricing"
+    },
+    {
+      "slug": "elevenlabs-ai-receptionist",
+      "name": "ElevenLabs AI Receptionist",
+      "starting_price": "Free $0/mo (15 call minutes); Starter $6/mo (75 minutes); Creator $22/mo (275 min); Pro $99/mo (1,238 min); Scale $299/mo; Business $990/mo",
+      "last_checked": "2026-11-09",
+      "source": "https://elevenlabs.io/pricing/agents"
+    },
+    {
+      "slug": "phonely",
+      "name": "Phonely",
+      "starting_price": "Starter $50/mo billed monthly (about 200 minutes; the page also shows $33/mo billed annually, and a feature table listing Starter at 250 minutes). Professional $150/mo billed monthly",
+      "last_checked": "2026-11-09",
+      "source": "https://www.phonely.ai/pricing"
+    },
+    {
+      "slug": "assort-health",
+      "name": "Assort Health",
+      "starting_price": "Not published",
+      "last_checked": "2026-11-09",
+      "source": "https://www.assorthealth.com/health-systems"
+    },
+    {
+      "slug": "synthflow",
+      "name": "Synthflow",
+      "starting_price": "Not published. Pricing page says an annual enterprise agreement, with no free plan and no per-minute rate",
+      "last_checked": "2026-11-09",
+      "source": "https://www.synthflow.ai/pricing"
+    },
+    {
+      "slug": "parakeet-health",
+      "name": "Parakeet Health",
+      "starting_price": "Not published. Homepage says they charge on verified lift, not software seats",
+      "last_checked": "2026-11-09",
+      "source": "https://www.parakeethealth.com/"
+    }
+  ]
+}

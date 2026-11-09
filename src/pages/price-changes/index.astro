@@ -1,0 +1,46 @@
+---
+import Base from '../../layouts/Base.astro';
+import Share from '../../components/Share.astro';
+import log from '../../data/price-changes.json';
+import vendors from '../../data/vendors.json';
+import { formatDate } from '../../lib/stories.mjs';
+const names = Object.fromEntries(vendors.map((vendor) => [vendor.slug, vendor.name]));
+const description = log.changes.length
+  ? `${log.changes.length} logged change to a published AI receptionist price. Each row links to the source.`
+  : `Price tracking started ${formatDate(log.trackingStarted)}. No verified price change is logged yet.`;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: 'Price changes',
+  url: new URL('/price-changes/', Astro.site).href,
+  description,
+};
+---
+<Base title="Price changes" description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>Price changes</h1>
+      <p class="lead">A change is logged only when two public sources disagree: an archive, a changelog, or an announcement, against the price we have recorded. Tracking started <time datetime={log.trackingStarted}>{formatDate(log.trackingStarted)}</time>.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    {log.changes.length === 0 ? (
+      <p>No verified price change is logged yet. The <a href="/data/">open dataset</a> is the baseline those future diffs will use.</p>
+    ) : (
+      log.changes.map((change) => {
+        const url = new URL(`/price-changes/${change.id}/`, Astro.site).href;
+        return (
+          <article class="story-card">
+            <p class="story-meta">
+              <a href={`/vendors/${change.vendorSlug}/`}>{names[change.vendorSlug] || change.vendorSlug}</a>
+              <time datetime={change.observed}>Observed {formatDate(change.observed)}</time>
+            </p>
+            <h2><a href={`/price-changes/${change.id}/`}>{names[change.vendorSlug] || change.vendorSlug} price change</a></h2>
+            <p>{change.summary}</p>
+            <Share url={url} title={`${names[change.vendorSlug] || change.vendorSlug} price change`} />
+          </article>
+        );
+      })
+    )}
+  </div>
+</Base>
