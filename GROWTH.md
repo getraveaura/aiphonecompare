@@ -1,7 +1,7 @@
 # aiphonecompare: 90-day growth plan (Nov 4, 2026 to Feb 2, 2027)
 
 **Position:** the independent, verified price comparison for AI receptionists, by industry.
-**Budget:** $0. **Current state:** 48 pages on GitHub Pages, 40 vendors, sitemap, llms.txt and JSON-LD already in place. aiphonecompare.com is not bought yet.
+**Budget:** $0. **Current state:** aiphonecompare.com is bought and live on GitHub Pages. Search Console is verified, with 56 pages.
 
 Rules that don't change: never invent a number, cite every price with a date, label sponsored spots, and get Nataya's OK before any email or post goes out under her name.
 
@@ -40,14 +40,14 @@ All figures are **estimates**. Google reports them in buckets. Damaruka also fla
 | ai answering service | 1,900 usual; 12,100 Sep | D | /ai-answering-service/ (comparison hub) | **Build wk 2** |
 | ai receptionist for small business | 1,300 usual; 12,100 Sep (D) · 880, KD 13, CPC $58.51 (V) | D, V | /small-business/ | **Build wk 2** |
 | ai phone answering service | 720 usual; 9,900 Sep | D | Hub above (secondary) | wk 2 |
-| medical answering service | 5,400 every month (steadiest in category) | D | /industries/medical/ | **Build wk 3** |
+| medical answering service | 5,400 every month (steadiest in category) | D | /industries/medical/ | Built week of Nov 9, 2026 |
 | legal answering service | 480 → 1,300 Sep | D | /industries/legal/ | Built; retitle to include the term |
 | property management answering service | 880; 1,600 Sep | D | /industries/property-management/ | Build wk 5 |
 | after hours answering service | 880 | D | /after-hours/ | Build wk 6 |
 | virtual receptionist | 2,400 usual | D | /ai-vs-virtual-receptionist/ | Build wk 6 |
 | answering service cost | 170 | D | /pricing/ plus the report | Built; add the term |
 | best ai receptionist | 390 | D | Home and /pricing/ (with "best for" filters, no paid ranks) | wk 4 |
-| one party consent states / two party consent states | 4,400 / 3,600 | D | /call-recording-consent-by-state/ (AI-receptionist angle, cited to state law) | **Build wk 4 (sleeper)** |
+| one party consent states / two party consent states | 4,400 / 3,600 | D | /call-recording-consent-by-state/ (AI-receptionist angle, cited to state law) | Built week of Nov 9, 2026 |
 | smith ai / ruby receptionist / my ai front desk | 5,400 / 1,600 / 720 | D | /vendors/{slug}/ plus "X alternatives" pages | wk 5–8 |
 | ai answering service for small business | 260, KD 10 | V | /small-business/ | wk 2 |
 | ai for law firms | ~15,300 per 12 months (est.) | C | /industries/legal/ guide section | wk 3 |
@@ -244,6 +244,27 @@ Log each submission (date, URL, status) in `growth/submissions.csv`.
 - AI vs virtual receptionist page.
 - Review milestones in §8 and decide on affiliates and featured spots.
 - Refresh every price (monthly check). Second newsletter, then the third.
+
+---
+
+## Week 2 log (Nov 9–15, 2026)
+
+Shipped in this pass:
+
+- `/industries/medical/`, with an answer-first price sentence computed from the vendor file, a demo checklist, FAQPage JSON-LD, a visible last-checked date, and links to home, pricing, vendor pages, and the other industry pages.
+- `/call-recording-consent-by-state/`, with each state cited to a statute or marked Verify, plus a not-legal-advice note. Linked from the industry pages and the footer.
+- robots.txt allows GPTBot, OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot, Google-Extended, and Bingbot, and still names the sitemap. `llms.txt` lists the new pages. `llms-full.txt` is generated from the vendor file. IndexNow key file plus a post-deploy ping of the sitemap URLs.
+- FAQPage JSON-LD on every industry page.
+- Thin vendor records re-checked against the vendor's own pages. Bounced-email contacts recorded in `outreach/bounced-contacts.md`. Nothing was sent.
+- `growth/metrics.csv` has the Nov 2–8 row from the PostHog and Stripe counts already in hand. `growth/submissions.csv` has a header only; the repo had no recorded submissions.
+
+Testing:
+
+- Does `/industries/medical/` earn Google impressions within 2–3 weeks?
+- Does `/call-recording-consent-by-state/` earn Google impressions within 2–3 weeks?
+- Do the AI-crawler allowances and `llms-full.txt` lead to citations in AI assistants?
+
+The Nov 2–8 metrics row uses only the Nov 5–9 snapshot provided with this task: 34 pageviews, of which 29 were direct homepage hits; first organic visits from Google to `/industries/legal/`, `/vendors/smith-ai/`, and `/ai-answering-service/`, plus one from Bing; 0 Stripe charges on the $49 spotlight; 30 listing emails sent Nov 4–5 (6 bounced); 10 featured pitches sent Nov 5; no real vendor replies. Search impressions, clicks, indexed-page changes, and subscribers were not in that snapshot, so those cells are blank.
 
 ---
 

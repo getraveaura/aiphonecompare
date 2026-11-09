@@ -1,4 +1,9 @@
 ---
 import Industry from '../../components/Industry.astro';
+const faqs = [
+  { q: 'What should a law firm test in a demo?', a: 'Run the practice-area screening questions and try to book a consultation. Check whether Clio, MyCase, or Lawmatics is a native integration or only a Zapier connection. Decide which calls must reach a person.' },
+  { q: 'Do these tools handle call recording consent?', a: 'That is a separate question from the vendor feature list. The call recording consent by state page cites the statute we opened for each state. It is not legal advice. Confirm how the product announces recording before you rely on it.' },
+  { q: 'Are law-firm tools ranked?', a: 'No. The table is alphabetical. Sponsored listings are labeled and do not change anyone else\'s price.' },
+];
 ---
-<Industry key="legal" title="AI receptionists for law firms" guide={["<strong>Intake:</strong> can it run your practice-area screening questions and book consultations?","<strong>Practice management sync:</strong> check native Clio, MyCase or Lawmatics support vs. Zapier only.","<strong>Human escalation:</strong> decide whether sensitive calls need a live person (hybrid services) or AI only.","<strong>Call recording consent:</strong> confirm how the tool handles one-party vs. two-party consent states."]}/>
+<Industry key="legal" title="AI receptionists for law firms" faqs={faqs} guide={["<strong>Intake:</strong> can it run your practice-area screening questions and book consultations?","<strong>Practice management sync:</strong> check native Clio, MyCase or Lawmatics support vs. Zapier only.","<strong>Human escalation:</strong> decide whether sensitive calls need a live person (hybrid services) or AI only.","<strong>Call recording consent:</strong> confirm how the tool handles one-party vs. all-party states. The statute list is on the <a href='/call-recording-consent-by-state/'>call recording consent</a> page."]}/>

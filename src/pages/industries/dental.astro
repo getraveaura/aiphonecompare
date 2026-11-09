@@ -1,4 +1,9 @@
 ---
 import Industry from '../../components/Industry.astro';
+const faqs = [
+  { q: 'What should a dental office test before buying?', a: 'Ask for a booking that writes into the practice management system, not only a message. Ask for the signed BAA, not only a HIPAA badge. Place an after-hours urgent call and see whether a person gets it.' },
+  { q: 'Does this page rank dental AI receptionists?', a: 'No. The order is alphabetical, with sponsored rows labeled. A third-party article is not used as a score.' },
+  { q: 'Where are phone-recording rules?', a: 'See the call recording consent by state page. It cites the statute we opened for each state and marks the rest Verify. It is not legal advice.' },
+];
 ---
-<Industry key="dental" title="AI receptionists for dental practices" guide={["<strong>Booking write-back:</strong> does it book straight into your PMS (Dentrix, Eaglesoft, Open Dental, Curve, Denticon) or just take a message?","<strong>BAA in writing:</strong> a vendor hearing patient details is a HIPAA business associate. A 'HIPAA compliant' badge is not a signed BAA.","<strong>Emergency handoff:</strong> test that urgent calls reach a person, after hours.","Standalone dental AI receptionists typically run about $200–$800/month per location, per <a href='https://www.keragon.com/blog/ai-receptionist-dental'>Keragon</a>."]}/>
+<Industry key="dental" title="AI receptionists for dental practices" faqs={faqs} guide={["<strong>Booking write-back:</strong> does it book straight into your PMS (Dentrix, Eaglesoft, Open Dental, Curve, Denticon) or just take a message?","<strong>BAA in writing:</strong> a vendor hearing patient details is a HIPAA business associate. A 'HIPAA compliant' badge is not a signed BAA.","<strong>Emergency handoff:</strong> test that urgent calls reach a person, after hours.","<strong>Recording:</strong> if the tool records or transcribes, check the caller's state on the <a href='/call-recording-consent-by-state/'>call recording consent</a> page.","Standalone dental AI receptionists typically run about $200–$800/month per location, per <a href='https://www.keragon.com/blog/ai-receptionist-dental'>Keragon</a>."]}/>

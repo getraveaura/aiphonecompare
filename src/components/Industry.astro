@@ -1,25 +1,72 @@
 ---
 import Base from '../layouts/Base.astro';
 import VendorTable from './VendorTable.astro';
+import Faq from './Faq.astro';
 import data from '../data/vendors.json';
-const { key, title, guide } = Astro.props;
+import { lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
+const { key, title, guide, faqs = [], guideTitle = 'What to check before you buy', note = '' } = Astro.props;
 const vendors = data.filter((v) => v.industries.includes(key)).sort((a, b) => (b.sponsored - a.sponsored) || a.name.localeCompare(b.name));
+const money = (n) => (Number.isInteger(n) ? `$${n}` : `$${n}`);
+const low = lowestMonthlyListing(vendors);
+const lowAmount = low ? lowestMonthly(low.starting_price) : null;
+const lowChecked = low?.last_checked
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${low.last_checked}T00:00:00Z`))
+  : '';
+const latest = vendors.map((v) => v.last_checked).filter(Boolean).sort().at(-1) || '';
+const latestLabel = latest
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${latest}T00:00:00Z`))
+  : '';
+const priceSentence = lowAmount == null
+  ? 'None of these listings has a monthly dollar amount in the starting price.'
+  : `The lowest monthly amount written in these listings is ${money(lowAmount)}/mo, for ${low.name}${lowChecked ? `, checked ${lowChecked}` : ''}.`;
+const allFaqs = [
+  { q: 'What is the lowest published monthly price on this page?', a: `${priceSentence} Per-minute rates are not turned into a monthly price. Not verified means no monthly amount was published.` },
+  { q: 'Are these tools ranked?', a: 'No. Rows are alphabetical. A sponsored listing is labeled and can appear first. Payment does not change a price or the order of the other rows.' },
+  ...faqs,
+];
+const industries = [
+  ['dental', 'Dental', '/industries/dental/'],
+  ['legal', 'Legal', '/industries/legal/'],
+  ['plumbing', 'Plumbing', '/industries/plumbing/'],
+  ['medical', 'Medical', '/industries/medical/'],
+].filter(([id]) => id !== key);
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'ItemList', name: title, itemListElement: vendors.map((v, i) => ({ '@type': 'ListItem', position: i + 1, name: v.name, url: new URL(`/vendors/${v.slug}/`, Astro.site).href })) },
+    { '@type': 'FAQPage', mainEntity: allFaqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
+};
 ---
-<Base title={title} description={`${title}: ${vendors.length} tools compared on price, HIPAA/BAA, human handoff and integrations, with sources.`} jsonld={{"@context":"https://schema.org","@type":"ItemList","name":title,"itemListElement":vendors.map((v,i)=>({"@type":"ListItem","position":i+1,"name":v.name,"url":new URL(`/vendors/${v.slug}/`,Astro.site).href}))}}>
+<Base title={title} description={`${title}. ${priceSentence} HIPAA/BAA, human handoff and integrations are compared with sources.`} jsonld={jsonld}>
   <header class="page-intro">
     <div class="wrap">
       <h1>{title}</h1>
-      <p class="lead">{vendors.length} AI receptionists compared. Listed alphabetically; sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> for the providers with official allowances and overage rates.</p>
+      {latest && (
+        <p class="checked">
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Last checked <time datetime={latest}>{latestLabel}</time>
+        </p>
+      )}
+      <p class="lead">{priceSentence} {vendors.length} AI receptionists are listed. Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates.</p>
     </div>
   </header>
   <div class="wrap stack">
-    <section class="guide" aria-label="Buying guide">
-      <h2>What to check before you buy</h2>
+    <p>
+      Other industries:
+      {industries.map(([id, label, href], i) => <>{i ? ', ' : ''}<a href={href}>{label}</a></>)}.
+      All published starting prices are on <a href="/pricing/">pricing</a>.
+      Call recording rules are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.
+    </p>
+    <section class="guide" aria-label={guideTitle}>
+      <h2>{guideTitle}</h2>
       <ul>{guide.map((g) => <li set:html={g}/>)}</ul>
+      {note && <p set:html={note}/>}
     </section>
     <section>
       <h2 class="section-title">Comparison table</h2>
       <VendorTable vendors={vendors}/>
     </section>
+    <Faq items={allFaqs}/>
   </div>
 </Base>

@@ -28,25 +28,29 @@
   "slug": "goodcall",
   "name": "Goodcall",
   "website": "https://www.goodcall.com",
-  "starting_price": "From $79/mo",
+  "starting_price": "Starter $79/mo for 100 unique customers, then 79¢ each; Growth $129/mo; Scale $299/mo",
   "billing_model": "Flat monthly, metered on unique callers",
-  "free_trial": "Self-serve",
-  "human_handoff": "",
-  "hipaa_baa": "",
+  "free_trial": "Free demo agent; paying starts when a phone number and plan are added",
+  "human_handoff": "FAQ: configure an escalation contact so the agent can transfer the caller to a person",
+  "hipaa_baa": "Signs a BAA on the Scale plan ($299/mo) and Enterprise, before calls that involve patient information",
   "integrations": "Zapier, calendars",
   "industries": [
    "dental",
    "legal",
-   "plumbing"
+   "plumbing",
+   "medical"
   ],
-  "notes": "No native dental PMS write-back (per JustCall).",
+  "notes": "Own healthcare page names primary care, specialty practices, dental, mental health, and urgent care. No native dental PMS write-back was restated on that page.",
   "sponsored": false,
   "sources": [
+   "https://www.goodcall.com/answering-services/ai-answering-service-healthcare-medical-offices-2025",
+   "https://www.goodcall.com/pricing",
+   "https://www.goodcall.com/faq",
    "https://justcall.io/blog/best-ai-receptionists-dental.html",
    "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
    "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "dialzara",
@@ -105,18 +109,20 @@
   "billing_model": "Per user + AI usage",
   "free_trial": "14-day free trial",
   "human_handoff": "Transfers to a human",
-  "hipaa_baa": "HIPAA in Business Plan (per JustCall)",
+  "hipaa_baa": "Healthcare page says HIPAA-compliant and signed BAAs for eligible healthcare teams",
   "integrations": "CRM logging; PMS via custom API",
   "industries": [
-   "dental"
+   "dental",
+   "medical"
   ],
-  "notes": "AI and phone system on one bill.",
+  "notes": "Healthcare page describes AI Voice Agent for patient calls, bookings, and transfers. A standalone monthly price for the agent alone is not published on the pricing page.",
   "sponsored": false,
   "sources": [
+   "https://justcall.io/industry/healthcare/",
    "https://www.justcall.io/pricing/",
    "https://justcall.io/blog/best-ai-receptionists-dental.html"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "arini",
@@ -143,23 +149,28 @@
  {
   "slug": "weave",
   "name": "Weave",
-  "website": "",
-  "starting_price": "Platform from $199/mo",
-  "billing_model": "",
-  "free_trial": "",
-  "human_handoff": "",
-  "hipaa_baa": "",
-  "integrations": "Phones, reminders, scheduling, payments",
+  "website": "https://www.getweave.com",
+  "starting_price": "Base plan from $199/mo. AI Receptionist is labeled Early access; its own price is not published",
+  "billing_model": "Monthly base plan; year-long contracts are discounted and not required",
+  "free_trial": "No free trial for the full platform; free trials of new products are offered to existing customers",
+  "human_handoff": "Routes the call to the team with a conversation summary when it cannot answer",
+  "hipaa_baa": "AI Receptionist FAQ says it is HIPAA compliant. Weave publishes a BAA naming Weave Communications, Inc. as the business associate (last updated April 10, 2026)",
+  "integrations": "Practice and clinic systems across dental, medical, optometry, and veterinary; automatic booking described for qualified dental PMS only",
   "industries": [
-   "dental"
+   "dental",
+   "medical"
   ],
-  "notes": "AI Receptionist in early access (per JustCall).",
+  "notes": "Plans page still labels AI Receptionist as early access. Questions page says Weave is built for dental, medical, veterinary, optical, and specialty healthcare.",
   "sponsored": false,
   "sources": [
+   "https://www.getweave.com/questions/",
+   "https://www.getweave.com/ai-receptionist/",
+   "https://www.getweave.com/plans/",
+   "https://www.getweave.com/legal/baa/",
    "https://justcall.io/blog/best-ai-receptionists-dental.html",
    "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "peerlogic",
@@ -287,9 +298,9 @@
  {
   "slug": "mango-voice-margo",
   "name": "Mango Voice (Margo)",
-  "website": "",
-  "starting_price": "AI Suite from $419/mo incl. phones",
-  "billing_model": "",
+  "website": "https://mangovoice.com",
+  "starting_price": "Pricing page: AI Suite $419/mo, including Margo. Dental practices page: Margo is on the Complete plan at $449/mo",
+  "billing_model": "Monthly; annual payment is tied to free phones, and a one-time implementation fee is required",
   "free_trial": "",
   "human_handoff": "",
   "hipaa_baa": "",
@@ -297,52 +308,58 @@
   "industries": [
    "dental"
   ],
-  "notes": "Takes a structured message rather than booking (per AIDentalTools).",
+  "notes": "The $419 plan is not described as including phones. Phones are free if you pay annually. The dental page prices Voice at $249/mo and Voice + AI at $349/mo without Margo.",
   "sponsored": false,
   "sources": [
+   "https://mangovoice.com/pricing",
+   "https://mangovoice.com/dental/practices",
    "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "voicestack",
   "name": "VoiceStack",
-  "website": "",
-  "starting_price": "",
-  "billing_model": "",
+  "website": "https://voicestack.com",
+  "starting_price": "Comparison page: $399 per location/month, described as all-in including the AI receptionist. The pricing page does not print a dollar amount",
+  "billing_model": "Per location / month, on the comparison page",
   "free_trial": "",
   "human_handoff": "",
-  "hipaa_baa": "Reviews compliance during contracting (per AIDentalTools)",
+  "hipaa_baa": "Not stated on the pricing page or the Weave comparison page",
   "integrations": "CareStack",
   "industries": [
    "dental"
   ],
-  "notes": "Sold by CareStack as an add-on.",
+  "notes": "The earlier note that compliance is reviewed during contracting was not on the pages checked. Use the comparison page for the $399 figure, not the pricing page.",
   "sponsored": false,
   "sources": [
-   "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
+   "https://voicestack.com/dental-phones/comparison/voicestack-vs-weave",
+   "https://voicestack.com/pricing",
+   "https://voicestack.com/dental-phones/features/ai-receptionist"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "dental-intelligence",
   "name": "Dental Intelligence",
-  "website": "",
+  "website": "https://www.dentalintel.com",
   "starting_price": "",
   "billing_model": "",
   "free_trial": "",
   "human_handoff": "",
-  "hipaa_baa": "",
+  "hipaa_baa": "Product page says HIPAA compliant. The published BAA says the terms of service incorporate it when the customer includes PHI",
   "integrations": "",
   "industries": [
    "dental"
   ],
-  "notes": "Says its agent books during the call (per AIDentalTools).",
+  "notes": "Product page says the agent schedules appointments, confirms insurance compatibility, and collects payments. No dollar price is on that page.",
   "sponsored": false,
   "sources": [
+   "https://www.dentalintel.com/ai-receptionist",
+   "https://www.dentalintel.com/terms/baa",
    "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "lexidesk",
@@ -413,23 +430,26 @@
  {
   "slug": "my-ai-front-desk",
   "name": "My AI Front Desk",
-  "website": "",
-  "starting_price": "$99/mo, or $79/mo billed annually",
-  "billing_model": "Flat monthly",
-  "free_trial": "",
-  "human_handoff": "",
-  "hipaa_baa": "",
-  "integrations": "Clio, MyCase, Lawmatics (advertised), Zapier",
+  "website": "https://www.myaifrontdesk.com",
+  "starting_price": "Pricing page: $99/mo, or $79/mo billed annually, including 200 voice minutes. The medical page also prints $109/mo",
+  "billing_model": "Flat monthly, plus credits for extra voice minutes",
+  "free_trial": "Pricing page: 7-day free trial. Medical page says the trial includes a BAA",
+  "human_handoff": "Homepage says a call that needs a person is warm-transferred",
+  "hipaa_baa": "Medical page says HIPAA + BAA, and a 7-day trial with BAA included",
+  "integrations": "Medical page names Athenahealth, Epic, Cerner, eClinicalWorks, and Practice Fusion. Pricing page names Zapier on the $99 plan",
   "industries": [
-   "legal"
+   "legal",
+   "medical"
   ],
-  "notes": "20+ languages (per Technology.org).",
+  "notes": "The pricing page and the medical page do not print the same monthly amount.",
   "sponsored": false,
   "sources": [
+   "https://www.myaifrontdesk.com/answering-service-for-medical-offices",
+   "https://www.myaifrontdesk.com/pricing",
    "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
    "https://theraindex.com/blog/best-ai-tools-for-therapists-2026"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "legalclerk-ai",
@@ -598,22 +618,25 @@
  {
   "slug": "upfirst",
   "name": "Upfirst",
-  "website": "",
-  "starting_price": "From $24.95/mo",
-  "billing_model": "",
-  "free_trial": "",
-  "human_handoff": "Warm transfers",
-  "hipaa_baa": "",
-  "integrations": "Google, Outlook, Calendly, Acuity",
+  "website": "https://www.upfirst.ai",
+  "starting_price": "Starter $24.95/mo billed monthly for 30 calls ($20/mo billed annually)",
+  "billing_model": "Monthly or annual, per included calls, then per extra call",
+  "free_trial": "14 days or 100 calls, whichever comes first, no credit card",
+  "human_handoff": "Homepage says warm transfers tell the practice who is calling and what they need",
+  "hipaa_baa": "Hospice page says Upfirst is not HIPAA compliant. Pricing page lists BAAs for HIPAA-regulated businesses on Enterprise",
+  "integrations": "Google Calendar, Outlook, Calendly, Acuity, and Zapier",
   "industries": [
-   "plumbing"
+   "plumbing",
+   "medical"
   ],
-  "notes": "Not trade-specific.",
+  "notes": "The hospice page and the Enterprise pricing line do not say the same thing about HIPAA.",
   "sponsored": false,
   "sources": [
+   "https://upfirst.ai/pricing",
+   "https://upfirst.ai/industries/hospice",
    "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "byvoice",
@@ -700,43 +723,49 @@
  {
   "slug": "bland-ai",
   "name": "Bland AI",
-  "website": "",
-  "starting_price": "Start: $0.14/min, $0 platform fee; Build: $0.12/min + $299/mo platform fee; Enterprise custom",
-  "billing_model": "Per minute",
-  "free_trial": "Start plan: 2 credits + inbound number, no card required",
-  "human_handoff": "",
-  "hipaa_baa": "",
-  "integrations": "",
+  "website": "https://www.bland.ai",
+  "starting_price": "Start: $0.14/min and $0 platform fee; Build: $0.12/min plus $299/mo platform fee; Enterprise custom. Healthcare FAQ also says $0.11 to $0.14 per minute",
+  "billing_model": "Per minute, plus a platform fee on Build",
+  "free_trial": "Start plan includes 2 credits and an inbound number, no card required",
+  "human_handoff": "Healthcare page says a clinical call is transferred to a human with the context",
+  "hipaa_baa": "Healthcare page says a BAA is included with healthcare deployments. Pricing page lists BAA on Enterprise",
+  "integrations": "REST API and HL7/FHIR on the healthcare page",
   "industries": [
-   "plumbing"
+   "plumbing",
+   "medical"
   ],
-  "notes": "Listed in Futuro's comparison.",
+  "notes": "Healthcare page covers patient scheduling, intake, and follow-up. Pricing and the healthcare FAQ do not print the same per-minute range.",
   "sponsored": false,
   "sources": [
+   "https://www.bland.ai/industries/healthcare",
    "https://www.bland.ai/pricing",
    "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "the-dbt-ai",
   "name": "The DBT AI",
   "website": "https://www.thedbt.ai",
   "starting_price": "",
-  "billing_model": "",
+  "billing_model": "Setup fee plus per-minute call time; no dollar rate published",
   "free_trial": "",
-  "human_handoff": "",
-  "hipaa_baa": "",
-  "integrations": "",
+  "human_handoff": "Product page says it can warm-transfer to a mobile or office line",
+  "hipaa_baa": "Product page says medical calls are HIPAA-ready. Own comparison article says it signs a BAA",
+  "integrations": "Product page names HubSpot, Salesforce, GoHighLevel, Google Calendar, and Outlook",
   "industries": [
-   "plumbing"
+   "plumbing",
+   "medical"
   ],
-  "notes": "Done-for-you setup with emergency alerts (per its own site).",
+  "notes": "Pricing page names plans and does not print a dollar amount. The comparison article discloses that The DBT AI is their own product.",
   "sponsored": false,
   "sources": [
+   "https://www.thedbt.ai/services/ai-receptionist/",
+   "https://www.thedbt.ai/blog/best-virtual-receptionist-for-medical-practice/",
+   "https://www.thedbt.ai/pricing/",
    "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "jobber-ai-receptionist",
@@ -762,42 +791,45 @@
  {
   "slug": "housecall-pro-csr-ai",
   "name": "Housecall Pro CSR AI",
-  "website": "",
+  "website": "https://www.housecallpro.com",
   "starting_price": "",
   "billing_model": "",
   "free_trial": "",
-  "human_handoff": "",
+  "human_handoff": "Gathers the caller information and sends the call to a number you choose, or to a Housecall Pro Assist rep",
   "hipaa_baa": "",
   "integrations": "Housecall Pro",
   "industries": [
    "plumbing"
   ],
-  "notes": "Built into Housecall Pro.",
+  "notes": "CSR AI page does not publish a price. The platform pricing page says plans from $59/mo and describes CSR AI without a separate dollar amount for the add-on.",
   "sponsored": false,
   "sources": [
+   "https://www.housecallpro.com/features/ai-team/csr-ai/",
+   "https://www.housecallpro.com/pricing/",
    "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "servicetitan-ai-voice-agent",
   "name": "ServiceTitan AI Voice Agent",
-  "website": "",
+  "website": "https://www.servicetitan.com",
   "starting_price": "",
   "billing_model": "",
   "free_trial": "",
-  "human_handoff": "",
+  "human_handoff": "Product page says it can recognize when a live person is needed and transfer the call",
   "hipaa_baa": "",
   "integrations": "ServiceTitan",
   "industries": [
    "plumbing"
   ],
-  "notes": "Built into ServiceTitan.",
+  "notes": "Product page does not publish a price. It describes the agent as built for the trades.",
   "sponsored": false,
   "sources": [
+   "https://www.servicetitan.com/features/pro/virtual-agent",
    "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
  },
  {
   "slug": "agentzap",
@@ -823,22 +855,109 @@
  {
   "slug": "elevenlabs-ai-receptionist",
   "name": "ElevenLabs AI Receptionist",
-  "website": "",
-  "starting_price": "ElevenAgents: Free (15 call min/mo); Starter $6/mo (75 min); Creator $22/mo (275 min); Pro $99/mo (1,238 min); Scale $299/mo; Business $990/mo",
+  "website": "https://elevenlabs.io",
+  "starting_price": "Free $0/mo (15 call minutes); Starter $6/mo (75 minutes); Creator $22/mo (275 min); Pro $99/mo (1,238 min); Scale $299/mo; Business $990/mo",
   "billing_model": "Monthly with included call minutes",
-  "free_trial": "Free plan (15 minutes of calls)",
-  "human_handoff": "",
-  "hipaa_baa": "",
-  "integrations": "Answers from your website",
+  "free_trial": "Free plan with 15 minutes of calls",
+  "human_handoff": "Medical page says an urgent call can be transferred to an on-call provider or emergency line",
+  "hipaa_baa": "Medical answering page says ElevenLabs offers a HIPAA BAA. Docs say execution of a BAA is only available for Enterprise subscriptions",
+  "integrations": "Integration library and MCP; named EHR products are not stated on the medical page",
   "industries": [
-   "general"
+   "general",
+   "medical"
   ],
-  "notes": "Launch reported on X, Oct 2026.",
+  "notes": "Medical page names clinics, payers, pharmacies, health systems, dental, and senior care.",
   "sponsored": false,
   "sources": [
    "https://elevenlabs.io/pricing/agents",
+   "https://elevenlabs.io/agents/medical-answering-service",
+   "https://elevenlabs.io/docs/eleven-agents/legal/hipaa",
    "https://x.com/MarkLindheimer/status/2113720372470186465"
   ],
-  "last_checked": "2026-11-04"
+  "last_checked": "2026-11-09"
+ },
+ {
+  "slug": "phonely",
+  "name": "Phonely",
+  "website": "https://www.phonely.ai",
+  "starting_price": "Starter $50/mo billed monthly (about 200 minutes; the page also shows $33/mo billed annually, and a feature table listing Starter at 250 minutes). Professional $150/mo billed monthly",
+  "billing_model": "Monthly minutes, then per-minute overage",
+  "free_trial": "Homepage: first 100 minutes are free",
+  "human_handoff": "Pricing page lists call transfer and post-transfer minutes",
+  "hipaa_baa": "Pricing page lists HIPAA BAA on Enterprise. Homepage says they support HIPAA and does not itself say they sign a BAA",
+  "integrations": "Prebuilt integrations; named products are not stated on the pages checked",
+  "industries": [
+   "medical",
+   "legal"
+  ],
+  "notes": "Homepage lists healthcare and legal among use cases. The pricing page prints more than one Starter minute count.",
+  "sponsored": false,
+  "sources": [
+   "https://www.phonely.ai/pricing",
+   "https://www.phonely.ai/"
+  ],
+  "last_checked": "2026-11-09"
+ },
+ {
+  "slug": "assort-health",
+  "name": "Assort Health",
+  "website": "https://www.assorthealth.com",
+  "starting_price": "Not published",
+  "billing_model": "",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "Not stated. Health-systems page says HIPAA compliant and SOC 2 Type II; it does not say they sign a BAA",
+  "integrations": "Epic, Oracle Health, Allscripts, NextGen, athenahealth, ModMed, Veradigm, eClinicalWorks, Genesys, Five9, Cisco, NiCE",
+  "industries": [
+   "medical"
+  ],
+  "notes": "AI voice agent for healthcare scheduling. No dollar price on the health-systems page.",
+  "sponsored": false,
+  "sources": [
+   "https://www.assorthealth.com/health-systems",
+   "https://www.assorthealth.com/"
+  ],
+  "last_checked": "2026-11-09"
+ },
+ {
+  "slug": "synthflow",
+  "name": "Synthflow",
+  "website": "https://www.synthflow.ai",
+  "starting_price": "Not published. Pricing page says an annual enterprise agreement, with no free plan and no per-minute rate",
+  "billing_model": "Annual enterprise contract",
+  "free_trial": "No free plan or trial (pricing page)",
+  "human_handoff": "Homepage refers to a warm transfer with a full transcript",
+  "hipaa_baa": "Homepage says HIPAA Signed BAA. Pricing page lists HIPAA as self-attested and does not repeat the BAA sentence",
+  "integrations": "Zoom, Five9, RingCentral, 8x8, Twilio, Telnyx, Vonage, and Freshcaller",
+  "industries": [
+   "medical"
+  ],
+  "notes": "Homepage lists healthcare among industries. No dollar price is published.",
+  "sponsored": false,
+  "sources": [
+   "https://www.synthflow.ai/pricing",
+   "https://www.synthflow.ai/"
+  ],
+  "last_checked": "2026-11-09"
+ },
+ {
+  "slug": "parakeet-health",
+  "name": "Parakeet Health",
+  "website": "https://www.parakeethealth.com",
+  "starting_price": "Not published. Homepage says they charge on verified lift, not software seats",
+  "billing_model": "Pay for performance",
+  "free_trial": "",
+  "human_handoff": "",
+  "hipaa_baa": "Not stated. Homepage says HIPAA, SOC 2, and TCPA compliant",
+  "integrations": "Epic, Cerner, athenahealth, eClinicalWorks, ModMed, Nextech",
+  "industries": [
+   "medical"
+  ],
+  "notes": "Healthcare voice agent. No dollar price on the homepage.",
+  "sponsored": false,
+  "sources": [
+   "https://www.parakeethealth.com/"
+  ],
+  "last_checked": "2026-11-09"
  }
 ]

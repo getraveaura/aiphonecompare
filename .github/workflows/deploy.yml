@@ -3,6 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  pull_request:
   workflow_dispatch:
 
 permissions:
@@ -11,7 +12,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -44,11 +45,21 @@ jobs:
           PUBLIC_POSTHOG_HOST: https://us.i.posthog.com
 
       - name: Upload Pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
+      - name: Upload IndexNow payload
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: indexnow
+          path: indexnow-payload.json
+          retention-days: 1
+
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
     environment:
@@ -69,3 +80,14 @@ jobs:
           # Default is 10 minutes. A slow Pages update was cancelled while still
           # in updating_pages, which left the previous site live.
           timeout: 1800000
+
+      - name: Checkout IndexNow script
+        uses: actions/checkout@v4
+
+      - name: Download IndexNow payload
+        uses: actions/download-artifact@v4
+        with:
+          name: indexnow
+
+      - name: Ping IndexNow
+        run: node scripts/indexnow-ping.mjs

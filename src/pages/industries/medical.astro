@@ -1,0 +1,23 @@
+---
+import Industry from '../../components/Industry.astro';
+const faqs = [
+  { q: 'Does a HIPAA badge mean the vendor signs a BAA?', a: 'No. The HIPAA / BAA column quotes the vendor page we checked. Not stated means that page does not say they sign a Business Associate Agreement. Not verified means we have not confirmed a statement. A badge is not a signed agreement.' },
+  { q: 'What should a clinic test in a demo?', a: 'Book, reschedule, and cancel on the practice rules. Ask a clinical question and confirm the agent does not give medical advice. Place an after-hours urgent call and see who receives it. Confirm a signed BAA before any patient detail is spoken. Confirm the recording notice matches the caller state. Ask where the call summary lands, and whether a transfer arrives with the context.' },
+  { q: 'Where are the call-recording rules?', a: 'The call recording consent by state page cites each state statute we could open, and marks the rest Verify. It is not legal advice. AI receptionists often record or transcribe calls, so check that page and the vendor before turning recording on.' },
+];
+---
+<Industry
+  key="medical"
+  title="AI receptionists for medical practices"
+  guideTitle="What to test in a demo"
+  faqs={faqs}
+  guide={[
+    "<strong>Scheduling:</strong> book, reschedule, and cancel against the practice's real rules, including visit length and which providers can be booked.",
+    "<strong>Clinical boundary:</strong> ask for medical advice, a diagnosis, or a prescription instruction. The agent should refuse and route the call.",
+    "<strong>Urgent and after-hours:</strong> place a call that should reach a person, and see whether the transfer arrives with a summary.",
+    "<strong>BAA before PHI:</strong> a vendor that hears patient details is a business associate. Confirm the signed Business Associate Agreement, not only a HIPAA badge. The table quotes what each vendor publishes.",
+    "<strong>Recording notice:</strong> many of these tools record or transcribe. Match the announcement to the caller's state on the <a href='/call-recording-consent-by-state/'>call recording consent</a> page.",
+    "<strong>Where the summary goes:</strong> confirm the note lands in the EHR, the task list, or a message the staff actually sees.",
+  ]}
+  note="Search volume for the phrase medical answering service is about 5,400 US searches a month in Google Keyword Planner figures compiled by <a href='https://damaruka.com/research/ai-receptionist-search-demand'>Damaruka</a> (pulled 2026-10-17). That is their estimate, not a count from this site."
+/>

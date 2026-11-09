@@ -1,0 +1,68 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import states from '../data/recording-consent.json';
+const checked = '2026-11-09';
+const checkedLabel = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${checked}T00:00:00Z`));
+const count = (key) => states.filter((s) => s.consent === key).length;
+const one = count('one-party');
+const all = count('all-party');
+const verify = count('verify');
+const label = { 'one-party': 'One-party', 'all-party': 'All-party', verify: 'Verify' };
+const faqs = [
+  { q: 'Is this legal advice?', a: 'No. This page quotes statutes we opened, or says Verify when we could not support one label. It does not say which law applies to a particular call, vendor, or caller. Confirm the current text with a lawyer before you record.' },
+  { q: 'What do the labels mean?', a: `One-party means the statute we cite lets a party, or someone with one party's consent, record a phone call, sometimes with a written exception. All-party means the statute requires every party's consent or knowledge, sometimes satisfied by a recorded warning. Verify means the official text we found conflicts, is ambiguous, or could not be opened. This table has ${one} one-party, ${all} all-party, and ${verify} verify rows, out of ${states.length} states.` },
+  { q: 'Why does an AI receptionist page include this?', a: 'AI receptionists often record and transcribe calls. The rule depends on the statute for the state the caller is in and on what the vendor actually does. The vendor pages on this site quote recording or transcription only when the vendor page says it.' },
+  { q: 'What if the caller is in another state?', a: 'This table does not decide which state law applies when people are in different states. Read both states, and do not treat a label here as the answer.' },
+];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+};
+---
+<Base title="Call recording consent by state" description="One-party and all-party phone recording rules for AI receptionists, each cited to a state statute. States we could not label are marked Verify. Not legal advice." jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>Call recording consent by state</h1>
+      <p class="checked">
+        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Last checked <time datetime={checked}>{checkedLabel}</time>
+      </p>
+      <p class="lead">AI receptionists often record and transcribe calls. Of {states.length} states, {one} are labeled one-party and {all} all-party from the statute linked on that row. {verify} are marked Verify because the text conflicts, is ambiguous, or was not opened.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <section class="guide" aria-label="Not legal advice">
+      <h2>Not legal advice</h2>
+      <p>This is a reading of public statutes, not advice for your calls. A label is only as good as the sentence linked beside it. Exceptions for emergencies, law enforcement, and unlawful purpose appear in many of these sections and are not a complete list here. A call between two states can raise more than one statute. This page does not choose which one applies.</p>
+    </section>
+    <p>
+      Related pages: <a href="/industries/medical/">medical</a>, <a href="/industries/dental/">dental</a>, <a href="/industries/legal/">legal</a>, <a href="/industries/plumbing/">plumbing</a>, and <a href="/pricing/">pricing</a>.
+    </p>
+    <div class="tablewrap" tabindex="0">
+      <table class="compare states">
+        <caption>Phone-call recording rules cited to the statute we opened. Verify means we did not assign one-party or all-party.</caption>
+        <thead>
+          <tr>
+            <th scope="col">State</th>
+            <th scope="col">Rule</th>
+            <th scope="col">Statute</th>
+            <th scope="col">What the source says</th>
+          </tr>
+        </thead>
+        <tbody>
+          {states.map((s) => (
+            <tr>
+              <th scope="row">{s.state}</th>
+              <td data-label="Rule">{label[s.consent] || s.consent}</td>
+              <td data-label="Statute"><a href={s.url} rel="noopener">{s.citation}</a></td>
+              <td data-label="What the source says">{s.summary}{s.quote ? <> Quoted words: “{s.quote}.”</> : null}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <Faq items={faqs}/>
+  </div>
+</Base>
