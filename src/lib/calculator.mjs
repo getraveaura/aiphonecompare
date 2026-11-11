@@ -39,7 +39,7 @@ export function parseCalculatorQuery(query = {}) {
   return {
     industry,
     calls: whole(query.calls, 0, 100000) ?? DEFAULT_INPUT.calls,
-    minutes: decimal(query.minutes, 0, 240) ?? DEFAULT_INPUT.minutes,
+    minutes: decimal(query.minutes ?? query.mins, 0, 240) ?? DEFAULT_INPUT.minutes,
     afterHours: whole(query.after, 0, 100),
   };
 }
