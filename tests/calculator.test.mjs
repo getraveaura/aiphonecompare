@@ -51,6 +51,12 @@ test('sponsored does not move a dearer vendor ahead of a cheaper one', () => {
   assert.equal(quote.priced[1].sponsored, true);
 });
 
+test('mins is accepted as an alias for minutes, with minutes taking precedence', () => {
+  assert.equal(parseCalculatorQuery({ industry: 'dental', calls: '300', mins: '3' }).minutes, 3);
+  assert.equal(parseCalculatorQuery({ mins: '4.5' }).minutes, 4.5);
+  assert.equal(parseCalculatorQuery({ minutes: '2', mins: '5' }).minutes, 2);
+});
+
 test('the share path round-trips the inputs', () => {
   const input = { industry: 'plumbing', calls: 80, minutes: 3, afterHours: 25 };
   const params = Object.fromEntries(new URLSearchParams(calculatorPath(input).split('?')[1]));

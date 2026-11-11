@@ -816,5 +816,37 @@
     "told_by": "Told by Brantheo (the vendor)",
     "verified_claims": "The 6 November 2026 EIN Presswire release, provided by Brantheo, names Eagle Creek Soccer Academy in Orlando and Brantheo's bilingual AI Caller. It says Meta ads, the AI Caller, and HubSpot generated 137 leads in 40 days from 8 May to 17 June 2026, at $4.50 per lead (ad cost) with an 11.8% conversion rate. Pricing for the tool is available on request.",
     "archive_url": "https://web.archive.org/web/20261111031717/https://www.einpresswire.com/article/954920302/brantheo-launches-bilingual-ai-receptionist-for-central-florida-service-businesses"
+  },
+  {
+    "slug": "usave-pharmacy-thinkrr",
+    "title": "A Nebraska pharmacy says an AI phone agent now handles 60% of its calls",
+    "added": "2026-11-11",
+    "industries": [
+      "other"
+    ],
+    "business": "USave Pharmacy",
+    "vendorSlug": null,
+    "vendorName": "Thinkrr.ai",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor case study",
+    "whatTheyDid": "A 10 November 2026 Thinkrr.ai press release on ACCESS Newswire says USave Pharmacy, an independent pharmacy in North Platte, Nebraska, uses Thinkrr's Pharmacy Concierge, an AI voice agent the pharmacy named Marissa, to answer patient and prescriber calls. The release says it takes refill requests, even without a prescription number, and sends them into the pharmacy's PioneerRx queue, and transfers the call to the store when a caller needs a pharmacist or the call is not going well. USave rolled it out in stages: testing, then a couple of hours at a time, then all day, and later the prescriber line. The release cites the November 2026 America's Pharmacist (NCPA) story \"An Intelligent Shift.\"",
+    "cost": "The ongoing price is not stated. The release says new pharmacies can start for $1, covering the first 300 calls or 30 days, whichever comes first, with the offer ending 31 December 2026.",
+    "outcome": "The release, citing the America's Pharmacist article, says the agent now handles 60% of USave's calls and in one month saved staff 2,710 hours of phone time, 18% more than the month before. Those are the pharmacy's figures as relayed by the vendor. Co-owner Bill Snodgrass told the magazine the change \"didn't cost anybody their job.\"",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://www.accessnewswire.com/newsroom/en/computers-technology-and-internet/thinkrr.ai-pharmacy-concierge-featured-in-ncpas-americas-pharmaci-1248676",
+        "title": "Thinkrr.ai Pharmacy Concierge Featured in NCPA's America's Pharmacist Cover Story",
+        "date": "2026-11-10",
+        "publisher": "ACCESS Newswire",
+        "archive_url": null
+      }
+    ],
+    "evidence": "vendor-told",
+    "source_type": "vendor-case-study",
+    "source_publisher": "ACCESS Newswire",
+    "told_by": "Told by Thinkrr.ai (the vendor)",
+    "verified_claims": "The 10 November 2026 ACCESS Newswire release from Thinkrr.ai names USave Pharmacy in North Platte, Nebraska, partner Travis Covey, co-owner Bill Snodgrass, and the Pharmacy Concierge agent named Marissa. It says the agent handles 60% of calls and saved 2,710 staff phone hours in one month, 18% more than the month before, and gives a $1 start offer for the first 300 calls or 30 days through 31 December 2026. The same 60%, 2,710-hour, and 18% figures appear in the America's Pharmacist article copy that Thinkrr hosts. No ongoing price is stated. Wayback save of the release failed (HTTP 520), so no saved copy is listed.",
+    "archive_url": null
   }
 ]
