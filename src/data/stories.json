@@ -738,5 +738,83 @@
     "told_by": "Told by ServiceTitan (the vendor)",
     "verified_claims": "The 25 September 2026 page names Jonathan Davis, Davis Air Conditioning and Heating, and the agent Nell. It says Nell books calls at a 90% rate. It states no dollar price.",
     "archive_url": null
+  },
+  {
+    "slug": "opticall-healio-eye-care",
+    "title": "OptiCall's CEO says its AI receptionists answered 60,000 calls in their first month",
+    "added": "2026-11-10",
+    "industries": [
+      "medical"
+    ],
+    "business": null,
+    "vendorSlug": null,
+    "vendorName": "OptiCall",
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "In a Healio video episode dated 10 November 2026, OptiCall CEO Bill Mercier described the company's AI receptionists used by eye-care practices.",
+    "cost": null,
+    "outcome": "Mercier said the AI receptionists answered more than 60,000 calls in their first month, and that they now take over 40% of the calls that would have gone to practices' scheduling teams. Those are OptiCall's own figures.",
+    "catches": [
+      {
+        "id": "mispronounces-terms",
+        "label": "An AI receptionist could not pronounce LASIK",
+        "summary": "Mercier said one practice's AI receptionist could not pronounce \"LASIK,\" which puts callers off, and that the tools need fine-tuning.",
+        "sources": [
+          {
+            "url": "https://www.healio.com/news/ophthalmology/20261109/eye-on-efficiency-patientfacing-ai",
+            "title": "Eye on Efficiency: Patient-facing AI",
+            "date": "2026-11-10",
+            "publisher": "Healio"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.healio.com/news/ophthalmology/20261109/eye-on-efficiency-patientfacing-ai",
+        "title": "Eye on Efficiency: Patient-facing AI",
+        "date": "2026-11-10",
+        "publisher": "Healio",
+        "archive_url": "https://web.archive.org/web/20261111031612/https://www.healio.com/news/ophthalmology/20261109/eye-on-efficiency-patientfacing-ai"
+      }
+    ],
+    "evidence": "independent",
+    "source_type": "press",
+    "source_publisher": "Healio",
+    "told_by": "Reported by Healio",
+    "verified_claims": "The 10 November 2026 Healio episode names OptiCall CEO Bill Mercier. He said the AI receptionists answered more than 60,000 calls in their first month and take over 40% of calls that would have gone to scheduling teams. Those are OptiCall's figures. He said one AI receptionist could not pronounce LASIK. It states no dollar price.",
+    "archive_url": "https://web.archive.org/web/20261111031612/https://www.healio.com/news/ophthalmology/20261109/eye-on-efficiency-patientfacing-ai"
+  },
+  {
+    "slug": "eagle-creek-soccer-brantheo",
+    "title": "An Orlando soccer academy got 137 leads in 40 days with a bilingual AI caller",
+    "added": "2026-11-10",
+    "industries": [
+      "other"
+    ],
+    "business": "Eagle Creek Soccer Academy",
+    "vendorSlug": null,
+    "vendorName": "Brantheo",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor case study",
+    "whatTheyDid": "A 6 November 2026 Brantheo press release on EIN Presswire says Eagle Creek Soccer Academy in Orlando used Brantheo's bilingual AI Caller together with paid Meta ads and HubSpot.",
+    "cost": "Pricing is available on request. The $4.50 per lead figure in the release is ad cost, not the tool's price.",
+    "outcome": "The release says that combination generated 137 leads in 40 days, from 8 May to 17 June 2026, at $4.50 per lead with an 11.8% conversion rate. The $4.50 is the ad cost per lead, not the tool's price, which is not published.",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://www.einpresswire.com/article/954920302/brantheo-launches-bilingual-ai-receptionist-for-central-florida-service-businesses",
+        "title": "Brantheo Launches Bilingual AI Receptionist for Central Florida Service Businesses",
+        "date": "2026-11-06",
+        "publisher": "EIN Presswire",
+        "archive_url": "https://web.archive.org/web/20261111031717/https://www.einpresswire.com/article/954920302/brantheo-launches-bilingual-ai-receptionist-for-central-florida-service-businesses"
+      }
+    ],
+    "evidence": "vendor-told",
+    "source_type": "vendor-case-study",
+    "source_publisher": "EIN Presswire",
+    "told_by": "Told by Brantheo (the vendor)",
+    "verified_claims": "The 6 November 2026 EIN Presswire release, provided by Brantheo, names Eagle Creek Soccer Academy in Orlando and Brantheo's bilingual AI Caller. It says Meta ads, the AI Caller, and HubSpot generated 137 leads in 40 days from 8 May to 17 June 2026, at $4.50 per lead (ad cost) with an 11.8% conversion rate. Pricing for the tool is available on request.",
+    "archive_url": "https://web.archive.org/web/20261111031717/https://www.einpresswire.com/article/954920302/brantheo-launches-bilingual-ai-receptionist-for-central-florida-service-businesses"
   }
 ]
