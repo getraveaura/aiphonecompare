@@ -1,0 +1,204 @@
+---
+import Base from '../../layouts/Base.astro';
+import vendors from '../../data/vendors.json';
+import log from '../../data/price-changes.json';
+import models from '../../data/cost-models.json';
+import { formatDate } from '../../lib/stories.mjs';
+import { firstSentence } from '../../lib/schema.mjs';
+import { sponsoredLabel } from '../../lib/spotlight.mjs';
+import {
+  SOURCE_TYPES, indexRows, indexSummary, introSentences, changesNewestFirst, citationLine, datasetJsonld,
+} from '../../lib/price-index.mjs';
+
+const site = new URL('/', Astro.site).href.replace(/\/$/, '');
+const pageUrl = new URL('/price-index/', Astro.site).href;
+const rows = indexRows(vendors);
+const summary = indexSummary(vendors, log);
+const latest = summary.latest;
+const intro = introSentences(summary, formatDate);
+const changes = changesNewestFirst(log);
+const names = Object.fromEntries(vendors.map((v) => [v.slug, v.name]));
+const citation = citationLine(latest, formatDate, pageUrl);
+const title = 'AI receptionist price index';
+const description = `Every published AI receptionist starting price we track (${summary.withPrice} of ${summary.listed} vendors), with its source, source type and last-checked date, plus ${summary.changes} logged price change${summary.changes === 1 ? '' : 's'}.`;
+const stypeClass = {
+  [SOURCE_TYPES.vendor]: 'stype stype-vendor',
+  [SOURCE_TYPES.third]: 'stype stype-third',
+  [SOURCE_TYPES.unknown]: 'stype stype-unknown',
+  [SOURCE_TYPES.none]: 'stype stype-unknown',
+};
+const figures = [
+  ['Published dollar price', summary.withPrice],
+  ['Quote-only or not published', summary.withoutPrice],
+  ['Sourced to the vendor’s own site', summary.vendorSource],
+  ['Sourced to a third party', summary.thirdPartySource],
+  ['Source not classified', summary.unclassifiedSource + summary.noSource],
+  ['Logged price changes', summary.changes],
+];
+const dataset = {
+  '@id': `${pageUrl}#dataset`,
+  ...datasetJsonld({
+    site,
+    url: pageUrl,
+    name: title,
+    description: `Published starting prices for ${summary.listed} AI receptionists, each with its source URL, source type and last-checked date. Blank fields mean not verified.`,
+    latest,
+    trackingStarted: summary.trackingStarted,
+  }),
+};
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    dataset,
+    {
+      '@type': 'WebPage',
+      '@id': `${pageUrl}#webpage`,
+      name: title,
+      headline: title,
+      url: pageUrl,
+      description,
+      isPartOf: { '@id': `${site}/#website` },
+      publisher: { '@id': `${site}/#organization` },
+      mainEntity: { '@id': `${pageUrl}#dataset` },
+      ...(latest ? { dateModified: latest } : {}),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${site}/` },
+        { '@type': 'ListItem', position: 2, name: 'Pricing', item: `${site}/pricing/` },
+        { '@type': 'ListItem', position: 3, name: 'Price index', item: pageUrl },
+      ],
+    },
+  ],
+};
+---
+<Base title={title} description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/pricing/">Pricing</a></li>
+          <li><span aria-current="page">Price index</span></li>
+        </ol>
+      </nav>
+      <h1>AI receptionist price index</h1>
+      <div class="answer-box">
+        <span class="answer-label">In short</span>
+        <p>{intro.join(' ')} Each row shows where the price came from and the day we checked it.</p>
+      </div>
+      {latest && (
+        <p class="checked">
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Last verified <time datetime={latest}>{formatDate(latest)}</time>
+        </p>
+      )}
+    </div>
+  </header>
+
+  <div class="wrap stack">
+    <section aria-labelledby="figures-h">
+      <h2 id="figures-h" class="vh">Key figures</h2>
+      <dl class="stats pindex-figures">
+        {figures.map(([label, value]) => (
+          <div><dt>{label}</dt><dd>{value}</dd></div>
+        ))}
+      </dl>
+      <p class="note pindex-note">“Vendor’s own site” means the source URL is on the vendor’s website domain. “Not classified” means we have no vendor website on file, so we cannot say whose page the source is.</p>
+    </section>
+
+    <section aria-labelledby="table-h">
+      <h2 id="table-h" class="pindex-h2">Starting prices, A to Z</h2>
+      <div class="tablewrap" tabindex="0" aria-labelledby="pindex-caption">
+        <table class="compare scroll pindex-table">
+          <caption id="pindex-caption">Price text is copied verbatim. Blank means not verified. Scroll sideways on small screens.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Vendor</th>
+              <th scope="col">Starting price</th>
+              <th scope="col">Billing model</th>
+              <th scope="col">Last checked</th>
+              <th scope="col">Source</th>
+              <th scope="col">Source type</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((r) => (
+              <tr>
+                <th scope="row">
+                  <a href={`/vendors/${r.slug}/`}>{r.name}</a>
+                  {sponsoredLabel(r.vendor) && <span class="badge">Sponsored</span>}
+                </th>
+                <td data-label="Starting price">{r.startingPrice || <span class="missing">Not verified</span>}</td>
+                <td data-label="Billing model">{r.billingModel || <span class="missing">Not verified</span>}</td>
+                <td data-label="Last checked">{r.lastChecked ? <time datetime={r.lastChecked}>{formatDate(r.lastChecked)}</time> : <span class="missing">Not verified</span>}</td>
+                <td data-label="Source" class="pindex-src">{r.source && r.sourceHost ? <a href={r.source} rel="noopener">{r.sourceHost}</a> : <span class="missing">Not verified</span>}</td>
+                <td data-label="Source type"><span class={stypeClass[r.sourceType]}>{r.sourceType}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="plans-h">
+      <h2 id="plans-h" class="pindex-h2">Published plan detail</h2>
+      <p class="note">Plan-level prices for providers that publish allowances and overage rates. Checked <time datetime={models.checked}>{formatDate(models.checked)}</time>. Price your own call volume on the <a href="/cost/calculator/">cost calculator</a>.</p>
+      <div class="pindex-plans">
+        {models.providers.map((p) => (
+          <article class="cost-provider">
+            <h3><a href={`/vendors/${p.slug}/`}>{p.name}</a></h3>
+            <ul class="pindex-plan-list">
+              {p.plans.map((plan) => (
+                <li><strong>{plan.name}</strong> <span>{plan.publishedLabel || <span class="missing">Not published</span>}</span></li>
+              ))}
+            </ul>
+            <p class="pindex-plan-src">
+              Source: {(p.sources || []).length ? p.sources.map((s, i) => <>{i > 0 && ', '}<a href={s.href} rel="noopener">{s.label}</a></>) : <span class="missing">Not verified</span>}
+              {' '}· checked <time datetime={models.checked}>{formatDate(models.checked)}</time>
+            </p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section aria-labelledby="changes-h">
+      <h2 id="changes-h" class="pindex-h2">Logged price changes</h2>
+      <p class="note">Tracking started <time datetime={log.trackingStarted}>{formatDate(log.trackingStarted)}</time>. Newest first. Full history on <a href="/price-changes/">price changes</a>.</p>
+      {changes.length === 0 ? (
+        <p>No verified price change is logged yet.</p>
+      ) : (
+        <ul class="ticker">
+          {changes.map((c) => (
+            <li>
+              <time datetime={c.observed}>Observed {formatDate(c.observed)}</time>
+              <a href={`/price-changes/${c.id}/`}><strong>{names[c.vendorSlug] || c.vendorSlug}</strong></a>
+              <span>{firstSentence(c.summary)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
+
+    <div class="pindex-foot">
+      <section class="guide" aria-labelledby="dl-h">
+        <h2 id="dl-h">Download</h2>
+        <ul>
+          <li><a href="/data/vendors.csv">vendors.csv</a> and <a href="/data/vendors.json">vendors.json</a>, licensed <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+          <li><a href="/llms-full.txt">llms-full.txt</a>: the full pricing table as plain text</li>
+          <li>About the files: <a href="/data/">open dataset</a></li>
+        </ul>
+      </section>
+      <section class="guide" aria-labelledby="cite-h">
+        <h2 id="cite-h">How to cite this page</h2>
+        <p class="pindex-cite">{citation}</p>
+      </section>
+    </div>
+
+    <section class="prose" aria-labelledby="method-h">
+      <h2 id="method-h">Method</h2>
+      <p>A starting price is the entry-level price text published for a vendor, copied as written from the source linked in its row, with the date we checked it. It is not your bill: allowances, overage and setup fees change what you pay. A blank means we could not verify that field, not that it is free. Source type compares the source’s web address with the vendor’s website on file. Sponsorship never changes a price, a row or the order. More on <a href="/about/">how we rank and verify</a>.</p>
+    </section>
+  </div>
+</Base>
