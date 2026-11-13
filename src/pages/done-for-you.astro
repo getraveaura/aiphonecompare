@@ -70,13 +70,15 @@ const faqs = [
     a: 'We can audit and retune it. The same result definition and the same guarantee apply.',
   },
 ];
+import OfferProof from '../components/OfferProof.astro';
+import OtherOffers from '../components/OtherOffers.astro';
 ---
-<Base title={title} description={description} jsonld={jsonld}>
+<Base title={title} description={description} jsonld={jsonld} ogImage="/og/done-for-you.png" dock={[['#price-heading', 'See pricing'], ['/overpaying/', 'Free check']]}>
   <div class="dfy-paid" id="dfy-paid" role="status" hidden>
     <div class="wrap"><strong>Payment received, thank you.</strong> Your intake email from {email} is on its way; it asks for 4 quick things.</div>
   </div>
 
-  <header class="page-intro dfy-intro">
+  <header class="page-intro dfy-intro offer-hero">
     <div class="wrap">
       <p class="dfy-kicker">Done-for-you setup</p>
       <h1>We pick, set up and tune your AI receptionist.</h1>
@@ -172,6 +174,8 @@ const faqs = [
       </div>
     </section>
 
+    <OfferProof heading="Results from founding customers" body="We're taking our first 5 founding businesses now. With each one's permission, we'll publish their baseline and day-60 results here, measured the way this page describes. We won't post made-up quotes or numbers." />
+
     <Faq items={faqs}/>
 
     <section class="dfy-close" aria-labelledby="close-heading">
@@ -185,6 +189,8 @@ const faqs = [
       <p class="dfy-mail dfy-mail-left">Questions first? Email <a href={mailto}>{email}</a></p>
     </section>
   </div>
+
+  <OtherOffers />
 
   <script>
     import { isPaidReturn } from '../lib/offers.mjs';

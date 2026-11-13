@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import CallSlider from '../components/CallSlider.astro';
-import VerifyStrip from '../components/VerifyStrip.astro';
 import IndustryIcon from '../components/IndustryIcon.astro';
 import VendorMark from '../components/VendorMark.astro';
 import data from '../data/vendors.json';
@@ -49,32 +48,46 @@ const jsonld = {
 const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
 ---
 <Base title="What an AI receptionist will cost" description="Match your call volume to official published plans, and see where a fee is still unknown. The directory keeps sourced starting prices. Sponsored spots are labeled; rankings are not for sale." jsonld={jsonld}>
-  <section class="hero">
+  <section class="hero hero-home">
     <div class="wrap hero-grid">
-      <VerifyStrip />
       <div class="hero-copy">
-        <p class="eyebrow">Independent directory</p>
+        <p class="eyebrow">Independent · Every price sourced and dated</p>
         <h1>What an AI receptionist will cost</h1>
-        <p class="lead">Move the call count and see a scenario bill for four providers whose own pages publish the allowance and the overage. The rest of the directory keeps a sourced starting price. Sponsored spots are labeled, and rankings are not for sale.</p>
+        <p class="lead">Compare {data.length} AI receptionists on published prices, then estimate the bill at your call volume wherever the plan is published. Sponsored spots are labeled, and rankings are not for sale.</p>
         <div class="cta">
-          <a class="btn btn-primary" href="/match/">Match a tool</a>
-          <a class="btn btn-ghost" href="/cost/">Full cost method</a>
-          <a class="btn btn-ghost" href="/stories/">Real stories</a>
+          <a class="btn btn-primary btn-lg" href="/match/">Find my match <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-secondary btn-lg" href="/cost/calculator/">Estimate my cost</a>
         </div>
-        <p class="tool-line">Already paying for an AI receptionist? <a href="/overpaying/">Check your price against published plans</a>. Free, no sign-up.</p>
+        <p class="tool-line">Already paying for one? <a class="text-link" href="/overpaying/">Check your price against published plans</a>. Free, no sign-up.</p>
       </div>
       <CallSlider />
-      <dl class="stats">
-        <div><dt>Vendors</dt><dd>{data.length}</dd></div>
-        <div><dt>Stories</dt><dd>{stories.length}</dd></div>
-        <div><dt>7-day changes</dt><dd>{priceChangesWeek}</dd></div>
-        <div><dt>Prices checked</dt><dd><time datetime={lastUpdated}>{shortDate(lastUpdated)}</time></dd></div>
-      </dl>
+    </div>
+  </section>
+  <section class="trust-band" aria-label="How we work">
+    <div class="wrap">
+      <ul class="trust-strip">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>
+          <div><strong>Independent</strong><span>Rankings are not for sale. <a href="/about/">How we rank</a></span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16"/></svg>
+          <div><strong>Sourced and dated</strong><span>Prices link to a source. Last checked <time datetime={lastUpdated}>{shortDate(lastUpdated)}</time>.</span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.6 13.4 13.4 20.6a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8Z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>
+          <div><strong>Sponsors labeled</strong><span>Paid spots always say Sponsored. <a href="/stories/#how-we-source">How we verify</a></span></div>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
+          <div><strong>{data.length} vendors tracked</strong><span>{stories.length} real stories · {priceChangesWeek} price {priceChangesWeek === 1 ? 'change' : 'changes'} this week</span></div>
+        </li>
+      </ul>
     </div>
   </section>
   <section class="picks-band" aria-labelledby="top-picks-heading">
     <div class="wrap">
-      <h2 class="section-title" id="top-picks-heading">Top picks</h2>
+      <h2 class="section-title" id="top-picks-heading">Published starting prices</h2>
       <div class="tablewrap picks" tabindex="0" aria-labelledby="top-picks-caption">
         <table class="compare">
           <caption id="top-picks-caption">Not a ranking. The first five vendors, A to Z, that have a published starting price.</caption>
@@ -129,12 +142,12 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
   <section class="band" aria-labelledby="guides-heading">
     <div class="wrap">
       <h2 class="section-title" id="guides-heading">Questions the directory can answer</h2>
-      <ul>
+      <ul class="link-grid">
         {guides.map((page) => <li><a href={page.path}>{page.h1}</a></li>)}
       </ul>
     </div>
   </section>
-  <section class="band" id="industries" style="padding-top:0">
+  <section class="band" id="industries">
     <div class="wrap">
       <h2 class="section-title">Browse by industry</h2>
       <div class="industries">
@@ -170,7 +183,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
       </div>
     </div>
   </section>
-  <section class="band" style="padding-top:8px">
+  <section class="band">
     <div class="wrap">
       <h2 class="section-title">All vendors</h2>
       <p style="margin: 0 0 18px; max-width: 66ch;">The <a href="/vendors/">vendor directory</a> lists every one, with the sourced starting price.</p>
