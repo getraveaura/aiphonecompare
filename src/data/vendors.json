@@ -17,18 +17,25 @@
     "notes": "AI plus 500+ legally trained live agents.",
     "sponsored": false,
     "sources": [
+      "https://smith.ai/pricing/ai-receptionist",
+      "https://smith.ai/pricing/receptionists",
       "https://smith.ai/blog/top-9-best-ai-answering-services-for-law-firms-and-agencies",
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/",
       "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "goodcall",
     "name": "Goodcall",
     "website": "https://www.goodcall.com",
-    "starting_price": "Starter $79/mo for 100 unique customers, then 79\u00a2 each; Growth $129/mo; Scale $299/mo",
+    "starting_price": "Starter $79/mo for 100 unique customers, then 79¢ each; Growth $129/mo; Scale $299/mo",
     "billing_model": "Flat monthly, metered on unique callers",
     "free_trial": "Free demo agent; paying starts when a phone number and plan are added",
     "human_handoff": "FAQ: configure an escalation contact so the agent can transfer the caller to a person",
@@ -43,19 +50,24 @@
     "notes": "Own healthcare page names primary care, specialty practices, dental, mental health, and urgent care. No native dental PMS write-back was restated on that page.",
     "sponsored": false,
     "sources": [
-      "https://www.goodcall.com/answering-services/ai-answering-service-healthcare-medical-offices-2025",
       "https://www.goodcall.com/pricing",
+      "https://www.goodcall.com/answering-services/ai-answering-service-healthcare-medical-offices-2025",
       "https://www.goodcall.com/faq",
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "dialzara",
     "name": "Dialzara",
-    "website": "",
+    "website": "https://dialzara.com",
     "starting_price": "From $29/mo for 60 minutes",
     "billing_model": "Per minute bundles",
     "free_trial": "7-day trial",
@@ -70,17 +82,23 @@
     "notes": "10 languages advertised (per Technology.org).",
     "sponsored": false,
     "sources": [
+      "https://dialzara.com/pricing",
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "ruby",
     "name": "Ruby",
-    "website": "",
+    "website": "https://www.ruby.com",
     "starting_price": "$250/mo for 50 minutes",
     "billing_model": "Per minute",
     "free_trial": "",
@@ -95,11 +113,17 @@
     "notes": "Human receptionists with optional AI front end.",
     "sponsored": false,
     "sources": [
+      "https://www.ruby.com/plans-and-pricing/",
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "justcall",
@@ -118,16 +142,22 @@
     "notes": "Healthcare page describes AI Voice Agent for patient calls, bookings, and transfers. A standalone monthly price for the agent alone is not published on the pricing page.",
     "sponsored": false,
     "sources": [
+      "https://justcall.io/pricing/",
       "https://justcall.io/industry/healthcare/",
       "https://www.justcall.io/pricing/",
       "https://justcall.io/blog/best-ai-receptionists-dental.html"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "arini",
     "name": "Arini",
-    "website": "",
+    "website": "https://www.arini.ai",
     "starting_price": "Reported from ~$249/mo; custom (per Keragon)",
     "billing_model": "",
     "free_trial": "",
@@ -144,7 +174,12 @@
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-04",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "arini.ai prints no price and arini.ai/pricing returned 404 on 13 Nov 2026. The figure stays as reported by Keragon."
+    }
   },
   {
     "slug": "weave",
@@ -163,6 +198,7 @@
     "notes": "Plans page still labels AI Receptionist as early access. Questions page says Weave is built for dental, medical, veterinary, optical, and specialty healthcare.",
     "sponsored": false,
     "sources": [
+      "https://www.getweave.com/pricing/",
       "https://www.getweave.com/questions/",
       "https://www.getweave.com/ai-receptionist/",
       "https://www.getweave.com/plans/",
@@ -170,12 +206,17 @@
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Base plan from $199/mo read on getweave.com/pricing. The AI receptionist page still says Early access, and no AI Receptionist price is printed."
+    }
   },
   {
     "slug": "peerlogic",
     "name": "Peerlogic",
-    "website": "",
+    "website": "https://www.peerlogic.com",
     "starting_price": "$399 or $699/mo flat",
     "billing_model": "Flat monthly",
     "free_trial": "",
@@ -192,14 +233,19 @@
       "https://www.keragon.com/blog/ai-receptionist-dental",
       "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-04",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "peerlogic.com prints no price and peerlogic.com/pricing returned 404 on 13 Nov 2026. The figure stays as reported by JustCall."
+    }
   },
   {
     "slug": "viva-ai",
     "name": "Viva AI",
-    "website": "",
-    "starting_price": "$349 to $1,199/mo",
-    "billing_model": "Credit-based monthly tiers",
+    "website": "https://www.getviva.ai",
+    "starting_price": "Credit plans: Gold $349/mo (4,000 credits), Platinum $899/mo (7,000), Diamond $1,199/mo (12,000); Unlimited plan $350/mo for the first provider, +$150/mo per added provider",
+    "billing_model": "Credit-based monthly tiers, or a per-provider unlimited plan",
     "free_trial": "",
     "human_handoff": "",
     "hipaa_baa": "Signs a BAA with every practice; SOC 2 Type II",
@@ -210,10 +256,16 @@
     "notes": "100+ languages (per Keragon).",
     "sponsored": false,
     "sources": [
+      "https://www.getviva.ai/",
       "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/",
       "https://www.keragon.com/blog/ai-receptionist-dental"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "changed",
+      "note": "Read in the pricing section of getviva.ai. The Unlimited plan is new since the 30 July 2026 archive; see the price change log."
+    }
   },
   {
     "slug": "dentina",
@@ -233,7 +285,12 @@
     "sources": [
       "https://dentina.ai/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Standard inbound plan read on dentina.ai: starting at $299/mo billed annually, per location, up to 3 providers."
+    }
   },
   {
     "slug": "keragon",
@@ -251,9 +308,15 @@
     "notes": "Phone via connected voice AI (per Keragon's own article).",
     "sponsored": false,
     "sources": [
+      "https://www.keragon.com/pricing",
       "https://www.keragon.com/blog/ai-receptionist-dental"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starter plan read on keragon.com/pricing. Keragon prices workflow runs; it is a healthcare automation platform."
+    }
   },
   {
     "slug": "rondah-ai",
@@ -271,14 +334,20 @@
     "notes": "DSO-focused offering.",
     "sponsored": false,
     "sources": [
+      "https://www.rondah.ai/",
       "https://www.keragon.com/blog/ai-receptionist-dental"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "rondah.ai prints no price and offers a demo; rondah.ai/pricing returned 404."
+    }
   },
   {
     "slug": "nexhealth",
     "name": "NexHealth",
-    "website": "",
+    "website": "https://www.nexhealth.com",
     "starting_price": "Reported from ~$350/mo (per Keragon)",
     "billing_model": "",
     "free_trial": "",
@@ -293,7 +362,12 @@
     "sources": [
       "https://www.keragon.com/blog/ai-receptionist-dental"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-04",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "nexhealth.com/pricing prints no dollar price on 13 Nov 2026. The figure stays as reported by Keragon."
+    }
   },
   {
     "slug": "mango-voice-margo",
@@ -315,7 +389,12 @@
       "https://mangovoice.com/dental/practices",
       "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Both figures read today: AI Suite $419/mo on mangovoice.com/pricing, and the Complete plan with Margo at $449/mo on mangovoice.com/dental/practices."
+    }
   },
   {
     "slug": "voicestack",
@@ -337,7 +416,12 @@
       "https://voicestack.com/pricing",
       "https://voicestack.com/dental-phones/features/ai-receptionist"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "$399/mo read on the vendor comparison page; voicestack.com/pricing still prints no dollar amount."
+    }
   },
   {
     "slug": "dental-intelligence",
@@ -359,12 +443,17 @@
       "https://www.dentalintel.com/terms/baa",
       "https://aidentaltools.com/practice-ops/best-ai-dental-receptionist/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "The AI receptionist page prints no price."
+    }
   },
   {
     "slug": "lexidesk",
     "name": "Lexidesk",
-    "website": "",
+    "website": "https://lexidesk.ai",
     "starting_price": "Flat monthly fee, custom quote",
     "billing_model": "Flat monthly",
     "free_trial": "",
@@ -380,14 +469,19 @@
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-04",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "lexidesk.ai prints no price and lexidesk.ai/us/pricing returned 404 on 13 Nov 2026. The wording stays as reported by Technology.org."
+    }
   },
   {
     "slug": "abby-connect",
     "name": "Abby Connect",
-    "website": "",
-    "starting_price": "AI plans from $99/mo; $164/mo for 50 minutes",
-    "billing_model": "Per minute",
+    "website": "https://www.abby.com",
+    "starting_price": "Starter $164/mo for 50 Abby Minutes (up to 100 minutes of AI answering); Essential $329/mo for 100 Abby Minutes",
+    "billing_model": "Per minute bundles; AI-answered minutes count at half",
     "free_trial": "",
     "human_handoff": "AI, human, or hybrid",
     "hipaa_baa": "",
@@ -399,17 +493,24 @@
     "notes": "",
     "sponsored": false,
     "sources": [
+      "https://www.abby.com/pricing/",
+      "https://www.abby.com/products/ai-receptionist/",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "changed",
+      "note": "Read on abby.com/pricing and the AI receptionist page. The separate $99 AI plan is gone; see the price change log."
+    }
   },
   {
     "slug": "rosie",
     "name": "Rosie",
     "website": "https://heyrosie.com",
     "referral_url": "https://heyrosie.com/?ref=timothyp1",
-    "starting_price": "From $49/mo for 250 minutes; booking & transfers from $149/mo",
+    "starting_price": "From $49/mo for 250 minutes; booking & transfers from $149/mo (1,000 minutes)",
     "billing_model": "Per minute bundles",
     "free_trial": "7-day trial",
     "human_handoff": "Live transfers on $149 tier",
@@ -422,11 +523,17 @@
     "notes": "English and Spanish.",
     "sponsored": false,
     "sources": [
+      "https://heyrosie.com/pricing",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
       "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "my-ai-front-desk",
@@ -445,17 +552,22 @@
     "notes": "The pricing page and the medical page do not print the same monthly amount.",
     "sponsored": false,
     "sources": [
-      "https://www.myaifrontdesk.com/answering-service-for-medical-offices",
       "https://www.myaifrontdesk.com/pricing",
+      "https://www.myaifrontdesk.com/answering-service-for-medical-offices",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://theraindex.com/blog/best-ai-tools-for-therapists-2026"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "legalclerk-ai",
     "name": "LegalClerk.ai",
-    "website": "",
+    "website": "https://legalclerk.ai",
     "starting_price": "$400 per seat/mo, unlimited calls",
     "billing_model": "Per seat",
     "free_trial": "",
@@ -468,17 +580,23 @@
     "notes": "",
     "sponsored": false,
     "sources": [
+      "https://legalclerk.ai/pricing",
       "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/",
       "https://smith.ai/blog/top-9-best-ai-answering-services-for-law-firms-and-agencies"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "hona-voice-ai",
     "name": "Hona Voice AI",
-    "website": "",
-    "starting_price": "Quote via demo",
-    "billing_model": "",
+    "website": "https://www.hona.com",
+    "starting_price": "$200/mo for 100 minutes, plus a $249 one-time implementation fee; month-to-month",
+    "billing_model": "Monthly minute tiers",
     "free_trial": "",
     "human_handoff": "Routes live calls to your team",
     "hipaa_baa": "",
@@ -489,9 +607,15 @@
     "notes": "31 languages (per LegalTexas).",
     "sponsored": false,
     "sources": [
+      "https://www.hona.com/hona-voice-ai-pricing",
       "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Read on hona.com/hona-voice-ai-pricing. The same price is on the 8 June 2026 archive, so this corrects our old \"quote via demo\" record rather than logging a change."
+    }
   },
   {
     "slug": "nextphone",
@@ -510,14 +634,20 @@
     "notes": "",
     "sponsored": false,
     "sources": [
+      "https://www.getnextphone.com/pricing",
       "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "avoca",
     "name": "Avoca",
-    "website": "",
+    "website": "https://www.avoca.ai",
     "starting_price": "Not published (demo only)",
     "billing_model": "",
     "free_trial": "Demo first",
@@ -530,16 +660,22 @@
     "notes": "Fit for larger ServiceTitan shops.",
     "sponsored": false,
     "sources": [
+      "https://www.avoca.ai/",
       "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
       "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "avoca.ai prints no price and avoca.ai/pricing returned 404."
+    }
   },
   {
     "slug": "sameday-ai",
     "name": "Sameday AI",
-    "website": "",
+    "website": "https://sameday.ai",
     "starting_price": "From $449/mo for 500 minutes",
     "billing_model": "Minute bundles",
     "free_trial": "Demo first",
@@ -552,10 +688,16 @@
     "notes": "Targets high-ticket inbound sales.",
     "sponsored": false,
     "sources": [
+      "https://sameday.ai/pricing",
       "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "oncrew",
@@ -577,12 +719,17 @@
       "https://oncrew.ai/pricing",
       "https://oncrew.ai/features"
     ],
-    "last_checked": "2026-11-12"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "pickupbell",
     "name": "PickupBell",
-    "website": "",
+    "website": "https://www.pickupbell.com",
     "starting_price": "$199/mo, unlimited calls and minutes",
     "billing_model": "Flat monthly",
     "free_trial": "7-day free trial, no card",
@@ -597,12 +744,17 @@
     "sources": [
       "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-04",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "pickupbell.com returned 503 to every request on 13 Nov 2026, so the price could not be read today. It stays as reported by Trades Answered."
+    }
   },
   {
     "slug": "turnkey-dispatch",
     "name": "Turnkey Dispatch",
-    "website": "",
+    "website": "https://turnkeydispatch.com",
     "starting_price": "From $299/mo with 300 minutes, then $1/min",
     "billing_model": "Per minute",
     "free_trial": "",
@@ -615,9 +767,15 @@
     "notes": "Done-for-you setup.",
     "sponsored": false,
     "sources": [
+      "https://turnkeydispatch.com/",
       "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "upfirst",
@@ -640,13 +798,18 @@
       "https://upfirst.ai/industries/hospice",
       "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "byvoice",
     "name": "byVoice",
     "website": "https://www.byvoice.io",
-    "starting_price": "From $29/mo; Pro $99/mo",
+    "starting_price": "From $29/mo (150 minutes); Pro $99/mo (700 minutes)",
     "billing_model": "",
     "free_trial": "Trial after demo",
     "human_handoff": "Live handoff",
@@ -658,16 +821,22 @@
     "notes": "",
     "sponsored": false,
     "sources": [
+      "https://www.byvoice.io/pricing",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "allo",
     "name": "Allo",
-    "website": "",
-    "starting_price": "$45/user/mo",
-    "billing_model": "Per user",
+    "website": "https://www.withallo.com",
+    "starting_price": "Business seat $45/user/mo billed monthly ($32 billed yearly); AI Receptionist add-on priced like a Business seat ($32/mo per agent billed yearly)",
+    "billing_model": "Per seat, plus a per-agent AI Receptionist add-on",
     "free_trial": "7-day trial",
     "human_handoff": "",
     "hipaa_baa": "",
@@ -678,17 +847,23 @@
     "notes": "Replaces phone system too.",
     "sponsored": false,
     "sources": [
+      "https://www.withallo.com/pricing",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
       "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Read on withallo.com/pricing. Same $45 seat price as before, with the add-on now spelled out."
+    }
   },
   {
     "slug": "futuro-ai",
     "name": "Futuro AI",
     "website": "https://www.futurocorp.com",
-    "starting_price": "$200/mo",
-    "billing_model": "Flat monthly",
+    "starting_price": "Small business: $200 to $1,000/mo flat, unlimited inbound calls; enterprise $0.10 to $0.30 per call",
+    "billing_model": "Flat monthly (small business) or per call (enterprise)",
     "free_trial": "",
     "human_handoff": "",
     "hipaa_baa": "",
@@ -699,14 +874,20 @@
     "notes": "",
     "sponsored": false,
     "sources": [
+      "https://www.futurocorp.com/pricing",
       "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Read on futurocorp.com/pricing. Same $200 starting point as before, with the range now spelled out."
+    }
   },
   {
     "slug": "serviceagent",
     "name": "ServiceAgent",
-    "website": "",
+    "website": "https://serviceagent.ai",
     "starting_price": "Launch $0/mo (pay-as-you-go credits); Core $39/mo annual ($49 monthly, 2,000 credits); Growth $95/mo annual; AI voice minute = 15 credits",
     "billing_model": "Monthly + credits",
     "free_trial": "Free Launch plan",
@@ -722,7 +903,12 @@
       "https://serviceagent.ai/pricing",
       "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "bland-ai",
@@ -741,11 +927,16 @@
     "notes": "Healthcare page covers patient scheduling, intake, and follow-up. Pricing and the healthcare FAQ do not print the same per-minute range.",
     "sponsored": false,
     "sources": [
-      "https://www.bland.ai/industries/healthcare",
       "https://www.bland.ai/pricing",
+      "https://www.bland.ai/industries/healthcare",
       "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "the-dbt-ai",
@@ -769,13 +960,18 @@
       "https://www.thedbt.ai/pricing/",
       "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-09",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "thedbt.ai/pricing printed no dollar rate on 13 Nov 2026."
+    }
   },
   {
     "slug": "jobber-ai-receptionist",
     "name": "Jobber AI Receptionist",
-    "website": "",
-    "starting_price": "Receptionist add-on $29/mo on Core/Connect/Grow plans (Core from $29/mo billed annually); included in Plus plan",
+    "website": "https://www.getjobber.com",
+    "starting_price": "Jobber AI Receptionist add-on $29/mo, on top of a Jobber plan",
     "billing_model": "Monthly add-on",
     "free_trial": "14-day free trial",
     "human_handoff": "",
@@ -790,7 +986,12 @@
       "https://www.getjobber.com/pricing/",
       "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Read on getjobber.com/pricing. Our older note about plan inclusion is dropped because the page did not confirm it."
+    }
   },
   {
     "slug": "housecall-pro-csr-ai",
@@ -812,7 +1013,12 @@
       "https://www.housecallpro.com/pricing/",
       "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-09",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "No price on the vendor pages we read on 13 Nov 2026."
+    }
   },
   {
     "slug": "servicetitan-ai-voice-agent",
@@ -833,12 +1039,17 @@
       "https://www.servicetitan.com/features/pro/virtual-agent",
       "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-09",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "No price on the vendor pages we read on 13 Nov 2026."
+    }
   },
   {
     "slug": "agentzap",
     "name": "AgentZap",
-    "website": "",
+    "website": "https://agentzap.ai",
     "starting_price": "Starter $109/mo (150 min, $0.85/min overage); Professional $295/mo (450 min); Business $899/mo (1,500 min); + $499 one-time setup",
     "billing_model": "Monthly + per-minute overage",
     "free_trial": "30-day money-back guarantee",
@@ -854,7 +1065,12 @@
       "https://agentzap.ai/pricing",
       "https://theraindex.com/blog/best-ai-tools-for-therapists-2026"
     ],
-    "last_checked": "2026-11-04"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "elevenlabs-ai-receptionist",
@@ -878,7 +1094,12 @@
       "https://elevenlabs.io/docs/eleven-agents/legal/hipaa",
       "https://x.com/MarkLindheimer/status/2113720372470186465"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "phonely",
@@ -900,7 +1121,12 @@
       "https://www.phonely.ai/pricing",
       "https://www.phonely.ai/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "assort-health",
@@ -921,7 +1147,12 @@
       "https://www.assorthealth.com/health-systems",
       "https://www.assorthealth.com/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-09",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "No price on the vendor pages we read on 13 Nov 2026."
+    }
   },
   {
     "slug": "synthflow",
@@ -942,7 +1173,12 @@
       "https://www.synthflow.ai/pricing",
       "https://www.synthflow.ai/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   },
   {
     "slug": "parakeet-health",
@@ -962,6 +1198,11 @@
     "sources": [
       "https://www.parakeethealth.com/"
     ],
-    "last_checked": "2026-11-09"
+    "last_checked": "2026-11-09",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "not-confirmed",
+      "note": "No price on the vendor pages we read on 13 Nov 2026."
+    }
   }
 ]

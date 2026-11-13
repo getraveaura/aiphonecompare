@@ -953,6 +953,7 @@ pre {
 .stype-vendor { background: var(--checked-bg); color: var(--pine-deep); border-color: #b7d7c8; }
 .stype-third { background: var(--surface); color: var(--ink-soft); }
 .stype-unknown { background: transparent; border-style: dashed; }
+.pindex-unconfirmed { display: block; margin-top: 4px; font-size: 0.76rem; line-height: 1.35; color: var(--muted); }
 .pindex-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
 .pindex-plans .cost-provider h3 { margin: 0 0 8px; font-size: 1.4rem; }
 .pindex-plans .cost-provider h3 a { color: var(--ink); text-decoration: none; }

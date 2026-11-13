@@ -105,7 +105,7 @@ const jsonld = {
           <div><dt>{label}</dt><dd>{value}</dd></div>
         ))}
       </dl>
-      <p class="note pindex-note">“Vendor’s own site” means the source URL is on the vendor’s website domain. “Not classified” means we have no vendor website on file, so we cannot say whose page the source is.</p>
+      <p class="note pindex-note">“Vendor’s own site” means the source URL is on the vendor’s website domain. “Not classified” means we have no vendor website on file, so we cannot say whose page the source is. “Not confirmed on vendor site” means we read the vendor’s own site and it did not show the price, so the row keeps the earlier sourced figure.</p>
     </section>
 
     <section aria-labelledby="table-h">
@@ -134,7 +134,12 @@ const jsonld = {
                 <td data-label="Billing model">{r.billingModel || <span class="missing">Not verified</span>}</td>
                 <td data-label="Last checked">{r.lastChecked ? <time datetime={r.lastChecked}>{formatDate(r.lastChecked)}</time> : <span class="missing">Not verified</span>}</td>
                 <td data-label="Source" class="pindex-src">{r.source && r.sourceHost ? <a href={r.source} rel="noopener">{r.sourceHost}</a> : <span class="missing">Not verified</span>}</td>
-                <td data-label="Source type"><span class={stypeClass[r.sourceType]}>{r.sourceType}</span></td>
+                <td data-label="Source type">
+                  <span class={stypeClass[r.sourceType]}>{r.sourceType}</span>
+                  {r.priceCheck?.result === 'not-confirmed' && (
+                    <span class="pindex-unconfirmed">Not confirmed on vendor site, <time datetime={r.priceCheck.date}>{formatDate(r.priceCheck.date)}</time></span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

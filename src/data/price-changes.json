@@ -46,6 +46,58 @@
           "publisher": "Trades Answered"
         }
       ]
+    },
+    {
+      "id": "abby-connect-ai-plans-merged",
+      "vendorSlug": "abby-connect",
+      "added": "2026-11-13",
+      "observed": "2026-11-13",
+      "summary": "Abby Connect folded its separate AI Receptionist plans into its combined Human + AI plans. The cheapest plan with AI answering moved from $99/mo to $164/mo for 50 Abby Minutes, and an AI-answered minute counts as half, so that plan covers up to 100 minutes of AI answering. The day the page changed is not known. This entry compares the 14 July 2026 archive of abby.com/pricing with the live pages read on 13 November 2026.",
+      "before": "Archive of abby.com/pricing on 14 July 2026: separate AI Receptionist plans, Starter $99 for up to 50 minutes, Essential $165 for 100, Professional $299 for 200, Growth $690 for 500. Human Receptionist plans started at $329/mo for 100 minutes.",
+      "after": "abby.com/pricing and abby.com/products/ai-receptionist read 13 November 2026: one set of Human + AI plans, Starter $164/mo for 50 Abby Minutes (up to 100 minutes of AI answering), Essential $329/mo for 100, Professional $599/mo for 200, Growth $1,380/mo for 500. No separate $99 AI plan is listed.",
+      "sources": [
+        {
+          "url": "https://web.archive.org/web/20260714161331/https://www.abby.com/pricing/",
+          "title": "abby.com/pricing archived 14 July 2026",
+          "date": "2026-07-14",
+          "publisher": "Internet Archive"
+        },
+        {
+          "url": "https://www.abby.com/pricing/",
+          "title": "abby.com/pricing",
+          "date": "2026-11-13",
+          "publisher": "Abby Connect"
+        },
+        {
+          "url": "https://www.abby.com/products/ai-receptionist/",
+          "title": "Abby AI Receptionist page",
+          "date": "2026-11-13",
+          "publisher": "Abby Connect"
+        }
+      ]
+    },
+    {
+      "id": "viva-ai-unlimited-plan-added",
+      "vendorSlug": "viva-ai",
+      "added": "2026-11-13",
+      "observed": "2026-11-13",
+      "summary": "Viva AI added an Unlimited plan, priced per provider, next to its credit plans. It is $350/mo for the first provider plus $150/mo for each added provider; the Gold, Platinum and Diamond credit plans are unchanged. The day the plan appeared is not known. This entry compares the 30 July 2026 archive of getviva.ai with the live page read on 13 November 2026.",
+      "before": "Archive of getviva.ai on 30 July 2026: credit plans only. Gold $349/mo with 4,000 credits, Platinum $899/mo with 7,000, Diamond $1,199/mo with 12,000.",
+      "after": "getviva.ai read 13 November 2026: the same Gold $349, Platinum $899 and Diamond $1,199 credit plans, plus an Unlimited plan at $350/mo for the first provider and +$150/mo per added provider, with unlimited AI credits. An optional Full Platform add-on is $300 per location per month.",
+      "sources": [
+        {
+          "url": "https://web.archive.org/web/20260730060740/https://www.getviva.ai/",
+          "title": "getviva.ai archived 30 July 2026",
+          "date": "2026-07-30",
+          "publisher": "Internet Archive"
+        },
+        {
+          "url": "https://www.getviva.ai/",
+          "title": "getviva.ai pricing section",
+          "date": "2026-11-13",
+          "publisher": "Viva AI"
+        }
+      ]
     }
   ]
 }
