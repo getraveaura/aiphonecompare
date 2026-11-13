@@ -1,0 +1,19 @@
+---
+// Answer-first summary box. Sentences come from src/lib/answers.mjs (data only).
+import { formatDate } from '../lib/stories.mjs';
+const { sentences = [], verified = '', verifiedLabel = 'Last verified', sources = [], note = '' } = Astro.props;
+const dates = Array.isArray(verified) ? verified.filter((d) => d && d.date) : (verified ? [{ date: verified }] : []);
+---
+{sentences.length > 0 && (
+  <div class="answer-box" data-answer-summary>
+    <span class="answer-label">In short</span>
+    <p>{sentences.join(' ')}</p>
+    {(dates.length > 0 || sources.length > 0 || note) && (
+      <p class="answer-meta">
+        {dates.length > 0 && <>{verifiedLabel}{' '}{dates.map((d, i) => <>{i ? '; ' : ''}{d.name ? `${d.name}, ` : ''}<time datetime={d.date}>{formatDate(d.date)}</time></>)}.</>}
+        {sources.length > 0 && <>{' '}Sources: {sources.map((s, i) => <>{i ? ', ' : ''}<a href={s.href} rel="nofollow noopener">{s.label}</a></>)}.</>}
+        {note && <>{' '}{note}</>}
+      </p>
+    )}
+  </div>
+)}
