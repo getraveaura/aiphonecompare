@@ -1016,8 +1016,8 @@
     "last_checked": "2026-11-09",
     "price_check": {
       "date": "2026-11-13",
-      "result": "not-confirmed",
-      "note": "No price on the vendor pages we read on 13 Nov 2026."
+      "result": "no-price",
+      "note": "The vendor pages we read print no price, so the listing stays as not published."
     }
   },
   {
@@ -1042,8 +1042,8 @@
     "last_checked": "2026-11-09",
     "price_check": {
       "date": "2026-11-13",
-      "result": "not-confirmed",
-      "note": "No price on the vendor pages we read on 13 Nov 2026."
+      "result": "no-price",
+      "note": "The vendor pages we read print no price, so the listing stays as not published."
     }
   },
   {
@@ -1150,8 +1150,8 @@
     "last_checked": "2026-11-09",
     "price_check": {
       "date": "2026-11-13",
-      "result": "not-confirmed",
-      "note": "No price on the vendor pages we read on 13 Nov 2026."
+      "result": "no-price",
+      "note": "The vendor pages we read print no price, so the listing stays as not published."
     }
   },
   {
@@ -1201,8 +1201,8 @@
     "last_checked": "2026-11-09",
     "price_check": {
       "date": "2026-11-13",
-      "result": "not-confirmed",
-      "note": "No price on the vendor pages we read on 13 Nov 2026."
+      "result": "no-price",
+      "note": "The vendor pages we read print no price, so the listing stays as not published."
     }
   }
 ]
