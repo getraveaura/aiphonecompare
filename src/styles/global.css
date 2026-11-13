@@ -935,3 +935,76 @@ pre {
   .dfy-price { position: static; order: -1; }
   .dfy-amount { font-size: 2.5rem; }
 }
+
+/* Price index (/price-index/) */
+.pindex-h2 { margin: 0 0 10px; font-size: 1.7rem; }
+.pindex-figures { grid-template-columns: repeat(6, minmax(0, 1fr)); margin: 0; }
+.pindex-figures dd { font-variant-numeric: tabular-nums; }
+.pindex-note { margin-top: 10px; font-size: 0.92rem; max-width: 80ch; }
+.pindex-table { min-width: 860px; }
+.pindex-table tr > :nth-child(1) { width: 15%; }
+.pindex-table tr > :nth-child(2) { width: 31%; }
+.pindex-table tr > :nth-child(3) { width: 17%; }
+.pindex-table tr > :nth-child(4) { width: 11%; }
+.pindex-table tr > :nth-child(5) { width: 14%; }
+.pindex-table tr > :nth-child(6) { width: 12%; }
+.pindex-src a { overflow-wrap: anywhere; }
+.stype { display: inline-block; border-radius: 999px; padding: 1px 8px; font-size: 0.78rem; font-weight: 600; white-space: nowrap; border: 1px solid var(--line); color: var(--muted); }
+.stype-vendor { background: var(--checked-bg); color: var(--pine-deep); border-color: #b7d7c8; }
+.stype-third { background: var(--surface); color: var(--ink-soft); }
+.stype-unknown { background: transparent; border-style: dashed; }
+.pindex-plans { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 14px; }
+.pindex-plans .cost-provider h3 { margin: 0 0 8px; font-size: 1.4rem; }
+.pindex-plans .cost-provider h3 a { color: var(--ink); text-decoration: none; }
+.pindex-plans .cost-provider h3 a:hover { color: var(--pine); text-decoration: underline; }
+.pindex-plan-list { list-style: none; margin: 0; padding: 0; }
+.pindex-plan-list li { padding: 7px 0; border-bottom: 1px solid var(--line); }
+.pindex-plan-list strong { display: block; font-size: 0.92rem; }
+.pindex-plan-src { margin: 10px 0 0 !important; color: var(--muted); font-size: 0.9rem; overflow-wrap: anywhere; }
+.pindex-foot { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.pindex-cite { margin: 0; padding: 10px 12px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; font-size: 0.95rem; overflow-wrap: anywhere; user-select: all; }
+.index-link { margin: 12px 0 0; font-size: 0.95rem; color: var(--ink-soft); }
+.index-link a { font-weight: 600; }
+@media (max-width: 980px) {
+  .pindex-figures { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 880px) {
+  .compare.scroll { display: table; table-layout: fixed; }
+  .compare.scroll thead { position: static; width: auto; height: auto; overflow: visible; clip: auto; display: table-header-group; }
+  .compare.scroll tbody { display: table-row-group; }
+  .compare.scroll tr { display: table-row; margin: 0; padding: 0; background: none; border: 0; border-radius: 0; box-shadow: none; }
+  .compare.scroll tbody tr:nth-child(even) { background: rgba(255, 253, 248, 0.65); }
+  .compare.scroll th, .compare.scroll td { display: table-cell; padding: 10px 8px; border-bottom: 1px solid var(--line); }
+  .compare.scroll tbody th { font-size: 1rem; padding-top: 10px; position: sticky; left: 0; z-index: 1; background: var(--paper); }
+  .compare.scroll td::before { content: none; }
+  .pindex-table tr > :nth-child(1) { width: 15%; }
+  .pindex-table tr > :nth-child(2) { width: 31%; }
+  .pindex-table tr > :nth-child(3) { width: 17%; }
+  .pindex-table tr > :nth-child(4) { width: 11%; }
+  .pindex-table tr > :nth-child(5) { width: 14%; }
+  .pindex-table tr > :nth-child(6) { width: 12%; }
+  .pindex-plans, .pindex-foot { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .pindex-figures { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .pindex-figures div { padding: 10px 12px; }
+  .pindex-figures dt { font-size: 0.78rem; }
+  .pindex-figures dd { font-size: 1.4rem; }
+}
+
+/* Answer-first summary box (shared: price index, vendor, compare, industry, cost pages) */
+.answer-box {
+  margin: 14px 0 0;
+  max-width: 72ch;
+  padding: 14px 18px 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--pine);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.answer-box p { margin: 0; font-size: 1.06rem; line-height: 1.55; color: var(--ink); }
+.answer-box p + p { margin-top: 6px; }
+.answer-box .answer-label { display: block; margin: 0 0 4px; color: var(--pine-deep); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.answer-box .answer-meta { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+.answer-box .answer-meta a { color: var(--ink-soft); overflow-wrap: anywhere; }

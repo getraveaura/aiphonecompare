@@ -1,12 +1,31 @@
 ---
 import Base from '../layouts/Base.astro';
 import data from '../data/vendors.json';
+import log from '../data/price-changes.json';
+import { formatDate } from '../lib/stories.mjs';
+import { citationLine, datasetJsonld } from '../lib/price-index.mjs';
 const latest = data.map((v) => v.last_checked).filter(Boolean).sort().at(-1) || '';
 const latestLabel = latest
   ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${latest}T00:00:00Z`))
   : '';
+const site = new URL('/', Astro.site).href.replace(/\/$/, '');
+const pageUrl = new URL('/data/', Astro.site).href;
+const description = 'Download the aiphonecompare vendor dataset as CSV or JSON under a CC BY 4.0 license. Blank fields mean not verified.';
+const citation = citationLine(latest, formatDate, pageUrl).replace('AI receptionist price index', 'AI receptionist vendor dataset');
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@id': `${pageUrl}#dataset`,
+  ...datasetJsonld({
+    site,
+    url: pageUrl,
+    name: 'aiphonecompare AI receptionist vendor dataset',
+    description: `Published starting prices and features for ${data.length} AI receptionists, each with source URLs and a last-checked date. Blank fields mean not verified.`,
+    latest,
+    trackingStarted: log.trackingStarted,
+  }),
+};
 ---
-<Base title="Open vendor dataset" description="Download the aiphonecompare vendor dataset as CSV or JSON under a CC BY 4.0 license. Blank fields mean not verified.">
+<Base title="Open vendor dataset" description={description} jsonld={jsonld}>
   <header class="page-intro">
     <div class="wrap">
       <h1>Open vendor dataset</h1>
@@ -22,6 +41,8 @@ const latestLabel = latest
       <li><a href="/data/vendors.json">vendors.json</a> ({data.length} vendors)</li>
     </ul>
     <p>Prices are the text published on the vendor page, with a source and a last-checked date. They are not estimates we calculated.</p>
+    <p>How to cite: {citation}</p>
+    <p>Each price with its source type and date is in the <a href="/price-index/">price index</a>.</p>
     <p>Compare them on the <a href="/pricing/">pricing page</a> or in the <a href="/missed-call-calculator/">missed-call calculator</a>.</p>
   </div>
 </Base>
