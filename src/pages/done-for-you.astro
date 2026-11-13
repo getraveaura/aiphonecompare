@@ -1,37 +1,25 @@
 ---
-// DRAFT: not for launch until the owner approves the price and guarantee.
-// noindex, and kept out of the sitemap (postbuild skips noindex pages), nav, footer and llms.txt.
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
+import { DFY_EMAIL, DFY_OFFERS, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../lib/offers.mjs';
 
 const title = 'Done-for-you AI receptionist setup';
-const description = 'We pick, set up and tune your AI receptionist from vendors with verified, sourced prices. $1,500 one-time, with a defined result or a full refund of our fee.';
+const description = 'We pick, set up and tune your AI receptionist from vendors with verified, sourced prices. $1,500 one-time ($1,000 founding rate for the first 5 businesses), with a defined result or a full refund of our fee.';
 const pageUrl = new URL('/done-for-you/', Astro.site).href;
 
-const email = 'timothy@aiphonecompare.com';
-const subject = 'Done-for-you AI receptionist';
-const body = [
-  'Hi Timothy,',
-  '',
-  "I'd like to talk about the done-for-you AI receptionist setup.",
-  '',
-  'Business name:',
-  'Industry:',
-  'Roughly how many calls a week:',
-  'Already using an AI receptionist (yes/no):',
-  '',
-  'Thanks',
-].join('\n');
-const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+const { founding, standard } = DFY_OFFERS;
+const email = DFY_EMAIL;
+const mailto = `mailto:${email}?subject=${encodeURIComponent('Done-for-you AI receptionist')}`;
+const foundingLabel = `Claim a founding spot — ${usd(founding.price)}`;
+const standardLabel = `Pay the standard rate — ${usd(standard.price)}`;
+const spotsNote = `${FOUNDING_SPOTS} founding spots at ${usd(founding.price)}, then ${usd(standard.price)}.`;
 
-const jsonld = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
+const jsonld = dfyServiceJsonld({
   name: title,
-  url: pageUrl,
-  provider: { '@id': new URL('/#organization', Astro.site).href },
-  offers: { '@type': 'Offer', price: '1500', priceCurrency: 'USD' },
-};
+  description,
+  pageUrl,
+  orgId: new URL('/#organization', Astro.site).href,
+});
 
 const steps = [
   {
@@ -71,7 +59,7 @@ const faqs = [
   },
   {
     q: 'What happens after 60 days?',
-    a: 'You keep everything: the vendor account, the script, the FAQs and the reports. If you want us to keep tuning, optional monthly tuning is available.',
+    a: 'You keep everything we set up: the vendor account, the script and the reports.',
   },
   {
     q: 'How does the refund work?',
@@ -83,9 +71,9 @@ const faqs = [
   },
 ];
 ---
-<Base title={title} description={description} jsonld={jsonld} noindex>
-  <div class="dfy-draft" role="note">
-    <div class="wrap"><strong>Draft</strong> Pricing pending approval. This page is a preview and not a live offer.</div>
+<Base title={title} description={description} jsonld={jsonld}>
+  <div class="dfy-paid" id="dfy-paid" role="status" hidden>
+    <div class="wrap"><strong>Payment received, thank you.</strong> Your intake email from {email} is on its way; it asks for 4 quick things.</div>
   </div>
 
   <header class="page-intro dfy-intro">
@@ -94,9 +82,10 @@ const faqs = [
       <h1>We pick, set up and tune your AI receptionist.</h1>
       <p class="lead">Independent: we don't take a cut of vendor subscriptions, and rankings are never for sale. We choose from vendors with verified, sourced prices on aiphonecompare.</p>
       <div class="cta">
-        <a class="btn btn-primary" href={mailto}>Email us to get started</a>
+        <a class="btn btn-primary" href={founding.url} data-dfy-checkout={founding.key}>{foundingLabel}</a>
         <a class="btn btn-ghost" href="/overpaying/">Run the free check first</a>
       </div>
+      <p class="dfy-spots">{spotsNote}</p>
     </div>
   </header>
 
@@ -130,8 +119,10 @@ const faqs = [
           <li>Full refund of our fee if neither result is reached by day 60</li>
         </ul>
         <p class="dfy-sub">The AI receptionist subscription is paid directly to the vendor you choose, at its published price. We add no markup.</p>
-        <a class="btn btn-primary" href={mailto}>Email us to get started</a>
-        <p class="dfy-mail">Or write to <a href={mailto}>{email}</a></p>
+        <a class="btn btn-primary" href={founding.url} data-dfy-checkout={founding.key}>{foundingLabel}</a>
+        <p class="dfy-spots">{spotsNote}</p>
+        <a class="btn btn-ghost" href={standard.url} data-dfy-checkout={standard.key}>{standardLabel}</a>
+        <p class="dfy-mail">Questions first? Email <a href={mailto}>{email}</a></p>
       </aside>
     </div>
 
@@ -164,7 +155,7 @@ const faqs = [
       <h2 id="guarantee-heading">The guarantee</h2>
       <p class="dfy-promise">If neither result is reached by day 60, you get a full refund of our $1,500 fee (or $1,000 at the founding rate). No arguing.</p>
       <p>Two conditions, in plain words: the receptionist stays live and calls are forwarded as set up for the 60 days, and you share the call log and booking counts for the baseline and measurement windows.</p>
-      <p class="note">Vendor subscription fees are paid to the vendor and are covered by the vendor's own terms, not by this refund.</p>
+      <p class="note">Vendor subscription fees are paid to the vendor and are covered by the vendor's own terms, not by this refund. Full terms are in our <a href="/refunds/#done-for-you">refund policy</a>.</p>
     </section>
 
     <section class="dfy-fit" aria-labelledby="fit-heading">
@@ -184,12 +175,28 @@ const faqs = [
     <Faq items={faqs}/>
 
     <section class="dfy-close" aria-labelledby="close-heading">
-      <h2 id="close-heading">Tell us about your phones</h2>
-      <p>Send a short note with your business and roughly how many calls you get. We'll reply with whether it's a fit and what happens next.</p>
+      <h2 id="close-heading">Ready when you are</h2>
+      <p>Pay once and we email you a short intake that asks for 4 quick things. We take it from there: pick, setup, testing and 60 days of tuning.</p>
       <div class="cta">
-        <a class="btn btn-primary" href={mailto}>Email us to get started</a>
-        <a class="btn btn-ghost" href="/overpaying/">Run the free check first</a>
+        <a class="btn btn-primary" href={founding.url} data-dfy-checkout={founding.key}>{foundingLabel}</a>
+        <a class="btn btn-ghost" href={standard.url} data-dfy-checkout={standard.key}>{standardLabel}</a>
       </div>
+      <p class="dfy-spots">{spotsNote}</p>
+      <p class="dfy-mail dfy-mail-left">Questions first? Email <a href={mailto}>{email}</a></p>
     </section>
   </div>
+
+  <script>
+    import { isPaidReturn } from '../lib/offers.mjs';
+    import { track } from '../lib/analytics.mjs';
+
+    const banner = document.getElementById('dfy-paid');
+    if (banner && isPaidReturn(window.location.search)) {
+      banner.hidden = false;
+      track('dfy_paid_return');
+    }
+    document.querySelectorAll('[data-dfy-checkout]').forEach((link) => {
+      link.addEventListener('click', () => track('dfy_checkout_clicked', { tier: link.getAttribute('data-dfy-checkout') }));
+    });
+  </script>
 </Base>
