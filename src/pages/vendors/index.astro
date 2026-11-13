@@ -4,6 +4,7 @@ import VendorMark from '../../components/VendorMark.astro';
 import data from '../../data/vendors.json';
 import { formatDate } from '../../lib/stories.mjs';
 import { latestChecked } from '../../lib/schema.mjs';
+import { isSponsored } from '../../lib/spotlight.mjs';
 const vendors = [...data].sort((a, b) => a.name.localeCompare(b.name));
 const description = 'Directory of the AI receptionist vendors we track. Starting prices are sourced. Sponsored spots are labeled.';
 const latest = latestChecked(vendors);
@@ -56,7 +57,7 @@ const jsonld = {
               <th scope="row">
                 <span class="name-mark"><VendorMark slug={vendor.slug} name={vendor.name} /><a href={`/vendors/${vendor.slug}/`}>{vendor.name}</a></span>
                 {vendor.last_checked && <span class="updated">Price checked <time datetime={vendor.last_checked}>{formatDate(vendor.last_checked)}</time></span>}
-                {vendor.sponsored && <span class="badge">Sponsored</span>}
+                {isSponsored(vendor) && <span class="badge">Sponsored</span>}
               </th>
               <td data-label="Starting price">{vendor.starting_price || <span class="missing">Not verified</span>}</td>
             </tr>

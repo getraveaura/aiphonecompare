@@ -1,4 +1,5 @@
 import { estimatePlan, formatUsd } from './cost.mjs';
+import { isSponsored } from './spotlight.mjs';
 import { lowestMonthly } from './price.mjs';
 
 const MUST = ['baa', 'spanish', 'alwaysOn', 'booking', 'human'];
@@ -200,7 +201,7 @@ export function matchVendors(vendors, models, input) {
     return {
       slug: vendor.slug,
       name: vendor.name,
-      sponsored: Boolean(vendor.sponsored),
+      sponsored: isSponsored(vendor),
       estimate,
       met,
       unknown,

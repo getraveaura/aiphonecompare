@@ -17,7 +17,9 @@ const dentalInput = { industry: 'dental', cost: 400, calls: 150, minutes: 3 };
 
 function fakeData() {
   const vendor = (slug, sponsored = false) => ({
-    slug, name: slug[0].toUpperCase() + slug.slice(1), sponsored, industries: ['dental'], sources: [], last_checked: '2026-11-01',
+    slug, name: slug[0].toUpperCase() + slug.slice(1), sponsored,
+    ...(sponsored ? { spotlight: { industry: 'dental', start: '2000-01-01', end: '2999-12-31' } } : {}),
+    industries: ['dental'], sources: [], last_checked: '2026-11-01',
   });
   const provider = (slug, monthly, setupFee) => ({
     slug,
