@@ -1,0 +1,429 @@
+---
+import Base from '../../layouts/Base.astro';
+import VerifyStrip from '../../components/VerifyStrip.astro';
+import IndustryIcon from '../../components/IndustryIcon.astro';
+import models from '../../data/cost-models.json';
+import vendors from '../../data/vendors.json';
+import { DEFAULT_INPUT, INDUSTRY_OPTIONS, calculatorPath } from '../../lib/calculator.mjs';
+import { checkOverpaying, industryName, overpayingCopy, MAX_MONTHLY_COST } from '../../lib/overpaying.mjs';
+
+const initial = checkOverpaying(vendors, models, { ...DEFAULT_INPUT, cost: null });
+const copy = overpayingCopy(initial);
+const title = 'Are you overpaying for your AI receptionist?';
+const description = 'Free check: enter what you pay and roughly how many calls you get. See what the same calls cost on AI receptionist plans with published prices, each linked to its source and checked date.';
+const pageUrl = new URL('/overpaying/', Astro.site).href;
+const iconFor = { all: 'other', dental: 'dental', legal: 'legal', plumbing: 'plumbing', medical: 'medical' };
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebApplication',
+      name: title,
+      description,
+      url: pageUrl,
+      applicationCategory: 'BusinessApplication',
+      operatingSystem: 'Any',
+      isAccessibleForFree: true,
+      isPartOf: { '@id': new URL('/#website', Astro.site).href },
+      publisher: { '@id': new URL('/#organization', Astro.site).href },
+      ...(initial.checked ? { dateModified: initial.checked } : {}),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+        { '@type': 'ListItem', position: 2, name: 'Cost', item: new URL('/cost/', Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: 'Price check', item: pageUrl },
+      ],
+    },
+  ],
+};
+---
+<Base title={title} description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/cost/">Cost</a></li>
+          <li><span aria-current="page">Price check</span></li>
+        </ol>
+      </nav>
+      <h1>{title}</h1>
+      <p class="lead">Enter what you pay each month and roughly how many calls you get. We price the same calls on every plan with a published allowance and overage, and show you where they land. Free, no sign-up, and the result stays on this page.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <VerifyStrip />
+    <div class="calc-grid overpay-grid">
+      <form id="op-form" class="calc-form cost-form" novalidate>
+        <div>
+          <label for="op-industry">Industry</label>
+          <select id="op-industry" name="industry">
+            {INDUSTRY_OPTIONS.map(([id, label]) => <option value={id} selected={id === initial.input.industry}>{label}</option>)}
+          </select>
+        </div>
+        <div>
+          <label for="op-cost">What you pay now, per month, in US dollars</label>
+          <input id="op-cost" name="cost" type="number" inputmode="decimal" min="0" max={MAX_MONTHLY_COST} step="any" placeholder="e.g. 300" aria-describedby="op-cost-hint op-cost-error">
+          <p id="op-cost-hint" class="hint">Your usual monthly bill, before any one-time setup fee.</p>
+          <p id="op-cost-error" class="field-error" hidden></p>
+        </div>
+        <div>
+          <label for="op-calls">Calls per month, roughly</label>
+          <input id="op-calls" name="calls" type="number" inputmode="numeric" min="0" step="1" value={initial.input.calls} aria-describedby="op-calls-error">
+          <p id="op-calls-error" class="field-error" hidden></p>
+        </div>
+        <div>
+          <label for="op-minutes">Average call length in minutes</label>
+          <input id="op-minutes" name="minutes" type="number" inputmode="decimal" min="0" step="any" value={initial.input.minutes} aria-describedby="op-minutes-hint op-minutes-error">
+          <p id="op-minutes-hint" class="hint">3 is a fair guess if you are not sure. Per-call plans ignore it.</p>
+          <p id="op-minutes-error" class="field-error" hidden></p>
+        </div>
+        <div class="cta">
+          <button class="btn btn-primary" type="submit">Check my price</button>
+          <button class="btn btn-ghost" type="button" id="op-copy">Copy link</button>
+        </div>
+        <p id="op-copy-status" class="note" role="status" aria-live="polite"></p>
+      </form>
+
+      <section class="estimate overpay-summary" aria-labelledby="op-heading" data-state={initial.state}>
+        <p class="industry-kicker">
+          {INDUSTRY_OPTIONS.map(([id]) => (
+            <span class="op-icon" data-for={id} hidden={id !== initial.input.industry}><IndustryIcon name={iconFor[id]} /></span>
+          ))}
+          <span id="op-industry-label">{industryName(initial.input.industry)}</span>
+        </p>
+        <h2 id="op-heading" tabindex="-1">{copy.heading}</h2>
+        <p id="op-summary" role="status" aria-live="polite" aria-atomic="true">{copy.summary}</p>
+        <dl class="overpay-stats" id="op-stats" hidden>
+          <div><dt>You pay</dt><dd id="op-stat-cost"></dd></div>
+          <div><dt>Lowest estimate</dt><dd id="op-stat-lowest"></dd></div>
+          <div><dt>Plans under your price</dt><dd id="op-stat-count"></dd></div>
+          <div><dt>Monthly difference</dt><dd id="op-stat-diff"></dd></div>
+        </dl>
+        <p class="note">Estimates are based on published prices, checked <time id="op-checked" datetime={initial.checked}>{initial.checkedLabel}</time>. They are not quotes. Sponsored listings do not change the order.</p>
+      </section>
+    </div>
+
+    <noscript>
+      <p>JavaScript is off, so the comparison cannot run. The list below shows the lowest published estimates at 150 calls of 3 minutes. The <a href="/cost/calculator/">cost calculator</a> has the full table.</p>
+    </noscript>
+
+    <section aria-labelledby="op-options-heading">
+      <h2 class="section-title" id="op-options-heading">{initial.state === 'savings' ? 'Plans that come in under what you pay' : 'Lowest published estimates at this volume'}</h2>
+      <ol class="overpay-options" id="op-options">
+        {initial.options.map((row) => (
+          <li class="story-card overpay-option">
+            <div class="overpay-option-head">
+              <h3><a href={row.vendorHref}>{row.name}</a>{row.sponsored && <span class="badge">Sponsored</span>}</h3>
+              <p class="overpay-price"><span class="est-figure">{row.monthly}</span> a month, estimated</p>
+            </div>
+            <p class="est-plan">{row.planName} plan{row.published ? ` · published ${row.published}` : ''}</p>
+            <dl class="record overpay-record">
+              <div><dt>Setup</dt><dd>{row.setup}{!row.setupKnown && ' · not counted as zero'}</dd></div>
+              <div><dt>Price source</dt><dd><a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}<span class="vh"> for {row.name}</span></a> · checked <time datetime={row.checked}>{row.checkedLabel}</time></dd></div>
+            </dl>
+            <details>
+              <summary>How this is estimated{row.unknowns.length ? `, and ${row.unknowns.length} things the page leaves open` : ''}</summary>
+              <p>{row.formula}</p>
+              {row.unknowns.length > 0 && <ul class="cost-notes">{row.unknowns.map((item) => <li>{item}</li>)}</ul>}
+            </details>
+            <p class="overpay-links"><a href={row.vendorHref}>{row.name} on aiphonecompare</a></p>
+          </li>
+        ))}
+      </ol>
+      <p id="op-missing" class="note">{initial.missing.length ? `${initial.missing.length} more ${initial.missing.length === 1 ? 'vendor does' : 'vendors do'} not publish enough pricing to estimate this volume, so ${initial.missing.length === 1 ? 'it is' : 'they are'} left out rather than guessed.` : ''}</p>
+      <p>See every vendor, first-year totals and the setup fees in the <a id="op-calc-link" href={calculatorPath({ ...initial.input, afterHours: null })}>full cost calculator</a>, or read the <a href="/cost/">cost method</a>.</p>
+    </section>
+
+    <section class="guide overpay-lead" id="op-lead" aria-labelledby="op-lead-heading" hidden>
+      <h2 id="op-lead-heading">Want these results in your inbox?</h2>
+      <p>Optional. Everything is already on this page, and the link above keeps it. If you would like a copy to come back to, we will email it.</p>
+      <form id="op-lead-form" class="calc-form overpay-lead-form" novalidate>
+        <div>
+          <label for="op-email">Email</label>
+          <input id="op-email" name="email" type="email" autocomplete="email" required maxlength="320" aria-describedby="op-email-error">
+          <p id="op-email-error" class="field-error" hidden></p>
+        </div>
+        <div>
+          <label for="op-name">First name, optional</label>
+          <input id="op-name" name="name" type="text" autocomplete="given-name" maxlength="120">
+        </div>
+        <div>
+          <label for="op-business">Business name, optional</label>
+          <input id="op-business" name="business" type="text" autocomplete="organization" maxlength="160">
+        </div>
+        <div class="vh" aria-hidden="true">
+          <label for="op-company-website">Company website</label>
+          <input id="op-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+        </div>
+        <div class="cta">
+          <button class="btn btn-primary" type="submit" id="op-lead-submit">Email me the results</button>
+        </div>
+        <p id="op-lead-status" class="note" role="status" aria-live="polite"></p>
+      </form>
+      <p class="note">We only use your email to send these results and occasional price updates. Unsubscribe anytime by replying. <a href="/privacy/">Privacy</a>.</p>
+    </section>
+  </div>
+</Base>
+<script>
+  import models from '../../data/cost-models.json';
+  import vendors from '../../data/vendors.json';
+  import { calculatorPath } from '../../lib/calculator.mjs';
+  import { formatUsd } from '../../lib/cost.mjs';
+  import {
+    checkOverpaying,
+    industryName,
+    monthlyCostBucket,
+    overpayingCopy,
+    overpayingPath,
+    parseOverpayingQuery,
+  } from '../../lib/overpaying.mjs';
+  import { LEAD_ENDPOINT, buildLeadPayload, validEmail } from '../../lib/leads.mjs';
+  import { track } from '../../lib/analytics.mjs';
+
+  const $ = (id) => document.getElementById(id);
+  const form = $('op-form') as HTMLFormElement;
+  const fields = {
+    industry: $('op-industry') as HTMLSelectElement,
+    cost: $('op-cost') as HTMLInputElement,
+    calls: $('op-calls') as HTMLInputElement,
+    minutes: $('op-minutes') as HTMLInputElement,
+  };
+  const summaryBox = document.querySelector('.overpay-summary') as HTMLElement;
+  const heading = $('op-heading')!;
+  const summary = $('op-summary')!;
+  const stats = $('op-stats')!;
+  const optionsHeading = $('op-options-heading')!;
+  const list = $('op-options')!;
+  const missing = $('op-missing')!;
+  const calcLink = $('op-calc-link') as HTMLAnchorElement;
+  const lead = $('op-lead')!;
+  const leadForm = $('op-lead-form') as HTMLFormElement;
+  const leadButton = $('op-lead-submit') as HTMLButtonElement;
+  const leadStatus = $('op-lead-status')!;
+  const emailError = $('op-email-error')!;
+  const email = $('op-email') as HTMLInputElement;
+
+  let current = null;
+  let lastTracked = '';
+
+  function el(tag, attrs = {}, ...children) {
+    const node = document.createElement(tag);
+    for (const [key, value] of Object.entries(attrs)) {
+      if (value == null || value === false) continue;
+      if (key === 'class') node.className = value;
+      else node.setAttribute(key, value === true ? '' : String(value));
+    }
+    for (const child of children) {
+      if (child == null || child === false) continue;
+      node.append(child);
+    }
+    return node;
+  }
+
+  function optionCard(row, state) {
+    const title = el('h3', {}, el('a', { href: row.vendorHref }, row.name));
+    if (row.sponsored) title.append(el('span', { class: 'badge' }, 'Sponsored'));
+    const price = el('p', { class: 'overpay-price' }, el('span', { class: 'est-figure' }, row.monthly), ' a month, estimated');
+    let diff = null;
+    if (state === 'savings' && row.cheaper) {
+      diff = el('p', { class: 'overpay-diff' }, `${formatUsd(row.differenceCents)} a month less than you pay now`);
+    } else if (state === 'competitive') {
+      diff = el('p', { class: 'overpay-diff is-neutral' }, row.differenceCents === 0
+        ? 'The same as you pay now'
+        : `${formatUsd(-row.differenceCents)} a month above your current price`);
+    }
+    const setup = el('dd', {}, row.setup + (row.setupKnown ? '' : ' · not counted as zero'));
+    const source = el('dd', {},
+      el('a', { href: row.sourceHref, rel: 'nofollow noopener' }, row.sourceLabel, el('span', { class: 'vh' }, ` for ${row.name}`)),
+      ' · checked ',
+      el('time', { datetime: row.checked }, row.checkedLabel),
+    );
+    const record = el('dl', { class: 'record overpay-record' },
+      el('div', {}, el('dt', {}, 'Setup'), setup),
+      el('div', {}, el('dt', {}, 'Price source'), source),
+    );
+    const details = el('details', {},
+      el('summary', {}, `How this is estimated${row.unknowns.length ? `, and ${row.unknowns.length} things the page leaves open` : ''}`),
+      el('p', {}, row.formula),
+    );
+    if (row.unknowns.length) details.append(el('ul', { class: 'cost-notes' }, ...row.unknowns.map((item) => el('li', {}, item))));
+    return el('li', { class: 'story-card overpay-option' },
+      el('div', { class: 'overpay-option-head' }, title, price),
+      el('p', { class: 'est-plan' }, `${row.planName} plan${row.published ? ` · published ${row.published}` : ''}`),
+      diff,
+      record,
+      details,
+      el('p', { class: 'overpay-links' }, el('a', { href: row.vendorHref }, `${row.name} on aiphonecompare`)),
+    );
+  }
+
+  function readForm() {
+    return parseOverpayingQuery({
+      industry: fields.industry.value,
+      cost: fields.cost.value,
+      calls: fields.calls.value,
+      minutes: fields.minutes.value,
+    });
+  }
+
+  function showErrors(errors) {
+    for (const key of ['cost', 'calls', 'minutes']) {
+      const box = $(`op-${key}-error`)!;
+      const message = errors[key] || '';
+      box.textContent = message;
+      box.hidden = !message;
+      if (message) fields[key].setAttribute('aria-invalid', 'true');
+      else fields[key].removeAttribute('aria-invalid');
+    }
+  }
+
+  function paint({ input, errors }, { updateUrl = true } = {}) {
+    showErrors(errors);
+    const result = checkOverpaying(vendors, models, input);
+    current = result;
+    const copy = overpayingCopy(result);
+    summaryBox.dataset.state = result.state;
+    heading.textContent = copy.heading;
+    summary.textContent = copy.summary;
+    $('op-industry-label')!.textContent = industryName(input.industry);
+    document.querySelectorAll('.op-icon').forEach((node) => {
+      (node as HTMLElement).hidden = (node as HTMLElement).dataset.for !== input.industry;
+    });
+
+    const compared = result.state === 'savings' || result.state === 'competitive';
+    stats.hidden = !compared;
+    if (compared) {
+      $('op-stat-cost')!.textContent = result.cost;
+      $('op-stat-lowest')!.textContent = result.lowest.monthly;
+      $('op-stat-count')!.textContent = `${result.cheaperCount} of ${result.estimatedCount}`;
+      $('op-stat-diff')!.textContent = result.state === 'savings' ? `Up to ${result.savings}` : 'None lower';
+    }
+
+    optionsHeading.textContent = result.state === 'savings'
+      ? 'Plans that come in under what you pay'
+      : result.state === 'competitive'
+        ? 'What the same calls cost on other plans'
+        : 'Lowest published estimates at this volume';
+    list.replaceChildren(...result.options.map((row) => optionCard(row, result.state)));
+    optionsHeading.parentElement!.hidden = result.state === 'empty' && !result.missing.length;
+    const count = result.missing.length;
+    missing.textContent = count
+      ? `${count} more ${count === 1 ? 'vendor does' : 'vendors do'} not publish enough pricing to estimate this volume, so ${count === 1 ? 'it is' : 'they are'} left out rather than guessed.`
+      : '';
+    calcLink.href = calculatorPath({ ...input, afterHours: null });
+
+    lead.hidden = !compared;
+    if (updateUrl) {
+      const path = overpayingPath(input);
+      if (`${location.pathname}${location.search}` !== path) history.replaceState(null, '', path);
+    }
+    return result;
+  }
+
+  function trackRun(result) {
+    if (result.state !== 'savings' && result.state !== 'competitive') return;
+    const key = overpayingPath(result.input);
+    if (key === lastTracked) return;
+    lastTracked = key;
+    track('overpaying_check_run', {
+      industry: result.input.industry,
+      monthly_cost_bucket: monthlyCostBucket(result.input.cost),
+      cheaper_count: result.cheaperCount,
+      has_savings: result.state === 'savings',
+    });
+  }
+
+  // Load from the shareable link, e.g. ?industry=dental&cost=400&calls=150&minutes=3
+  const params = Object.fromEntries(new URLSearchParams(location.search));
+  const fromUrl = parseOverpayingQuery(params);
+  fields.industry.value = fromUrl.input.industry;
+  fields.cost.value = fromUrl.input.cost == null ? (params.cost ?? '') : String(fromUrl.input.cost);
+  fields.calls.value = String(fromUrl.input.calls);
+  fields.minutes.value = String(fromUrl.input.minutes);
+  trackRun(paint(fromUrl, { updateUrl: Boolean(location.search) }));
+
+  form.addEventListener('input', () => paint(readForm()));
+  form.addEventListener('change', () => trackRun(paint(readForm())));
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const parsed = readForm();
+    const result = paint(parsed);
+    trackRun(result);
+    if (parsed.errors.cost || parsed.errors.calls || parsed.errors.minutes) {
+      const first = ['cost', 'calls', 'minutes'].find((key) => parsed.errors[key]);
+      fields[first].focus();
+      return;
+    }
+    if (result.state === 'needs-cost') {
+      fields.cost.focus();
+      return;
+    }
+    heading.focus({ preventScroll: true });
+    summaryBox.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+
+  $('op-copy')!.addEventListener('click', async () => {
+    const url = `${location.origin}${overpayingPath(readForm().input)}`;
+    const status = $('op-copy-status')!;
+    try {
+      await navigator.clipboard.writeText(url);
+      status.textContent = 'Link copied.';
+    } catch {
+      status.textContent = url;
+    }
+  });
+
+  leadForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!current || (current.state !== 'savings' && current.state !== 'competitive')) return;
+    const data = new FormData(leadForm);
+    if (!validEmail(data.get('email'))) {
+      emailError.textContent = 'Enter an email address, like name@example.com.';
+      emailError.hidden = false;
+      email.setAttribute('aria-invalid', 'true');
+      email.focus();
+      return;
+    }
+    emailError.hidden = true;
+    email.removeAttribute('aria-invalid');
+    const payload = buildLeadPayload({
+      email: data.get('email'),
+      name: data.get('name'),
+      business: data.get('business'),
+      honeypot: data.get('company_website'),
+    }, current);
+    leadButton.disabled = true;
+    leadButton.textContent = 'Sending…';
+    leadStatus.textContent = '';
+    let status = 0;
+    let ok = false;
+    try {
+      const response = await fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      status = response.status;
+      const body = await response.json().catch(() => null);
+      ok = response.ok && body?.ok === true;
+    } catch {
+      status = 0;
+    }
+    leadButton.disabled = false;
+    if (ok) {
+      leadButton.textContent = 'Email me the results';
+      leadStatus.textContent = 'Sent. Check your inbox in a minute — it comes from timothy@aiphonecompare.com.';
+      leadForm.reset();
+      track('overpaying_email_submitted', { industry: current.input.industry, cheaper_count: current.cheaperCount });
+      return;
+    }
+    leadButton.textContent = 'Try again';
+    leadStatus.textContent = status === 429
+      ? 'A lot of requests came from this connection. Give it a minute, then try again. Your results are still here.'
+      : 'That did not send. Your results are still on this page. Try again in a moment.';
+    track('overpaying_email_failed', { status });
+  });
+</script>

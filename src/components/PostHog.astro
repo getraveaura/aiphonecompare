@@ -21,6 +21,9 @@
       disable_session_recording: true,
       person_profiles: 'identified_only',
     });
+    // Page scripts fire events through src/lib/analytics.mjs, which waits for this.
+    (window as Window & { posthog?: typeof posthog }).posthog = posthog;
+    window.dispatchEvent(new Event('apc:posthog-ready'));
     document.addEventListener('astro:page-load', () => {
       if (initialPageLoad) {
         initialPageLoad = false;
