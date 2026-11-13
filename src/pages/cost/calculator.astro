@@ -10,7 +10,7 @@ const pageUrl = new URL('/cost/calculator/', Astro.site).href;
 const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'WebPage', name: 'AI receptionist cost calculator', description, url: pageUrl },
+    { '@type': 'WebPage', name: 'AI receptionist cost calculator', description, url: pageUrl, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(quote.checked ? { dateModified: quote.checked } : {}) },
     {
       '@type': 'BreadcrumbList',
       itemListElement: [

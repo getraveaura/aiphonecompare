@@ -10,6 +10,7 @@ import stories from '../../data/stories.json';
 import priceLog from '../../data/price-changes.json';
 import { catchGroups, formatDate, storiesForVendor } from '../../lib/stories.mjs';
 import { linksForVendor } from '../../lib/landings.mjs';
+import { vendorOffer } from '../../lib/schema.mjs';
 export function getStaticPaths(){ return data.map((v) => ({ params: { slug: v.slug }, props: { v } })); }
 const { v } = Astro.props;
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
@@ -36,13 +37,21 @@ const catchSet = catchGroups(stories, { vendorSlug: v.slug });
 const priceChanges = priceLog.changes.filter((change) => change.vendorSlug === v.slug);
 const guides = linksForVendor(v.slug);
 const description = `${v.name} AI receptionist: ${v.starting_price ? ("pricing " + v.starting_price + ", ") : ""}features, integrations and sources. Last checked ${v.last_checked}.`.slice(0, 300);
+const offer = vendorOffer(v);
+const vendorOrg = { '@type': 'Organization', name: v.name };
+if (v.website) vendorOrg.url = v.website;
+if (offer) vendorOrg.makesOffer = offer;
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: v.name,
   url: new URL(`/vendors/${v.slug}/`, Astro.site).href,
   description,
+  isPartOf: { '@id': new URL('/#website', Astro.site).href },
+  about: vendorOrg,
 };
+if (v.last_checked) jsonld.dateModified = v.last_checked;
+
 ---
 <Base title={`${v.name} review & pricing`} description={description} jsonld={jsonld}>
   <header class="page-intro">

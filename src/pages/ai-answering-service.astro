@@ -4,6 +4,8 @@ import Faq from '../components/Faq.astro';
 import VendorTable from '../components/VendorTable.astro';
 import data from '../data/vendors.json';
 import { byPublishedMonthlyPrice, lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
+import { formatDate } from '../lib/stories.mjs';
+import { latestChecked } from '../lib/schema.mjs';
 const vendors = byPublishedMonthlyPrice(data);
 const low = lowestMonthlyListing(data);
 const lowAmount = low ? lowestMonthly(low.starting_price) : null;
@@ -20,17 +22,30 @@ const faqs = [
   { q: 'Do you rank these services?', a: 'No. The table sorts by the lowest monthly dollar amount written in each listing. That is not a quality score. Sponsored listings are labeled, and payment does not change the price text.' },
   { q: 'Where are prices checked?', a: 'Each price is copied from the vendor site or from a cited source, and the vendor page shows the date we checked it. A blank price means we have not verified one.' },
 ];
+const latest = latestChecked(data);
+const latestLabel = latest ? formatDate(latest) : '';
+const title = 'AI answering service comparison';
+const description = 'Compare AI answering services by the monthly starting price published in each listing. Prices we could not verify are marked Not verified.';
+const pageUrl = new URL('/ai-answering-service/', Astro.site).href;
 const jsonld = {
   '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+  '@graph': [
+    { '@type': 'WebPage', name: title, url: pageUrl, description, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(latest ? { dateModified: latest } : {}) },
+    { '@type': 'FAQPage', mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
 };
 const caption = 'Sorted by the lowest monthly dollar amount written in each listing. Per-minute rates are not converted into a monthly price. Not verified means no starting price was published. This is not a quality ranking.';
 ---
-<Base title="AI answering service comparison" description="Compare AI answering services by the monthly starting price published in each listing. Prices we could not verify are marked Not verified." jsonld={jsonld}>
+<Base title={title} description={description} jsonld={jsonld}>
   <header class="page-intro">
     <div class="wrap">
-      <h1>AI answering service comparison</h1>
+      <h1>{title}</h1>
+      {latest && (
+        <p class="checked">
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Prices checked <time datetime={latest}>{latestLabel}</time>
+        </p>
+      )}
       <p class="lead">An AI answering service uses software to pick up inbound calls. This page lists every AI receptionist in the directory. The order uses only the monthly dollar amount written in each published price, checked against the source on the vendor page.</p>
     </div>
   </header>

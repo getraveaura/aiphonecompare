@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import models from '../data/cost-models.json';
 import { formatUsd } from '../lib/cost.mjs';
+import { costFaqs } from '../lib/cost-faq.mjs';
 
 const checkedLabel = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${models.checked}T00:00:00Z`));
 function oneTime(plan) {
@@ -9,11 +10,22 @@ function oneTime(plan) {
   if (plan.setupFee === 0) return 'No setup fee on the pricing page';
   return `${formatUsd(Math.round(plan.setupFee * 100))} one time`;
 }
+const title = 'What an AI receptionist will cost';
+const description = 'Estimate a monthly bill from your call volume for providers that publish official allowances and overage rates. Missing prices stay unverified.';
+const pageUrl = new URL('/cost/', Astro.site).href;
+const faqs = costFaqs(checkedLabel);
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', name: title, url: pageUrl, description, dateModified: models.checked, isPartOf: { '@id': new URL('/#website', Astro.site).href } },
+    { '@type': 'FAQPage', url: pageUrl, mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
+};
 ---
-<Base title="What an AI receptionist will cost" description="Estimate a monthly bill from your call volume for providers that publish official allowances and overage rates. Missing prices stay unverified.">
+<Base title={title} description={description} jsonld={jsonld}>
   <header class="page-intro">
     <div class="wrap">
-      <h1>What an AI receptionist will cost</h1>
+      <h1>{title}</h1>
       <p class="lead">Enter your own call volume. The rows below turn that into a monthly scenario only where the provider's pricing page publishes the unit, the allowance, and the overage. A starting price is not the same as this bill.</p>
     </div>
   </header>
