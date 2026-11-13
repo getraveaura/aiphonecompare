@@ -1,15 +1,93 @@
 ---
 import Base from '../layouts/Base.astro';
+const toc = [
+  ['summary', 'The short version'],
+  ['hosting', 'Hosting'],
+  ['analytics', 'Page-view counts (PostHog)'],
+  ['price-check', 'The price check'],
+  ['email-forms', 'Email forms'],
+  ['emails', 'Emails we send'],
+  ['payments', 'Payments'],
+  ['email-us', 'When you email us'],
+  ['sharing', 'Selling and sharing'],
+  ['retention', 'How long we keep it'],
+  ['choices', 'Leaving the list and deletion'],
+  ['sponsored', 'Sponsored placements'],
+  ['children', 'Children'],
+  ['changes', 'Changes to this policy'],
+  ['contact', 'Contact'],
+];
 ---
-<Base title="Privacy" description="How aiphonecompare counts page views with PostHog, without a tracking cookie, how the stories email list is stored, and how sponsored listings are labeled.">
-  <article class="wrap prose page-intro">
-    <h1>Privacy</h1>
-    <p>We use <a href="https://posthog.com/">PostHog</a> to count anonymous page views. A page view includes the page address and the basic technical details PostHog sends with that request. We do not ask you to sign in, and we do not attach these counts to your name.</p>
+<Base title="Privacy policy" description="What aiphonecompare collects and why: anonymous PostHog page views with no tracking cookie, optional email forms stored in Supabase, emails sent with Resend, and payments through Stripe.">
+  <article class="wrap prose page-intro legal">
+    <h1>Privacy policy</h1>
+    <p class="note">Last updated: November 13, 2026</p>
+    <nav class="legal-toc" aria-label="On this page">
+      <h2 id="toc-heading">On this page</h2>
+      <ol>
+        {toc.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}
+      </ol>
+    </nav>
+
+    <h2 id="summary">The short version</h2>
+    <p>You can use aiphonecompare without an account. We count anonymous page views. If you choose to give us your email address, we use it to send what you asked for and the list you joined. If you buy a spotlight, Stripe handles the card. We do not sell personal information, and we do not use it for advertising.</p>
+
+    <h2 id="hosting">Hosting</h2>
+    <p>The site is a set of static pages hosted on GitHub Pages. To serve a page, GitHub receives standard request data, such as your IP address and browser details. GitHub handles that data under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">its own privacy statement</a>.</p>
+
+    <h2 id="analytics">Page-view counts (PostHog)</h2>
+    <p>We use <a href="https://posthog.com/">PostHog</a> (its US cloud, us.i.posthog.com) to count anonymous page views. A page view includes the page address and the basic technical details PostHog sends with that request. We do not ask you to sign in, and we do not attach these counts to your name.</p>
     <p>The counter keeps its id in memory for the page session. It does not set a tracking cookie.</p>
     <p>If your browser sends Do Not Track, we do not start PostHog.</p>
+    <p>Autocapture (recording every click) and session recording are turned off.</p>
+
+    <h2 id="price-check">The price check</h2>
+    <p>The <a href="/overpaying/">price check</a> runs in your browser. It counts that a check was run, with the industry, a rough cost band, and how many plans came in lower. A shared result link keeps the industry and numbers in the page address, and the page address is part of a page view. Your email and name are never sent to PostHog.</p>
+
+    <h2 id="email-forms">Email forms</h2>
+    <p>Two forms on the site ask for an email address. Both are optional.</p>
+    <ul>
+      <li><strong>"Email me the results" on the price check.</strong> We store your email, the optional first name and business name, the numbers from that check, and the top matches shown to you.</li>
+      <li><strong>The stories list on the <a href="/stories/">stories page</a>.</strong> We store your email and the industry you pick.</li>
+    </ul>
+    <p>Both forms send to the same place: a <a href="https://supabase.com/">Supabase</a> Edge Function that saves the signup in a Supabase database table in a US region. The public can't read that table. The forms are separate from the PostHog page-view counter.</p>
+    <p>We also store your browser's user-agent (the short text that names your browser and system) with the signup. To limit abuse, we make a one-way hash of your IP address. That hash is used only to rate-limit repeated sign-ups and is kept for up to 2 days. We do not store the IP address itself.</p>
+
+    <h2 id="emails">Emails we send</h2>
+    <p>We send email with <a href="https://resend.com/">Resend</a>, from timothy@aiphonecompare.com.</p>
+    <ul>
+      <li>After you sign up, a welcome email: your price check results, or a note confirming the stories list you joined.</li>
+      <li>For the stories list, new stories and logged price changes for the industry you picked.</li>
+      <li>For the price check list, occasional price updates.</li>
+    </ul>
+    <p>Our own inbox gets a short notice of each new signup.</p>
+
+    <h2 id="payments">Payments</h2>
+    <p>The $49 Industry spotlight on the <a href="/get-featured/">get featured page</a> is paid through Stripe Payment Links. <a href="https://stripe.com/">Stripe</a> collects your card and billing details. We never see full card numbers.</p>
+    <p>From Stripe we receive the buyer's email, name, the amount paid, and Stripe's payment IDs. We store them with the order record in the same Supabase table, and we send a thank-you email. Refunds are covered by the <a href="/refunds/">refund policy</a>.</p>
+
+    <h2 id="email-us">When you email us</h2>
+    <p>If you email or reply to timothy@aiphonecompare.com, your message is kept in that mailbox.</p>
+
+    <h2 id="sharing">Selling and sharing</h2>
+    <p>We do not sell personal information. We do not use it for advertising. The services named on this page (GitHub, PostHog, Supabase, Resend, and Stripe) handle data only to do the jobs described here.</p>
+
+    <h2 id="retention">How long we keep it</h2>
+    <p>List subscribers are kept until they leave the list or ask us to delete their record. Payment records are kept as long as we need them for accounting.</p>
+
+    <h2 id="choices">Leaving the list and deletion</h2>
+    <p>To leave a list, reply to any email we send. To have your record deleted, email <a href="mailto:timothy@aiphonecompare.com">timothy@aiphonecompare.com</a> and we will delete it.</p>
+
+    <h2 id="sponsored">Sponsored placements</h2>
     <p>Sponsored placements are labeled on the page. They are separate from these traffic counts. Payment does not change listed prices or the order of unsponsored listings.</p>
-    <p>The stories page has an email form. If you join, we store the email address and the industry you pick in a Supabase table. The page can add a row. It cannot read the table. We use that list to send new stories and logged price changes for the industry you picked. We do not sell the list. To be taken off it, email <a href="mailto:timothy@aiphonecompare.com">timothy@aiphonecompare.com</a>. The form is separate from the PostHog page-view counter.</p>
-    <p>The <a href="/overpaying/">price check</a> runs in your browser. It counts that a check was run, with the industry, a rough cost band, and how many plans came in lower. A shared result link keeps the industry and numbers in the page address, and the page address is part of a page view. Your email and name are never sent to PostHog. Below the result there is an optional form to email yourself the result. If you use it, we store the email, the optional first name and business name, and the numbers in that check. We use them to send the result and occasional price updates. To stop, reply to any of those emails.</p>
-    <p>This note describes what the site does. It is not a legal policy.</p>
+
+    <h2 id="children">Children</h2>
+    <p>aiphonecompare is for businesses. It is not directed to children.</p>
+
+    <h2 id="changes">Changes to this policy</h2>
+    <p>If we change how the site handles data, we update this page and the date at the top.</p>
+
+    <h2 id="contact">Contact</h2>
+    <p>Questions about privacy: <a href="mailto:timothy@aiphonecompare.com">timothy@aiphonecompare.com</a>.</p>
   </article>
 </Base>

@@ -17,6 +17,9 @@ const INDUSTRIES = new Map([
   ["legal", "Legal"],
   ["plumbing", "Home services"],
   ["medical", "Medical"],
+  ["hvac", "HVAC"],
+  ["roofing", "Roofing"],
+  ["other", "Other"],
 ]);
 const EMAIL_RE = /^[^@\s<>"']{1,64}@[A-Za-z0-9.-]{1,190}\.[A-Za-z]{2,24}$/;
 
@@ -114,7 +117,6 @@ Deno.serve(async (req) => {
     call_minutes: callMinutes,
     results_url: resultsUrl,
     matches,
-    ip_hash: ipHash,
     user_agent: cleanText(req.headers.get("user-agent"), 200),
     welcome_email: null as unknown,
   };
@@ -173,11 +175,22 @@ ${table}
     "aiphonecompare.com",
   ].join("\n");
 
+  const isStories = source === "stories";
+  const storiesHtml = shell(`
+<p>${hi}</p>
+<p>You're on the list for <strong>${esc(industryLabel)}</strong>. When we add a sourced customer story or log a vendor price change for that industry, we'll send you a short note.</p>
+<p>Every story and price on the site links to its source, so you can always check the details yourself.</p>
+${button(`${SITE}/stories/`, "Read the latest stories")}
+<p>While you're here, the free price check shows what your calls would cost on every plan with published pricing:</p>
+<p><a href="${SITE}/overpaying/" style="color:#1f5f4a;">aiphonecompare.com/overpaying</a></p>
+<p>To leave the list, just reply to any email.</p>
+<p>Timothy<br><span style="color:#6b6b66;">aiphonecompare.com</span></p>`);
+  const storiesText = `${name ? `Hi ${name},` : "Hi there,"}\n\nYou're on the list for ${industryLabel}. When we add a sourced customer story or log a vendor price change for that industry, we'll send you a short note.\n\nLatest stories: ${SITE}/stories/\nFree price check: ${SITE}/overpaying/\n\nTo leave the list, just reply to any email.\n\nTimothy\naiphonecompare.com`;
   const sent = await sendEmail({
     to: email,
-    subject: "Your AI receptionist price check results",
-    html,
-    text,
+    subject: isStories ? `You're on the ${industryLabel} stories list` : "Your AI receptionist price check results",
+    html: isStories ? storiesHtml : html,
+    text: isStories ? storiesText : text,
     tags: [{ name: "type", value: "welcome" }, { name: "source", value: source.replace(/[^a-zA-Z0-9_-]/g, "") || "overpaying" }],
   });
   await sql`update aiphonecompare.leads set payload = payload || ${sql.json({ welcome_email: { ...sent, at: new Date().toISOString() } })} where id = ${leadId}`;

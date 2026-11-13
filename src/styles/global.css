@@ -827,3 +827,18 @@ pre {
   .overpay-stats dd { font-size: 1.25rem; }
   .overpay-record div { grid-template-columns: 1fr; gap: 2px; }
 }
+
+.legal ul { margin: 0 0 0.9rem; padding-left: 1.15rem; }
+.legal li { margin: 0.35rem 0; }
+.legal h2[id] { scroll-margin-top: 1rem; }
+.legal-toc {
+  margin: 1.25rem 0 0.5rem;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.legal-toc h2 { margin: 0 0 6px; font-size: 1.1rem; }
+.legal-toc ol { margin: 0; padding-left: 1.25rem; columns: 2 14rem; column-gap: 2rem; }
+.legal-toc li { margin: 0.2rem 0; break-inside: avoid; }
+.offer-refund { margin: 0.6rem 0 0; font-size: 0.92rem; }

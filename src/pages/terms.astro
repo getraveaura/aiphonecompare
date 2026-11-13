@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+const toc = [
+  ['what', 'What this site is'],
+  ['prices', 'Prices and estimates'],
+  ['sponsored', 'Sponsored placements'],
+  ['trademarks', 'Vendor names and trademarks'],
+  ['links', 'Links to other sites'],
+  ['corrections', 'Corrections from vendors'],
+  ['use', 'Acceptable use'],
+  ['data', 'The open dataset'],
+  ['paid', 'Paid placements'],
+  ['warranty', 'No warranty'],
+  ['liability', 'Limit of liability'],
+  ['changes', 'Changes to these terms'],
+  ['contact', 'Contact'],
+];
+---
+<Base title="Terms of use" description="The terms for using aiphonecompare: an independent comparison of AI receptionists. Prices are checked and dated but can change, so verify with the vendor before you buy.">
+  <article class="wrap prose page-intro legal">
+    <h1>Terms of use</h1>
+    <p class="note">Last updated: November 13, 2026</p>
+    <p>By using aiphonecompare, you agree to these terms. They are written to be read. If something is unclear, email us.</p>
+    <nav class="legal-toc" aria-label="On this page">
+      <h2 id="toc-heading">On this page</h2>
+      <ol>
+        {toc.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}
+      </ol>
+    </nav>
+
+    <h2 id="what">What this site is</h2>
+    <p>aiphonecompare is an independent comparison of AI receptionists and AI phone answering services. It is information to help you decide. It is not professional, legal, or financial advice. Pages like <a href="/call-recording-consent-by-state/">call recording consent by state</a> are a starting point, not legal advice for your situation.</p>
+
+    <h2 id="prices">Prices and estimates</h2>
+    <p>Prices come from vendors' public pages and from cited third-party sources. Each one shows the date we checked it. Vendors change prices and plans, sometimes without notice, so a price here may be out of date. Check with the vendor before you buy.</p>
+    <p>The calculators and the price check give estimates based on published pricing and the numbers you enter. An estimate is not a quote. Your real cost depends on the vendor's terms and how you use the service.</p>
+
+    <h2 id="sponsored">Sponsored placements</h2>
+    <p>Sponsored placements are labeled Sponsored. Payment never changes a verified price or the order of unsponsored listings. See <a href="/about/">how we rank</a>.</p>
+
+    <h2 id="trademarks">Vendor names and trademarks</h2>
+    <p>Vendor names, logos, and trademarks belong to their owners. We use them to identify the products we compare. Their use does not mean a vendor endorses this site.</p>
+
+    <h2 id="links">Links to other sites</h2>
+    <p>We link to vendor sites and other sources. Those sites are run by others, and their content, prices, and practices are their responsibility.</p>
+
+    <h2 id="corrections">Corrections from vendors</h2>
+    <p>If you are a vendor and something about your product is wrong, email <a href="mailto:timothy@aiphonecompare.com?subject=Correction">timothy@aiphonecompare.com</a> with a link to a public source that shows the correct information. We check it and update the page.</p>
+
+    <h2 id="use">Acceptable use</h2>
+    <p>Please don't:</p>
+    <ul>
+      <li>scrape or crawl the site in a way that slows it down or harms it (the <a href="/data/">open dataset</a> is there so you don't need to);</li>
+      <li>abuse the forms, for example by sending automated, fake, or other people's sign-ups;</li>
+      <li>try to break, overload, or get around the site's protections.</li>
+    </ul>
+
+    <h2 id="data">The open dataset</h2>
+    <p>The vendor files on the <a href="/data/">open dataset page</a> are licensed under <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a>. If you use the data, attribute aiphonecompare and link to <a href="https://aiphonecompare.com/data/">https://aiphonecompare.com/data/</a>.</p>
+
+    <h2 id="paid">Paid placements</h2>
+    <p>Paid placements, such as the Industry spotlight on the <a href="/get-featured/">get featured page</a>, are covered by our <a href="/refunds/">refund policy</a>.</p>
+
+    <h2 id="warranty">No warranty</h2>
+    <p>The site is provided "as is". We work to keep it accurate and available, but we don't promise that it is complete, current, or error-free, or that it will always be up. We make no warranty beyond what the law requires.</p>
+
+    <h2 id="liability">Limit of liability</h2>
+    <p>Where the law allows, we are not liable for losses that come from using the site or relying on its information. Where the law allows, our total liability to you is limited to the amount you paid us, if any.</p>
+
+    <h2 id="changes">Changes to these terms</h2>
+    <p>We may update these terms. When we do, we change the date at the top of this page. Using the site after a change means you accept the updated terms.</p>
+
+    <h2 id="contact">Contact</h2>
+    <p>Questions about these terms: <a href="mailto:timothy@aiphonecompare.com">timothy@aiphonecompare.com</a>.</p>
+  </article>
+</Base>
