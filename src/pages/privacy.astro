@@ -51,7 +51,7 @@ const toc = [
       <li><strong>The stories list on the <a href="/stories/">stories page</a>.</strong> We store your email and the industry you pick.</li>
     </ul>
     <p>Both forms send to the same place: a <a href="https://supabase.com/">Supabase</a> Edge Function that saves the signup in a Supabase database table in a US region. The public can't read that table. The forms are separate from the PostHog page-view counter.</p>
-    <p>We also store your browser's user-agent (the short text that names your browser and system) with the signup. To limit abuse, we make a one-way hash of your IP address. That hash is used to rate-limit repeated sign-ups, the rate-limit counters are kept for up to 2 days, and the hash is also saved with the signup. We do not store the IP address itself.</p>
+    <p>We also store your browser's user-agent (the short text that names your browser and system) with the signup. To limit abuse, we make a one-way hash of your IP address. That hash is used only to rate-limit repeated sign-ups and is kept for up to 2 days. We do not store the IP address itself.</p>
 
     <h2 id="emails">Emails we send</h2>
     <p>We send email with <a href="https://resend.com/">Resend</a>, from timothy@aiphonecompare.com.</p>

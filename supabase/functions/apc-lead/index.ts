@@ -117,7 +117,6 @@ Deno.serve(async (req) => {
     call_minutes: callMinutes,
     results_url: resultsUrl,
     matches,
-    ip_hash: ipHash,
     user_agent: cleanText(req.headers.get("user-agent"), 200),
     welcome_email: null as unknown,
   };
