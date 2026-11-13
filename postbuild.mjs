@@ -5,7 +5,9 @@ import { getLandings } from './src/lib/landings.mjs';
 const SITE='https://aiphonecompare.com';
 const vendors=JSON.parse(fs.readFileSync('src/data/vendors.json','utf8'));
 const urls=[];
-const walk=d=>{for(const f of fs.readdirSync(d)){const p=path.join(d,f);if(fs.statSync(p).isDirectory())walk(p);else if(f.endsWith('.html')){
+// Pages that carry <meta name="robots" content="noindex"> (drafts) stay out of the sitemap and IndexNow payload.
+const isNoindex=p=>/<meta name="robots" content="[^"]*noindex/.test(fs.readFileSync(p,'utf8'));
+const walk=d=>{for(const f of fs.readdirSync(d)){const p=path.join(d,f);if(fs.statSync(p).isDirectory())walk(p);else if(f.endsWith('.html')&&!isNoindex(p)){
  urls.push(SITE+'/'+path.relative('dist',p).replace(/index\.html$/,''));}}};
 walk('dist');
 const latest=(vendors.map(v=>v.last_checked).filter(Boolean).sort().at(-1))||'2026-11-04';

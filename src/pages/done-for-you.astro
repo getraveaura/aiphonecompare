@@ -1,0 +1,195 @@
+---
+// DRAFT: not for launch until the owner approves the price and guarantee.
+// noindex, and kept out of the sitemap (postbuild skips noindex pages), nav, footer and llms.txt.
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+
+const title = 'Done-for-you AI receptionist setup';
+const description = 'We pick, set up and tune your AI receptionist from vendors with verified, sourced prices. $1,500 one-time, with a defined result or a full refund of our fee.';
+const pageUrl = new URL('/done-for-you/', Astro.site).href;
+
+const email = 'timothy@aiphonecompare.com';
+const subject = 'Done-for-you AI receptionist';
+const body = [
+  'Hi Timothy,',
+  '',
+  "I'd like to talk about the done-for-you AI receptionist setup.",
+  '',
+  'Business name:',
+  'Industry:',
+  'Roughly how many calls a week:',
+  'Already using an AI receptionist (yes/no):',
+  '',
+  'Thanks',
+].join('\n');
+const mailto = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: title,
+  url: pageUrl,
+  provider: { '@id': new URL('/#organization', Astro.site).href },
+  offers: { '@type': 'Offer', price: '1500', priceCurrency: 'USD' },
+};
+
+const steps = [
+  {
+    h: 'Fit review',
+    p: 'A short intake form plus your call log export (or a 15-minute call). We look at call volume, call length, after-hours share and what callers ask for.',
+  },
+  {
+    h: 'Shortlist and pick',
+    p: "We compare plans using the same sourced prices as the site's calculator and recommend one, with the reasons and the total first-year cost written out.",
+  },
+  {
+    h: 'Setup',
+    p: null,
+  },
+  {
+    h: 'Testing',
+    p: '20 scripted test calls, including the tricky ones (emergencies, pricing questions, wrong numbers), before your number goes live.',
+  },
+  {
+    h: '60 days of tuning',
+    p: 'A weekly review of calls and transcripts, script and FAQ fixes, and a written results report at day 30 and day 60.',
+  },
+];
+
+const faqs = [
+  {
+    q: 'Which vendors do you work with?',
+    a: 'Any vendor in our directory. We pick on fit and verified price, and sponsorship never affects the pick.',
+  },
+  {
+    q: 'Do you get paid by the vendor?',
+    a: "No. We don't take referral fees on the pick for this service. If that ever changes, we'll disclose it on this page.",
+  },
+  {
+    q: 'What do you need from me?',
+    a: 'The intake form, your call log export (or a 15-minute call), access to the vendor account, and your booking system if you want appointments booked by phone. For the result check, we also need the call log and booking counts for the baseline and measurement windows.',
+  },
+  {
+    q: 'What happens after 60 days?',
+    a: 'You keep everything: the vendor account, the script, the FAQs and the reports. If you want us to keep tuning, optional monthly tuning is available.',
+  },
+  {
+    q: 'How does the refund work?',
+    a: "At day 60 we compare the measurement window with your baseline. If neither result is reached, we refund our full fee ($1,500, or $1,000 at the founding rate). The vendor subscription is paid to the vendor and follows the vendor's own terms.",
+  },
+  {
+    q: 'What if I already have an AI receptionist?',
+    a: 'We can audit and retune it. The same result definition and the same guarantee apply.',
+  },
+];
+---
+<Base title={title} description={description} jsonld={jsonld} noindex>
+  <div class="dfy-draft" role="note">
+    <div class="wrap"><strong>Draft</strong> Pricing pending approval. This page is a preview and not a live offer.</div>
+  </div>
+
+  <header class="page-intro dfy-intro">
+    <div class="wrap">
+      <p class="dfy-kicker">Done-for-you setup</p>
+      <h1>We pick, set up and tune your AI receptionist.</h1>
+      <p class="lead">Independent: we don't take a cut of vendor subscriptions, and rankings are never for sale. We choose from vendors with verified, sourced prices on aiphonecompare.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href={mailto}>Email us to get started</a>
+        <a class="btn btn-ghost" href="/overpaying/">Run the free check first</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap stack dfy">
+    <div class="dfy-grid">
+      <section class="dfy-included" aria-labelledby="included-heading">
+        <h2 id="included-heading" class="section-title">What's included</h2>
+        <ol class="dfy-steps">
+          {steps.map((s, i) => (
+            <li>
+              <span class="dfy-num" aria-hidden="true">{i + 1}</span>
+              <div>
+                <h3>{s.h}</h3>
+                {s.p ? <p>{s.p}</p> : (
+                  <p>Greeting and script, FAQs, appointment booking and calendar connection where the vendor supports it, transfer and after-hours rules, <a href="/call-recording-consent-by-state/">call-recording consent wording by state</a>, and call summaries to your email or text.</p>
+                )}
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="dfy-timeline"><strong>Timeline:</strong> go-live within 7 business days of receiving your intake and vendor account access.</p>
+      </section>
+
+      <aside class="dfy-price" aria-labelledby="price-heading">
+        <h2 id="price-heading">One-time fee</h2>
+        <p class="dfy-amount">$1,500 <span>one-time</span></p>
+        <p class="dfy-founding"><strong>Founding rate: $1,000</strong> for the first 5 businesses.</p>
+        <ul class="dfy-terms">
+          <li>Fit review, pick, setup, testing and 60 days of tuning</li>
+          <li>Live within 7 business days of intake and account access</li>
+          <li>Full refund of our fee if neither result is reached by day 60</li>
+        </ul>
+        <p class="dfy-sub">The AI receptionist subscription is paid directly to the vendor you choose, at its published price. We add no markup.</p>
+        <a class="btn btn-primary" href={mailto}>Email us to get started</a>
+        <p class="dfy-mail">Or write to <a href={mailto}>{email}</a></p>
+      </aside>
+    </div>
+
+    <section class="dfy-measure" aria-labelledby="measure-heading">
+      <h2 id="measure-heading">How we measure</h2>
+      <p class="dfy-measure-lead">The result is defined before we start, from your own phone and booking records.</p>
+      <dl class="record">
+        <div>
+          <dt>Baseline</dt>
+          <dd>The 14 days before go-live, from your phone system's call log: (a) inbound calls during the hours the receptionist will cover, (b) how many were answered or got a usable message (caller name, reason and callback number), which we call "captured", and (c) appointments booked by phone, from your booking system.</dd>
+        </div>
+        <div>
+          <dt>Measurement window</dt>
+          <dd>Days 31 to 60 after go-live, once tuning has settled. Same hours, same sources.</dd>
+        </div>
+        <div>
+          <dt>Result</dt>
+          <dd>
+            Either of these:
+            <ul class="dfy-either">
+              <li>At least <strong>90% of inbound calls</strong> in covered hours are captured (answered, booked, transferred, or a usable message taken), <strong>or</strong></li>
+              <li>Phone-booked appointments are at least <strong>15% higher per week</strong> than the baseline weekly average.</li>
+            </ul>
+          </dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="dfy-guarantee" aria-labelledby="guarantee-heading">
+      <h2 id="guarantee-heading">The guarantee</h2>
+      <p class="dfy-promise">If neither result is reached by day 60, you get a full refund of our $1,500 fee (or $1,000 at the founding rate). No arguing.</p>
+      <p>Two conditions, in plain words: the receptionist stays live and calls are forwarded as set up for the 60 days, and you share the call log and booking counts for the baseline and measurement windows.</p>
+      <p class="note">Vendor subscription fees are paid to the vendor and are covered by the vendor's own terms, not by this refund.</p>
+    </section>
+
+    <section class="dfy-fit" aria-labelledby="fit-heading">
+      <h2 id="fit-heading" class="section-title">Who it's for</h2>
+      <div class="dfy-fit-grid">
+        <div class="dfy-fit-card">
+          <h3>A great fit</h3>
+          <p>Practices and service businesses that miss calls during busy hours or after hours: <a href="/industries/dental/">dental</a>, <a href="/industries/medical/">medical</a>, <a href="/industries/legal/">legal</a> and <a href="/industries/plumbing/">home services</a>.</p>
+        </div>
+        <div class="dfy-fit-card">
+          <h3>Better served elsewhere</h3>
+          <p>If you need a full live call center, we'll tell you honestly and point you to the <a href="/vendors/">comparison</a> so you can find the right service.</p>
+        </div>
+      </div>
+    </section>
+
+    <Faq items={faqs}/>
+
+    <section class="dfy-close" aria-labelledby="close-heading">
+      <h2 id="close-heading">Tell us about your phones</h2>
+      <p>Send a short note with your business and roughly how many calls you get. We'll reply with whether it's a fit and what happens next.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href={mailto}>Email us to get started</a>
+        <a class="btn btn-ghost" href="/overpaying/">Run the free check first</a>
+      </div>
+    </section>
+  </div>
+</Base>
