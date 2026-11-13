@@ -589,6 +589,11 @@ pre {
 .foot nav a { color: var(--ink); text-decoration: none; }
 .foot nav a:hover { color: var(--pine); }
 .fine { grid-column: 1 / -1; margin: 0; }
+.foot .listed-on { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 4px 0 0; max-width: none; }
+.listed-on a { display: inline-flex; align-items: center; color: var(--ink); text-decoration: none; }
+.listed-on a:hover { color: var(--pine); }
+.listed-on img { display: block; height: 24px; width: auto; mix-blend-mode: multiply; opacity: .85; }
+.listed-on a:hover img, .listed-on a:focus-visible img { opacity: 1; }
 @media (max-width: 700px) { .foot { grid-template-columns: 1fr; } }
 
 .vendor-index .compare tr > :nth-child(1) { width: 34%; }
