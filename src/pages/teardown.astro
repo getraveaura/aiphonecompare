@@ -1,0 +1,145 @@
+---
+import Base from '../layouts/Base.astro';
+import { TEARDOWN } from '../lib/offers.mjs';
+const pageUrl = new URL('/teardown/', Astro.site).href;
+const price = TEARDOWN.price;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: 'Competitor teardown',
+  serviceType: 'Competitive pricing and AI-search report for AI receptionist vendors',
+  description: 'A sourced report on how your AI receptionist compares on price and features with 3 to 5 close rivals, how you show up in AI answers and Google, where your pricing page loses buyers, and 5 specific fixes.',
+  provider: { '@type': 'Organization', name: 'aiphonecompare', url: new URL('/', Astro.site).href },
+  url: pageUrl,
+  offers: { '@type': 'Offer', price: String(price), priceCurrency: 'USD', url: pageUrl, availability: 'https://schema.org/InStock' },
+};
+const included = [
+  ['Price and features, side by side', 'Your plans next to 3 to 5 of your closest rivals from our sourced directory, plus what a month really costs at 4 call volumes and 2 call lengths.'],
+  ['How AI and Google answer your buyers', 'Your key buyer searches, run in logged-out Perplexity, ChatGPT and Google (including AI Overviews). For each search: whether you are cited, and who is.'],
+  ['Where your pricing page loses buyers', 'A line-by-line read of your pricing page against what comparison shoppers check first: allowance, overage, trial, integrations and proof.'],
+  ['5 specific fixes', 'Ranked by effort, each with the exact copy or change to make, and why it moves a buyer.'],
+  ['Every claim linked', 'Each price and citation links to its public source and the date we checked it.'],
+];
+const faqs = [
+  ['What do you need from me?', 'Your website address and, if you like, the rivals you lose deals to. Nothing else, no logins.'],
+  ['How fast is it?', 'We promise 24 hours. Most teardowns are delivered in 2 to 6 hours.'],
+  ['What do I receive?', 'A polished, shareable web page and a PDF of the same report.'],
+  ['Does buying one change my listing or ranking?', 'Never. Listings, verified prices and rankings are not for sale. The report is private to you.'],
+  ['What if it is not useful?', `Tell us within ${TEARDOWN.refundDays} days and we refund you in full. No questions asked.`],
+];
+---
+<Base title="Competitor teardown for AI receptionist vendors" description={`See how your AI receptionist compares with your closest rivals on price, AI answers and your pricing page, with 5 specific fixes. $${price}, delivered within 24 hours, full refund if it's not useful.`} jsonld={jsonld}>
+  <div class="dfy-paid" id="td-paid" role="status" hidden>
+    <div class="wrap"><strong>Payment received, thank you.</strong> Your intake email from timothy@aiphonecompare.com is on its way; it asks for 3 quick things.</div>
+  </div>
+
+  <header class="page-intro td-intro">
+    <div class="wrap">
+      <p class="td-eyebrow">For AI receptionist vendors</p>
+      <h1>See exactly how buyers compare you, and win more of them</h1>
+      <p class="lead">A sourced teardown of your price, your AI-search presence and your pricing page against your closest rivals, with 5 fixes you can ship this week.</p>
+    </div>
+  </header>
+
+  <div class="wrap td-grid">
+    <section class="td-included" aria-labelledby="included">
+      <h2 id="included">What's in your teardown</h2>
+      <ol class="td-list">
+        {included.map(([title, body]) => (
+          <li><h3>{title}</h3><p>{body}</p></li>
+        ))}
+      </ol>
+    </section>
+
+    <aside class="td-card" aria-labelledby="offer">
+      <h2 id="offer" class="td-card-title">Competitor teardown</h2>
+      <p class="td-price">${price} <span>one-time</span></p>
+      <ul class="td-facts">
+        <li><strong>Delivered within 24 hours.</strong> Usually in 2 to 6.</li>
+        <li><strong>Just send your URL.</strong> No logins, no calls.</li>
+        <li><strong>Web page + PDF</strong> you can share with your team.</li>
+      </ul>
+      <a class="btn btn-primary td-cta" href={TEARDOWN.url} data-teardown-checkout>Get your teardown for ${price}</a>
+      <p class="td-refund"><strong>Full refund if it's not useful.</strong> Just tell us within {TEARDOWN.refundDays} days. <a href="/refunds/#teardown">Refund policy</a></p>
+      <p class="td-mail">Questions first? Email <a href="mailto:timothy@aiphonecompare.com?subject=Competitor%20teardown">timothy@aiphonecompare.com</a></p>
+    </aside>
+  </div>
+
+  <section class="wrap td-sample" aria-labelledby="sample">
+    <h2 id="sample">What a finding looks like</h2>
+    <div class="td-samples">
+      <figure>
+        <figcaption>Price</figcaption>
+        <p>"Your entry plan ties for cheapest at 50 to 100 calls a month, and it's the only one at that price that books onto a calendar during the call. Say so beside your estimator."</p>
+      </figure>
+      <figure>
+        <figcaption>AI answers</figcaption>
+        <p>"For 'best AI receptionist for plumbers,' the answer cites five sources and none of them mention you. Here's who to pitch first, and with what."</p>
+      </figure>
+      <figure>
+        <figcaption>Pricing page</figcaption>
+        <p>"Your middle tier adds 50 minutes and doubles the overage. Next to a rival's same-price plan, it's the card buyers skip. Three ways to fix it."</p>
+      </figure>
+    </div>
+    <p class="note">Excerpts from a sample teardown built only from public pages.</p>
+  </section>
+
+  <section class="wrap td-faq" aria-labelledby="faq">
+    <h2 id="faq">Questions</h2>
+    <dl>
+      {faqs.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
+    </dl>
+  </section>
+  <script>
+    import { isPaidReturn } from '../lib/offers.mjs';
+    import { track } from '../lib/analytics.mjs';
+
+    const banner = document.getElementById('td-paid');
+    if (banner && isPaidReturn(window.location.search)) {
+      banner.hidden = false;
+      track('teardown_paid_return');
+    }
+    document.querySelectorAll('[data-teardown-checkout]').forEach((link) => {
+      link.addEventListener('click', () => track('teardown_checkout_clicked'));
+    });
+  </script>
+</Base>
+
+<style>
+  .td-intro { padding-bottom: 24px; }
+  .td-eyebrow { margin: 0 0 12px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--pine); }
+  .td-intro h1 { max-width: 18ch; }
+  .td-intro .lead { max-width: 58ch; }
+  .td-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr); gap: 32px; align-items: start; padding-top: 16px; padding-bottom: 40px; }
+  .td-included h2, .td-sample h2, .td-faq h2 { font-size: 1.6rem; margin: 0 0 16px; }
+  .td-list { list-style: none; counter-reset: td; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .td-list li { counter-increment: td; position: relative; padding: 16px 0 16px 48px; border-top: 1px solid var(--line); }
+  .td-list li::before { content: counter(td); position: absolute; left: 0; top: 16px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--pine); font-weight: 600; text-align: center; line-height: 28px; }
+  .td-list h3 { margin: 0 0 4px; font-size: 1.15rem; letter-spacing: -0.01em; }
+  .td-list p { color: var(--ink-soft); }
+  .td-card { position: sticky; top: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
+  .td-card-title { margin: 0 0 6px; font-size: 1.3rem; }
+  .td-price { font-family: var(--serif); font-size: 2.6rem; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 16px; }
+  .td-price span { font-family: var(--sans); font-size: 1rem; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+  .td-facts { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 8px; color: var(--ink-soft); }
+  .td-facts li { padding-left: 22px; position: relative; }
+  .td-facts li::before { content: "✓"; position: absolute; left: 0; color: var(--pine); font-weight: 600; }
+  .td-cta { display: flex; width: 100%; justify-content: center; min-height: 3rem; align-items: center; }
+  .td-refund { margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: var(--checked-bg); color: var(--ink-soft); font-size: 0.95rem; }
+  .td-mail { margin: 12px 0 0; font-size: 0.92rem; color: var(--muted); }
+  .td-sample { padding-bottom: 40px; }
+  .td-samples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 12px; }
+  .td-samples figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
+  .td-samples figcaption { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pine); margin-bottom: 8px; }
+  .td-samples p { font-family: var(--serif); font-size: 1.08rem; line-height: 1.45; color: var(--ink); }
+  .td-faq { padding-bottom: 64px; }
+  .td-faq dl { margin: 0; display: grid; gap: 0; max-width: 760px; }
+  .td-faq dl div { padding: 14px 0; border-top: 1px solid var(--line); }
+  .td-faq dt { font-weight: 600; }
+  .td-faq dd { margin: 4px 0 0; color: var(--ink-soft); }
+  @media (max-width: 860px) {
+    .td-grid { grid-template-columns: 1fr; }
+    .td-card { position: static; order: -1; }
+    .td-samples { grid-template-columns: 1fr; }
+  }
+</style>
