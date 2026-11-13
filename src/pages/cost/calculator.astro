@@ -34,6 +34,7 @@ const jsonld = {
       </nav>
       <h1>AI receptionist cost calculator</h1>
       <p class="lead">The default table is every industry, 150 calls a month, 3 minutes each. Change the numbers and the address bar keeps them, so a copied link opens the same result. After-hours share is stored and not priced: no page here publishes a separate after-hours rate.</p>
+      <p class="tool-line">Already paying for one? <a id="overpaying-link" href="/overpaying/">Compare what you pay with these plans</a>.</p>
     </div>
   </header>
   <div class="wrap stack">
@@ -152,6 +153,7 @@ const jsonld = {
   import models from '../../data/cost-models.json';
   import vendors from '../../data/vendors.json';
   import { calculatorPath, parseCalculatorQuery, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
+  import { overpayingPath } from '../../lib/overpaying.mjs';
 
   const form = document.getElementById('calc-form');
   const summary = document.getElementById('calc-summary');
@@ -269,6 +271,8 @@ const jsonld = {
       missingBody.append(tr);
     }
     const path = calculatorPath(quote.input);
+    const check = document.getElementById('overpaying-link');
+    if (check) check.href = overpayingPath({ ...quote.input, cost: null });
     if (`${location.pathname}${location.search}` !== path) history.replaceState(null, '', path);
   }
 
