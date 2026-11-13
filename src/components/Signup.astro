@@ -1,5 +1,4 @@
 ---
-import config from '../data/signup.json';
 const industries = [
   ['dental', 'Dental'],
   ['medical', 'Medical'],
@@ -25,49 +24,56 @@ const industries = [
         {industries.map(([value, label]) => <option value={value}>{label}</option>)}
       </select>
     </div>
-    <button class="btn btn-primary" type="submit">Join the list</button>
+    <div class="vh" aria-hidden="true">
+      <label for="signup-company-website">Company website</label>
+      <input id="signup-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+    </div>
+    <button class="btn btn-primary" type="submit" id="signup-submit">Join the list</button>
     <p id="signup-status" class="note" role="status" aria-live="polite"></p>
   </form>
-  <p class="note">We store the email and the industry in a table that this page can add to and cannot read. To be removed, email <a href="mailto:timothy@aiphonecompare.com">timothy@aiphonecompare.com</a>. Details are on the <a href="/privacy/">privacy note</a>.</p>
+  <p class="note">We store the email and the industry in a database table the public can't read, and send a confirmation from timothy@aiphonecompare.com. To leave the list, reply to any email. Details are in the <a href="/privacy/">privacy policy</a>.</p>
   <noscript>
     <p>This form needs JavaScript. Email <a href="mailto:timothy@aiphonecompare.com?subject=Stories%20list">timothy@aiphonecompare.com</a> with your industry instead.</p>
   </noscript>
 </section>
-<script define:vars={{ url: config.url, key: config.anonKey, table: config.table }}>
-  var form = document.getElementById('story-signup');
-  var status = document.getElementById('signup-status');
-  if (form) {
-    form.addEventListener('submit', function (event) {
+<script>
+  import { LEAD_ENDPOINT, buildStoriesPayload, storiesSignupMessage } from '../lib/leads.mjs';
+  import { track } from '../lib/analytics.mjs';
+
+  const form = document.getElementById('story-signup') as HTMLFormElement | null;
+  const status = document.getElementById('signup-status');
+  const button = document.getElementById('signup-submit') as HTMLButtonElement | null;
+  if (form && status && button) {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      var data = new FormData(form);
-      var email = String(data.get('email') || '').trim().toLowerCase();
-      var industry = String(data.get('industry') || '');
-      status.textContent = 'Sending…';
-      fetch(url + '/rest/v1/' + table, {
-        method: 'POST',
-        headers: {
-          apikey: key,
-          Authorization: 'Bearer ' + key,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal',
-        },
-        body: JSON.stringify({ email: email, industry: industry }),
-      }).then(function (response) {
-        if (response.status === 201 || response.status === 204) {
-          status.textContent = 'You are on the list for that industry.';
-          form.reset();
-          return;
-        }
-        return response.json().then(function (body) {
-          if (body && body.code === '23505') {
-            status.textContent = 'That email is already on the list.';
-            return;
-          }
-          status.textContent = 'That did not save. Check the email and the industry, then try again.';
-        });
-      }).catch(function () {
-        status.textContent = 'That did not save. Try again, or email timothy@aiphonecompare.com.';
+      const data = new FormData(form);
+      const payload = buildStoriesPayload({
+        email: data.get('email'),
+        industry: data.get('industry'),
+        honeypot: data.get('company_website'),
       });
+      button.disabled = true;
+      status.textContent = 'Sending…';
+      let code = 0;
+      let ok = false;
+      try {
+        const response = await fetch(LEAD_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+        code = response.status;
+        const body = await response.json().catch(() => null);
+        ok = response.ok && body?.ok === true;
+      } catch {
+        code = 0;
+      }
+      button.disabled = false;
+      status.textContent = storiesSignupMessage(code, ok);
+      if (ok) {
+        form.reset();
+        track('stories_signup_submitted', { industry: payload.industry });
+      }
     });
   }
 </script>

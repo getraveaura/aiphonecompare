@@ -38,3 +38,25 @@ export function buildLeadPayload({ email, name, business, honeypot }, result) {
     })),
   };
 }
+
+export const STORY_INDUSTRIES = ['dental', 'medical', 'legal', 'plumbing', 'hvac', 'roofing', 'other'];
+
+// Body for LEAD_ENDPOINT from the stories list form. Unknown industries are
+// sent as "other"; the honeypot value is passed through untouched.
+export function buildStoriesPayload({ email, industry, honeypot }) {
+  const picked = String(industry ?? '');
+  return {
+    email: text(email, 320).toLowerCase(),
+    industry: STORY_INDUSTRIES.includes(picked) ? picked : 'other',
+    source: 'stories',
+    company_website: honeypot == null ? '' : String(honeypot),
+  };
+}
+
+// Status-line copy for the stories form after a POST.
+export function storiesSignupMessage(status, ok) {
+  if (ok) return "You're on the list. A confirmation is on its way from timothy@aiphonecompare.com.";
+  if (status === 429) return 'Too many tries from this connection. Please wait a bit, then try again.';
+  if (status === 0) return 'That did not save. Try again, or email timothy@aiphonecompare.com.';
+  return 'That did not save. Check the email and the industry, then try again.';
+}
