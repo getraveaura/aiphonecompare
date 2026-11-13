@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Wordmark from '../components/Wordmark.astro';
 import PostHog from '../components/PostHog.astro';
-const { title, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld } = Astro.props;
+const { title, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld, noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL('/og.png', Astro.site).href;
 const siteUrl = new URL('/', Astro.site).href;
@@ -48,6 +48,7 @@ const links = [
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{title} | aiphonecompare</title>
   <meta name="description" content={description}/>
+  {noindex && <meta name="robots" content="noindex"/>}
   <link rel="canonical" href={canonical}/>
   <link rel="alternate" type="application/rss+xml" title="Stories and price changes" href="/feed.xml"/>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
