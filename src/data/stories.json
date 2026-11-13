@@ -848,5 +848,136 @@
     "told_by": "Told by Thinkrr.ai (the vendor)",
     "verified_claims": "The 10 November 2026 ACCESS Newswire release from Thinkrr.ai names USave Pharmacy in North Platte, Nebraska, partner Travis Covey, co-owner Bill Snodgrass, and the Pharmacy Concierge agent named Marissa. It says the agent handles 60% of calls and saved 2,710 staff phone hours in one month, 18% more than the month before, and gives a $1 start offer for the first 300 calls or 30 days through 31 December 2026. The same 60%, 2,710-hour, and 18% figures appear in the America's Pharmacist article copy that Thinkrr hosts. No ongoing price is stated. Wayback save of the release failed (HTTP 520), so no saved copy is listed.",
     "archive_url": null
+  },
+  {
+    "slug": "kent-heating-firm-90-day-test",
+    "title": "A four-engineer heating repair firm turned 43 of 61 missed calls into bookings in 90 days",
+    "added": "2026-11-13",
+    "industries": [
+      "hvac"
+    ],
+    "business": null,
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Consultant Lilach Bullock writes that a client, a boiler and heating repair firm in Kent (UK) with four engineers and no office staff, put an AI receptionist on its main line for 90 days. She describes it only as \"Smith.ai style\" and does not name the product. It was connected to the booking calendar and scripted for five common questions; anything else became a message texted to the owner. Calls mentioning a leak, no heat, or an emergency were later set to transfer straight to the on-call engineer.",
+    "cost": "The author says the plan was £199 a month for up to 100 calls, then £1.20 per call, and the bill averaged £212 a month over three months. Setup took an afternoon, including ten test calls. Vendor not stated.",
+    "outcome": "Per the author, 61 calls that would have gone unanswered were picked up: 43 became a booking on the call, 12 became callbacks closed within 24 hours, and 6 callers hung up once they realised it was not a person. These are the author's figures for her client.",
+    "catches": [
+      {
+        "id": "callers-hang-up-on-ai",
+        "label": "Some callers hung up once they realised it was AI",
+        "summary": "The author says 6 of 61 callers hung up on realising they were not talking to a person, and one left a one-star review about it. Changing the greeting to say plainly it was an AI assistant reduced hang-ups, she says.",
+        "sources": [
+          {
+            "url": "https://www.lilachbullock.com/ai-phone-receptionist-small-business-test/",
+            "title": "I Tested an AI Phone Receptionist for Three Months on a Real Small Business",
+            "date": "2026-07-09",
+            "publisher": "Lilach Bullock"
+          }
+        ]
+      },
+      {
+        "id": "urgent-booked-next-day",
+        "label": "Urgent jobs were offered for the next day until the shop changed the setup",
+        "summary": "The author says the AI followed the calendar literally when a caller with a leaking boiler asked to be squeezed in. A rule sending any call with \"leak\", \"no heat\" or \"emergency\" straight to the on-call engineer fixed most of these.",
+        "sources": [
+          {
+            "url": "https://www.lilachbullock.com/ai-phone-receptionist-small-business-test/",
+            "title": "I Tested an AI Phone Receptionist for Three Months on a Real Small Business",
+            "date": "2026-07-09",
+            "publisher": "Lilach Bullock"
+          }
+        ]
+      },
+      {
+        "id": "complaints-steered-to-booking",
+        "label": "Complaints were steered back to booking",
+        "summary": "The author says callers with complaints or refund requests got angrier because the AI kept steering them back to scheduling.",
+        "sources": [
+          {
+            "url": "https://www.lilachbullock.com/ai-phone-receptionist-small-business-test/",
+            "title": "I Tested an AI Phone Receptionist for Three Months on a Real Small Business",
+            "date": "2026-07-09",
+            "publisher": "Lilach Bullock"
+          }
+        ]
+      },
+      {
+        "id": "cut-in-on-slow-speakers",
+        "label": "It cut in on callers who paused",
+        "summary": "The author says the AI sometimes read pauses from elderly, slow-speaking callers as the end of their turn and cut in too soon.",
+        "sources": [
+          {
+            "url": "https://www.lilachbullock.com/ai-phone-receptionist-small-business-test/",
+            "title": "I Tested an AI Phone Receptionist for Three Months on a Real Small Business",
+            "date": "2026-07-09",
+            "publisher": "Lilach Bullock"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.lilachbullock.com/ai-phone-receptionist-small-business-test/",
+        "title": "I Tested an AI Phone Receptionist for Three Months on a Real Small Business",
+        "date": "2026-07-09",
+        "publisher": "Lilach Bullock",
+        "archive_url": "https://web.archive.org/web/20261113162707/https://www.lilachbullock.com/ai-phone-receptionist-small-business-test/"
+      }
+    ],
+    "evidence": "independent",
+    "source_type": "press",
+    "source_publisher": "Lilach Bullock",
+    "told_by": "Reported by Lilach Bullock (consultant, about her client)",
+    "verified_claims": "The post (published 9 July 2026, updated 12 November 2026) describes an unnamed four-engineer Kent heating repair firm, 90 days, 61 calls picked up, 43 booked, 12 callbacks, 6 hang-ups, £199 a month for 100 calls plus £1.20 per call, £212 average bill. No vendor is named.",
+    "archive_url": "https://web.archive.org/web/20261113162707/https://www.lilachbullock.com/ai-phone-receptionist-small-business-test/"
+  },
+  {
+    "slug": "truchoice-roofing-after-hours-ai",
+    "title": "A roofing co-founder says an AI agent booked 26 sales appointments in 30 days from unanswered calls",
+    "added": "2026-11-13",
+    "industries": [
+      "roofing"
+    ],
+    "business": "TruChoice Roofing",
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Mervin Wickey, co-founder of TruChoice Roofing, posted on X that the company's inside sales team answers calls during the day, and an AI receptionist trained to answer questions and book jobs takes after-hours calls and daytime overflow. He does not name the product.",
+    "cost": null,
+    "outcome": "Wickey says that in the last 30 days (posted 13 October 2026) the AI agent booked 26 sales appointments from calls no one answered, and later added that most were after hours. He does not say how many closed. These are his own numbers.",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://x.com/mervwickey/status/2110080464828715071",
+        "title": "Mervin Wickey on X: AI agent booked 26 sales appointments",
+        "date": "2026-10-13",
+        "publisher": "X (Mervin Wickey)",
+        "archive_url": null
+      },
+      {
+        "url": "https://x.com/mervwickey/status/2110945588401582393",
+        "title": "Mervin Wickey on X: majority of the appointments were after hours",
+        "date": "2026-10-16",
+        "publisher": "X (Mervin Wickey)",
+        "archive_url": null
+      },
+      {
+        "url": "https://x.com/mervwickey/status/2110150165235646464",
+        "title": "Mervin Wickey on X: inside sales team by day, AI receptionist after hours",
+        "date": "2026-10-13",
+        "publisher": "X (Mervin Wickey)",
+        "archive_url": null
+      }
+    ],
+    "evidence": "independent",
+    "source_type": "press",
+    "source_publisher": "X (Mervin Wickey)",
+    "told_by": "Told by Mervin Wickey (TruChoice Roofing co-founder) on X",
+    "verified_claims": "X posts by @mervwickey on 13 and 16 October 2026: 26 sales appointments in the last 30 days from unanswered calls, majority after hours, AI covers after hours and daytime overflow while an inside sales team handles other calls. No vendor or price is named. Found via aibusinessplays.com.",
+    "archive_url": null
   }
 ]
