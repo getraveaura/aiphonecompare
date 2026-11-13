@@ -6,6 +6,8 @@ import VendorTable from './VendorTable.astro';
 import Faq from './Faq.astro';
 import StoryCards from './StoryCards.astro';
 import Catches from './Catches.astro';
+import AnswerSummary from './AnswerSummary.astro';
+import { industrySummary, sourceLinks, articleNode, breadcrumbNode } from '../lib/answers.mjs';
 import data from '../data/vendors.json';
 import stories from '../data/stories.json';
 import { catchGroups, industryLabel, storiesForIndustry } from '../lib/stories.mjs';
@@ -42,28 +44,31 @@ const industries = [
   ['plumbing', 'Plumbing', '/industries/plumbing/'],
   ['medical', 'Medical', '/industries/medical/'],
 ].filter(([id]) => id !== key);
+const summary = industrySummary({ key, vendors, priceSentence });
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const pageTitle = `${title}: pricing compared${latest ? ` (${latest.slice(0, 4)})` : ''}`;
+const summarySources = [{ href: '/price-index/', label: 'aiphonecompare price index' }, ...(low ? sourceLinks(low.sources, 1).map((s) => ({ ...s, label: `${low.name}: ${s.label}` })) : [])];
+const metaDescription = `${summary[0]} HIPAA/BAA, human handoff and integrations are compared with sources.`;
 const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
+    articleNode({ url: pageUrl, headline: pageTitle, description: metaDescription, modified: latest, citations: vendors.map((v) => (v.sources || [])[0]).filter(Boolean), site }),
+    breadcrumbNode([['Home', site], [title, pageUrl]]),
     { '@type': 'WebPage', name: title, url: new URL(Astro.url.pathname, Astro.site).href, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(latest ? { dateModified: latest } : {}) },
     { '@type': 'ItemList', name: title, ...(latest ? { dateModified: latest } : {}), itemListElement: vendors.map((v, i) => ({ '@type': 'ListItem', position: i + 1, name: v.name, url: new URL(`/vendors/${v.slug}/`, Astro.site).href })) },
     { '@type': 'FAQPage', mainEntity: allFaqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
   ],
 };
 ---
-<Base title={title} description={`${title}. ${priceSentence} HIPAA/BAA, human handoff and integrations are compared with sources.`} jsonld={jsonld}>
+<Base title={pageTitle} description={metaDescription} jsonld={jsonld} modified={latest}>
   <header class="page-intro" data-industry={key} style={`--accent:${accent(key)}`}>
     <div class="wrap">
       <VerifyStrip />
       <p class="industry-kicker"><IndustryIcon name={key} />{industryLabel(key)}</p>
       <h1>{title}</h1>
-      {latest && (
-        <p class="checked">
-          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Prices checked <time datetime={latest}>{latestLabel}</time>
-        </p>
-      )}
-      <p class="lead">{priceSentence} {vendors.length} AI receptionists are listed. Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates. <a href={`/cost/calculator/?industry=${key}&calls=150&minutes=3`}>Open the calculator</a>.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}</p>
+      <AnswerSummary sentences={summary} verified={latest} sources={summarySources} />
+      <p class="lead">Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates. <a href={`/cost/calculator/?industry=${key}&calls=150&minutes=3`}>Open the calculator</a>.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}</p>
     </div>
   </header>
   <div class="wrap stack">

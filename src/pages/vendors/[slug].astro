@@ -5,6 +5,8 @@ import VerifyStrip from '../../components/VerifyStrip.astro';
 import StoryCards from '../../components/StoryCards.astro';
 import Catches from '../../components/Catches.astro';
 import Checklist from '../../components/Checklist.astro';
+import AnswerSummary from '../../components/AnswerSummary.astro';
+import models from '../../data/cost-models.json';
 import data from '../../data/vendors.json';
 import stories from '../../data/stories.json';
 import priceLog from '../../data/price-changes.json';
@@ -12,6 +14,7 @@ import { catchGroups, formatDate, storiesForVendor } from '../../lib/stories.mjs
 import { linksForVendor } from '../../lib/landings.mjs';
 import { vendorOffer } from '../../lib/schema.mjs';
 import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
+import { vendorSummary, sourceLinks, articleNode, productNode, breadcrumbNode } from '../../lib/answers.mjs';
 export function getStaticPaths(){ return data.map((v) => ({ params: { slug: v.slug }, props: { v } })); }
 const { v } = Astro.props;
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
@@ -37,36 +40,47 @@ const vendorCatches = relatedStories.flatMap((story) => story.catches || []);
 const catchSet = catchGroups(stories, { vendorSlug: v.slug });
 const priceChanges = priceLog.changes.filter((change) => change.vendorSlug === v.slug);
 const guides = linksForVendor(v.slug);
-const description = `${v.name} AI receptionist: ${v.starting_price ? ("pricing " + v.starting_price + ", ") : ""}features, integrations and sources. Last checked ${v.last_checked}.`.slice(0, 300);
+const summary = vendorSummary(v, priceLog.changes);
+const summarySources = sourceLinks(v.sources, 3);
+const description = `${summary[0]} Features, integrations and sources. Last checked ${v.last_checked}.`.slice(0, 300);
 const outbound = outboundLink(v);
 const offer = vendorOffer(v);
 const vendorOrg = { '@type': 'Organization', name: v.name };
 if (v.website) vendorOrg.url = v.website;
 if (offer) vendorOrg.makesOffer = offer;
-const jsonld = {
-  '@context': 'https://schema.org',
+const pageUrl = new URL(`/vendors/${v.slug}/`, Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const webPage = {
   '@type': 'WebPage',
   name: v.name,
-  url: new URL(`/vendors/${v.slug}/`, Astro.site).href,
+  url: pageUrl,
   description,
   isPartOf: { '@id': new URL('/#website', Astro.site).href },
   about: vendorOrg,
 };
-if (v.last_checked) jsonld.dateModified = v.last_checked;
+if (v.last_checked) webPage.dateModified = v.last_checked;
+const provider = models.providers.find((p) => p.slug === v.slug);
+const product = productNode({ vendor: v, provider, checked: models.checked, url: pageUrl });
+const pageYear = (v.last_checked || models.checked || '').slice(0, 4);
+const pageTitle = `${v.name} pricing & review${pageYear ? ` (${pageYear})` : ''}`;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    webPage,
+    articleNode({ url: pageUrl, headline: pageTitle, description, modified: v.last_checked, citations: v.sources, site }),
+    breadcrumbNode([['Home', site], ['Vendors', new URL('/vendors/', Astro.site).href], [v.name, pageUrl]]),
+    ...(product ? [product] : []),
+  ],
+};
 
 ---
-<Base title={`${v.name} review & pricing`} description={description} jsonld={jsonld}>
+<Base title={pageTitle} description={description} jsonld={jsonld} modified={v.last_checked}>
   <header class="page-intro">
     <div class="wrap">
       <VerifyStrip />
       <h1 class="with-mark"><VendorMark slug={v.slug} name={v.name} />{v.name}</h1>
       {v.sponsored && <p><span class="badge">Sponsored</span></p>}
-      {v.last_checked && (
-        <p class="checked">
-          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Price checked <time datetime={v.last_checked}>{checkedLabel}</time>
-        </p>
-      )}
+      <AnswerSummary sentences={summary} verified={v.last_checked} sources={summarySources} />
       {outbound && <p class="lead" style="margin-top:14px"><a href={outbound.href} rel={outbound.rel}>{v.website || outbound.href}</a></p>}
       {outbound?.isReferral && <p class="note referral-note">{REFERRAL_NOTE}</p>}
     </div>

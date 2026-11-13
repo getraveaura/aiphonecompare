@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from './Faq.astro';
+import AnswerSummary from './AnswerSummary.astro';
+import { articleNode } from '../lib/answers.mjs';
 const { page } = Astro.props;
 const url = new URL(page.path, Astro.site).href;
 const graph = [
@@ -43,20 +45,21 @@ for (const block of page.blocks) {
     })),
   });
 }
-if (page.kind === 'fees' || page.kind === 'worth') {
-  graph.push({
-    '@type': 'Article',
-    headline: page.h1,
-    description: page.description,
-    datePublished: page.date,
-    dateModified: page.date,
-    mainEntityOfPage: url,
-    author: { '@type': 'Organization', name: 'aiphonecompare', url: Astro.site.href },
-    publisher: { '@type': 'Organization', name: 'aiphonecompare', url: Astro.site.href },
-  });
-}
+const summaryText = (page.summary || []).join(' ');
+const notes = page.answer.filter((p) => !summaryText.includes(p.replace(' That is the math on the published cards, not a ranking.', '')) && !(page.kind === 'compare' && /'s recorded starting price is /.test(p)));
+const verifiedDates = (Array.isArray(page.verified) ? page.verified.map((d) => d.date) : [page.verified]).filter(Boolean).sort();
+const modified = verifiedDates.at(-1) || page.date || '';
+graph.push(articleNode({
+  url,
+  headline: page.title,
+  description: page.description,
+  modified,
+  published: page.kind === 'fees' || page.kind === 'worth' ? page.date : '',
+  citations: (page.sources || []).map((s) => s.href),
+  site: Astro.site.href,
+}));
 ---
-<Base title={page.title} description={page.description} jsonld={{ '@context': 'https://schema.org', '@graph': graph }}>
+<Base title={page.title} description={page.description} jsonld={{ '@context': 'https://schema.org', '@graph': graph }} modified={modified}>
   <header class="page-intro">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
@@ -71,8 +74,9 @@ if (page.kind === 'fees' || page.kind === 'worth') {
         </ol>
       </nav>
       <h1>{page.h1}</h1>
-      <div class="answer-box">
-        {page.answer.map((paragraph) => <p>{paragraph}</p>)}
+      <AnswerSummary sentences={page.summary} verified={page.verified} sources={page.sources} />
+      <div class="landing-notes">
+        {notes.map((paragraph) => <p>{paragraph}</p>)}
       </div>
     </div>
   </header>

@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { estimatePlan, formatUsd } from './cost.mjs';
 import { formatDate, industryLabel, sourceDate } from './stories.mjs';
+import { compareSummary, vendorCostSummary, sourceLinks } from './answers.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const read = (name) => JSON.parse(fs.readFileSync(path.join(root, 'src/data', name), 'utf8'));
@@ -188,12 +189,20 @@ function industryPage({ models, vendors, key, path, h1, phrase, description, led
       a: 'No. The span of complete estimates is the math on the published cards at one call count. Rows are alphabetical. Rankings are not for sale, and a sponsored listing does not change these figures.',
     },
   ];
+  const summary = [
+    rangeSentence(rows, 150).replace(' That is the math on the published cards, not a ranking.', ' That is the math on the published plan cards, not a ranking.'),
+    `Minute plans assume a ${ASSUMED_MINUTES}-minute call; one-time fees are listed separately.`,
+    `The starting-price table below lists ${starters.length} vendors with a recorded price.`,
+  ];
   return {
+    summary,
+    verified: models.checked,
+    sources: sourceLinks(providers.flatMap((provider) => provider.sources.map((source) => source.href)), 4),
     kind: 'industry',
     topic: path.split('/').filter(Boolean).at(-1),
     path,
     phrase,
-    title: h1,
+    title: `${h1} (${models.checked.slice(0, 4)})`,
     h1,
     description,
     date: models.checked,
@@ -231,12 +240,16 @@ function vendorCostPage({ models, slug, h1, phrase, description }) {
     rangeSentence(rows, 300),
     `Sources: ${provider.sources.map((source) => source.label).join(', ')}.`,
   ];
+  const summary = vendorCostSummary({ provider, rangeAt: (calls) => rangeSentence(rows, calls) });
   return {
+    summary,
+    verified: models.checked,
+    sources: sourceLinks(provider.sources.map((source) => source.href), 3),
     kind: 'vendor-cost',
     topic: pathTopic(slug === 'elevenlabs-ai-receptionist' ? 'elevenlabs' : slug),
     path: slug === 'elevenlabs-ai-receptionist' ? '/cost/elevenlabs/' : `/cost/${slug}/`,
     phrase,
-    title: h1,
+    title: /pricing/i.test(h1) ? `${h1} (${models.checked.slice(0, 4)})` : `${provider.name} pricing: ${h1.replace(provider.name + ' ', '')} (${models.checked.slice(0, 4)})`,
     h1,
     description,
     date: models.checked,
@@ -328,12 +341,21 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
     blocks.push(scenarioTable(rows, `Plans we can run at 50, 150, and 300 calls. Checked ${formatDate(models.checked)}.`));
     blocks.push(caveatBlock(providers));
   }
+  const summary = compareSummary({
+    left,
+    right,
+    providers,
+    rangeAt: rows.length ? (calls) => rangeSentence(rows, calls) : null,
+  });
   return {
+    summary,
+    verified: [left, right].filter((vendor) => vendor.last_checked).map((vendor) => ({ name: vendor.name, date: vendor.last_checked })),
+    sources: sourceLinks([...(left.sources || []).slice(0, 1), ...(right.sources || []).slice(0, 1), ...providers.flatMap((provider) => provider.sources.map((source) => source.href))], 4),
     kind: 'compare',
     pair,
     path: `/compare/${pair}/`,
     phrase,
-    title: h1,
+    title: /cost|price/i.test(h1) ? `${h1} (${models.checked.slice(0, 4)})` : `${h1}: price comparison (${models.checked.slice(0, 4)})`,
     h1,
     description,
     date: models.checked,
@@ -397,11 +419,14 @@ function hiddenFeesPage({ models, stories }) {
     'The story catches below are mostly limits on the service, not a second price. Each one is included because a story on this site records it.',
   ];
   return {
+    summary: answer.slice(0, 2),
+    verified: models.checked,
+    sources: [],
     kind: 'fees',
     topic: 'hidden-fees',
     path: '/cost/hidden-fees/',
     phrase: 'AI receptionist hidden fees',
-    title: 'Hidden fees in AI receptionist pricing',
+    title: `Hidden fees in AI receptionist pricing (${models.checked.slice(0, 4)})`,
     h1: 'Hidden fees in AI receptionist pricing',
     description: 'Hidden fees in AI receptionist pricing: printed setup fees, pricing-page limits, and catches from sourced stories. Unpublished fees are not treated as zero.',
     date: models.checked,
@@ -454,6 +479,9 @@ function worthPage({ stories }) {
     'Nothing on this page turns a story into a savings estimate. Where the source gives no dollar amount, the cell says "Not stated".',
   ];
   return {
+    summary: answer.slice(0, 2),
+    verified: stories.map((story) => sourceDate(story)).filter(Boolean).sort().at(-1) || '',
+    sources: [],
     kind: 'worth',
     path: '/worth-it/',
     phrase: 'is ai receptionist worth it',
@@ -634,4 +662,15 @@ export function linkForIndustry(key) {
   if (!href) return null;
   const page = getLandings().find((item) => item.path === href);
   return page ? { href, label: 'Cost at 50, 150, and 300 calls' } : null;
+}
+
+// Answer-first lines for the /cost/ hub, from every provider in the cost model.
+export function costHubSummary(models = read('cost-models.json')) {
+  const rows = planRows(models.providers);
+  const names = models.providers.map((provider) => provider.name);
+  const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names.join('');
+  return [
+    `${names.length} providers publish plan allowances and overage rates on their own pricing pages, so a monthly bill can be worked out: ${list}.${models.providers.some((p) => p.unit === 'customer') ? ` ${models.providers.filter((p) => p.unit === 'customer').map((p) => p.name).join(' and ')} bills unique callers, not calls.` : ''}`,
+    `${rangeSentence(rows, 150).replace(' That is the math on the published cards, not a ranking.', '')} Minute plans assume a ${ASSUMED_MINUTES}-minute call, and the figures are math on the published plan cards, not a ranking.`,
+  ];
 }
