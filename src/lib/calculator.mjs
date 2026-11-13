@@ -1,6 +1,7 @@
 // Shareable cost calculator. A missing fee stays missing. After-hours share is
 // recorded and never turned into a rate the pricing pages do not print.
 import { estimatePlan, formatUsd } from './cost.mjs';
+import { isSponsored } from './spotlight.mjs';
 import { formatDate } from './stories.mjs';
 
 export const INDUSTRY_OPTIONS = [
@@ -75,7 +76,7 @@ function excludedRow(vendor, reason, model, checked) {
   return {
     slug: vendor.slug,
     name: vendor.name,
-    sponsored: Boolean(vendor.sponsored),
+    sponsored: isSponsored(vendor),
     included: false,
     reason,
     planName: '',
@@ -133,7 +134,7 @@ function priceVendor(vendor, model, input, checked) {
   return {
     slug: vendor.slug,
     name: vendor.name,
-    sponsored: Boolean(vendor.sponsored),
+    sponsored: isSponsored(vendor),
     included: true,
     reason: yearKnown ? '' : 'The setup fee is not published, so the first-year total is not enough public pricing. It is not treated as zero.',
     planName: chosen.plan.name,

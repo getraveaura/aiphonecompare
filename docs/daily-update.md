@@ -85,6 +85,34 @@ If you cannot verify a change, do not append one. The price-changes page already
 
 Append to that story's `sources`, or to the `sources` array of the catch it supports. Do not create a second story for the same account.
 
+## Adding a spotlight
+
+An Industry spotlight puts one vendor in the top spot on one industry page, labeled Sponsored. Add a `spotlight` object to that vendor in `src/data/vendors.json`:
+
+```json
+"spotlight": {
+  "industry": "dental",
+  "start": "2026-12-01",
+  "end": "2026-12-30",
+  "line": "Optional short line shown under the name",
+  "href": "https://example.com/optional-link"
+}
+```
+
+| Field | Required | Notes |
+| --- | --- | --- |
+| `industry` | yes | The industry page key it paid for: `dental`, `legal`, `plumbing`, or `medical`. It must also be in the vendor's `industries`. |
+| `start` | yes | `YYYY-MM-DD`, first day shown. |
+| `end` | yes | `YYYY-MM-DD`, last day shown (inclusive). For 30 days, `end` is `start` plus 29 days. |
+| `line` | no | Short text from the sponsor, 140 characters or fewer. Only shown on that industry page. No invented prices, stats, or claims. |
+| `href` | no | `https` link. Rendered with `rel="sponsored"`. |
+
+Dates are checked against the build date (UTC). The spotlight goes first and is labeled only on its own industry page. On every other industry page the vendor stays in alphabetical order with no badge. Elsewhere (pricing tables, vendor directory, match, calculator, overpaying check) it gets the Sponsored label while active, and the order never changes.
+
+It expires automatically: the first build after `end` drops the badge and the top spot. The site is static, so this happens on the daily build and merge; if no build runs, the page keeps the last built state. Remove the object after it expires.
+
+The old `"sponsored": true` boolean is still accepted but does nothing. Use `spotlight`.
+
 ## What the build writes
 
 `npm run build` regenerates `dist/sitemap.xml`, `dist/llms.txt`, `dist/llms-full.txt`, and `dist/feed.xml` from these files. New story and price-change pages are included because they are built as HTML.

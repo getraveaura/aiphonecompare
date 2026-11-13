@@ -12,8 +12,9 @@ import { catchGroups, industryLabel, storiesForIndustry } from '../lib/stories.m
 import { accent } from '../lib/industries.mjs';
 import { linkForIndustry } from '../lib/landings.mjs';
 import { lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
+import { orderForIndustry } from '../lib/spotlight.mjs';
 const { key, title, guide, faqs = [], guideTitle = 'What to check before you buy', note = '' } = Astro.props;
-const vendors = data.filter((v) => v.industries.includes(key)).sort((a, b) => (b.sponsored - a.sponsored) || a.name.localeCompare(b.name));
+const vendors = orderForIndustry(data, key);
 const money = (n) => (Number.isInteger(n) ? `$${n}` : `$${n}`);
 const low = lowestMonthlyListing(vendors);
 const lowAmount = low ? lowestMonthly(low.starting_price) : null;
@@ -29,7 +30,7 @@ const priceSentence = lowAmount == null
   : `The lowest monthly amount written in these listings is ${money(lowAmount)}/mo, for ${low.name}${lowChecked ? `, checked ${lowChecked}` : ''}.`;
 const allFaqs = [
   { q: 'What is the lowest published monthly price on this page?', a: `${priceSentence} Per-minute rates are not turned into a monthly price. Not verified means no monthly amount was published.` },
-  { q: 'Are these tools ranked?', a: 'No. Rows are alphabetical. A sponsored listing is labeled and can appear first. Payment does not change a price or the order of the other rows.' },
+  { q: 'Are these tools ranked?', a: 'No. Rows are alphabetical. A sponsored listing is labeled and can appear first only on the one industry page it paid for. Payment does not change a price or the order of the other rows.' },
   ...faqs,
 ];
 const relatedStories = storiesForIndustry(stories, key);
@@ -80,7 +81,7 @@ const jsonld = {
     </section>
     <section>
       <h2 class="section-title">Comparison table</h2>
-      <VendorTable vendors={vendors}/>
+      <VendorTable vendors={vendors} industry={key}/>
     </section>
     {relatedStories.length > 0 && (
       <section aria-labelledby="real-stories">
