@@ -1,10 +1,12 @@
 ---
 import '../styles/global.css';
+import '../styles/design.css';
 import Wordmark from '../components/Wordmark.astro';
 import PostHog from '../components/PostHog.astro';
-const { title, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld, noindex = false, modified = '' } = Astro.props;
+const { title, ogImage: ogPath = '/og.png', dock, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld, noindex = false, modified = '' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
-const ogImage = new URL('/og.png', Astro.site).href;
+const ogImage = new URL(ogPath, Astro.site).href;
+const logoImage = new URL('/og.png', Astro.site).href;
 const siteUrl = new URL('/', Astro.site).href;
 const siteJsonld = {
   '@context': 'https://schema.org',
@@ -14,7 +16,7 @@ const siteJsonld = {
       '@id': `${siteUrl}#organization`,
       name: 'aiphonecompare',
       url: siteUrl,
-      logo: { '@type': 'ImageObject', url: ogImage, width: 1200, height: 630 },
+      logo: { '@type': 'ImageObject', url: logoImage, width: 1200, height: 630 },
       email: 'timothy@aiphonecompare.com',
     },
     {
@@ -28,20 +30,35 @@ const siteJsonld = {
 };
 const path = Astro.url.pathname;
 const current = (href) => (path === href || path.startsWith(href) ? 'page' : undefined);
-const links = [
-  ['/industries/dental/', 'Dental'],
-  ['/industries/legal/', 'Legal'],
-  ['/industries/plumbing/', 'Plumbing'],
-  ['/industries/medical/', 'Medical'],
-  ['/stories/', 'Stories'],
-  ['/cost/', 'Cost'],
-  ['/cost/calculator/', 'Calculator'],
-  ['/overpaying/', 'Price check'],
-  ['/pricing/', 'Pricing'],
-  ['/about/', 'How we rank'],
-  ['/badge/', 'Badge'],
-  ['/get-featured/', 'Get featured'],
+const groups = [
+  ['Compare', [
+    ['/industries/dental/', 'Dental'],
+    ['/industries/legal/', 'Legal'],
+    ['/industries/plumbing/', 'Plumbing'],
+    ['/industries/medical/', 'Medical'],
+    ['/vendors/', 'All vendors'],
+  ]],
+  ['Tools', [
+    ['/match/', 'Match me to a tool'],
+    ['/cost/calculator/', 'Cost calculator'],
+    ['/overpaying/', 'Price check'],
+    ['/missed-call-calculator/', 'Missed-call calculator'],
+    ['/cost/', 'Full cost method'],
+  ]],
+  ['Learn', [
+    ['/stories/', 'Stories'],
+    ['/pricing/', 'Pricing'],
+    ['/price-changes/', 'Price changes'],
+    ['/about/', 'How we rank'],
+  ]],
+  ['For vendors', [
+    ['/get-featured/', 'Get featured'],
+    ['/teardown/', 'Competitor teardown'],
+    ['/badge/', 'Badge'],
+  ]],
 ];
+const exact = (href) => (path === href ? 'page' : undefined);
+const groupActive = (items) => items.some(([href]) => path === href || (href !== '/cost/' && path.startsWith(href)));
 ---
 <html lang="en">
 <head>
@@ -50,9 +67,13 @@ const links = [
   <title>{title} | aiphonecompare</title>
   <meta name="description" content={description}/>
   {noindex && <meta name="robots" content="noindex"/>}
+  <link rel="preload" href="/fonts/source-sans-3-400.woff2" as="font" type="font/woff2" crossorigin/>
+  <link rel="preload" href="/fonts/newsreader-600.woff2" as="font" type="font/woff2" crossorigin/>
   <link rel="canonical" href={canonical}/>
   <link rel="alternate" type="application/rss+xml" title="Stories and price changes" href="/feed.xml"/>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
   <script is:inline>
     document.documentElement.classList.add('js');
   </script>
@@ -79,15 +100,45 @@ const links = [
     <div class="wrap bar">
       <Wordmark />
       <details class="nav-disclosure">
-        <summary>Menu</summary>
+        <summary aria-label="Menu"><span class="burger" aria-hidden="true"></span>Menu</summary>
         <nav class="nav-panel" aria-label="Main">
-          {links.map(([href, label]) => <a href={href} aria-current={current(href)}>{label}</a>)}
+          {groups.map(([label, items]) => (
+            <details class="nav-drop" data-active={groupActive(items) ? '' : undefined}>
+              <summary>{label}</summary>
+              <div class="nav-menu">
+                {items.map(([href, text]) => <a href={href} aria-current={exact(href)}>{text}</a>)}
+              </div>
+            </details>
+          ))}
+          <a class="btn btn-primary btn-sm nav-cta" href="/done-for-you/" aria-current={exact('/done-for-you/')}>Done-for-you setup</a>
         </nav>
       </details>
       <script is:inline>
         (function () {
           var nav = document.currentScript.previousElementSibling;
-          if (nav && window.matchMedia('(min-width: 861px)').matches) nav.open = true;
+          if (!nav) return;
+          var desktop = window.matchMedia('(min-width: 961px)');
+          var drops = nav.querySelectorAll('.nav-drop');
+          function sync() {
+            if (desktop.matches) { nav.open = true; drops.forEach(function (d) { d.open = false; }); }
+            else { drops.forEach(function (d) { d.open = true; }); }
+          }
+          sync();
+          desktop.addEventListener('change', sync);
+          drops.forEach(function (d) {
+            d.addEventListener('toggle', function () {
+              if (!desktop.matches || !d.open) return;
+              drops.forEach(function (o) { if (o !== d) o.open = false; });
+            });
+          });
+          document.addEventListener('click', function (e) {
+            if (!desktop.matches) return;
+            drops.forEach(function (d) { if (!d.contains(e.target)) d.open = false; });
+          });
+          document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            drops.forEach(function (d) { if (d.open && desktop.matches) { d.open = false; d.querySelector('summary').focus(); } });
+          });
         })();
       </script>
     </div>
@@ -95,33 +146,66 @@ const links = [
   <main id="main"><slot/></main>
   <footer class="site-footer">
     <div class="wrap foot">
-      <div>
+      <div class="foot-brand">
         <Wordmark />
         <p>Independent directory for what an AI receptionist costs, and what actually happened when a small business turned one on. Sponsored placements are always labeled.</p>
       </div>
-      <nav aria-label="Directory">
-        {links.map(([href, label]) => <a href={href}>{label}</a>)}
-        <a href="/ai-answering-service/">AI answering service</a>
-        <a href="/small-business/">Small business</a>
-        <a href="/call-recording-consent-by-state/">Call recording consent</a>
-        <a href="/missed-call-calculator/">Missed-call calculator</a>
-        <a href="/vendors/">Vendors</a>
-        <a href="/price-changes/">Price changes</a>
-        <a href="/match/">Match</a>
-        <a href="/done-for-you/">Done-for-you</a>
-        <a href="/data/">Open dataset</a>
-        <a href="/privacy/">Privacy</a>
-        <a href="/terms/">Terms</a>
-        <a href="/refunds/">Refunds</a>
-        <a href="/accessibility/">Accessibility</a>
-      </nav>
+      <div class="foot-cols">
+        <nav aria-label="Compare">
+          <h2>Compare</h2>
+          <a href="/industries/dental/">Dental</a>
+          <a href="/industries/legal/">Legal</a>
+          <a href="/industries/plumbing/">Plumbing</a>
+          <a href="/industries/medical/">Medical</a>
+          <a href="/vendors/">Vendors</a>
+          <a href="/ai-answering-service/">AI answering service</a>
+          <a href="/small-business/">Small business</a>
+        </nav>
+        <nav aria-label="Tools">
+          <h2>Tools</h2>
+          <a href="/match/">Match</a>
+          <a href="/cost/calculator/">Calculator</a>
+          <a href="/overpaying/">Price check</a>
+          <a href="/missed-call-calculator/">Missed-call calculator</a>
+          <a href="/cost/">Cost</a>
+          <a href="/call-recording-consent-by-state/">Call recording consent</a>
+        </nav>
+        <nav aria-label="Learn">
+          <h2>Learn</h2>
+          <a href="/stories/">Stories</a>
+          <a href="/pricing/">Pricing</a>
+          <a href="/price-changes/">Price changes</a>
+          <a href="/about/">How we rank</a>
+          <a href="/data/">Open dataset</a>
+        </nav>
+        <nav aria-label="Work with us">
+          <h2>Work with us</h2>
+          <a href="/done-for-you/">Done-for-you</a>
+          <a href="/get-featured/">Get featured</a>
+          <a href="/teardown/">Competitor teardown</a>
+          <a href="/badge/">Badge</a>
+        </nav>
+        <nav aria-label="Legal">
+          <h2>Legal</h2>
+          <a href="/privacy/">Privacy</a>
+          <a href="/terms/">Terms</a>
+          <a href="/refunds/">Refunds</a>
+          <a href="/accessibility/">Accessibility</a>
+        </nav>
+      </div>
       <p class="fine">Data is taken from vendor sites and cited third-party comparisons; blank means we could not verify it. Vendor icons are saved copies of each site's own favicon.</p>
       <p class="fine listed-on"><span>Also listed on</span> <a href="https://www.toolpilot.ai/" rel="noopener"><img src="/directories/toolpilot-featured.png" alt="Featured on ToolPilot" width="109" height="24" loading="lazy" decoding="async"></a> <a href="https://dang.ai/" rel="noopener">Dang.ai</a></p>
     </div>
   </footer>
   <nav class="dock" aria-label="Shortcuts">
-    <a class="btn btn-primary" href="/match/">Match me</a>
-    <a class="btn btn-ghost" href="/vendors/">Compare</a>
+    {dock ? (
+      dock.map(([href, label], i) => <a class={i === 0 ? 'btn btn-primary' : 'btn btn-ghost'} href={href}>{label}</a>)
+    ) : (
+      <>
+        <a class="btn btn-primary" href="/match/">Match me</a>
+        <a class="btn btn-ghost" href="/vendors/">Compare</a>
+      </>
+    )}
   </nav>
   <script is:inline>
     (function () {
@@ -140,6 +224,15 @@ const links = [
         });
       }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
       nodes.forEach(function (node) { observer.observe(node); });
+      // Never leave content hidden: anything at or above the viewport bottom is shown, even after a jump or fast scroll.
+      function sweep() {
+        nodes.forEach(function (node) {
+          if (!node.classList.contains('is-in') && node.getBoundingClientRect().top < window.innerHeight) node.classList.add('is-in');
+        });
+      }
+      window.addEventListener('scroll', function () { window.requestAnimationFrame(sweep); }, { passive: true });
+      window.addEventListener('load', sweep);
+      window.addEventListener('beforeprint', function () { nodes.forEach(function (node) { node.classList.add('is-in'); }); });
     })();
   </script>
 </body>

@@ -73,3 +73,13 @@ export const TEARDOWN = {
   refundDays: 14,
   url: 'https://buy.stripe.com/cNidR92fpaex6cU7nY9ws03',
 };
+
+// Industry spotlight for vendors: approved early-bird price and its Stripe Payment Link.
+export const SPOTLIGHT = {
+  path: '/get-featured/',
+  name: 'Industry spotlight',
+  price: 49,
+  days: 30,
+  refundDays: 7,
+  url: 'https://buy.stripe.com/dRmdR9aLVbiB7gY8s29ws00',
+};

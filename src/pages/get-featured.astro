@@ -1,12 +1,16 @@
 ---
 import Base from '../layouts/Base.astro';
+import OfferProof from '../components/OfferProof.astro';
+import OtherOffers from '../components/OtherOffers.astro';
+import data from '../data/vendors.json';
+import { SPOTLIGHT } from '../lib/offers.mjs';
 const pageUrl = new URL('/get-featured/', Astro.site).href;
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'Product',
   name: 'Industry spotlight',
   description: 'Top spot on one industry page for 30 days, labeled Sponsored. No contract. Early-bird price is $49.',
-  image: new URL('/og.png', Astro.site).href,
+  image: new URL('/og/get-featured.png', Astro.site).href,
   brand: { '@type': 'Brand', 'name': 'aiphonecompare' },
   url: pageUrl,
   offers: {
@@ -17,50 +21,115 @@ const jsonld = {
     url: pageUrl,
   },
 };
+const industries = [
+  ['dental', 'Dental'],
+  ['legal', 'Legal'],
+  ['plumbing', 'Plumbing'],
+  ['medical', 'Medical'],
+].map(([key, label]) => ({ key, label, count: data.filter((v) => (v.industries || []).includes(key)).length }));
+const faqs = [
+  ['Does a spotlight change rankings or prices?', 'No. Tables are alphabetical. A sponsored listing is labeled and can appear first only on the one industry page it paid for. Payment does not change a price or the order of the other rows.'],
+  ['Does it renew?', 'No. It is a one-time payment through a Stripe Payment Link, and the spotlight runs for 30 days. There is no contract.'],
+  ['What if I change my mind?', 'Before it goes live: full refund, any time. In the first 7 days after it goes live: full refund if you are not happy, no questions asked. After day 7 there are no partial refunds and the spotlight runs its full 30 days.'],
+  ['How do I start?', 'Pay below, then email timothy@aiphonecompare.com with your company name and the industry page you want.'],
+  ['Can you remove a spotlight?', 'We may remove a spotlight that is misleading. If we do, we refund it in full.'],
+];
 ---
-<Base title="Get featured" description="Industry spotlight is $49 for 30 days: the top spot on one industry page, labeled Sponsored, with no contract." jsonld={jsonld}>
-  <header class="page-intro featured-intro">
+<Base title="Get featured" description="Industry spotlight is $49 for 30 days: the top spot on one industry page, labeled Sponsored, with no contract." jsonld={jsonld} ogImage="/og/get-featured.png" dock={[['#buy', `Buy for $${SPOTLIGHT.price}`], ['#how-it-looks', 'See an example']]}>
+  <header class="offer-hero">
     <div class="wrap">
-      <h1>Get your AI receptionist featured</h1>
-      <p class="lead">Sponsored spots are clearly labeled. Rankings, listings, and verified prices are never for sale.</p>
+      <p class="eyebrow">For AI receptionist vendors</p>
+      <h1>Get your AI receptionist in front of buyers who are comparing</h1>
+      <p class="lead">Take the top spot on one industry page for 30 days. It is clearly labeled Sponsored, and rankings, listings and verified prices are never for sale.</p>
+      <div class="cta">
+        <a class="btn btn-primary btn-lg" href="#buy">Get featured for ${SPOTLIGHT.price} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-secondary btn-lg" href="#how-it-looks">See how it looks</a>
+      </div>
+      <ul class="offer-points">
+        <li>{SPOTLIGHT.days} days</li>
+        <li>No contract, no auto-renew</li>
+        <li>Full refund in the first {SPOTLIGHT.refundDays} days</li>
+      </ul>
     </div>
   </header>
-  <div class="wrap stack featured-offers">
-    <div class="offers">
-      <article class="offer">
-        <div class="offer-copy">
-          <h2>Industry spotlight</h2>
-          <p class="price">$49 <span>/ 30 days (early-bird)</span></p>
-          <p>Available. Top spot on one industry page, labeled Sponsored. No contract.</p>
-        </div>
-        <div class="offer-foot">
-          <a class="btn btn-primary" href="https://buy.stripe.com/dRmdR9aLVbiB7gY8s29ws00">Pay $49 for a 30-day industry spotlight</a>
-          <p class="note offer-refund"><a href="/refunds/">Refund policy</a></p>
-        </div>
-      </article>
-      <article class="offer">
-        <div class="offer-copy">
-          <h2>Multi-industry</h2>
-          <p class="price">$149</p>
-          <p>Top of up to 3 industry pages plus badge.</p>
-        </div>
-        <div class="offer-foot">
-          <p class="status">Coming soon</p>
-        </div>
-      </article>
-      <article class="offer">
-        <div class="offer-copy">
-          <h2>Sitewide sponsor</h2>
-          <p class="price">$299 <span>/ month</span></p>
-          <p>Sitewide placement, labeled Sponsored.</p>
-        </div>
-        <div class="offer-foot">
-          <p class="status">Coming soon</p>
-        </div>
-      </article>
+
+  <section class="offer-section" aria-labelledby="what-you-get">
+    <div class="wrap offer-split">
+      <div>
+        <h2 id="what-you-get">What you get</h2>
+        <ul class="feature-grid one">
+          <li class="card"><span class="num">1</span><h3>The top row on one industry page</h3><p>Pick Dental, Legal, Plumbing or Medical. Your row goes first on that page only, for 30 days.</p></li>
+          <li class="card"><span class="num">2</span><h3>Labeled, so buyers trust it</h3><p>The row always carries a Sponsored label. Your sourced price and details stay exactly as verified.</p></li>
+          <li class="card"><span class="num">3</span><h3>Simple to start</h3><p>Pay once, then email us your company name and the industry you want. No contract, and it does not renew.</p></li>
+        </ul>
+      </div>
+      <aside class="card buy-box" id="buy" aria-labelledby="buy-heading">
+        <h2 id="buy-heading" style="margin:0 0 .35rem; font-size: 1.35rem;">Industry spotlight</h2>
+        <p class="price-big">${SPOTLIGHT.price} <span>/ {SPOTLIGHT.days} days (early-bird)</span></p>
+        <ul>
+          <li>Top spot on one industry page</li>
+          <li>Labeled Sponsored</li>
+          <li>No contract, one-time payment</li>
+        </ul>
+        <a class="btn btn-primary btn-lg btn-block" href={SPOTLIGHT.url} data-spotlight-checkout>Pay $49 for a 30-day industry spotlight</a>
+        <p class="assure"><strong>Full refund</strong> before it goes live, or in the first {SPOTLIGHT.refundDays} days after. <a href="/refunds/">Refund policy</a></p>
+        <p class="note" style="margin-top:.85rem; font-size:.92rem;">After paying, email <a href="mailto:timothy@aiphonecompare.com?subject=Industry%20spotlight">timothy@aiphonecompare.com</a> with your company name and the industry you want.</p>
+      </aside>
     </div>
-    <div class="after">
-      <p>After paying, email <a href="mailto:timothy@aiphonecompare.com?subject=Industry%20spotlight">timothy@aiphonecompare.com</a> with your company name and the industry you want.</p>
+  </section>
+
+  <section class="offer-section" id="how-it-looks" aria-labelledby="how-heading">
+    <div class="wrap">
+      <h2 id="how-heading">How a spotlight appears</h2>
+      <p class="lead" style="margin:-.35rem 0 1.25rem; font-size:1.05rem;">An illustration of an industry table with a spotlight. The other rows stay in A to Z order.</p>
+      <div class="card spot-preview" role="img" aria-label="Example: an industry table where the first row is labeled Sponsored and the other rows are in alphabetical order">
+        <div class="spot-cap"><span>Example only</span><span>Dental page</span></div>
+        <table aria-hidden="true">
+          <tbody>
+            <tr class="is-spot"><th class="spot-name">Your company <span class="badge">Sponsored</span><span class="spot-line">Your one-line message · Visit Your company</span></th><td>Your verified starting price</td></tr>
+            <tr><th><span class="ghost" style="width:7rem"></span></th><td><span class="ghost" style="width:10rem"></span></td></tr>
+            <tr><th><span class="ghost" style="width:9rem"></span></th><td><span class="ghost" style="width:8rem"></span></td></tr>
+            <tr><th><span class="ghost" style="width:6rem"></span></th><td><span class="ghost" style="width:11rem"></span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="link-grid four" style="margin-top:16px;">
+        {industries.map((i) => <a href={`/industries/${i.key}/`}>{i.label} page · {i.count} vendors listed</a>)}
+      </div>
     </div>
-  </div>
+  </section>
+
+  <section class="offer-section" aria-labelledby="tiers-heading">
+    <div class="wrap">
+      <h2 id="tiers-heading">More placements</h2>
+      <div class="tier-row">
+        <div class="card"><div><h3>Multi-industry · $149</h3><p>Top of up to 3 industry pages plus badge.</p></div><span class="soon">Coming soon</span></div>
+        <div class="card"><div><h3>Sitewide sponsor · $299 / month</h3><p>Sitewide placement, labeled Sponsored.</p></div><span class="soon">Coming soon</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="offer-section">
+    <div class="wrap">
+      <OfferProof heading="Spotlight results" body="Spotlights are new. With each sponsor's permission, we'll share real results here once a spotlight has run. We won't post made-up quotes or numbers." />
+    </div>
+  </section>
+
+  <section class="offer-section" aria-labelledby="faq-heading">
+    <div class="wrap" style="max-width: 820px;">
+      <h2 id="faq-heading">Questions</h2>
+      <div class="faq-list">
+        {faqs.map(([q, a]) => <details><summary>{q}</summary><p>{a}</p></details>)}
+      </div>
+    </div>
+  </section>
+
+  <OtherOffers />
+
+  <script>
+    import { track } from '../lib/analytics.mjs';
+    document.querySelectorAll('[data-spotlight-checkout]').forEach((link) => {
+      link.addEventListener('click', () => track('spotlight_checkout_clicked'));
+    });
+  </script>
 </Base>

@@ -1,0 +1,24 @@
+---
+import { DFY_OFFERS, DFY_PATH, TEARDOWN, SPOTLIGHT, usd } from '../lib/offers.mjs';
+const path = Astro.url.pathname;
+const offers = [
+  { href: DFY_PATH, kicker: 'For businesses', name: 'Done-for-you setup', price: `From ${usd(DFY_OFFERS.founding.price)} one-time`, body: 'We pick, set up and tune your AI receptionist, with a result guarantee.' },
+  { href: TEARDOWN.path, kicker: 'For vendors', name: TEARDOWN.name, price: `${usd(TEARDOWN.price)} one-time`, body: 'How buyers compare you with your rivals, plus 5 fixes.' },
+  { href: SPOTLIGHT.path, kicker: 'For vendors', name: SPOTLIGHT.name, price: `${usd(SPOTLIGHT.price)} for ${SPOTLIGHT.days} days`, body: 'The top spot on one industry page, labeled Sponsored.' },
+].filter((o) => o.href !== path);
+---
+<section class="offer-section" aria-labelledby="other-offers">
+  <div class="wrap">
+    <h2 id="other-offers">Other ways to work with us</h2>
+    <div class="other-offers">
+      {offers.map((o) => (
+        <a class="card" href={o.href}>
+          <span class="kicker">{o.kicker}</span>
+          <strong>{o.name}</strong>
+          <span class="price-tag">{o.price}</span>
+          <span>{o.body}</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

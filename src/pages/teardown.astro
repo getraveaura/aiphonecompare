@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import { TEARDOWN } from '../lib/offers.mjs';
+import OfferProof from '../components/OfferProof.astro';
+import OtherOffers from '../components/OtherOffers.astro';
 const pageUrl = new URL('/teardown/', Astro.site).href;
 const price = TEARDOWN.price;
 const jsonld = {
@@ -28,16 +30,21 @@ const faqs = [
   ['What if it is not useful?', `Tell us within ${TEARDOWN.refundDays} days and we refund you in full. No questions asked.`],
 ];
 ---
-<Base title="Competitor teardown for AI receptionist vendors" description={`See how your AI receptionist compares with your closest rivals on price, AI answers and your pricing page, with 5 specific fixes. $${price}, delivered within 24 hours, full refund if it's not useful.`} jsonld={jsonld}>
+<Base title="Competitor teardown for AI receptionist vendors" description={`See how your AI receptionist compares with your closest rivals on price, AI answers and your pricing page, with 5 specific fixes. $${price}, delivered within 24 hours, full refund if it's not useful.`} jsonld={jsonld} ogImage="/og/teardown.png" dock={[['#offer', `Buy for $${price}`], ['#sample', 'See a sample']]}>
   <div class="dfy-paid" id="td-paid" role="status" hidden>
     <div class="wrap"><strong>Payment received, thank you.</strong> Your intake email from timothy@aiphonecompare.com is on its way; it asks for 3 quick things.</div>
   </div>
 
-  <header class="page-intro td-intro">
+  <header class="page-intro td-intro offer-hero">
     <div class="wrap">
       <p class="td-eyebrow">For AI receptionist vendors</p>
       <h1>See exactly how buyers compare you, and win more of them</h1>
       <p class="lead">A sourced teardown of your price, your AI-search presence and your pricing page against your closest rivals, with 5 fixes you can ship this week.</p>
+      <ul class="offer-points">
+        <li>Delivered within 24 hours</li>
+        <li>Just send your URL</li>
+        <li>Full refund within {TEARDOWN.refundDays} days if it's not useful</li>
+      </ul>
     </div>
   </header>
 
@@ -84,12 +91,18 @@ const faqs = [
     <p class="note">Excerpts from a sample teardown built only from public pages.</p>
   </section>
 
+  <section class="wrap offer-section" style="padding-top:2rem">
+    <OfferProof heading="What vendors say" body="The teardown is new. With each buyer's permission, we'll share what they changed and what happened here. Until then, the sample findings above show the format. We won't post made-up quotes or numbers." />
+  </section>
+
   <section class="wrap td-faq" aria-labelledby="faq">
     <h2 id="faq">Questions</h2>
     <dl>
       {faqs.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
     </dl>
   </section>
+  <OtherOffers />
+
   <script>
     import { isPaidReturn } from '../lib/offers.mjs';
     import { track } from '../lib/analytics.mjs';
