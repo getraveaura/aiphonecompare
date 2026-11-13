@@ -89,3 +89,19 @@ test('terms and about disclose referral links', () => {
   assert.match(read('src/pages/terms.astro'), /id="referral"[\s\S]*never affect rankings, listings, verified prices, or the order of results/);
   assert.match(read('src/pages/about.astro'), /referral links[\s\S]*never affect rankings/);
 });
+
+test('NextPhone and Rosie referral links are used only for their own outbound link', () => {
+  const expected = {
+    nextphone: 'https://getnextphone.com/i/timothy',
+    rosie: 'https://heyrosie.com/?ref=timothyp1',
+    oncrew: REF,
+  };
+  const withRef = vendors.filter((v) => v.referral_url).map((v) => v.slug).sort();
+  assert.deepEqual(withRef, Object.keys(expected).sort());
+  for (const [slug, url] of Object.entries(expected)) {
+    const v = vendors.find((x) => x.slug === slug);
+    assert.deepEqual(outboundLink(v), { href: url, rel: 'sponsored noopener', isReferral: true });
+    assert.equal(v.sponsored, false);
+    for (const s of v.sources || []) assert.notEqual(s, url);
+  }
+});

@@ -407,7 +407,8 @@
   {
     "slug": "rosie",
     "name": "Rosie",
-    "website": "",
+    "website": "https://heyrosie.com",
+    "referral_url": "https://heyrosie.com/?ref=timothyp1",
     "starting_price": "From $49/mo for 250 minutes; booking & transfers from $149/mo",
     "billing_model": "Per minute bundles",
     "free_trial": "7-day trial",
@@ -496,6 +497,7 @@
     "slug": "nextphone",
     "name": "NextPhone",
     "website": "https://www.getnextphone.com",
+    "referral_url": "https://getnextphone.com/i/timothy",
     "starting_price": "From $199/mo, unlimited inbound calls",
     "billing_model": "Flat monthly",
     "free_trial": "",
