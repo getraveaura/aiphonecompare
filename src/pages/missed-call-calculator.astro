@@ -2,13 +2,27 @@
 import Base from '../layouts/Base.astro';
 import data from '../data/vendors.json';
 import { byPublishedMonthlyPrice, lowestMonthly } from '../lib/price.mjs';
+import { latestChecked } from '../lib/schema.mjs';
 const cheapest = byPublishedMonthlyPrice(data)
   .filter((v) => lowestMonthly(v.starting_price) != null)
   .slice(0, 5)
   .map((v) => ({ ...v, monthly: lowestMonthly(v.starting_price) }));
 const money = (n) => Number.isInteger(n) ? `$${n}` : `$${n}`;
+const title = 'Missed-call cost calculator';
+const description = 'Estimate monthly revenue from missed calls using your own numbers, next to the lowest published monthly starting prices in this directory.';
+// dateModified is the latest checked date among the prices this page shows.
+const latest = latestChecked(cheapest);
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  url: new URL('/missed-call-calculator/', Astro.site).href,
+  description,
+  isPartOf: { '@id': new URL('/#website', Astro.site).href },
+  ...(latest ? { dateModified: latest } : {}),
+};
 ---
-<Base title="Missed-call cost calculator" description="Estimate monthly revenue from missed calls using your own numbers, next to the lowest published monthly starting prices in this directory.">
+<Base title={title} description={description} jsonld={jsonld}>
   <header class="page-intro">
     <div class="wrap">
       <h1>Missed-call cost calculator</h1>

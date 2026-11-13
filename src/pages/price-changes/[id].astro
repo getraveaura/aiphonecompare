@@ -4,6 +4,7 @@ import Share from '../../components/Share.astro';
 import log from '../../data/price-changes.json';
 import vendors from '../../data/vendors.json';
 import { formatDate } from '../../lib/stories.mjs';
+import { priceChangeLead } from '../../lib/schema.mjs';
 export function getStaticPaths() {
   return log.changes.map((change) => ({ params: { id: change.id }, props: { change } }));
 }
@@ -13,12 +14,17 @@ const name = vendor?.name || change.vendorSlug;
 const title = `${name} price change`;
 const description = change.summary.slice(0, 220);
 const url = new URL(`/price-changes/${change.id}/`, Astro.site).href;
+const lead = priceChangeLead(change, formatDate);
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   name: title,
   url,
   description,
+  isPartOf: { '@id': new URL('/#website', Astro.site).href },
+  ...(change.added ? { datePublished: change.added } : {}),
+  ...(change.observed ? { dateModified: change.observed } : {}),
+  abstract: lead,
   citation: change.sources.map((source) => ({
     '@type': 'CreativeWork',
     name: source.title,
@@ -33,6 +39,7 @@ const jsonld = {
       <p class="story-meta"><a href="/price-changes/">All price changes</a></p>
       <h1>{title}</h1>
       <p class="checked">Observed <time datetime={change.observed}>{formatDate(change.observed)}</time></p>
+      <p class="lead">{lead}</p>
     </div>
   </header>
   <div class="wrap stack">

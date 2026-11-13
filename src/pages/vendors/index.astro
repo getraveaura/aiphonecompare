@@ -3,18 +3,33 @@ import Base from '../../layouts/Base.astro';
 import VendorMark from '../../components/VendorMark.astro';
 import data from '../../data/vendors.json';
 import { formatDate } from '../../lib/stories.mjs';
+import { latestChecked } from '../../lib/schema.mjs';
 const vendors = [...data].sort((a, b) => a.name.localeCompare(b.name));
 const description = 'Directory of the AI receptionist vendors we track. Starting prices are sourced. Sponsored spots are labeled.';
+const latest = latestChecked(vendors);
 const jsonld = {
   '@context': 'https://schema.org',
-  '@type': 'ItemList',
-  name: 'AI receptionist vendors',
-  itemListElement: vendors.map((vendor, index) => ({
-    '@type': 'ListItem',
-    position: index + 1,
-    name: vendor.name,
-    url: new URL(`/vendors/${vendor.slug}/`, Astro.site).href,
-  })),
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      name: 'AI receptionist vendors',
+      url: new URL('/vendors/', Astro.site).href,
+      description,
+      isPartOf: { '@id': new URL('/#website', Astro.site).href },
+      ...(latest ? { dateModified: latest } : {}),
+    },
+    {
+      '@type': 'ItemList',
+      name: 'AI receptionist vendors',
+      ...(latest ? { dateModified: latest } : {}),
+      itemListElement: vendors.map((vendor, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: vendor.name,
+        url: new URL(`/vendors/${vendor.slug}/`, Astro.site).href,
+      })),
+    },
+  ],
 };
 ---
 <Base title="AI receptionist vendors" description={description} jsonld={jsonld}>

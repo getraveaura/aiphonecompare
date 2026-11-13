@@ -1,7 +1,18 @@
 ---
 import Base from '../layouts/Base.astro';
+const title = 'About & how we rank';
+const description = 'aiphonecompare is the independent, verified price comparison for AI receptionists: every price sourced and dated, sponsored spots labeled, rankings not for sale.';
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: title,
+  url: new URL('/about/', Astro.site).href,
+  description,
+  isPartOf: { '@id': new URL('/#website', Astro.site).href },
+  about: { '@id': new URL('/#organization', Astro.site).href },
+};
 ---
-<Base title="About & how we rank" description="aiphonecompare is the independent, verified price comparison for AI receptionists: every price sourced and dated, sponsored spots labeled, rankings not for sale.">
+<Base title={title} description={description} jsonld={jsonld}>
   <article class="wrap prose page-intro">
     <h1>About aiphonecompare &amp; how we rank</h1>
     <p class="lead">aiphonecompare is the independent, verified price comparison for AI receptionists.</p>

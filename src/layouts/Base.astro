@@ -5,6 +5,27 @@ import PostHog from '../components/PostHog.astro';
 const { title, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL('/og.png', Astro.site).href;
+const siteUrl = new URL('/', Astro.site).href;
+const siteJsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteUrl}#organization`,
+      name: 'aiphonecompare',
+      url: siteUrl,
+      logo: { '@type': 'ImageObject', url: ogImage, width: 1200, height: 630 },
+      email: 'timothy@aiphonecompare.com',
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteUrl}#website`,
+      name: 'aiphonecompare',
+      url: siteUrl,
+      publisher: { '@id': `${siteUrl}#organization` },
+    },
+  ],
+};
 const path = Astro.url.pathname;
 const current = (href) => (path === href || path.startsWith(href) ? 'page' : undefined);
 const links = [
@@ -46,6 +67,7 @@ const links = [
   <meta name="twitter:title" content={title}/>
   <meta name="twitter:description" content={description}/>
   <meta name="twitter:image" content={ogImage}/>
+  <script type="application/ld+json" set:html={JSON.stringify(siteJsonld)}/>
   {jsonld && <script type="application/ld+json" set:html={JSON.stringify(jsonld)}/>}
 </head>
 <body>
