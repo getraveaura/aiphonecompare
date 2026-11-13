@@ -52,6 +52,7 @@ export function indexRows(vendors) {
         sourceHost: hostOf(source),
         sourceType: classifySource(source, v.website),
         hasDollarPrice: hasDollarPrice(v),
+        priceCheck: v.price_check || null,
         vendor: v,
       };
     });
@@ -83,6 +84,7 @@ export function indexSummary(vendors, log) {
     thirdPartySource: count(SOURCE_TYPES.third),
     unclassifiedSource: count(SOURCE_TYPES.unknown),
     noSource: count(SOURCE_TYPES.none),
+    notConfirmed: rows.filter((r) => r.priceCheck?.result === 'not-confirmed').length,
     changes: (log?.changes || []).length,
     trackingStarted: log?.trackingStarted || '',
     latest: latestDate(vendors),
