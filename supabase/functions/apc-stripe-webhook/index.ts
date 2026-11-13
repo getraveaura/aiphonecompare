@@ -1,5 +1,5 @@
 // POST /functions/v1/apc-stripe-webhook
-// Stripe webhook for the $49 Industry spotlight Payment Link. Verifies the
+// Stripe webhook for the Industry spotlight, Done-for-you and Competitor teardown Payment Links. Verifies the
 // Stripe signature, logs the payment to aiphonecompare.leads
 // (stage active_client, source stripe, idempotent per checkout session), and
 // sends a thank-you email with next steps.
@@ -9,12 +9,14 @@ const OFFERS: Record<string, { name: string; sku: string; tier: string }> = {
   plink_1UYUSEDIQTTGLh9lp7mhODhB: { name: "Industry spotlight (30 days)", sku: "industry-spotlight-30d", tier: "spotlight" },
   plink_1UbSgxDIQTTGLh9lxuqafUsQ: { name: "Done-for-you AI receptionist setup", sku: "done-for-you-setup", tier: "founding" },
   plink_1UbSh6DIQTTGLh9lNnNdDoCZ: { name: "Done-for-you AI receptionist setup", sku: "done-for-you-setup", tier: "standard" },
+  plink_1UbSr1DIQTTGLh9lGvqLAYW5: { name: "Competitor teardown", sku: "competitor-teardown", tier: "standard" },
 };
 // deno-lint-ignore no-explicit-any
 function offerFor(s: any) {
   if (s.payment_link && OFFERS[s.payment_link]) return OFFERS[s.payment_link];
   const sku = s.metadata?.sku;
   if (sku === "industry-spotlight-30d") return OFFERS.plink_1UYUSEDIQTTGLh9lp7mhODhB;
+  if (sku === "competitor-teardown") return OFFERS.plink_1UbSr1DIQTTGLh9lGvqLAYW5;
   if (sku === "done-for-you-setup") {
     return { ...OFFERS.plink_1UbSh6DIQTTGLh9lNnNdDoCZ, tier: s.metadata?.tier === "founding" ? "founding" : "standard" };
   }
@@ -68,6 +70,29 @@ ${button("https://aiphonecompare.com/done-for-you/", "See what's included")}
     tags: [{ name: "type", value: "dfy_intake" }],
   };
 }
+function teardownEmail(to: string, first: string, paid: string, company: string | null) {
+  const hi = first ? `Hi ${esc(first)},` : "Hi there,";
+  const forCo = company ? ` for ${esc(company)}` : "";
+  return {
+    to,
+    subject: "Thank you! 3 quick answers to start your competitor teardown",
+    html: shell(`
+<p>${hi}</p>
+<p>Thank you for ordering a Competitor teardown${forCo}. We received ${esc(paid)}, and your receipt comes separately from Stripe.</p>
+<p>To tailor it, just reply to this email with these three things. Short answers are perfect:</p>
+<ol style="padding-left:20px;margin:0 0 14px 0;">
+<li><strong>Your company name and website</strong> (the product we should tear down)</li>
+<li><strong>The competitors you lose deals to</strong>, up to 5. If you're not sure, we'll pick your closest rivals from our sourced directory.</li>
+<li><strong>Your goals</strong>: for example more trial sign-ups, a stronger pricing page, or showing up in ChatGPT and Google answers for a buyer search you care about</li>
+</ol>
+<p>Your teardown arrives within 24 hours of your reply, usually in 2 to 6 hours, as a shareable web page and a PDF. Every price and citation in it links to its public source.</p>
+<p style="font-size:13px;color:#6b6b66;">If it isn't useful, tell us within 14 days and we refund you in full. A teardown never changes your listing, prices or ranking on aiphonecompare. Terms: aiphonecompare.com/refunds/</p>
+${button("https://aiphonecompare.com/teardown/", "See what's included")}
+<p>Thanks again,<br>Timothy<br><span style="color:#6b6b66;">aiphonecompare.com</span></p>`),
+    text: `${first ? `Hi ${first},` : "Hi there,"}\n\nThank you for ordering a Competitor teardown${company ? ` for ${company}` : ""}. We received ${paid}; your receipt comes separately from Stripe.\n\nTo tailor it, just reply with:\n1. Your company name and website\n2. The competitors you lose deals to (up to 5; if you're not sure, we'll pick your closest rivals from our directory)\n3. Your goals (for example more trial sign-ups, a stronger pricing page, or showing up in ChatGPT and Google answers for a buyer search)\n\nYour teardown arrives within 24 hours of your reply, usually in 2 to 6 hours, as a web page and a PDF, with every price and citation linked to its source.\n\nIf it isn't useful, tell us within 14 days and we refund you in full. A teardown never changes your listing, prices or ranking. Terms: https://aiphonecompare.com/refunds/\n\nThanks again,\nTimothy\naiphonecompare.com`,
+    tags: [{ name: "type", value: "teardown_intake" }],
+  };
+}
 const TOLERANCE_S = 300;
 
 function hex(buf: ArrayBuffer): string {
@@ -108,7 +133,7 @@ Deno.serve(async (req) => {
   const email = String(s.customer_details?.email ?? s.customer_email ?? "").toLowerCase().slice(0, 254);
   const name = s.customer_details?.name ? String(s.customer_details.name).slice(0, 120) : null;
   const phone = s.customer_details?.phone ? String(s.customer_details.phone).slice(0, 40) : null;
-  const businessField = (s.custom_fields ?? []).find((f: { key: string }) => f.key === "business_name");
+  const businessField = (s.custom_fields ?? []).find((f: { key: string }) => f.key === "business_name" || f.key === "company_website");
   const business = businessField?.text?.value ? String(businessField.text.value).slice(0, 160) : null;
   const amount = typeof s.amount_total === "number" ? s.amount_total : null;
   const payload = {
@@ -144,6 +169,8 @@ Deno.serve(async (req) => {
     const first = name ? name.split(" ")[0] : "";
     sent = await sendEmail(offer.sku === "done-for-you-setup"
       ? dfyEmail(email, first, paid, offer.tier)
+      : offer.sku === "competitor-teardown"
+      ? teardownEmail(email, first, paid, business)
       : spotlightEmail(email, first, paid));
   }
   await sql`update aiphonecompare.leads set payload = payload || ${sql.json({ thank_you_email: { ...sent, at: new Date().toISOString() } })} where id = ${leadId}`;

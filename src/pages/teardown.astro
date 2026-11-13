@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
+import { TEARDOWN } from '../lib/offers.mjs';
 const pageUrl = new URL('/teardown/', Astro.site).href;
-const price = 199;
+const price = TEARDOWN.price;
 const jsonld = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -10,7 +11,7 @@ const jsonld = {
   description: 'A sourced report on how your AI receptionist compares on price and features with 3 to 5 close rivals, how you show up in AI answers and Google, where your pricing page loses buyers, and 5 specific fixes.',
   provider: { '@type': 'Organization', name: 'aiphonecompare', url: new URL('/', Astro.site).href },
   url: pageUrl,
-  offers: { '@type': 'Offer', price: String(price), priceCurrency: 'USD', url: pageUrl },
+  offers: { '@type': 'Offer', price: String(price), priceCurrency: 'USD', url: pageUrl, availability: 'https://schema.org/InStock' },
 };
 const included = [
   ['Price and features, side by side', 'Your plans next to 3 to 5 of your closest rivals from our sourced directory, plus what a month really costs at 4 call volumes and 2 call lengths.'],
@@ -24,10 +25,14 @@ const faqs = [
   ['How fast is it?', 'We promise 24 hours. Most teardowns are delivered in 2 to 6 hours.'],
   ['What do I receive?', 'A polished, shareable web page and a PDF of the same report.'],
   ['Does buying one change my listing or ranking?', 'Never. Listings, verified prices and rankings are not for sale. The report is private to you.'],
-  ['What if it is not useful?', 'Tell us within 14 days and we refund you in full. No questions asked.'],
+  ['What if it is not useful?', `Tell us within ${TEARDOWN.refundDays} days and we refund you in full. No questions asked.`],
 ];
 ---
 <Base title="Competitor teardown for AI receptionist vendors" description={`See how your AI receptionist compares with your closest rivals on price, AI answers and your pricing page, with 5 specific fixes. $${price}, delivered within 24 hours, full refund if it's not useful.`} jsonld={jsonld}>
+  <div class="dfy-paid" id="td-paid" role="status" hidden>
+    <div class="wrap"><strong>Payment received, thank you.</strong> Your intake email from timothy@aiphonecompare.com is on its way; it asks for 3 quick things.</div>
+  </div>
+
   <header class="page-intro td-intro">
     <div class="wrap">
       <p class="td-eyebrow">For AI receptionist vendors</p>
@@ -54,8 +59,9 @@ const faqs = [
         <li><strong>Just send your URL.</strong> No logins, no calls.</li>
         <li><strong>Web page + PDF</strong> you can share with your team.</li>
       </ul>
-      <a class="btn btn-primary td-cta" href="mailto:timothy@aiphonecompare.com?subject=Competitor%20teardown&body=Our%20website%3A%20">Get your teardown</a>
-      <p class="td-refund"><strong>Full refund if it's not useful.</strong> Just tell us within 14 days.</p>
+      <a class="btn btn-primary td-cta" href={TEARDOWN.url} data-teardown-checkout>Get your teardown for ${price}</a>
+      <p class="td-refund"><strong>Full refund if it's not useful.</strong> Just tell us within {TEARDOWN.refundDays} days. <a href="/refunds/#teardown">Refund policy</a></p>
+      <p class="td-mail">Questions first? Email <a href="mailto:timothy@aiphonecompare.com?subject=Competitor%20teardown">timothy@aiphonecompare.com</a></p>
     </aside>
   </div>
 
@@ -84,6 +90,19 @@ const faqs = [
       {faqs.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
     </dl>
   </section>
+  <script>
+    import { isPaidReturn } from '../lib/offers.mjs';
+    import { track } from '../lib/analytics.mjs';
+
+    const banner = document.getElementById('td-paid');
+    if (banner && isPaidReturn(window.location.search)) {
+      banner.hidden = false;
+      track('teardown_paid_return');
+    }
+    document.querySelectorAll('[data-teardown-checkout]').forEach((link) => {
+      link.addEventListener('click', () => track('teardown_checkout_clicked'));
+    });
+  </script>
 </Base>
 
 <style>
@@ -107,6 +126,7 @@ const faqs = [
   .td-facts li::before { content: "✓"; position: absolute; left: 0; color: var(--pine); font-weight: 600; }
   .td-cta { display: flex; width: 100%; justify-content: center; min-height: 3rem; align-items: center; }
   .td-refund { margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: var(--checked-bg); color: var(--ink-soft); font-size: 0.95rem; }
+  .td-mail { margin: 12px 0 0; font-size: 0.92rem; color: var(--muted); }
   .td-sample { padding-bottom: 40px; }
   .td-samples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 12px; }
   .td-samples figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
