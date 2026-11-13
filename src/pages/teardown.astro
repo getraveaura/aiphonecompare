@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { TEARDOWN } from '../lib/offers.mjs';
+import { SHOW_OFFER_PROOF, TEARDOWN } from '../lib/offers.mjs';
 import OfferProof from '../components/OfferProof.astro';
 import OtherOffers from '../components/OtherOffers.astro';
 const pageUrl = new URL('/teardown/', Astro.site).href;
@@ -91,9 +91,9 @@ const faqs = [
     <p class="note">Excerpts from a sample teardown built only from public pages.</p>
   </section>
 
-  <section class="wrap offer-section" style="padding-top:2rem">
+  {SHOW_OFFER_PROOF && <section class="wrap offer-section" style="padding-top:2rem">
     <OfferProof heading="What vendors say" body="The teardown is new. With each buyer's permission, we'll share what they changed and what happened here. Until then, the sample findings above show the format. We won't post made-up quotes or numbers." />
-  </section>
+  </section>}
 
   <section class="wrap td-faq" aria-labelledby="faq">
     <h2 id="faq">Questions</h2>
