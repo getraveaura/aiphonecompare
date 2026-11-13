@@ -1,6 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
+import AnswerSummary from '../components/AnswerSummary.astro';
+import { articleNode, breadcrumbNode } from '../lib/answers.mjs';
 import states from '../data/recording-consent.json';
 const checked = '2026-11-09';
 const checkedLabel = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${checked}T00:00:00Z`));
@@ -9,7 +11,21 @@ const one = count('one-party');
 const all = count('all-party');
 const verify = count('verify');
 const label = { 'one-party': 'One-party', 'all-party': 'All-party', verify: 'Verify' };
+const names = (key) => states.filter((s) => s.consent === key).map((s) => s.state);
+const listOf = (items) => (items.length > 1 ? `${items.slice(0, -1).join(', ')} and ${items.at(-1)}` : items.join(''));
+const summary = [
+  `Of ${states.length} states, ${one} are labeled one-party consent and ${all} all-party consent, each from the statute linked on its row.`,
+  `The all-party states in this table are ${listOf(names('all-party'))}.`,
+  `${verify} states are marked Verify because the text we found conflicts, is ambiguous, or could not be opened: ${listOf(names('verify'))}. This is not legal advice.`,
+];
+const title = 'Call recording consent by state';
+const pageTitle = `Call recording consent laws by state (${checked.slice(0, 4)}): one-party vs all-party`;
+const description = `${summary[0]} All-party: ${names('all-party').join(', ')}. Statute linked for every state. Not legal advice.`.slice(0, 300);
+const pageUrl = new URL('/call-recording-consent-by-state/', Astro.site).href;
+const site = new URL('/', Astro.site).href;
 const faqs = [
+  { q: 'Which states require all-party consent to record a phone call?', a: `In this table, ${listOf(names('all-party'))} are labeled all-party from the statute linked on each row. ${verify} more are marked Verify, so check those before you record: ${listOf(names('verify'))}.` },
+
   { q: 'Is this legal advice?', a: 'No. This page quotes statutes we opened, or says Verify when we could not support one label. It does not say which law applies to a particular call, vendor, or caller. Confirm the current text with a lawyer before you record.' },
   { q: 'What do the labels mean?', a: `One-party means the statute we cite lets a party, or someone with one party's consent, record a phone call, sometimes with a written exception. All-party means the statute requires every party's consent or knowledge, sometimes satisfied by a recorded warning. Verify means the official text we found conflicts, is ambiguous, or could not be opened. This table has ${one} one-party, ${all} all-party, and ${verify} verify rows, out of ${states.length} states.` },
   { q: 'Why does an AI receptionist page include this?', a: 'AI receptionists often record and transcribe calls. The rule depends on the statute for the state the caller is in and on what the vendor actually does. The vendor pages on this site quote recording or transcription only when the vendor page says it.' },
@@ -17,19 +33,20 @@ const faqs = [
 ];
 const jsonld = {
   '@context': 'https://schema.org',
-  '@type': 'FAQPage',
-  mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })),
+  '@graph': [
+    { '@type': 'WebPage', name: title, url: pageUrl, description, dateModified: checked, isPartOf: { '@id': `${site}#website` } },
+    articleNode({ url: pageUrl, headline: pageTitle, description, modified: checked, citations: states.map((s) => s.url), site }),
+    breadcrumbNode([['Home', site], [title, pageUrl]]),
+    { '@type': 'FAQPage', mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
 };
 ---
-<Base title="Call recording consent by state" description="One-party and all-party phone recording rules for AI receptionists, each cited to a state statute. States we could not label are marked Verify. Not legal advice." jsonld={jsonld}>
+<Base title={pageTitle} description={description} jsonld={jsonld} modified={checked}>
   <header class="page-intro">
     <div class="wrap">
       <h1>Call recording consent by state</h1>
-      <p class="checked">
-        <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        Last checked <time datetime={checked}>{checkedLabel}</time>
-      </p>
-      <p class="lead">AI receptionists often record and transcribe calls. Of {states.length} states, {one} are labeled one-party and {all} all-party from the statute linked on that row. {verify} are marked Verify because the text conflicts, is ambiguous, or was not opened.</p>
+      <AnswerSummary sentences={summary} verified={checked} verifiedLabel="Last checked" note="Each state's statute is linked in the table below." />
+      <p class="lead">AI receptionists often record and transcribe calls, so the caller's state rule matters.</p>
     </div>
   </header>
   <div class="wrap stack">
@@ -38,7 +55,7 @@ const jsonld = {
       <p>This is a reading of public statutes, not advice for your calls. A label is only as good as the sentence linked beside it. Exceptions for emergencies, law enforcement, and unlawful purpose appear in many of these sections and are not a complete list here. A call between two states can raise more than one statute. This page does not choose which one applies.</p>
     </section>
     <p>
-      Related pages: <a href="/industries/medical/">medical</a>, <a href="/industries/dental/">dental</a>, <a href="/industries/legal/">legal</a>, <a href="/industries/plumbing/">plumbing</a>, and <a href="/pricing/">pricing</a>.
+      Related pages: <a href="/industries/medical/">medical</a>, <a href="/industries/dental/">dental</a>, <a href="/industries/legal/">legal</a>, <a href="/industries/plumbing/">plumbing</a>, <a href="/pricing/">pricing</a>, and the <a href="/price-index/">price index</a>.
     </p>
     <div class="tablewrap" tabindex="0">
       <table class="compare states">
