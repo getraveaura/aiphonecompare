@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { estimatePlan, formatUsd } from './cost.mjs';
 import { formatDate, industryLabel, sourceDate } from './stories.mjs';
 import { compareSummary, vendorCostSummary, sourceLinks } from './answers.mjs';
+import { outboundLink } from './outbound.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const read = (name) => JSON.parse(fs.readFileSync(path.join(root, 'src/data', name), 'utf8'));
@@ -374,10 +375,35 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
         q: 'Do the listings say a person can take the call?',
         a: `${left.name}: ${blank(left.human_handoff)} ${right.name}: ${blank(right.human_handoff)}`,
       },
+      {
+        q: `Do ${left.name} and ${right.name} offer a free trial?`,
+        a: `${left.name}: ${blank(left.free_trial)}. ${right.name}: ${blank(right.free_trial)}. "Not verified" means the source we checked does not state one.`.replace(/\.\./g, '.'),
+      },
+      {
+        q: `Will ${left.name} or ${right.name} sign a HIPAA BAA?`,
+        a: `${left.name}: ${left.hipaa_baa ? left.hipaa_baa : 'Not stated'}. ${right.name}: ${right.hipaa_baa ? right.hipaa_baa : 'Not stated'}. A "HIPAA compliant" line is not a signed BAA, so ask for the agreement in writing.`.replace(/\.\./g, '.'),
+      },
+      {
+        q: `What do ${left.name} and ${right.name} integrate with?`,
+        a: `${left.name}: ${blank(left.integrations)}. ${right.name}: ${blank(right.integrations)}.`.replace(/\.\./g, '.'),
+      },
+      {
+        q: `Does aiphonecompare earn money from ${left.name} or ${right.name}?`,
+        a: (() => {
+          const ref = selected.filter((vendor) => outboundLink(vendor)?.isReferral).map((vendor) => vendor.name);
+          const spons = selected.filter((vendor) => vendor.sponsored).map((vendor) => vendor.name);
+          const parts = [];
+          if (ref.length) parts.push(`We have a referral link with ${ref.join(' and ')}, so we may earn a fee if you sign up through it.`);
+          if (spons.length) parts.push(`${spons.join(' and ')} ${spons.length > 1 ? 'have' : 'has'} a labeled sponsored placement.`);
+          if (!parts.length) parts.push(`No. We have no referral link or sponsorship with ${left.name} or ${right.name}.`);
+          parts.push('Neither changes the prices, the order, or what this page says.');
+          return parts.join(' ');
+        })(),
+      },
     ],
     vendorSlugs: slugs,
     industries: [...new Set(selected.flatMap((vendor) => vendor.industries || []))],
-    dollars: `${moneyFacts(rows)} ${selected.map((vendor) => vendor.starting_price || '').join(' ')} ${answer.join(' ')}`,
+    dollars: `${moneyFacts(rows)} ${selected.map((vendor) => [vendor.starting_price, vendor.free_trial, vendor.hipaa_baa, vendor.integrations, vendor.human_handoff].filter(Boolean).join(' ')).join(' ')} ${answer.join(' ')}`,
     crumbs: [
       { name: 'Home', href: '/' },
       { name: 'Compare', href: '/vendors/' },

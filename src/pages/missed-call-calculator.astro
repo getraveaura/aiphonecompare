@@ -3,29 +3,57 @@ import Base from '../layouts/Base.astro';
 import data from '../data/vendors.json';
 import { byPublishedMonthlyPrice, lowestMonthly } from '../lib/price.mjs';
 import { latestChecked } from '../lib/schema.mjs';
+import Faq from '../components/Faq.astro';
+import AnswerSummary from '../components/AnswerSummary.astro';
+import { articleNode, breadcrumbNode } from '../lib/answers.mjs';
+import { formatDate } from '../lib/stories.mjs';
 const cheapest = byPublishedMonthlyPrice(data)
   .filter((v) => lowestMonthly(v.starting_price) != null)
   .slice(0, 5)
   .map((v) => ({ ...v, monthly: lowestMonthly(v.starting_price) }));
 const money = (n) => Number.isInteger(n) ? `$${n}` : `$${n}`;
 const title = 'Missed-call cost calculator';
-const description = 'Estimate monthly revenue from missed calls using your own numbers, next to the lowest published monthly starting prices in this directory.';
+const pageTitle = 'Missed call revenue calculator for small business';
+const low = cheapest.find((v) => v.monthly > 0);
+const freeCount = cheapest.filter((v) => v.monthly === 0).length;
+const summary = [
+  'Monthly revenue lost to missed calls = calls per week × the share you miss × the share of those callers who would have become customers × your average job value, × 52 ÷ 12.',
+  'This calculator uses only the four numbers you enter, with no industry averages, and also shows how many jobs a month would cover each of the lowest published AI receptionist prices.',
+  low ? `The lowest paid monthly amount written in a listing here is ${money(low.monthly)}/mo, for ${low.name}${low.last_checked ? `, checked ${formatDate(low.last_checked)}` : ''}${freeCount ? `; ${freeCount} listing${freeCount === 1 ? '' : 's'} also show a $0 tier` : ''}.` : '',
+].filter(Boolean);
+const description = 'Work out monthly revenue lost to missed calls from your own four numbers, and how many jobs a month would pay for an AI receptionist at published prices.';
 // dateModified is the latest checked date among the prices this page shows.
 const latest = latestChecked(cheapest);
+const pageUrl = new URL('/missed-call-calculator/', Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const faqs = [
+  { q: 'How do I calculate revenue lost to missed calls?', a: 'Multiply calls per week by the percent you miss, then by the percent of those callers who would have become customers, then by your average job value. That is a weekly figure. Multiply by 52 and divide by 12 for a month.' },
+  { q: 'Does this calculator use industry averages?', a: 'No. It uses only the four numbers you enter. We do not add outside statistics on missed-call rates or conversion, because we could not source one that fits every business.' },
+  { q: 'How many jobs would pay for an AI receptionist?', a: `Divide the plan's monthly price by your average job value. The table below does this for the lowest monthly amounts written in our listings${low ? `, from ${money(low.monthly)}/mo for ${low.name} among paid amounts` : ''}. A starting price is not your full bill: allowances, overage and setup fees can add to it.` },
+  { q: 'Are these the best AI receptionists?', a: 'No. They are the listings with the lowest monthly dollar amount written in the published price. This is not a ranking of quality, and sponsorship does not change it.' },
+];
 const jsonld = {
   '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: title,
-  url: new URL('/missed-call-calculator/', Astro.site).href,
-  description,
-  isPartOf: { '@id': new URL('/#website', Astro.site).href },
-  ...(latest ? { dateModified: latest } : {}),
+  '@graph': [
+    {
+      '@type': 'WebPage',
+      name: title,
+      url: pageUrl,
+      description,
+      isPartOf: { '@id': `${site}#website` },
+      ...(latest ? { dateModified: latest } : {}),
+    },
+    articleNode({ url: pageUrl, headline: pageTitle, description, modified: latest, citations: cheapest.map((v) => (v.sources || [])[0]).filter(Boolean), site }),
+    breadcrumbNode([['Home', site], [title, pageUrl]]),
+    { '@type': 'FAQPage', mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
 };
 ---
-<Base title={title} description={description} jsonld={jsonld}>
+<Base title={pageTitle} description={description} jsonld={jsonld} modified={latest}>
   <header class="page-intro">
     <div class="wrap">
       <h1>Missed-call cost calculator</h1>
+      <AnswerSummary sentences={summary} verified={latest} verifiedLabel="Prices last verified" sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }]} />
       <p class="lead">This is an estimate from the four numbers you enter. It is not a forecast, and it does not use outside statistics.</p>
     </div>
   </header>
@@ -68,6 +96,7 @@ const jsonld = {
               <th scope="col">Monthly amount in the listing</th>
               <th scope="col">Published price</th>
               <th scope="col">Checked</th>
+              <th scope="col">Jobs a month to cover it</th>
             </tr>
           </thead>
           <tbody>
@@ -77,12 +106,19 @@ const jsonld = {
                 <td data-label="Monthly amount in the listing">{money(v.monthly)}/mo</td>
                 <td data-label="Published price">{v.starting_price}</td>
                 <td data-label="Checked">{v.last_checked ? <time datetime={v.last_checked}>{v.last_checked}</time> : <span class="missing">Not verified</span>}</td>
+                <td data-label="Jobs a month to cover it" data-breakeven={v.monthly}><span class="missing">Enter a job value</span></td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
     </section>
+    <section aria-labelledby="method-heading" class="prose">
+      <h2 id="method-heading" class="section-title">How the math works</h2>
+      <p>Weekly lost revenue = calls per week × (percent missed ÷ 100) × (percent who would become customers ÷ 100) × average job value. Monthly = weekly × 52 ÷ 12. Jobs a month to cover a plan = the plan's monthly amount ÷ your average job value, rounded up to a whole job.</p>
+      <p>Related: <a href="/cost/calculator/">AI receptionist cost calculator</a> for your call volume, <a href="/worth-it/">is an AI receptionist worth it?</a> from sourced stories, the <a href="/price-index/">price index</a>, and <a href="/small-business/">AI receptionists for small business</a>.</p>
+    </section>
+    <Faq items={faqs}/>
   </div>
 </Base>
 <script is:inline>
@@ -121,6 +157,20 @@ const jsonld = {
       '<p>' + calls + ' calls a week × ' + missed + '% missed × ' + customers + '% that would become customers × ' + money.format(job) + ' = ' + money.format(perWeek) + ' per week. Per month is that weekly amount × 52 ÷ 12.</p>'
     );
   }
+  function breakeven() {
+    var job = num('job');
+    document.querySelectorAll('[data-breakeven]').forEach(function (cell) {
+      var monthly = Number(cell.getAttribute('data-breakeven'));
+      if (job === null || Number.isNaN(job) || job <= 0 || !Number.isFinite(monthly)) {
+        cell.innerHTML = '<span class="missing">Enter a job value</span>';
+        return;
+      }
+      if (monthly === 0) { cell.textContent = '$0 tier'; return; }
+      var jobs = Math.ceil(monthly / job);
+      cell.textContent = jobs + (jobs === 1 ? ' job' : ' jobs');
+    });
+  }
+  form.addEventListener('input', breakeven);
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     calculate();
