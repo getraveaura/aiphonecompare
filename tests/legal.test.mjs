@@ -37,8 +37,8 @@ test('get featured links the refund policy', () => {
   assert.match(read('src/pages/get-featured.astro'), /href="\/refunds\/"/);
 });
 
-test('refunds page does not link the done-for-you page', () => {
-  assert.ok(!read(pages.refunds).includes('/done-for-you'));
+test('refunds page links the done-for-you page', () => {
+  assert.ok(read(pages.refunds).includes('href="/done-for-you/"'));
 });
 
 test('privacy page names every data processor', () => {
