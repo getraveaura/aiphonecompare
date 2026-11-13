@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
-import { DFY_EMAIL, DFY_OFFERS, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../lib/offers.mjs';
+import { SHOW_OFFER_PROOF, DFY_EMAIL, DFY_OFFERS, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../lib/offers.mjs';
 
 const title = 'Done-for-you AI receptionist setup';
 const description = 'We pick, set up and tune your AI receptionist from vendors with verified, sourced prices. $1,500 one-time ($1,000 founding rate for the first 5 businesses), with a defined result or a full refund of our fee.';
@@ -174,7 +174,7 @@ import OtherOffers from '../components/OtherOffers.astro';
       </div>
     </section>
 
-    <OfferProof heading="Results from founding customers" body="We're taking our first 5 founding businesses now. With each one's permission, we'll publish their baseline and day-60 results here, measured the way this page describes. We won't post made-up quotes or numbers." />
+    {SHOW_OFFER_PROOF && <OfferProof heading="Results from founding customers" body="We're taking our first 5 founding businesses now. With each one's permission, we'll publish their baseline and day-60 results here, measured the way this page describes. We won't post made-up quotes or numbers." />}
 
     <Faq items={faqs}/>
 

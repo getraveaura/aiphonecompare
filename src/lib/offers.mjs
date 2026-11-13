@@ -83,3 +83,7 @@ export const SPOTLIGHT = {
   refundDays: 7,
   url: 'https://buy.stripe.com/dRmdR9aLVbiB7gY8s29ws00',
 };
+
+// Offer-page results box (OfferProof). Off until a real, permissioned result exists.
+// Set to true to show it on /get-featured/, /done-for-you/ and /teardown/.
+export const SHOW_OFFER_PROOF = false;
