@@ -35,7 +35,7 @@ test('dental quotes use a complete plan and leave unique-caller and unpublished 
 
 test('sponsored does not move a dearer vendor ahead of a cheaper one', () => {
   const fakeVendors = [
-    { slug: 'dear', name: 'Dear', sponsored: true, industries: ['dental'], sources: [], last_checked: '2026-11-01' },
+    { slug: 'dear', name: 'Dear', sponsored: true, spotlight: { industry: 'dental', start: '2000-01-01', end: '2999-12-31' }, industries: ['dental'], sources: [], last_checked: '2026-11-01' },
     { slug: 'cheap', name: 'Cheap', sponsored: false, industries: ['dental'], sources: [], last_checked: '2026-11-01' },
   ];
   const fakeModels = {

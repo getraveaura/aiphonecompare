@@ -46,7 +46,7 @@ test('a contradicted must-have is left out of the three fits', () => {
 
 test('sponsored does not change the order', () => {
   const rows = [
-    { ...base, slug: 'bravo', name: 'Bravo', sponsored: true, hipaa_baa: 'Signs a BAA' },
+    { ...base, slug: 'bravo', name: 'Bravo', sponsored: true, spotlight: { industry: 'dental', start: '2000-01-01', end: '2999-12-31' }, hipaa_baa: 'Signs a BAA' },
     { ...base, slug: 'alpha', name: 'Alpha', sponsored: false, hipaa_baa: 'Signs a BAA' },
   ];
   const result = matchVendors(rows, { providers: [] }, {
