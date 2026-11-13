@@ -367,6 +367,8 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 .compare tbody th a:hover { color: var(--pine); text-decoration: underline; }
 .compare tbody tr:nth-child(even) { background: rgba(255, 253, 248, 0.65); }
 .missing { color: var(--muted); }
+.spotlight-line { display: block; margin-top: 4px; color: var(--muted); font-family: var(--sans); font-size: 0.85rem; font-weight: 400; }
+.compare tbody th .spotlight-line a { color: var(--pine); font-weight: 600; text-decoration: underline; }
 .badge {
   display: inline-block;
   margin-left: 8px;
@@ -466,6 +468,7 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 .sources { margin: 0; padding-left: 1.15rem; }
 .sources li { margin: 8px 0; overflow-wrap: anywhere; }
 .note { color: var(--muted); }
+.referral-note { font-size: 0.88rem; margin: 6px 0 0; max-width: 66ch; }
 @media (max-width: 800px) {
   .facts { grid-template-columns: 1fr; }
   .record div { grid-template-columns: 1fr; gap: 4px; }

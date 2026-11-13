@@ -118,7 +118,7 @@ Deno.serve(async (req) => {
     results_url: resultsUrl,
     matches,
     user_agent: cleanText(req.headers.get("user-agent"), 200),
-    welcome_email: null as unknown,
+    welcome_email: null,
   };
 
   const inserted = await sql`
