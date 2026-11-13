@@ -466,6 +466,7 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 .sources { margin: 0; padding-left: 1.15rem; }
 .sources li { margin: 8px 0; overflow-wrap: anywhere; }
 .note { color: var(--muted); }
+.referral-note { font-size: 0.88rem; margin: 6px 0 0; max-width: 66ch; }
 @media (max-width: 800px) {
   .facts { grid-template-columns: 1fr; }
   .record div { grid-template-columns: 1fr; gap: 4px; }
