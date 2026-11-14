@@ -105,3 +105,31 @@ test('NextPhone and Rosie referral links are used only for their own outbound li
     for (const s of v.sources || []) assert.notEqual(s, url);
   }
 });
+
+test('cost and compare landings disclose referral visits and never use them as price sources', () => {
+  const landing = read('src/components/Landing.astro');
+  assert.match(landing, /item\.visit/);
+  assert.match(landing, /REFERRAL_NOTE/);
+  assert.match(landing, /data-vendor-referral/);
+  const calc = read('src/pages/cost/calculator.astro');
+  assert.match(calc, /outboundLink/);
+  assert.match(calc, /REFERRAL_NOTE/);
+  assert.match(calc, /data-vendor-referral/);
+  const lib = read('src/lib/landings.mjs');
+  assert.match(lib, /visitFor\(vendor\)/);
+  assert.match(lib, /referrals: referralNames/);
+});
+
+test('done-for-you pages never include referral URLs', () => {
+  const urls = [
+    'https://oncrew.ai/ref/aiphonecompare',
+    'https://getnextphone.com/i/timothy',
+    'https://heyrosie.com/?ref=timothyp1',
+  ];
+  for (const path of ['src/pages/done-for-you.astro', 'src/pages/done-for-you/[industry].astro', 'src/lib/dfy-industries.mjs']) {
+    const text = read(path);
+    for (const url of urls) {
+      assert.ok(!text.includes(url), `${path} contains ${url}`);
+    }
+  }
+});

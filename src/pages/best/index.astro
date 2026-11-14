@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import IndustryIcon from '../../components/IndustryIcon.astro';
+import { getBestGuides } from '../../lib/best-guides.mjs';
+import { accent } from '../../lib/industries.mjs';
+import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
+import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
+const guides = getBestGuides();
+const title = 'Best AI receptionist by industry';
+const description = 'Sourced guides for dentists, law firms, med spas, and HVAC or plumbing shops. These are not ranked lists. Each page uses the directory and the published cost pages on this site.';
+const pageUrl = new URL('/best/', Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    articleNode({ url: pageUrl, headline: title, description, site }),
+    breadcrumbNode([['Home', site], [title, pageUrl]]),
+    { '@type': 'ItemList', name: title, itemListElement: guides.map((page, i) => ({ '@type': 'ListItem', position: i + 1, name: page.h1, url: new URL(page.path, Astro.site).href })) },
+  ],
+};
+---
+<Base title={title} description={description} jsonld={jsonld}>
+  <header class="page-intro">
+    <div class="wrap">
+      <h1>{title}</h1>
+      <p class="lead">Each guide uses the sourced directory and the published cost pages. We do not pick a winner, and payment does not change a price or the order of the other rows.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    <div class="industries">
+      {guides.map((page) => (
+        <a class="industry reveal" data-industry={page.industryKey} href={page.path} style={`--accent:${accent(page.accent || page.industryKey)}`}>
+          <IndustryIcon name={page.accent || page.industryKey} />
+          <h2>{page.h1}</h2>
+          <p>{page.count} sourced listings · {page.kicker}</p>
+          <span class="go">Open the guide <span class="arrow" aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </div>
+    <p>For a 3-tech HVAC shop, the cost page at 50, 150, and 300 calls is <a href="/cost/hvac-shop/">AI receptionist cost for a 3-tech HVAC shop</a>. It uses the same published plans as the <a href="/cost/home-services/">home-services cost page</a>. We do not publish a typical call volume for that shop size. The <a href="/cost/calculator/?industry=plumbing&calls=150&minutes=3">calculator</a> accepts your own numbers.{showAuditLinks() && <> The <a href={AUDIT_PATH}>free call coverage check</a> reviews your public website and listings, with no test call.</>}</p>
+  </div>
+</Base>

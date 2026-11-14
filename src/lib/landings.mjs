@@ -7,6 +7,7 @@ import { estimatePlan, formatUsd } from './cost.mjs';
 import { formatDate, industryLabel, sourceDate } from './stories.mjs';
 import { compareSummary, vendorCostSummary, sourceLinks } from './answers.mjs';
 import { outboundLink } from './outbound.mjs';
+import { AUDIT_PATH, showAuditLinks } from './audit.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const read = (name) => JSON.parse(fs.readFileSync(path.join(root, 'src/data', name), 'utf8'));
@@ -23,6 +24,24 @@ const INDUSTRY_COST = {
 
 function cell(text, extra = {}) {
   return { text: text || 'Not verified', ...extra };
+}
+
+let _vendorsBySlug;
+function vendorsBySlug(list) {
+  if (list) return Object.fromEntries(list.map((vendor) => [vendor.slug, vendor]));
+  if (!_vendorsBySlug) _vendorsBySlug = vendorsBySlug(read('vendors.json'));
+  return _vendorsBySlug;
+}
+
+function visitFor(vendor) {
+  if (!vendor) return null;
+  const outbound = outboundLink(vendor);
+  if (!outbound) return null;
+  return { href: outbound.href, rel: outbound.rel, isReferral: outbound.isReferral, slug: vendor.slug, name: vendor.name };
+}
+
+function referralNames(list) {
+  return (list || []).filter((vendor) => outboundLink(vendor)?.isReferral).map((vendor) => vendor.name);
 }
 
 function oneTime(plan) {
@@ -92,7 +111,7 @@ function scenarioTable(rows, caption) {
     caption,
     headers: ['Provider', 'Plan', '50 calls', '150 calls', '300 calls', 'One-time', 'Published price'],
     rows: rows.map((row) => [
-      cell(row.provider, { href: `/vendors/${row.slug}/` }),
+      cell(row.provider, { href: `/vendors/${row.slug}/`, visit: visitFor(vendorsBySlug()[row.slug]) }),
       cell(row.plan),
       cell(row.estimates[50].text),
       cell(row.estimates[150].text),
@@ -137,7 +156,7 @@ function startingTable(vendors, industry) {
     caption: 'Starting prices recorded for this industry. A starting price is not a bill at 50, 150, or 300 calls.',
     headers: ['Vendor', 'Starting price', 'Billing', 'Price checked', 'Source'],
     rows: rows.map((vendor) => [
-      cell(vendor.name, { href: `/vendors/${vendor.slug}/` }),
+      cell(vendor.name, { href: `/vendors/${vendor.slug}/`, visit: visitFor(vendor) }),
       cell(vendor.starting_price),
       cell(vendor.billing_model),
       cell(vendor.last_checked ? formatDate(vendor.last_checked) : 'Not verified', vendor.last_checked ? { datetime: vendor.last_checked } : {}),
@@ -215,6 +234,7 @@ function industryPage({ models, vendors, key, path, h1, phrase, description, led
     ],
     faqs,
     vendorSlugs: providers.map((provider) => provider.slug),
+    referrals: referralNames(vendors.filter((vendor) => vendor.industries?.includes(key))),
     industries: [key],
     dollars: `${moneyFacts(rows)} ${answer.join(' ')}`,
     crumbs: [
@@ -330,6 +350,15 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
     cell(label),
     ...selected.map((vendor) => cell(readField(vendor), label === 'Price checked' && vendor.last_checked ? { datetime: vendor.last_checked } : {})),
   ]);
+  attributeRows.push([
+    cell('Visit'),
+    ...selected.map((vendor) => {
+      const visit = visitFor(vendor);
+      return visit
+        ? cell(`Visit ${vendor.name}`, { href: visit.href, external: true, rel: visit.rel, visit })
+        : cell('Not verified');
+    }),
+  ]);
   const blocks = [
     {
       type: 'table',
@@ -402,6 +431,7 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
       },
     ],
     vendorSlugs: slugs,
+    referrals: referralNames(selected),
     industries: [...new Set(selected.flatMap((vendor) => vendor.industries || []))],
     dollars: `${moneyFacts(rows)} ${selected.map((vendor) => [vendor.starting_price, vendor.free_trial, vendor.hipaa_baa, vendor.integrations, vendor.human_handoff].filter(Boolean).join(' ')).join(' ')} ${answer.join(' ')}`,
     crumbs: [
@@ -417,7 +447,7 @@ function hiddenFeesPage({ models, stories }) {
   const feeRows = rows.map((row) => {
     const provider = models.providers.find((item) => item.slug === row.slug);
     return [
-      cell(row.provider, { href: `/vendors/${row.slug}/` }),
+      cell(row.provider, { href: `/vendors/${row.slug}/`, visit: visitFor(vendorsBySlug()[row.slug]) }),
       cell(row.plan),
       cell(row.oneTime),
       cell(provider.sources[0].label, { href: provider.sources[0].href, external: true }),
@@ -572,8 +602,17 @@ function relatedFor(page, pages) {
   add('/cost/');
   for (const id of page.industries || []) add(INDUSTRY_COST[id]);
   const industryPath = { dental: '/industries/dental/', legal: '/industries/legal/', plumbing: '/industries/plumbing/', medical: '/industries/medical/' };
+  const bestPath = { dental: '/best/dentists/', legal: '/best/law-firms/', plumbing: '/best/hvac-plumbing/', medical: '/best/med-spas/' };
   for (const id of page.industries || []) add(industryPath[id]);
-  if (page.path === '/cost/home-services/') add('/compare/jobber-vs-housecall-pro/');
+  for (const id of page.industries || []) add(bestPath[id]);
+  if (page.path === '/cost/home-services/' || page.path === '/cost/hvac-shop/') add('/compare/jobber-vs-housecall-pro/');
+  if (page.path === '/cost/home-services/') add('/cost/hvac-shop/');
+  if (page.path === '/cost/hvac-shop/') add('/cost/home-services/');
+  if (showAuditLinks()) add(AUDIT_PATH);
+  if (page.industries?.includes('plumbing')) add('/done-for-you/home-services/');
+  if (page.industries?.includes('dental')) add('/done-for-you/dental/');
+  if (page.industries?.includes('legal')) add('/done-for-you/legal/');
+  if (page.industries?.includes('medical')) add('/done-for-you/med-spa/');
   for (const other of pages) {
     if (other.kind === 'compare' && other.vendorSlugs?.some((slug) => page.vendorSlugs?.includes(slug))) add(other.path);
     if (other.kind === 'vendor-cost' && other.vendorSlugs?.some((slug) => page.vendorSlugs?.includes(slug))) add(other.path);
@@ -588,7 +627,16 @@ function relatedFor(page, pages) {
   labels.set('/industries/legal/', 'Legal directory');
   labels.set('/industries/plumbing/', 'Home services directory');
   labels.set('/industries/medical/', 'Medical directory');
-  return picks.slice(0, 8).map((href) => ({ href, label: labels.get(href) || href }));
+  labels.set('/best/dentists/', 'Best AI receptionist for dentists');
+  labels.set('/best/law-firms/', 'Best AI receptionist for law firms');
+  labels.set('/best/med-spas/', 'Best AI receptionist for med spas');
+  labels.set('/best/hvac-plumbing/', 'Best AI receptionist for HVAC and plumbing');
+  if (showAuditLinks()) labels.set(AUDIT_PATH, 'Free call coverage check');
+  labels.set('/done-for-you/dental/', 'Done-for-you dental setup');
+  labels.set('/done-for-you/legal/', 'Done-for-you legal setup');
+  labels.set('/done-for-you/home-services/', 'Done-for-you home services setup');
+  labels.set('/done-for-you/med-spa/', 'Done-for-you med spa setup');
+  return picks.slice(0, 10).map((href) => ({ href, label: labels.get(href) || href }));
 }
 
 export function buildLandings(data) {
@@ -623,6 +671,13 @@ export function buildLandings(data) {
       phrase: 'ai receptionist for medical office',
       description: 'AI receptionist cost for a medical office at 50, 150, and 300 calls, from published Bland, ElevenLabs, and Goodcall plans.',
       lede: 'For a medical office, this page prices only the plans whose own pricing pages publish the allowance and the overage. A HIPAA line on the vendor page is not a price.',
+    }),
+    industryPage({
+      models, vendors, key: 'plumbing', path: '/cost/hvac-shop/',
+      h1: 'AI receptionist cost for a 3-tech HVAC shop',
+      phrase: 'ai receptionist cost for a 3 tech hvac shop',
+      description: 'AI receptionist cost for a 3-tech HVAC shop at 50, 150, and 300 calls, from the same published home-services plans. No typical shop volume is assumed.',
+      lede: 'We do not have a published typical call volume for a 3-tech HVAC shop, so this page uses the same 50, 150, and 300 call scenarios as the home-services cost page, from the same published plans. Home services listings on this site, including HVAC, are filed under plumbing. Use the calculator with your own call count. A starting price is not a bill at those volumes.',
     }),
     vendorCostPage({
       models, slug: 'smith-ai', h1: 'Smith.ai cost per month', phrase: 'smith ai cost per month',

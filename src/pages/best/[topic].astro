@@ -1,0 +1,12 @@
+---
+import BestGuide from '../../components/BestGuide.astro';
+import { bestGuide, bestGuideSlugs } from '../../lib/best-guides.mjs';
+export function getStaticPaths() {
+  return bestGuideSlugs().map((topic) => {
+    const page = bestGuide(topic);
+    return { params: { topic }, props: { page } };
+  });
+}
+const { page } = Astro.props;
+---
+<BestGuide page={page} />

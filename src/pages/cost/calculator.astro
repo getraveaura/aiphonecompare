@@ -4,6 +4,7 @@ import models from '../../data/cost-models.json';
 import vendors from '../../data/vendors.json';
 import { DEFAULT_INPUT, INDUSTRY_OPTIONS, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
 import { formatDate } from '../../lib/stories.mjs';
+import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
 const quote = quoteDirectory(vendors, models, DEFAULT_INPUT);
 const description = 'Monthly and first-year AI receptionist estimates from published plans. A missing setup fee or allowance stays “not enough public pricing”. The link keeps your call count.';
 const pageUrl = new URL('/cost/calculator/', Astro.site).href;
@@ -69,6 +70,7 @@ const jsonld = {
       <p>JavaScript is off, so this table stays on the default: all industries, 150 calls, 3 minutes. The buttons do not change it.</p>
     </noscript>
     <p id="calc-summary">{quoteSummary(quote)}</p>
+    <p class="note referral-note">{REFERRAL_NOTE} Visit links appear next to OnCrew, NextPhone and Rosie when those vendors are in the table.</p>
     <h2 class="section-title">Assumptions</h2>
     <ul id="assumptions">
       {quote.assumptions.map((item) => <li>{item}</li>)}
@@ -94,6 +96,9 @@ const jsonld = {
                 <a href={`/vendors/${row.slug}/`}>{row.name}</a>
                 {row.lowest && <span class="lowest-flag"> Lowest first-year total</span>}
                 {row.sponsored && <span class="badge">Sponsored</span>}
+                {outboundLink(vendors.find((v) => v.slug === row.slug))?.isReferral && (
+                  <span class="visit-line"> <a href={outboundLink(vendors.find((v) => v.slug === row.slug)).href} rel={outboundLink(vendors.find((v) => v.slug === row.slug)).rel} data-vendor-slug={row.slug} data-vendor-referral="1">Visit {row.name}</a></span>
+                )}
               </th>
               <td data-label="Plan">{row.planName}</td>
               <td data-label="Monthly">{row.monthly}</td>
@@ -133,6 +138,9 @@ const jsonld = {
               <th scope="row" data-label="Vendor">
                 <a href={`/vendors/${row.slug}/`}>{row.name}</a>
                 {row.sponsored && <span class="badge">Sponsored</span>}
+                {outboundLink(vendors.find((v) => v.slug === row.slug))?.isReferral && (
+                  <span class="visit-line"> <a href={outboundLink(vendors.find((v) => v.slug === row.slug)).href} rel={outboundLink(vendors.find((v) => v.slug === row.slug)).rel} data-vendor-slug={row.slug} data-vendor-referral="1">Visit {row.name}</a></span>
+                )}
               </th>
               <td data-label="Why">{row.reason}</td>
               <td data-label="Source">
@@ -155,6 +163,7 @@ const jsonld = {
   import { calculatorPath, parseCalculatorQuery, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
   import { overpayingPath } from '../../lib/overpaying.mjs';
   import { track } from '../../lib/analytics.mjs';
+  import { outboundLink } from '../../lib/outbound.mjs';
 
   const form = document.getElementById('calc-form');
   const summary = document.getElementById('calc-summary');
@@ -220,6 +229,18 @@ const jsonld = {
       badge.className = 'badge';
       badge.textContent = 'Sponsored';
       cell.append(badge);
+    }
+    const vendor = vendors.find((item) => item.slug === row.slug);
+    const visit = outboundLink(vendor);
+    if (visit?.isReferral) {
+      cell.append(document.createTextNode(' '));
+      const go = document.createElement('a');
+      go.href = visit.href;
+      go.rel = visit.rel;
+      go.dataset.vendorSlug = row.slug;
+      go.dataset.vendorReferral = '1';
+      go.textContent = `Visit ${row.name}`;
+      cell.append(go);
     }
     return cell;
   }
