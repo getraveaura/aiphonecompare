@@ -9,6 +9,7 @@ import data from '../data/vendors.json';
 import stories from '../data/stories.json';
 import priceLog from '../data/price-changes.json';
 import { addedThisWeek, formatDate, latestByAdded, sourceDate, weekStart } from '../lib/stories.mjs';
+import { priceChangeHeadline } from '../lib/price-changes.mjs';
 import { getLandings } from '../lib/landings.mjs';
 import { getBestGuides } from '../lib/best-guides.mjs';
 const c = (k) => data.filter((v) => v.industries.includes(k)).length;
@@ -22,9 +23,8 @@ const picks = [...data]
   .slice(0, 5);
 const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || k).filter(Boolean).join(', ');
 const built = new Date().toISOString().slice(0, 10);
-const names = Object.fromEntries(data.map((vendor) => [vendor.slug, vendor.name]));
 const freshStories = latestByAdded(stories, 4);
-const freshPrices = latestByAdded(priceLog.changes.map((change) => ({ ...change, title: `${names[change.vendorSlug] || change.vendorSlug} price change` })), 2);
+const freshPrices = latestByAdded(priceLog.changes.map((change) => ({ ...change, title: priceChangeHeadline(change) })), 2);
 const latestItems = [...freshStories.map((story) => ({
   href: `/stories/${story.slug}/`,
   label: story.title,
@@ -88,7 +88,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
         </li>
         <li>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></svg>
-          <div><strong>{data.length} services compared</strong><span>{stories.length} real stories · {priceChangesWeek} price {priceChangesWeek === 1 ? 'change' : 'changes'} this week</span></div>
+          <div><strong>{data.length} services compared</strong><span>{stories.length} real stories · <a href="/price-changes/">{priceChangesWeek} price {priceChangesWeek === 1 ? 'change' : 'changes'} this week</a></span></div>
         </li>
       </ul>
     </div>
@@ -148,6 +148,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
           </li>
         ))}
       </ul>
+      <p class="index-link"><a href="/price-changes/">See every logged price change</a>, grouped by week. <a href="/price-changes/feed.xml">Subscribe by RSS</a>.</p>
     </div>
   </section>
   <section class="band" aria-labelledby="guides-heading">
