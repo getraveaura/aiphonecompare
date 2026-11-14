@@ -1,5 +1,7 @@
 // Lowest monthly dollar amount written in a verified price string.
 // Per-minute rates are ignored so they are not treated as a monthly price.
+// Add-on amounts written with a leading "+" (e.g. "+$150/mo per added provider")
+// are extra charges on top of a plan, not a plan you can buy alone, so they are ignored too.
 const AMOUNT = /\$(\d{1,3}(?:,\d{3})+|\d+)(?:\.(\d+))?/g;
 
 function gapBeforeNextDollar(text, index, matchLength) {
@@ -20,13 +22,15 @@ export function lowestMonthly(text) {
   const matches = [...s.matchAll(AMOUNT)].map((match) => {
     const gap = gapBeforeNextDollar(s, match.index, match[0].length);
     const unit = gap.slice(0, 24);
+    const before = s.slice(0, match.index).trimEnd();
     return {
       num: amountNumber(match),
+      addOn: before.endsWith('+'),
       perMinute: /\/\s*min|per\s*min/.test(unit),
       monthly: /\/\s*mo\b|per\s*month|\/\s*month|\bmonthly\b|\bmo\b/.test(unit),
       bridge: /^\s*(?:to|or|–|-)\s*$/i.test(gap),
     };
-  }).filter((item) => item.num != null && !item.perMinute);
+  }).filter((item) => item.num != null && !item.perMinute && !item.addOn);
   for (let i = matches.length - 2; i >= 0; i--) {
     if (!matches[i].monthly && matches[i].bridge && matches[i + 1].monthly) matches[i].monthly = true;
   }
