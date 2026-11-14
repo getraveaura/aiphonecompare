@@ -28,3 +28,19 @@ test('offer pages avoid jargon in visible copy', () => {
     assert.doesNotMatch(visible, word, String(word));
   }
 });
+
+test('shared page templates open with a plain intro and one primary button', () => {
+  for (const p of ['src/components/Landing.astro', 'src/components/BestGuide.astro', 'src/components/Industry.astro', 'src/pages/vendors/[slug].astro', 'src/pages/vendors/index.astro', 'src/pages/best/index.astro', 'src/pages/pricing.astro', 'src/pages/cost.astro']) {
+    assert.match(read(p), /<PlainIntro\b/, p);
+  }
+  assert.match(read('src/components/PlainIntro.astro'), /class="btn btn-primary"/);
+});
+
+test('cost pages and tools avoid unexplained jargon', () => {
+  for (const p of ['src/pages/cost.astro', 'src/pages/cost/calculator.astro', 'src/lib/calculator.mjs', 'src/pages/match/index.astro', 'src/pages/overpaying/index.astro']) {
+    const src = read(p);
+    for (const word of [/Per-call plans/, /minute-billed/i, /monthly scenario/i, /Scenario this month/, /published allowance/i, /\bSigned BAA\b/]) {
+      assert.doesNotMatch(src, word, `${p}: ${word}`);
+    }
+  }
+});

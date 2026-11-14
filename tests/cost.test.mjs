@@ -53,7 +53,7 @@ test('missing overage above the allowance is a partial subtotal, not zero', () =
   assert.equal(row.status, 'partial');
   assert.equal(row.minutes, 2000);
   assert.equal(row.scenarioCents, 89900);
-  assert.match(row.formula, /Partial subtotal/);
+  assert.match(row.formula, /plan price only/);
   assert.doesNotMatch(row.formula, /\$0\.00 plan price \+ 0/);
 });
 
@@ -72,7 +72,7 @@ test('unique-customer plans cannot be estimated from calls alone', () => {
   const missing = estimatePlan(plan, { calls: 200, durationMinutes: 4 });
   assert.equal(missing.status, 'cannot');
   assert.equal(missing.scenarioCents, null);
-  assert.match(missing.reason, /unique customers/);
+  assert.match(missing.reason, /different caller/);
   const over = estimatePlan(plan, { uniqueCallers: 120 });
   assert.equal(over.status, 'estimate');
   assert.equal(over.scenarioCents, 9480);

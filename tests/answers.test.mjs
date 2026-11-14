@@ -23,7 +23,7 @@ test('missing fields are said to be unverified, not filled in', () => {
   const s = vendorSummary({ slug: 'x', name: 'X', industries: [] }, []).join(' ');
   assert.match(s, /No starting price is verified for X/);
   assert.match(s, /free trial: not verified/);
-  assert.match(s, /HIPAA\/BAA: not stated/);
+  assert.match(s, /HIPAA privacy agreement \(BAA\): not stated/);
   assert.doesNotMatch(s, /\$\d/);
 });
 
@@ -39,7 +39,7 @@ test('compare summary does not price a vendor outside the cost model', () => {
   const smith = vendors.find((v) => v.slug === 'smith-ai');
   const ruby = vendors.find((v) => v.slug === 'ruby');
   const s = compareSummary({ left: smith, right: ruby, providers: models.providers.filter((p) => p.slug === 'smith-ai'), rangeAt: () => 'At 150 calls a month, X.' }).join(' ');
-  assert.match(s, /Ruby is not in our cost model yet/);
+  assert.match(s, /Ruby is not in our cost calculator yet/);
   assert.ok(s.includes(ruby.starting_price));
 });
 
@@ -51,7 +51,7 @@ test('landing summaries only use dollar amounts already on the page', () => {
     }
   }
   const hub = costHubSummary(models).join(' ');
-  assert.match(hub, new RegExp(`^${models.providers.length} providers`));
+  assert.match(hub, new RegExp(`^${models.providers.length} companies`));
 });
 
 test('Product offers use only numeric published plan fees from the cost model', () => {

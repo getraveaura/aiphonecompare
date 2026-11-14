@@ -1,0 +1,18 @@
+---
+// Plain-English opener under a page's H1: one outcome line, one obvious
+// primary button, an optional secondary link and short trust signals.
+const {
+  text = '',
+  primary = ['/match/', 'Find my best match'],
+  secondary = ['/cost/calculator/', 'See my monthly cost'],
+  trust = ['Free, no sign-up', 'Real prices from each company', 'Rankings not for sale'],
+} = Astro.props;
+---
+<div class="plain-intro">
+  {text && <p class="plain-intro-text">{text}</p>}
+  <div class="plain-intro-cta">
+    <a class="btn btn-primary" href={primary[0]}>{primary[1]} <span class="arrow" aria-hidden="true">→</span></a>
+    {secondary && <a class="btn btn-secondary" href={secondary[0]}>{secondary[1]}</a>}
+  </div>
+  {trust.length > 0 && <ul class="trust-chips">{trust.map((t) => <li>{t}</li>)}</ul>}
+</div>

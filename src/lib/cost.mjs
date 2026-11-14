@@ -54,7 +54,7 @@ export function estimatePlan(plan, input = {}) {
   if (plan.estimable === false || plan.publishedMonthly == null) {
     return result({
       ...fees,
-      reason: plan.reason || 'The monthly price needed for this scenario is not published.',
+      reason: plan.reason || 'The monthly price for this plan is not published.',
     });
   }
 
@@ -95,8 +95,8 @@ export function estimatePlan(plan, input = {}) {
         scenarioCents: feeCents,
         minutes,
         overageUnits: over,
-        formula: `${minutes} min is ${over} min over the ${included} included. The overage rate is not published. Partial subtotal is the plan price only, ${formatUsd(feeCents)}.`,
-        reason: 'Overage rate is not published.',
+        formula: `${minutes} min is ${over} min over the ${included} included. The price for extra minutes is not published, so this shows the plan price only, ${formatUsd(feeCents)}.`,
+        reason: 'The price for extra use is not published.',
       });
     }
     const overCents = Math.round(over * centsFrom(plan.overage));
@@ -152,7 +152,7 @@ export function estimatePlan(plan, input = {}) {
     const callers = wholeCount(unique, 'unique callers');
     if (callers.error) {
       const reason = unique.state === 'missing'
-        ? 'This plan bills unique customers, not calls or minutes. Enter unique callers, or this row cannot be estimated.'
+        ? 'This plan charges per different caller, not per call or minute. Enter your number of different callers to see an estimate.'
         : callers.error;
       return result({ ...fees, reason });
     }
@@ -175,7 +175,7 @@ export function estimatePlan(plan, input = {}) {
         status: 'partial',
         scenarioCents: feeCents,
         overageUnits: over,
-        formula: `${over} unique callers are over the allowance. The extra-customer rate is not published. Partial subtotal is the plan price only, ${formatUsd(feeCents)}.`,
+        formula: `${over} unique callers are over the number included. The price for extra callers is not published, so this shows the plan price only, ${formatUsd(feeCents)}.`,
         reason: 'Extra-customer rate is not published.',
       });
     }
@@ -190,7 +190,7 @@ export function estimatePlan(plan, input = {}) {
     });
   }
 
-  return result({ ...fees, reason: 'This billing unit is not supported.' });
+  return result({ ...fees, reason: 'We can\'t estimate this way of charging yet.' });
 }
 
 export function estimateAll(providers, input) {

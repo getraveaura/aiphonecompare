@@ -43,7 +43,7 @@ export function vendorSummary(v, changes = []) {
   const parts = [];
   parts.push(has(v.free_trial) ? `free trial: ${trimEnd(v.free_trial)}` : 'free trial: not verified');
   parts.push(has(v.human_handoff) ? `human handoff: ${trimEnd(v.human_handoff)}` : 'human handoff: not verified');
-  parts.push(notStated(v.hipaa_baa) ? 'HIPAA/BAA: not stated' : `HIPAA/BAA: ${trimEnd(v.hipaa_baa)}`);
+  parts.push(notStated(v.hipaa_baa) ? 'HIPAA privacy agreement (BAA): not stated' : `HIPAA privacy agreement (BAA): ${trimEnd(v.hipaa_baa)}`);
   out.push(`On record, ${parts.join('; ')}.`);
   const mine = changes.filter((c) => c.vendorSlug === v.slug).sort((a, b) => String(b.observed).localeCompare(String(a.observed)));
   if (mine.length) {
@@ -60,7 +60,7 @@ export function industrySummary({ key, vendors, priceSentence }) {
   const out = [`aiphonecompare lists ${n} AI receptionist${n === 1 ? '' : 's'} for ${INDUSTRY_WORDS[key] || key}. ${priceSentence}`];
   if (key === 'dental' || key === 'medical') {
     const stated = vendors.filter((v) => !notStated(v.hipaa_baa)).length;
-    out.push(`${stated} of ${n} listings record a HIPAA or BAA statement; for the other ${n - stated}, none is stated on the pages we checked.`);
+    out.push(`${stated} of ${n} listings say something about HIPAA patient privacy or a signed privacy agreement (BAA); for the other ${n - stated}, none is stated on the pages we checked.`);
   } else {
     const filled = vendors.filter((v) => has(v.human_handoff)).length;
     out.push(`${filled} of ${n} listings describe how a call reaches a person (a transfer or live staff); for the other ${n - filled}, that is not verified.`);
@@ -70,8 +70,8 @@ export function industrySummary({ key, vendors, priceSentence }) {
 
 // Landing pages (compare / cost). `rangeAt` returns the cost engine's
 // sentence for a call volume, or '' when the page has no cost rows.
-const NOT_RANKING = / ?That is the math on the published cards, not a ranking\./g;
-const CARDS_NOTE = 'Figures are math on the published plan cards, not a ranking.';
+const NOT_RANKING = / ?That is simple math on each company’s listed prices, not a ranking\./g;
+const CARDS_NOTE = 'Figures are simple math on each company’s listed prices, not a ranking.';
 
 export function compareSummary({ left, right, providers = [], rangeAt }) {
   const billing = (v) => (has(v.billing_model) ? ` (${trimEnd(v.billing_model).replace(/^./, (c) => c.toLowerCase())})` : '');
@@ -83,9 +83,9 @@ export function compareSummary({ left, right, providers = [], rangeAt }) {
   const missing = [left, right].filter((v) => !inModel.includes(v.slug)).map((v) => v.name);
   const range = priced.length && rangeAt ? rangeAt(150).replace(NOT_RANKING, '') : '';
   if (range) out.push(`${range} ${CARDS_NOTE}`);
-  for (const name of customer) out.push(`${name} bills unique callers, so a call count is not turned into a ${name} bill.`);
-  if (missing.length === 2) out.push('Neither is in our cost model yet, so no monthly bill is calculated from call count.');
-  else if (missing.length === 1) out.push(`${missing[0]} is not in our cost model yet, so it has no calculated bill${range ? ' at a call volume' : ''}.`);
+  for (const name of customer) out.push(`${name} charges per different caller, so a call count alone does not give a ${name} bill.`);
+  if (missing.length === 2) out.push('Neither is in our cost calculator yet, so no monthly bill is calculated from call count.');
+  else if (missing.length === 1) out.push(`${missing[0]} is not in our cost calculator yet, so it has no calculated bill${range ? ' at a call volume' : ''}.`);
   return out;
 }
 
@@ -133,7 +133,7 @@ export function productNode({ vendor, provider, checked, url }) {
     lowPrice: Math.min(...nums),
     highPrice: Math.max(...nums),
     offerCount: nums.length,
-    description: `Published monthly plan fees on ${provider.name}'s pricing page, checked ${checked}. Usage beyond each plan's allowance and setup fees are extra where printed.`,
+    description: `Published monthly plan fees on ${provider.name}'s pricing page, checked ${checked}. Use beyond what each plan includes, and setup fees, cost extra where listed.`,
   };
   if (source) offer.url = source;
   const node = {

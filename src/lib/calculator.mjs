@@ -97,12 +97,12 @@ function excludedRow(vendor, reason, model, checked) {
 
 function priceVendor(vendor, model, input, checked) {
   if (!model) {
-    return excludedRow(vendor, 'Not enough public pricing. No published allowance and overage for this call count.', null, checked);
+    return excludedRow(vendor, 'Not enough public pricing. The company does not publish how much is included or what extra use costs.', null, checked);
   }
   if (model.unit === 'customer') {
     return excludedRow(
       vendor,
-      'Not enough public pricing. This vendor bills unique callers, and calls are not converted into customers.',
+      'Not enough public pricing. This company charges per different caller, not per call.',
       model,
       checked,
     );
@@ -172,14 +172,14 @@ export function quoteDirectory(vendors, models, input) {
   });
   if (priced[0]?.yearCents != null) priced[0].lowest = true;
   const assumptions = [
-    `Minute-billed plans use ${input.minutes} minutes as the average call. Partial minutes are not rounded up.`,
-    'Per-call plans ignore call length.',
+    `For plans that charge by the minute, we use ${input.minutes} minutes per call. We don't round up partial minutes.`,
+    'Plans that charge by the call ignore call length.',
     input.afterHours == null
       ? 'After-hours share is blank. No pricing page in this directory publishes a separate after-hours rate, so none is added.'
       : `After-hours share is ${input.afterHours}% of calls. No pricing page in this directory publishes a separate after-hours rate, so that share is not priced.`,
-    'The first year is 12 times the monthly card plus a published setup fee. A setup fee that is not printed is not treated as zero. Annual discounts that are mentioned but not printed are not applied.',
-    'One row per vendor uses the lowest complete monthly estimate among that vendor’s published plans. Sponsored listings do not change the order.',
-    `The cost model was checked ${formatDate(models.checked)}.`,
+    'The first-year cost is 12 months plus any published setup fee. A setup fee that is not printed is not treated as zero. Annual discounts that are mentioned but not printed are not applied.',
+    'Each company shows its cheapest plan that fits your calls. Paid ads do not change the order.',
+    `Prices were checked ${formatDate(models.checked)}.`,
   ];
   return { input, priced, missing, assumptions, checked: models.checked };
 }

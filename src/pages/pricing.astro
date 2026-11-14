@@ -1,4 +1,5 @@
 ---
+import PlainIntro from '../components/PlainIntro.astro';
 import Base from '../layouts/Base.astro';
 import VendorTable from '../components/VendorTable.astro';
 import data from '../data/vendors.json';
@@ -23,15 +24,16 @@ const jsonld = {
 <Base title={title} description={description} jsonld={jsonld}>
   <header class="page-intro">
     <div class="wrap">
-      <h1>AI receptionist pricing, all vendors</h1>
+      <h1>AI phone answering prices, all in one place</h1>
       {latest && (
         <p class="checked">
           <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Prices checked <time datetime={latest}>{latestLabel}</time>
         </p>
       )}
-      <p class="lead">Published starting prices only. Blank means the vendor quotes privately or we could not verify it. A starting price is not your bill. <a href="/cost/">Estimate from your call volume</a> where a provider publishes allowances and overage rates.</p>
-      <p class="index-link">Need a citable record? The <a href="/price-index/">price index</a> lists each price with its source type and date.</p>
+      <p class="lead">Published starting prices only. Blank means the company only gives prices on request, or we couldn't confirm one. A starting price is often not your real bill, so check what you'd pay for your number of calls.</p>
+      <PlainIntro primary={['/cost/calculator/', 'See my monthly cost']} secondary={['/match/', 'Find my best match']} />
+      <p class="index-link">Want the full record? The <a href="/price-index/">price index</a> lists each price with where and when we found it.</p>
     </div>
   </header>
   <div class="wrap stack">

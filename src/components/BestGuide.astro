@@ -1,4 +1,5 @@
 ---
+import PlainIntro from './PlainIntro.astro';
 import Base from '../layouts/Base.astro';
 import IndustryIcon from './IndustryIcon.astro';
 import VerifyStrip from './VerifyStrip.astro';
@@ -46,6 +47,7 @@ const jsonld = {
       </nav>
       <p class="industry-kicker"><IndustryIcon name={page.accent || page.industryKey} />{page.kicker || industryLabel(page.industryKey)}</p>
       <h1>{page.h1}</h1>
+      <PlainIntro text={`A plain-English guide to choosing an AI phone answering service for ${(page.kicker || industryLabel(page.industryKey)).toLowerCase()}: who is listed, what it costs and what to test before you buy.`} />
       <AnswerSummary sentences={page.summary} verified={latest} sources={summarySources} />
       <p class="lead">{page.scope}{page.costPath && <> <a href={page.costPath}>See what a call volume costs</a>.</>} <a href={page.calculatorPath}>Open the calculator</a> with 150 calls and a 3-minute average.{page.industryPath && <> <a href={page.industryPath}>Open the full {industryLabel(page.industryKey).toLowerCase()} directory</a>.</>}</p>
       {page.referralNote && <p class="note referral-note">{REFERRAL_NOTE}</p>}

@@ -44,11 +44,11 @@ const jsonld = {
       <div>
         <label for="match-budget">Monthly budget in dollars</label>
         <input id="match-budget" name="budget" type="number" inputmode="decimal" min="0" step="1" aria-describedby="match-budget-hint">
-        <p id="match-budget-hint" class="hint">Optional. Compared with the scenario bill, not the one-time setup fee.</p>
+        <p id="match-budget-hint" class="hint">Optional. We compare it with the estimated monthly bill, not one-time setup fees.</p>
       </div>
       <fieldset>
         <legend>Must-haves</legend>
-        <label><input type="checkbox" name="baa"> Signed BAA</label>
+        <label><input type="checkbox" name="baa"> Signs a HIPAA privacy agreement (BAA), for health practices</label>
         <label><input type="checkbox" name="spanish"> Spanish</label>
         <label><input type="checkbox" name="alwaysOn"> 24/7 answering</label>
         <label><input type="checkbox" name="booking"> Calendar or job booking</label>
@@ -110,10 +110,10 @@ const jsonld = {
     const names = (keys) => keys.map((key) => MUST_LABEL[key]).join(', ');
     if (row.met.length) article.append(line('Listing says yes:', names(row.met)));
     if (row.unknown.length) article.append(line('Not verified:', names(row.unknown)));
-    if (row.budget === 'within') article.append(line('Budget:', 'The scenario is within the budget you entered.'));
-    if (row.budget === 'over') article.append(line('Budget:', 'The known scenario is over the budget you entered.'));
+    if (row.budget === 'within') article.append(line('Budget:', 'The estimated monthly bill fits your budget.'));
+    if (row.budget === 'over') article.append(line('Budget:', 'The estimated monthly bill is over your budget.'));
     if (row.budget === 'partial') article.append(line('Budget:', 'The partial subtotal is within budget. Missing fees could push it over.'));
-    if (row.budget === 'unknown') article.append(line('Budget:', 'Cannot tell. The scenario bill is not verified.'));
+    if (row.budget === 'unknown') article.append(line('Budget:', 'Can\'t tell. The monthly bill is not published.'));
     return article;
   }
 

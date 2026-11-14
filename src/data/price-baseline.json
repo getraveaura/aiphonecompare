@@ -5,7 +5,7 @@
     {
       "slug": "smith-ai",
       "name": "Smith.ai",
-      "starting_price": "Free AI tier (25 calls); AI paid from $150/mo; live agents from $300/mo",
+      "starting_price": "Free AI plan (25 calls); AI paid from $150/mo; live agents from $300/mo",
       "last_checked": "2026-11-14",
       "source": "https://smith.ai/blog/top-9-best-ai-answering-services-for-law-firms-and-agencies"
     },
@@ -271,7 +271,7 @@
     {
       "slug": "agentzap",
       "name": "AgentZap",
-      "starting_price": "Starter $109/mo (150 min, $0.85/min overage); Professional $295/mo (450 min); Business $899/mo (1,500 min); + $499 one-time setup",
+      "starting_price": "Starter $109/mo (150 min, then $0.85 per extra minute); Professional $295/mo (450 min); Business $899/mo (1,500 min); + $499 one-time setup",
       "last_checked": "2026-11-14",
       "source": "https://agentzap.ai/pricing"
     },

@@ -51,7 +51,7 @@ const jsonld = {
         </ol>
       </nav>
       <h1>{title}</h1>
-      <p class="lead">Enter what you pay each month and roughly how many calls you get. We price the same calls on every plan with a published allowance and overage, and show you where they land. Free, no sign-up, and the result stays on this page.</p>
+      <p class="lead">Enter what you pay each month and roughly how many calls you get. We price the same calls on every plan that publishes what’s included and what extra use costs, and show you how you compare. Free, no sign-up, and the result stays on this page.</p>
     </div>
   </header>
   <div class="wrap stack">
@@ -78,7 +78,7 @@ const jsonld = {
         <div>
           <label for="op-minutes">Average call length in minutes</label>
           <input id="op-minutes" name="minutes" type="number" inputmode="decimal" min="0" step="any" value={initial.input.minutes} aria-describedby="op-minutes-hint op-minutes-error">
-          <p id="op-minutes-hint" class="hint">3 is a fair guess if you are not sure. Per-call plans ignore it.</p>
+          <p id="op-minutes-hint" class="hint">3 is a fair guess if you're not sure.</p>
           <p id="op-minutes-error" class="field-error" hidden></p>
         </div>
         <div class="cta">

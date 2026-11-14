@@ -5,7 +5,7 @@ import { lowestMonthly } from './price.mjs';
 const MUST = ['baa', 'spanish', 'alwaysOn', 'booking', 'human'];
 
 export const MUST_LABEL = {
-  baa: 'Signed BAA',
+  baa: 'Signs a HIPAA privacy agreement (BAA)',
   spanish: 'Spanish',
   alwaysOn: '24/7 answering',
   booking: 'Calendar or job booking',
@@ -91,8 +91,8 @@ export function estimateVendor(vendor, models, input) {
       oneTimeCents: null,
       oneTimeKnown: false,
       reason: monthly == null
-        ? 'No official allowance and overage are published, and the listing has no monthly dollar amount.'
-        : `No official allowance and overage are published. The listing's lowest monthly amount is $${monthly}. That is not this scenario's bill.`,
+        ? 'The company does not publish what is included or what extra use costs, and shows no monthly price.'
+        : `The company does not publish what is included or what extra use costs. Its lowest listed monthly price is $${monthly}, which may not be your real bill.`,
       listedMonthly: monthly,
     };
   }

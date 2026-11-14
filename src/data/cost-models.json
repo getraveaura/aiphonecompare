@@ -50,7 +50,7 @@
           "included": 1500,
           "overage": null,
           "setupFee": 0,
-          "publishedLabel": "$899/month for 1,500 minutes on a 6-month term. The page says the $499 setup fee is included. An overage rate is not printed.",
+          "publishedLabel": "$899/month for 1,500 minutes on a 6-month term. The page says the $499 setup fee is included. The price for extra minutes is not listed.",
           "notes": "Setup is treated as $0 because the page says the setup fee is included. Past 1,500 minutes the row becomes a partial subtotal."
         },
         {
@@ -60,7 +60,7 @@
           "publishedMonthly": null,
           "setupFee": null,
           "publishedLabel": "Custom",
-          "reason": "Enterprise is custom. No public price, allowance, or overage is printed, so this cannot be estimated."
+          "reason": "Enterprise is custom. No public price, included amount or extra-use price is listed, so we can't estimate it."
         }
       ]
     },
@@ -122,7 +122,7 @@
       "caveats": [
         "Only live talk time counts, tracked to the second. Partial minutes are not rounded up, and this estimate does not round them up either.",
         "The page says there is no setup fee.",
-        "Plan cards say a US number is included. A FAQ on the same page says US and Canada local numbers are $3/month and US toll-free numbers are $5/month. This estimate does not add a number fee, and it does not call the number free.",
+        "The plan listings say a US number is included. A FAQ on the same page says US and Canada local numbers are $3/month and US toll-free numbers are $5/month. This estimate does not add a number fee, and it does not call the number free.",
         "Outbound calling, SMS, and website chat are separate prices and are not included.",
         "Annual prices are mentioned and not printed, so they are not calculated."
       ],
@@ -170,7 +170,7 @@
           "publishedMonthly": null,
           "setupFee": 0,
           "publishedLabel": "Starting at $1,500/month. Included minutes are inquire-only.",
-          "reason": "Done for You publishes a starting price only. Included minutes are not printed, so a scenario total cannot be estimated."
+          "reason": "Done for You publishes a starting price only. Included minutes are not listed, so we can't estimate a monthly total."
         }
       ]
     },
@@ -253,7 +253,7 @@
           "publishedMonthly": null,
           "setupFee": null,
           "publishedLabel": "Custom",
-          "reason": "Enterprise is custom. No public minute allowance or price is printed, so this cannot be estimated."
+          "reason": "Enterprise is custom. No public price or included minutes are listed, so we can't estimate it."
         }
       ]
     },

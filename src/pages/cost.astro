@@ -1,4 +1,5 @@
 ---
+import PlainIntro from '../components/PlainIntro.astro';
 import Base from '../layouts/Base.astro';
 import models from '../data/cost-models.json';
 import { formatUsd } from '../lib/cost.mjs';
@@ -14,11 +15,11 @@ function oneTime(plan) {
   if (plan.setupFee === 0) return 'No setup fee on the pricing page';
   return `${formatUsd(Math.round(plan.setupFee * 100))} one time`;
 }
-const title = 'What an AI receptionist will cost';
+const title = 'What an AI receptionist really costs per month';
 const pageTitle = `AI receptionist cost: what you will pay per month (${models.checked.slice(0, 4)})`;
 const summary = costHubSummary(models);
 const hubSources = sourceLinks(models.providers.map((provider) => provider.sources[0]?.href).filter(Boolean), 6);
-const description = `${summary[1].split('. ')[0]}. Estimate your own bill from published allowances and overage rates.`.slice(0, 300);
+const description = `${summary[1].split('. ')[0]}. Estimate your own monthly bill from each company's published prices.`.slice(0, 300);
 const pageUrl = new URL('/cost/', Astro.site).href;
 const faqs = costFaqs(checkedLabel);
 const jsonld = {
@@ -34,8 +35,9 @@ const jsonld = {
   <header class="page-intro">
     <div class="wrap">
       <h1>{title}</h1>
+      <p class="lead">Type in how many calls you get. We show your estimated monthly bill only where the company's own price page says what it charges for (calls or minutes), how much is included and what extra use costs. A starting price is often not what you'd really pay.</p>
+      <PlainIntro primary={['#cost-form', 'Enter my calls']} secondary={['/match/', 'Find my best match']} />
       <AnswerSummary sentences={summary} verified={models.checked} sources={hubSources} />
-      <p class="lead">Enter your own call volume. The rows below turn that into a monthly scenario only where the provider's pricing page publishes the unit, the allowance, and the overage. A starting price is not the same as this bill.</p>
     </div>
   </header>
   <div class="wrap stack">
@@ -47,17 +49,28 @@ const jsonld = {
       <div>
         <label for="duration">Average call length in minutes</label>
         <input id="duration" name="duration" type="number" inputmode="decimal" min="0" step="any" aria-describedby="duration-hint">
-        <p id="duration-hint" class="hint">Used for minute-billed plans. Per-call plans ignore it. Partial minutes are not rounded up.</p>
+        <p id="duration-hint" class="hint">Only matters for plans that charge by the minute. Plans that charge by the call ignore it. We don't round up partial minutes.</p>
       </div>
       <div>
-        <label for="unique">Unique callers per month</label>
+        <label for="unique">Different callers per month</label>
         <input id="unique" name="unique" type="number" inputmode="numeric" min="0" step="1" aria-describedby="unique-hint">
-        <p id="unique-hint" class="hint">Goodcall bills one phone number once a month. Leave this blank if you don't know it. Calls are not converted into customers.</p>
+        <p id="unique-hint" class="hint">Goodcall charges per different caller each month (one person calling 3 times counts once). Leave blank if you don't know.</p>
       </div>
       <button class="btn btn-primary" type="submit">Update estimates</button>
     </form>
-    <p id="cost-status" class="note" aria-live="polite">Enter calls and an average length. Estimates stay blank until those numbers are usable.</p>
-    <p>These providers are the ones whose own sites, checked <time datetime={models.checked}>{checkedLabel}</time>, publish enough to do this math. The other vendors stay in the <a href="/pricing/">starting-price directory</a>. Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not printed are not included. Worked examples for 50, 150, and 300 calls: <a href="/cost/dental/">dental</a>, <a href="/cost/legal/">legal</a>, <a href="/cost/home-services/">home services</a>, <a href="/cost/hvac-shop/">a 3-tech HVAC shop</a>, <a href="/cost/medical/">medical</a>. Industry guides: <a href="/best/">all guides</a>, including <a href="/best/dentists/">dentists</a>, <a href="/best/law-firms/">law firms</a>, <a href="/best/med-spas/">med spas</a>, <a href="/best/hvac-plumbing/">HVAC and plumbing</a>, <a href="/best/roofing/">roofing</a>, and <a href="/best/veterinarians/">veterinarians</a>. <a href="/cost/hidden-fees/">Hidden fees</a> lists the printed setup fees and the story catches. The <a href="/cost/calculator/?calls=150&minutes=3">calculator</a> picks one plan per vendor and keeps the inputs in the link.</p>
+    <p id="cost-status" class="note" aria-live="polite">Enter your calls and average call length to see estimates.</p>
+    <p>These are the companies whose own websites, checked <time datetime={models.checked}>{checkedLabel}</time>, publish enough prices to do this math. The others are in the <a href="/pricing/">starting-price list</a>. Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not listed are not included. Examples at 50, 150 and 300 calls: <a href="/cost/dental/">dental</a>, <a href="/cost/legal/">legal</a>, <a href="/cost/home-services/">home services</a>, <a href="/cost/hvac-shop/">a 3-tech HVAC shop</a>, <a href="/cost/medical/">medical</a>. Industry guides: <a href="/best/">all guides</a>, including <a href="/best/dentists/">dentists</a>, <a href="/best/law-firms/">law firms</a>, <a href="/best/med-spas/">med spas</a>, <a href="/best/hvac-plumbing/">HVAC and plumbing</a>, <a href="/best/roofing/">roofing</a>, and <a href="/best/veterinarians/">veterinarians</a>. <a href="/cost/hidden-fees/">Hidden fees</a> lists the printed setup fees and the story catches. The <a href="/cost/calculator/?calls=150&minutes=3">calculator</a> picks one plan per vendor and keeps the inputs in the link.</p>
+    <details class="plain-glossary">
+      <summary>Words you'll see, in plain English</summary>
+      <dl>
+        <div><dt>Starting price</dt><dd>The lowest price a company shows. Your real bill is often higher.</dd></div>
+        <div><dt>Included minutes or calls</dt><dd>How much use the monthly price covers.</dd></div>
+        <div><dt>Extra-use charge</dt><dd>What you pay for each minute or call over what's included (some companies call this "overage").</dd></div>
+        <div><dt>Charges by the minute / by the call</dt><dd>Some plans count minutes on the phone, others count calls, whatever their length.</dd></div>
+        <div><dt>HIPAA privacy agreement (BAA)</dt><dd>A contract health practices need from any service that hears patient details.</dd></div>
+        <div><dt>Not verified</dt><dd>The company doesn't publish it, so we leave it blank instead of guessing.</dd></div>
+      </dl>
+    </details>
     <div class="cost-list">
       {models.providers.map((provider) => (
         <article class="cost-provider" aria-labelledby={`${provider.id}-heading`}>
@@ -67,24 +80,24 @@ const jsonld = {
           <p><strong>Transfer.</strong> {provider.transfer}</p>
           <div class="tablewrap" tabindex="0">
             <table class="compare">
-              <caption>{provider.name} plans. The published price is what the page lists. The scenario is your volume on that plan.</caption>
+              <caption>{provider.name} plans. "Listed price" is what their page shows. "Your estimate" is what your calls would cost on that plan.</caption>
               <thead>
                 <tr>
                   <th scope="col">Plan</th>
-                  <th scope="col">Published price</th>
-                  <th scope="col">Scenario this month</th>
-                  <th scope="col">One-time</th>
-                  <th scope="col">Formula</th>
+                  <th scope="col">Listed price</th>
+                  <th scope="col">Your estimate this month</th>
+                  <th scope="col">One-time fees</th>
+                  <th scope="col">How we got it</th>
                 </tr>
               </thead>
               <tbody>
                 {provider.plans.map((plan) => (
                   <tr>
                     <th scope="row">{plan.name}</th>
-                    <td data-label="Published price">{plan.publishedLabel}</td>
-                    <td data-label="Scenario this month" id={`${provider.id}-${plan.id}-scenario`}>Enter your numbers to estimate.</td>
-                    <td data-label="One-time">{oneTime(plan)}</td>
-                    <td data-label="Formula" id={`${provider.id}-${plan.id}-formula`}>The formula appears when the numbers are enough to calculate.</td>
+                    <td data-label="Listed price">{plan.publishedLabel}</td>
+                    <td data-label="Your estimate this month" id={`${provider.id}-${plan.id}-scenario`}>Enter your numbers to estimate.</td>
+                    <td data-label="One-time fees">{oneTime(plan)}</td>
+                    <td data-label="How we got it" id={`${provider.id}-${plan.id}-formula`}>The math shows here once you enter your numbers.</td>
                   </tr>
                 ))}
               </tbody>
@@ -111,9 +124,9 @@ const jsonld = {
     return el ? el.value : '';
   }
   function scenarioText(plan) {
-    if (plan.status === 'estimate') return `${formatUsd(plan.scenarioCents)} recurring this month`;
-    if (plan.status === 'partial') return `Partial subtotal ${formatUsd(plan.scenarioCents)}. ${plan.reason}`;
-    return `Cannot estimate. ${plan.reason}`;
+    if (plan.status === 'estimate') return `${formatUsd(plan.scenarioCents)} a month`;
+    if (plan.status === 'partial') return `At least ${formatUsd(plan.scenarioCents)}. ${plan.reason}`;
+    return `Can't estimate. ${plan.reason}`;
   }
   let lastTracked = '';
   function update() {
@@ -134,7 +147,7 @@ const jsonld = {
       }
     }
     if (status) {
-      status.textContent = `${estimated} rows have a monthly scenario, ${partial} are partial subtotals, and ${blocked} cannot be estimated. This is not a ranking.`;
+      status.textContent = `${estimated} plans have a full monthly estimate, ${partial} have a minimum only, and ${blocked} can't be estimated from public prices. This is not a ranking.`;
     }
     const key = `${input.calls}|${input.durationMinutes}|${input.uniqueCallers}`;
     if (key !== lastTracked && (input.calls !== '' || input.durationMinutes !== '')) {

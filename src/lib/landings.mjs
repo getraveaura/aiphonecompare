@@ -52,7 +52,7 @@ function oneTime(plan) {
 
 function scenarioText(provider, estimate) {
   if (provider.unit === 'customer') {
-    return 'Not estimated. Unique callers are not converted from call count.';
+    return 'Not estimated: charged per different caller, not per call.';
   }
   if (estimate.status === 'estimate') return formatUsd(estimate.scenarioCents);
   if (estimate.status === 'partial' && estimate.scenarioCents != null) {
@@ -102,7 +102,7 @@ function rangeSentence(rows, calls) {
   if (low.estimates[calls].scenarioCents === high.estimates[calls].scenarioCents) {
     return `At ${label}, every complete estimate is ${low.estimates[calls].text}.`;
   }
-  return `At ${label}, the complete estimates run from ${lowText} to ${high.estimates[calls].text} for ${high.provider} ${high.plan}. That is the math on the published cards, not a ranking.`;
+  return `At ${label}, full monthly estimates range from ${lowText} to ${high.estimates[calls].text} for ${high.provider} ${high.plan}. That is simple math on each company’s listed prices, not a ranking.`;
 }
 
 function scenarioTable(rows, caption) {
@@ -186,9 +186,9 @@ function industryPage({ models, vendors, key, path, h1, phrase, description, led
   const starters = vendors.filter((vendor) => vendor.industries?.includes(key) && vendor.starting_price).sort((a, b) => a.name.localeCompare(b.name));
   const answer = [
     lede,
-    `The monthly figures below use the cost model checked ${formatDate(models.checked)}. Minute-billed plans use a ${ASSUMED_MINUTES}-minute average call, which is an assumption, not a number from the pricing page. Per-call plans ignore length. One-time fees stay in their own column.`,
+    `The monthly figures below use prices checked ${formatDate(models.checked)}. For plans that charge by the minute, we assume calls average ${ASSUMED_MINUTES} minutes (our guess, not the company's). Plans that charge by the call ignore length. One-time fees are shown separately.`,
     `Providers with enough published math in this industry: ${names}.`,
-    customer.length ? `${customer.join(' and ')} bills unique callers, so those rows are listed and not estimated from call count.` : '',
+    customer.length ? `${customer.join(' and ')} charges per different caller (not per call), so those rows are listed but not estimated from call count.` : '',
     ...exclusionSentences(providers),
     `The starting-price table lists ${starters.length} vendors with a recorded price, from ${starters[0]?.name || 'none'} to ${starters.at(-1)?.name || 'none'}.`,
     rangeSentence(rows, 50),
@@ -206,12 +206,12 @@ function industryPage({ models, vendors, key, path, h1, phrase, description, led
     },
     {
       q: 'Is the lowest figure the recommended plan?',
-      a: 'No. The span of complete estimates is the math on the published cards at one call count. Rows are alphabetical. Rankings are not for sale, and a sponsored listing does not change these figures.',
+      a: 'No. The range of full estimates is simple math on each company’s listed prices at one call count. Rows are alphabetical. Rankings are not for sale, and a sponsored listing does not change these figures.',
     },
   ];
   const summary = [
-    rangeSentence(rows, 150).replace(' That is the math on the published cards, not a ranking.', ' That is the math on the published plan cards, not a ranking.'),
-    `Minute plans assume a ${ASSUMED_MINUTES}-minute call; one-time fees are listed separately.`,
+    rangeSentence(rows, 150).replace(' That is simple math on each company’s listed prices, not a ranking.', ' That is simple math on each company’s listed prices, not a ranking.'),
+    `Plans that charge by the minute assume ${ASSUMED_MINUTES}-minute calls; one-time fees are listed separately.`,
     `The starting-price table below lists ${starters.length} vendors with a recorded price.`,
   ];
   return {
@@ -228,7 +228,7 @@ function industryPage({ models, vendors, key, path, h1, phrase, description, led
     date: models.checked,
     answer,
     blocks: [
-      scenarioTable(rows, `Monthly scenario at 50, 150, and 300 calls. Minute plans assume a ${ASSUMED_MINUTES}-minute call. Checked ${formatDate(models.checked)}.`),
+      scenarioTable(rows, `Estimated monthly cost at 50, 150, and 300 calls. Plans that charge by the minute assume ${ASSUMED_MINUTES}-minute calls. Checked ${formatDate(models.checked)}.`),
       caveatBlock(providers),
       startingTable(vendors, key),
     ],
@@ -249,12 +249,12 @@ function vendorCostPage({ models, slug, h1, phrase, description }) {
   const provider = models.providers.find((item) => item.slug === slug);
   const rows = planRows([provider]);
   const answer = [
-    `${provider.name} publishes the plan cards below. This page runs those cards at 50, 150, and 300 calls a month. The cost model was checked ${formatDate(models.checked)}.`,
+    `${provider.name} publishes the plans below. This page prices those plans at 50, 150, and 300 calls a month. Prices were checked ${formatDate(models.checked)}.`,
     provider.unit === 'minute'
       ? `The minute plans use a ${ASSUMED_MINUTES}-minute average call. That length is an assumption. Partial minutes are not rounded up.`
       : provider.unit === 'call'
         ? 'These plans bill per call. The call length does not change the figure.'
-        : 'These plans bill unique callers. A call count is not converted into customers, so the monthly cells stay unestimated.',
+        : 'These plans charge per different caller, not per call, so we can’t estimate them from a call count.',
     ...exclusionSentences([provider]),
     rangeSentence(rows, 50),
     rangeSentence(rows, 150),
@@ -329,11 +329,11 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
     `${right.name}'s recorded starting price is ${blank(right.starting_price)}. Billing: ${blank(right.billing_model)}. Price checked ${right.last_checked ? formatDate(right.last_checked) : 'date not verified'}.`,
     providers.length
       ? [
-          `Scenario rows use the cost model checked ${formatDate(models.checked)}, at 50, 150, and 300 calls.`,
+          `Cost estimates use prices checked ${formatDate(models.checked)}, at 50, 150, and 300 calls.`,
           providers.some((provider) => provider.unit === 'minute') ? `Minute plans use a ${ASSUMED_MINUTES}-minute average call.` : '',
-          'A vendor with no cost model has no scenario row.',
+          'A company that does not publish enough prices has no estimate row.',
         ].filter(Boolean).join(' ')
-      : 'Neither vendor is in the cost model, so this page does not calculate a bill at 50, 150, or 300 calls.',
+      : 'Neither vendor is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
     rows.length ? rangeSentence(rows, 150) : '',
   ].filter(Boolean);
   const fields = [
@@ -341,7 +341,7 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
     ['Billing model', (vendor) => blank(vendor.billing_model)],
     ['Free trial', (vendor) => blank(vendor.free_trial)],
     ['Human handoff', (vendor) => blank(vendor.human_handoff)],
-    ['HIPAA / BAA', (vendor) => blank(vendor.hipaa_baa)],
+    ['HIPAA privacy agreement (BAA)', (vendor) => blank(vendor.hipaa_baa)],
     ['Industries', (vendor) => (vendor.industries || []).map((id) => industryLabel(id)).join(', ') || 'Not verified'],
     ['Notes', (vendor) => blank(vendor.notes)],
     ['Price checked', (vendor) => (vendor.last_checked ? formatDate(vendor.last_checked) : 'Not verified')],
@@ -398,7 +398,7 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
       },
       {
         q: 'Can both be priced at 150 calls a month?',
-        a: rows.length ? rangeSentence(rows, 150) : 'No. Neither pricing record publishes the allowance and overage this calculator needs, so no 150-call bill is calculated.',
+        a: rows.length ? rangeSentence(rows, 150) : 'No. Neither company publishes how much is included and what extra use costs, so no 150-call bill is calculated.',
       },
       {
         q: 'Do the listings say a person can take the call?',
@@ -409,8 +409,8 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
         a: `${left.name}: ${blank(left.free_trial)}. ${right.name}: ${blank(right.free_trial)}. "Not verified" means the source we checked does not state one.`.replace(/\.\./g, '.'),
       },
       {
-        q: `Will ${left.name} or ${right.name} sign a HIPAA BAA?`,
-        a: `${left.name}: ${left.hipaa_baa ? left.hipaa_baa : 'Not stated'}. ${right.name}: ${right.hipaa_baa ? right.hipaa_baa : 'Not stated'}. A "HIPAA compliant" line is not a signed BAA, so ask for the agreement in writing.`.replace(/\.\./g, '.'),
+        q: `Will ${left.name} or ${right.name} sign a HIPAA privacy agreement (BAA)?`,
+        a: `${left.name}: ${left.hipaa_baa ? left.hipaa_baa : 'Not stated'}. ${right.name}: ${right.hipaa_baa ? right.hipaa_baa : 'Not stated'}. A "HIPAA compliant" line is not a signed privacy agreement, so ask for it in writing.`.replace(/\.\./g, '.'),
       },
       {
         q: `What do ${left.name} and ${right.name} integrate with?`,
@@ -470,8 +470,8 @@ function hiddenFeesPage({ models, stories }) {
   const answer = [
     'A fee is included here only when a pricing page states it, or a sourced story records the catch. A fee that is not printed is "Not verified" and is not treated as zero.',
     printed.length
-      ? `Printed one-time fees in the cost model, checked ${formatDate(models.checked)}: ${printed.map((row) => `${row.provider} ${row.plan}, ${row.oneTime}`).join('; ')}.`
-      : `No plan in the cost model, checked ${formatDate(models.checked)}, prints a dollar setup fee.`,
+      ? `Printed one-time fees in our cost calculator, checked ${formatDate(models.checked)}: ${printed.map((row) => `${row.provider} ${row.plan}, ${row.oneTime}`).join('; ')}.`
+      : `No plan in our cost calculator, checked ${formatDate(models.checked)}, prints a dollar setup fee.`,
     'The story catches below are mostly limits on the service, not a second price. Each one is included because a story on this site records it.',
   ];
   return {
@@ -490,7 +490,7 @@ function hiddenFeesPage({ models, stories }) {
     blocks: [
       {
         type: 'table',
-        caption: `One-time fee column from each published plan in the cost model. Checked ${formatDate(models.checked)}.`,
+        caption: `One-time fees from each plan in our cost calculator. Checked ${formatDate(models.checked)}.`,
         headers: ['Provider', 'Plan', 'One-time fee', 'Pricing page'],
         rows: feeRows,
       },
@@ -502,11 +502,11 @@ function hiddenFeesPage({ models, stories }) {
         q: 'Which plans print a setup fee?',
         a: printed.length
           ? printed.map((row) => `${row.provider} ${row.plan} lists ${row.oneTime}.`).join(' ')
-          : 'None of the plans in the cost model print a dollar setup fee.',
+          : 'None of the plans in our cost calculator list a dollar setup fee.',
       },
       {
         q: 'Are unpublished fees treated as free?',
-        a: 'No. "Not verified" means the pricing page we checked does not print that fee. It is left out of the monthly scenario rather than added as zero.',
+        a: 'No. "Not verified" means the pricing page we checked does not print that fee. It is left out of the monthly estimate rather than counted as zero.',
       },
       {
         q: 'What catches show up in more than one story?',
@@ -800,39 +800,39 @@ export function buildLandings(data) {
       h1: 'AI receptionist cost for a dental office',
       phrase: 'ai receptionist for dental office',
       description: 'AI receptionist cost for a dental office at 50, 150, and 300 calls, from published Dialzara, Goodcall, and Smith.ai plans.',
-      lede: 'For a dental office, this page prices only the plans whose own pricing pages publish the allowance and the overage. Everyone else stays in the starting-price table.',
+      lede: 'For a dental office, this page prices only the plans whose own price pages say how much is included and what extra use costs. Everyone else stays in the starting-price table.',
     }),
     industryPage({
       models, vendors, key: 'legal', path: '/cost/legal/',
       h1: 'AI answering service cost for lawyers',
       phrase: 'ai answering service for lawyers',
       description: 'AI answering service cost for lawyers at 50, 150, and 300 calls, plus every legal starting price in the directory.',
-      lede: 'For a law firm, the plans with published allowances are Dialzara, Goodcall, and Smith.ai, the same cards as the dental cost page. The starting-price table below is the legal directory, which is a different list.',
+      lede: 'For a law firm, the plans that publish how much is included are Dialzara, Goodcall, and Smith.ai, the same cards as the dental cost page. The starting-price table below is the legal directory, which is a different list.',
     }),
     industryPage({
       models, vendors, key: 'plumbing', path: '/cost/home-services/',
       h1: 'AI receptionist cost for home services',
       phrase: 'ai receptionist for home services',
       description: 'AI receptionist cost for home services at 50, 150, and 300 calls, from published Bland, Dialzara, Goodcall, and Smith.ai plans.',
-      lede: 'Home services on this site are the plumbing listings, including HVAC and roofing tools filed there. The monthly figures use only plans that publish an allowance and an overage.',
+      lede: 'Home services on this site are the plumbing listings, including HVAC and roofing tools filed there. The monthly figures use only plans that publish how much is included and what extra use costs.',
     }),
     industryPage({
       models, vendors, key: 'medical', path: '/cost/medical/',
       h1: 'AI receptionist cost for a medical office',
       phrase: 'ai receptionist for medical office',
       description: 'AI receptionist cost for a medical office at 50, 150, and 300 calls, from published Bland, ElevenLabs, and Goodcall plans.',
-      lede: 'For a medical office, this page prices only the plans whose own pricing pages publish the allowance and the overage. A HIPAA line on the vendor page is not a price.',
+      lede: 'For a medical office, this page prices only the plans whose own price pages say how much is included and what extra use costs. A HIPAA line on the vendor page is not a price.',
     }),
     industryPage({
       models, vendors, key: 'plumbing', path: '/cost/hvac-shop/',
       h1: 'AI receptionist cost for a 3-tech HVAC shop',
       phrase: 'ai receptionist cost for a 3 tech hvac shop',
       description: 'AI receptionist cost for a 3-tech HVAC shop at 50, 150, and 300 calls, from the same published home-services plans. No typical shop volume is assumed.',
-      lede: 'We do not have a published typical call volume for a 3-tech HVAC shop, so this page uses the same 50, 150, and 300 call scenarios as the home-services cost page, from the same published plans. Home services listings on this site, including HVAC, are filed under plumbing. Use the calculator with your own call count. A starting price is not a bill at those volumes.',
+      lede: 'We do not have a published typical call volume for a 3-tech HVAC shop, so this page uses the same 50, 150, and 300 call examples as the home-services cost page, from the same published plans. Home services listings on this site, including HVAC, are filed under plumbing. Use the calculator with your own call count. A starting price is not a bill at those volumes.',
     }),
     vendorCostPage({
       models, slug: 'smith-ai', h1: 'Smith.ai cost per month', phrase: 'smith ai cost per month',
-      description: 'Smith.ai cost per month at 50, 150, and 300 calls, from the published per-call plans. Checked 6 November 2026.',
+      description: 'Smith.ai cost per month at 50, 150, and 300 calls, from its published plans that charge by the call. Checked 6 November 2026.',
     }),
     vendorCostPage({
       models, slug: 'elevenlabs-ai-receptionist', h1: 'ElevenLabs AI receptionist pricing', phrase: 'elevenlabs ai receptionist pricing',
@@ -841,20 +841,20 @@ export function buildLandings(data) {
     comparePage({
       models, vendors, pair: 'smith-ai-vs-ruby', slugs: ['smith-ai', 'ruby'],
       h1: 'Smith.ai vs Ruby', phrase: 'smith ai vs ruby',
-      description: 'Smith.ai vs Ruby from sourced starting prices and Smith.ai per-call plans. Ruby stops at its published starting bundle.',
+      description: 'Smith.ai vs Ruby from sourced starting prices and Smith.ai plans that charge by the call. Ruby stops at its published starting bundle.',
       scope: 'Smith.ai and Ruby are both in the directory. Ruby’s record is a human receptionist plan with an optional AI front end. Smith.ai’s record is an AI plan with live agents. This page stops at Ruby’s published starting bundle.',
     }),
     comparePage({
       models, vendors, pair: 'bland-ai-vs-elevenlabs', slugs: ['bland-ai', 'elevenlabs-ai-receptionist'],
       h1: 'Bland AI vs ElevenLabs', phrase: 'bland ai vs elevenlabs',
       description: 'Bland AI vs ElevenLabs at 50, 150, and 300 calls of 3 minutes. Separate telephony and LLM charges are not added.',
-      scope: 'Bland AI and ElevenLabs both publish minute-based agent pricing. The scenario uses a 3-minute average call. Telephony that Bland bills separately, and ElevenLabs LLM or carrier charges, are not added, because no single combined rate is printed.',
+      scope: 'Bland AI and ElevenLabs both publish minute-based agent pricing. The estimate assumes 3-minute calls. Telephony that Bland bills separately, and ElevenLabs LLM or carrier charges, are not added, because no single combined rate is printed.',
     }),
     comparePage({
       models, vendors, pair: 'goodcall-vs-rosie', slugs: ['goodcall', 'rosie'],
       h1: 'Goodcall vs Rosie', phrase: 'goodcall vs rosie',
-      description: 'Goodcall vs Rosie from sourced starting prices. Goodcall bills unique callers, so a call count is not a bill.',
-      scope: 'Goodcall bills unique callers. Rosie publishes minute bundles. A call count is not turned into Goodcall customers, and Rosie is not in the cost model, so neither side gets a calculated 150-call bill.',
+      description: 'Goodcall vs Rosie from sourced starting prices. Goodcall charges per different caller, so a call count alone does not give a bill.',
+      scope: 'Goodcall charges per different caller. Rosie publishes minute bundles. A call count is not turned into Goodcall customers, and Rosie is not in our cost calculator, so neither side gets a calculated 150-call bill.',
     }),
     comparePage({
       models, vendors, pair: 'jobber-vs-housecall-pro', slugs: ['jobber-ai-receptionist', 'housecall-pro-csr-ai'],
@@ -865,26 +865,26 @@ export function buildLandings(data) {
     comparePage({
       models, vendors, pair: 'smith-ai-vs-goodcall', slugs: ['smith-ai', 'goodcall'],
       h1: 'Smith.ai vs Goodcall', phrase: 'smith ai vs goodcall',
-      description: 'Smith.ai vs Goodcall from sourced starting prices. Goodcall bills unique callers, so a call count is not a Goodcall bill.',
-      scope: 'Smith.ai and Goodcall are both in the directory and the cost model. Smith.ai records a free AI tier (25 calls), paid AI from $150/mo, and live agents from $300/mo, billed per call. Goodcall records Starter $79/mo for 100 unique customers, then 79¢ each. Goodcall bills unique callers, so a call count is not turned into a Goodcall bill.',
+      description: 'Smith.ai vs Goodcall from sourced starting prices. Goodcall charges per different caller, so a call count alone does not give a Goodcall bill.',
+      scope: 'Smith.ai and Goodcall are both in the directory and our cost calculator. Smith.ai records a free AI plan (25 calls), paid AI from $150/mo, and live agents from $300/mo, billed per call. Goodcall records Starter $79/mo for 100 unique customers, then 79¢ each. Goodcall charges per different caller, so a call count alone does not give a Goodcall bill.',
     }),
     comparePage({
       models, vendors, pair: 'rosie-vs-my-ai-front-desk', slugs: ['rosie', 'my-ai-front-desk'],
       h1: 'Rosie vs My AI Front Desk', phrase: 'rosie vs my ai front desk',
-      description: 'Rosie vs My AI Front Desk from sourced starting prices. Neither is in the cost model, so no 150-call bill is calculated.',
-      scope: 'Rosie and My AI Front Desk are both in the directory. Rosie publishes minute bundles, from $49/mo for 250 minutes, with booking and transfers from $149/mo. My AI Front Desk’s pricing page prints $99/mo, or $79/mo billed annually, including 200 voice minutes, and the medical page also prints $109/mo. Neither vendor is in the cost model, so this page does not calculate a bill at 50, 150, or 300 calls.',
+      description: 'Rosie vs My AI Front Desk from sourced starting prices. Neither is in our cost calculator, so no 150-call bill is calculated.',
+      scope: 'Rosie and My AI Front Desk are both in the directory. Rosie publishes minute bundles, from $49/mo for 250 minutes, with booking and transfers from $149/mo. My AI Front Desk’s pricing page prints $99/mo, or $79/mo billed annually, including 200 voice minutes, and the medical page also prints $109/mo. Neither vendor is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
     }),
     comparePage({
       models, vendors, pair: 'jobber-vs-servicetitan', slugs: ['jobber-ai-receptionist', 'servicetitan-ai-voice-agent'],
       h1: 'Jobber vs ServiceTitan AI receptionist', phrase: 'jobber vs servicetitan ai receptionist',
       description: 'Jobber vs ServiceTitan AI receptionist from the directory. Jobber publishes a $29/mo add-on. ServiceTitan’s AI price is not verified.',
-      scope: 'This page compares the AI receptionist line only. It is not a price for the rest of Jobber or ServiceTitan. Jobber publishes an AI Receptionist add-on at $29/mo, on top of a Jobber plan. ServiceTitan’s AI Voice Agent has no starting price in this directory. Neither is in the cost model, so this page does not calculate a bill at 50, 150, or 300 calls.',
+      scope: 'This page compares the AI receptionist line only. It is not a price for the rest of Jobber or ServiceTitan. Jobber publishes an AI Receptionist add-on at $29/mo, on top of a Jobber plan. ServiceTitan’s AI Voice Agent has no starting price in this directory. Neither is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
     }),
     comparePage({
       models, vendors, pair: 'oncrew-vs-nextphone', slugs: ['oncrew', 'nextphone'],
       h1: 'OnCrew vs NextPhone', phrase: 'oncrew vs nextphone',
-      description: 'OnCrew vs NextPhone from sourced starting prices. Neither is in the cost model, so no 150-call bill is calculated.',
-      scope: 'OnCrew and NextPhone are both in the home-services (plumbing) directory. OnCrew publishes per-answered-minute plans with a monthly allowance, starting at $49/mo with 150 minutes, then $0.49/min. NextPhone publishes a flat monthly starting price of $199/mo for unlimited inbound calls. Neither is in the cost model, so this page does not calculate a bill at 50, 150, or 300 calls.',
+      description: 'OnCrew vs NextPhone from sourced starting prices. Neither is in our cost calculator, so no 150-call bill is calculated.',
+      scope: 'OnCrew and NextPhone are both in the home-services (plumbing) directory. OnCrew charges by the answered minute, with minutes included each month, starting at $49/mo with 150 minutes, then $0.49/min. NextPhone publishes a flat monthly starting price of $199/mo for unlimited inbound calls. Neither is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
     }),
     hiddenFeesPage({ models, stories }),
     worthPage({ stories }),
@@ -927,7 +927,7 @@ export function costHubSummary(models = read('cost-models.json')) {
   const names = models.providers.map((provider) => provider.name);
   const list = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names.join('');
   return [
-    `${names.length} providers publish plan allowances and overage rates on their own pricing pages, so a monthly bill can be worked out: ${list}.${models.providers.some((p) => p.unit === 'customer') ? ` ${models.providers.filter((p) => p.unit === 'customer').map((p) => p.name).join(' and ')} bills unique callers, not calls.` : ''}`,
-    `${rangeSentence(rows, 150).replace(' That is the math on the published cards, not a ranking.', '')} Minute plans assume a ${ASSUMED_MINUTES}-minute call, and the figures are math on the published plan cards, not a ranking.`,
+    `${names.length} companies publish how much each plan includes and what extra use costs on their own price pages, so a monthly bill can be worked out: ${list}.${models.providers.some((p) => p.unit === 'customer') ? ` ${models.providers.filter((p) => p.unit === 'customer').map((p) => p.name).join(' and ')} charges per different caller, not per call.` : ''}`,
+    `${rangeSentence(rows, 150).replace(' That is simple math on each company’s listed prices, not a ranking.', '')} Plans that charge by the minute assume ${ASSUMED_MINUTES}-minute calls, and the figures are simple math on each company’s listed prices, not a ranking.`,
   ];
 }

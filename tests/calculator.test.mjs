@@ -30,7 +30,7 @@ test('dental quotes use a complete plan and leave unique-caller and unpublished 
   assert.equal(smith.lowest, false);
   assert.equal(dental.missing.some((row) => row.slug === 'goodcall'), true);
   assert.equal(dental.missing.some((row) => row.slug === 'ruby'), true);
-  assert.match(dental.missing.find((row) => row.slug === 'goodcall').reason, /unique callers/);
+  assert.match(dental.missing.find((row) => row.slug === 'goodcall').reason, /different caller/);
 });
 
 test('sponsored does not move a dearer vendor ahead of a cheaper one', () => {
