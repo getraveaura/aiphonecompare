@@ -7,6 +7,7 @@ import Faq from './Faq.astro';
 import StoryCards from './StoryCards.astro';
 import Catches from './Catches.astro';
 import AnswerSummary from './AnswerSummary.astro';
+import AuditCta from './AuditCta.astro';
 import { industrySummary, sourceLinks, articleNode, breadcrumbNode } from '../lib/answers.mjs';
 import data from '../data/vendors.json';
 import stories from '../data/stories.json';
@@ -97,5 +98,6 @@ const jsonld = {
     )}
     <Catches groups={catchSet} />
     <Faq items={allFaqs}/>
+    <AuditCta />
   </div>
 </Base>

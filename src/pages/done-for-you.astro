@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
+import AuditCta from '../components/AuditCta.astro';
 import { SHOW_OFFER_PROOF, DFY_EMAIL, DFY_OFFERS, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../lib/offers.mjs';
 
 const title = 'Done-for-you AI receptionist setup';
@@ -177,6 +178,8 @@ import OtherOffers from '../components/OtherOffers.astro';
     {SHOW_OFFER_PROOF && <OfferProof heading="Results from founding customers" body="We're taking our first 5 founding businesses now. With each one's permission, we'll publish their baseline and day-60 results here, measured the way this page describes. We won't post made-up quotes or numbers." />}
 
     <Faq items={faqs}/>
+
+    <AuditCta />
 
     <section class="dfy-close" aria-labelledby="close-heading">
       <h2 id="close-heading">Ready when you are</h2>

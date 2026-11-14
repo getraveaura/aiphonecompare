@@ -1,0 +1,262 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import { AUDIT_CHECKS, AUDIT_EMAIL, AUDIT_INDUSTRIES, AUDIT_LIMITS, AUDIT_PATH, AUDIT_SUCCESS, auditRobots } from '../lib/audit.mjs';
+import { DFY_PATH } from '../lib/offers.mjs';
+
+const title = 'Free missed-call audit';
+const description = 'Find out what a customer hears when they call your business after hours. We place one short, polite test call and email you a one-page report within 1 business day. Free, no obligation.';
+const pageUrl = new URL(AUDIT_PATH, Astro.site).href;
+const mailto = `mailto:${AUDIT_EMAIL}?subject=${encodeURIComponent('Free missed-call audit')}`;
+
+const how = [
+  { h: 'Tell us where to call', p: 'Your business name, website and the phone number customers dial. It takes about a minute.' },
+  { h: 'We place one test call', p: "One short, polite call to your business line after your hours, the way a new customer would. We don't book anything or leave a fake request." },
+  { h: 'Your one-page report', p: 'Within 1 business day, by email: what happened, what worked well, and the simplest fixes for anything that slipped.' },
+];
+
+const faqs = [
+  { q: 'Is it really free?', a: 'Yes. The audit is free, there is no obligation, and you do not need to buy anything to get your report.' },
+  { q: 'What exactly happens on the call?', a: "We place a single, short test call to the number you give us, after your business hours, and ask the kind of simple question a new customer would. If someone answers, we keep it brief and polite and don't book anything." },
+  { q: 'When will I get the report?', a: 'We place the call after your business hours and email your one-page report within 1 business day.' },
+  { q: 'Will my team know it is a test?', a: 'You are welcome to tell them, though the report is most useful when the call is handled the way it would be for any customer.' },
+  { q: 'What do you do with my details?', a: 'We use them to place the one test call and send your report. We never sell or share them. Details are in our privacy policy.' },
+  { q: 'What if the report finds gaps?', a: 'Each report includes simple fixes you can make yourself. If you would rather have it handled for you, our done-for-you setup is there, with no pressure either way.' },
+];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Service',
+      name: title,
+      description,
+      url: pageUrl,
+      serviceType: 'Missed-call audit',
+      provider: { '@id': new URL('/#organization', Astro.site).href },
+      isAccessibleForFree: true,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: pageUrl },
+    },
+    { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  ],
+};
+---
+<Base title={title} description={description} jsonld={jsonld} robots={auditRobots()} dock={[['#audit-heading', 'Get my free audit'], ['#checks-heading', 'What we check']]}>
+  <header class="page-intro offer-hero audit-hero">
+    <div class="wrap">
+      <p class="dfy-kicker">Free missed-call audit</p>
+      <h1>Hear what your customers hear when they call after hours.</h1>
+      <p class="lead">We place one short, polite test call to your business line after hours, then email you a friendly one-page report: what went well, what slipped, and the simplest ways to catch every call.</p>
+      <ul class="offer-points">
+        <li>Free, no obligation</li>
+        <li>One short test call</li>
+        <li>One-page report within 1 business day</li>
+      </ul>
+    </div>
+  </header>
+
+  <div class="wrap stack dfy">
+    <div class="dfy-grid">
+      <div>
+        <section aria-labelledby="checks-heading">
+          <h2 id="checks-heading" class="section-title">What your report covers</h2>
+          <ul class="audit-checks">
+            {AUDIT_CHECKS.map((c) => (
+              <li>
+                <span class="dfy-check" aria-hidden="true"></span>
+                <div>
+                  <h3>{c.label}</h3>
+                  <p>{c.detail}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </section>
+
+        <section class="audit-how" aria-labelledby="how-heading">
+          <h2 id="how-heading" class="section-title">How it works</h2>
+          <ol class="dfy-steps">
+            {how.map((s, i) => (
+              <li>
+                <span class="dfy-num" aria-hidden="true">{i + 1}</span>
+                <div>
+                  <h3>{s.h}</h3>
+                  <p>{s.p}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+      </div>
+
+      <aside class="dfy-price audit-card" aria-labelledby="audit-heading">
+        <div id="audit-form-wrap">
+          <h2 id="audit-heading" class="audit-card-title" tabindex="-1">Book your free audit</h2>
+          <p class="audit-card-sub">About a minute. We only call the number you give us, once.</p>
+          <form id="audit-form" class="calc-form audit-form" novalidate>
+            <div>
+              <label for="audit-name">Your name</label>
+              <input id="audit-name" name="name" type="text" autocomplete="name" required maxlength={AUDIT_LIMITS.name} aria-describedby="audit-name-error">
+              <p id="audit-name-error" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="audit-business">Business name</label>
+              <input id="audit-business" name="business" type="text" autocomplete="organization" required maxlength={AUDIT_LIMITS.business} aria-describedby="audit-business-error">
+              <p id="audit-business-error" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="audit-site">Business website</label>
+              <input id="audit-site" name="site_url" type="text" inputmode="url" autocomplete="url" required maxlength={AUDIT_LIMITS.site_url} placeholder="yourbusiness.com" aria-describedby="audit-site_url-error">
+              <p id="audit-site_url-error" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="audit-phone">Business phone number</label>
+              <input id="audit-phone" name="phone" type="tel" autocomplete="tel" required maxlength={AUDIT_LIMITS.phone} placeholder="(555) 123-4567" aria-describedby="audit-phone-hint audit-phone-error">
+              <p id="audit-phone-hint" class="hint">The number customers call. This is the one we will test.</p>
+              <p id="audit-phone-error" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="audit-industry">Industry</label>
+              <select id="audit-industry" name="industry" required aria-describedby="audit-industry-error">
+                <option value="">Choose an industry</option>
+                {AUDIT_INDUSTRIES.map(([value, label]) => <option value={value}>{label}</option>)}
+              </select>
+              <p id="audit-industry-error" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="audit-email">Email for the report</label>
+              <input id="audit-email" name="email" type="email" autocomplete="email" required maxlength={AUDIT_LIMITS.email} aria-describedby="audit-email-error">
+              <p id="audit-email-error" class="field-error" hidden></p>
+            </div>
+            <div class="vh" aria-hidden="true">
+              <label for="audit-company-website">Company website</label>
+              <input id="audit-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+            </div>
+            <button class="btn btn-primary" type="submit" id="audit-submit">Book my free audit</button>
+            <p class="audit-consent">By submitting, you agree we may place one test call to the number provided and email you the report. <a href="/privacy/">Privacy</a>.</p>
+            <p id="audit-status" class="audit-status" role="status" aria-live="polite"></p>
+          </form>
+          <noscript>
+            <p class="note">This form needs JavaScript. Email <a href={mailto}>{AUDIT_EMAIL}</a> with your business name, website and phone number instead, and we will set it up.</p>
+          </noscript>
+        </div>
+        <div id="audit-success" class="audit-success" hidden>
+          <span class="audit-success-mark" aria-hidden="true"></span>
+          <h2 tabindex="-1" id="audit-success-heading">{AUDIT_SUCCESS.heading}</h2>
+          <p>{AUDIT_SUCCESS.body}</p>
+          <p class="note">Questions in the meantime? Reply to that email or write to <a href={mailto}>{AUDIT_EMAIL}</a>.</p>
+        </div>
+      </aside>
+    </div>
+
+    <Faq items={faqs}/>
+
+    <section class="dfy-close" aria-labelledby="close-heading">
+      <h2 id="close-heading">Already know you want help?</h2>
+      <p>Our <a href={DFY_PATH}>done-for-you setup</a> picks, sets up and tunes an AI receptionist for you, with a defined result by day 60 or a full refund of our fee.</p>
+    </section>
+  </div>
+</Base>
+<script>
+  import { AUDIT_FIELDS, auditErrorMessage, buildAuditPayload, validateAuditForm } from '../lib/audit.mjs';
+  import { LEAD_ENDPOINT } from '../lib/leads.mjs';
+  import { track } from '../lib/analytics.mjs';
+
+  const $ = (id) => document.getElementById(id);
+  const form = $('audit-form') as HTMLFormElement;
+  const button = $('audit-submit') as HTMLButtonElement;
+  const status = $('audit-status')!;
+  const wrap = $('audit-form-wrap')!;
+  const success = $('audit-success')!;
+  const ids = { name: 'audit-name', business: 'audit-business', site_url: 'audit-site', phone: 'audit-phone', industry: 'audit-industry', email: 'audit-email' };
+  const touched = new Set();
+
+  function read() {
+    const data = new FormData(form);
+    return {
+      fields: Object.fromEntries(AUDIT_FIELDS.map((key) => [key, data.get(key)])),
+      honeypot: data.get('company_website'),
+    };
+  }
+
+  function show(errors, only = null) {
+    for (const key of AUDIT_FIELDS) {
+      if (only && !only.has(key)) continue;
+      const input = $(ids[key])!;
+      const box = $(`audit-${key}-error`)!;
+      const message = errors[key] || '';
+      box.textContent = message;
+      box.hidden = !message;
+      if (message) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+    }
+  }
+
+  // Inline validation: check a field once the visitor leaves it, then live as they fix it.
+  for (const key of AUDIT_FIELDS) {
+    const input = $(ids[key])!;
+    input.addEventListener('blur', () => {
+      if (!(input as HTMLInputElement).value) return;
+      touched.add(key);
+      show(validateAuditForm(read().fields).errors, touched);
+    });
+    input.addEventListener(key === 'industry' ? 'change' : 'input', () => {
+      if (key === 'industry') touched.add(key);
+      if (touched.has(key)) show(validateAuditForm(read().fields).errors, new Set([key]));
+    });
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const { fields, honeypot } = read();
+    const result = validateAuditForm(fields);
+    AUDIT_FIELDS.forEach((key) => touched.add(key));
+    show(result.errors);
+    if (!result.ok) {
+      status.textContent = '';
+      const first = AUDIT_FIELDS.find((key) => result.errors[key]);
+      if (first) $(ids[first])!.focus();
+      return;
+    }
+    const payload = buildAuditPayload(result.values, honeypot);
+    button.disabled = true;
+    button.setAttribute('aria-busy', 'true');
+    button.textContent = 'Booking your audit…';
+    status.textContent = '';
+    status.classList.remove('is-error');
+    let code = 0;
+    let ok = false;
+    let error = '';
+    try {
+      const response = await fetch(LEAD_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      code = response.status;
+      const body = await response.json().catch(() => null);
+      ok = response.ok && body?.ok === true;
+      error = typeof body?.error === 'string' ? body.error : '';
+    } catch {
+      code = 0;
+    }
+    button.disabled = false;
+    button.removeAttribute('aria-busy');
+    if (ok) {
+      form.reset();
+      wrap.hidden = true;
+      success.hidden = false;
+      $('audit-success-heading')!.focus();
+      track('audit_requested', { industry: payload.industry });
+      return;
+    }
+    button.textContent = 'Try again';
+    status.textContent = auditErrorMessage(code, error);
+    status.classList.add('is-error');
+    if (ids[error]) {
+      show({ [error]: auditErrorMessage(400, error) }, new Set([error]));
+      $(ids[error])!.focus();
+    }
+    track('audit_failed', { status: code });
+  });
+</script>
