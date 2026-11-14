@@ -6,6 +6,7 @@ import DfyGuarantee from '../components/DfyGuarantee.astro';
 import DfyIndustryCards from '../components/DfyIndustryCards.astro';
 import DfyMeasure from '../components/DfyMeasure.astro';
 import { SHOW_OFFER_PROOF, DFY_EMAIL, DFY_OFFERS, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../lib/offers.mjs';
+import { AUDIT_PATH, showAuditLinks } from '../lib/audit.mjs';
 import { DFY_CASE_STUDY_NOTE, DFY_QUESTIONS_LINE } from '../lib/dfy-industries.mjs';
 
 const title = 'Done-for-you AI receptionist setup';
@@ -86,13 +87,13 @@ import OtherOffers from '../components/OtherOffers.astro';
   <header class="page-intro dfy-intro offer-hero">
     <div class="wrap">
       <p class="dfy-kicker">Done-for-you setup</p>
-      <h1>We pick, set up and tune your AI receptionist.</h1>
-      <p class="lead">Independent: we don't take a cut of vendor subscriptions, and rankings are never for sale. We choose from vendors with verified, sourced prices on aiphonecompare.</p>
+      <h1>Your phones answered the way your team would — without you doing the setup.</h1>
+      <p class="lead">We pick, set up and tune an AI receptionist from vendors with verified, sourced prices. Independent: we don't take a cut of vendor subscriptions, and rankings are never for sale.</p>
       <div class="cta">
         <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
-        <a class="btn btn-ghost" href="/overpaying/">Run the free check first</a>
+        {showAuditLinks() ? <a class="btn btn-ghost" href={AUDIT_PATH}>Get a free call coverage check</a> : <a class="btn btn-ghost" href="/overpaying/">Run the free check first</a>}
       </div>
-      <p class="dfy-spots">{spotsNote}</p>
+      <p class="dfy-spots">{spotsNote} A defined result by day 60, or a full refund of our fee. Go-live within 7 business days of receiving your intake.</p>
     </div>
   </header>
 

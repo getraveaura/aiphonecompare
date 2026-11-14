@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Faq from './Faq.astro';
 import AnswerSummary from './AnswerSummary.astro';
 import { articleNode } from '../lib/answers.mjs';
+import { REFERRAL_NOTE } from '../lib/outbound.mjs';
 const { page } = Astro.props;
 const url = new URL(page.path, Astro.site).href;
 const graph = [
@@ -78,6 +79,7 @@ graph.push(articleNode({
       <div class="landing-notes">
         {notes.map((paragraph) => <p>{paragraph}</p>)}
       </div>
+      {page.referrals?.length > 0 && <p class="note referral-note">{REFERRAL_NOTE}</p>}
     </div>
   </header>
   <div class="wrap stack">
@@ -91,19 +93,27 @@ graph.push(articleNode({
           <tbody>
             {block.rows.map((row) => (
               <tr>
-                {row.map((item, index) => index === 0 ? (
-                  <th scope="row" data-label={block.headers[index]}>
-                    {item.href
-                      ? <a href={item.href} rel={item.external ? 'nofollow noopener' : undefined}>{item.text}</a>
-                      : item.datetime ? <time datetime={item.datetime}>{item.text}</time> : item.text}
-                  </th>
-                ) : (
-                  <td data-label={block.headers[index]}>
-                    {item.href
-                      ? <a href={item.href} rel={item.external ? 'nofollow noopener' : undefined}>{item.text}</a>
-                      : item.datetime ? <time datetime={item.datetime}>{item.text}</time> : item.text}
-                  </td>
-                ))}
+                {row.map((item, index) => {
+                  const Tag = index === 0 ? 'th' : 'td';
+                  const rel = item.rel || (item.external ? 'nofollow noopener' : undefined);
+                  const visit = item.visit;
+                  const visitIsPrimary = visit && item.href === visit.href;
+                  return (
+                    <Tag scope={index === 0 ? 'row' : undefined} data-label={block.headers[index]}>
+                      {item.href && !visitIsPrimary
+                        ? <a href={item.href} rel={visit ? undefined : rel}>{item.text}</a>
+                        : item.datetime ? <time datetime={item.datetime}>{item.text}</time>
+                        : !visitIsPrimary ? item.text
+                        : null}
+                      {visit && (
+                        <>
+                          {item.href && !visitIsPrimary && ' '}
+                          <a href={visit.href} rel={visit.rel} data-vendor-slug={visit.slug} data-vendor-referral={visit.isReferral ? '1' : '0'}>{visitIsPrimary ? item.text : `Visit ${visit.name}`}</a>
+                        </>
+                      )}
+                    </Tag>
+                  );
+                })}
               </tr>
             ))}
           </tbody>

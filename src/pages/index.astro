@@ -10,6 +10,7 @@ import stories from '../data/stories.json';
 import priceLog from '../data/price-changes.json';
 import { addedThisWeek, formatDate, latestByAdded, sourceDate, weekStart } from '../lib/stories.mjs';
 import { getLandings } from '../lib/landings.mjs';
+import { getBestGuides } from '../lib/best-guides.mjs';
 const c = (k) => data.filter((v) => v.industries.includes(k)).length;
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
 const checkedLabel = (iso) => iso
@@ -38,7 +39,7 @@ const latestItems = [...freshStories.map((story) => ({
 const start = weekStart(built);
 const priceChangesWeek = priceLog.changes.filter((change) => change.observed >= start && change.observed <= built).length;
 const lastUpdated = data.map((vendor) => vendor.last_checked).filter(Boolean).sort().at(-1) || built;
-const guides = getLandings();
+const guides = [...getBestGuides(), ...getLandings()];
 const homeUrl = new URL('/', Astro.site).href;
 const jsonld = {
   '@context': 'https://schema.org',

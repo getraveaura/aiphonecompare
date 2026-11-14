@@ -35,14 +35,14 @@ const faqs = [
   ['Can you remove a spotlight?', 'We may remove a spotlight that is misleading. If we do, we refund it in full.'],
 ];
 ---
-<Base title="Get featured" description="Industry spotlight is $49 for 30 days: the top spot on one industry page, labeled Sponsored, with no contract." jsonld={jsonld} ogImage="/og/get-featured.png" dock={[['#buy', `Buy for $${SPOTLIGHT.price}`], ['#how-it-looks', 'See an example']]}>
+<Base title="Get featured" description="Industry spotlight is $49 for 30 days: the top spot on one industry page, labeled Sponsored, with no contract." jsonld={jsonld} ogImage="/og/get-featured.png" dock={[[SPOTLIGHT.url, `Buy for $${SPOTLIGHT.price}`], ['#how-it-looks', 'See an example']]}>
   <header class="offer-hero">
     <div class="wrap">
       <p class="eyebrow">For AI receptionist vendors</p>
-      <h1>Get your AI receptionist in front of buyers who are comparing</h1>
-      <p class="lead">Take the top spot on one industry page for 30 days. It is clearly labeled Sponsored, and rankings, listings and verified prices are never for sale.</p>
+      <h1>Reach buyers who are already comparing AI receptionists</h1>
+      <p class="lead">Take the top spot on one industry page for 30 days, clearly labeled Sponsored. Rankings, listings and verified prices are never for sale. No contract, and a full refund in the first {SPOTLIGHT.refundDays} days.</p>
       <div class="cta">
-        <a class="btn btn-primary btn-lg" href="#buy">Get featured for ${SPOTLIGHT.price} <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn btn-primary btn-lg" href={SPOTLIGHT.url} data-offer-checkout="spotlight">Get featured for ${SPOTLIGHT.price} <span class="arrow" aria-hidden="true">→</span></a>
         <a class="btn btn-secondary btn-lg" href="#how-it-looks">See how it looks</a>
       </div>
       <ul class="offer-points">

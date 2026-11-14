@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import IndustryIcon from './IndustryIcon.astro';
+import VerifyStrip from './VerifyStrip.astro';
+import VendorTable from './VendorTable.astro';
+import Faq from './Faq.astro';
+import AnswerSummary from './AnswerSummary.astro';
+import AuditCta from './AuditCta.astro';
+import { articleNode, breadcrumbNode, sourceLinks } from '../lib/answers.mjs';
+import { industryLabel } from '../lib/stories.mjs';
+import { accent } from '../lib/industries.mjs';
+import { REFERRAL_NOTE } from '../lib/outbound.mjs';
+import { DFY_OFFERS, usd } from '../lib/offers.mjs';
+import { dfyIndustry } from '../lib/dfy-industries.mjs';
+const { page } = Astro.props;
+const dfy = dfyIndustry(page.dfySlug);
+const latest = page.verified || '';
+const pageUrl = new URL(page.path, Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const low = page.vendors.find((v) => v.starting_price);
+const summarySources = [
+  { href: '/price-index/', label: 'aiphonecompare price index' },
+  ...(low ? sourceLinks(low.sources, 1).map((s) => ({ ...s, label: `${low.name}: ${s.label}` })) : []),
+];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    articleNode({ url: pageUrl, headline: page.title, description: page.description, modified: latest, citations: page.vendors.map((v) => (v.sources || [])[0]).filter(Boolean), site }),
+    breadcrumbNode([['Home', site], ['Industry guides', new URL('/best/', Astro.site).href], [page.h1, pageUrl]]),
+    { '@type': 'WebPage', name: page.h1, url: pageUrl, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(latest ? { dateModified: latest } : {}) },
+    { '@type': 'ItemList', name: page.h1, ...(latest ? { dateModified: latest } : {}), itemListElement: page.vendors.map((v, i) => ({ '@type': 'ListItem', position: i + 1, name: v.name, url: new URL(`/vendors/${v.slug}/`, Astro.site).href })) },
+    { '@type': 'FAQPage', mainEntity: page.faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
+};
+---
+<Base title={page.title} description={page.description} jsonld={jsonld} modified={latest}>
+  <header class="page-intro" data-industry={page.industryKey} style={`--accent:${accent(page.accent || page.industryKey)}`}>
+    <div class="wrap">
+      <VerifyStrip />
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/best/">Industry guides</a></li>
+          <li><span aria-current="page">{page.h1}</span></li>
+        </ol>
+      </nav>
+      <p class="industry-kicker"><IndustryIcon name={page.accent || page.industryKey} />{page.kicker || industryLabel(page.industryKey)}</p>
+      <h1>{page.h1}</h1>
+      <AnswerSummary sentences={page.summary} verified={latest} sources={summarySources} />
+      <p class="lead">{page.scope} <a href={page.costPath}>See what a call volume costs</a>. <a href={page.calculatorPath}>Open the calculator</a> with 150 calls and a 3-minute average. <a href={page.industryPath}>Open the full {industryLabel(page.industryKey).toLowerCase()} directory</a>.</p>
+      {page.referralNote && <p class="note referral-note">{REFERRAL_NOTE}</p>}
+    </div>
+  </header>
+  <div class="wrap stack">
+    <section class="guide" aria-label="What to check before you buy">
+      <h2>What to check before you buy</h2>
+      <ul>
+        {page.checks.map((item) => (
+          <li><strong>{item.h}:</strong> {item.p}</li>
+        ))}
+      </ul>
+      <p>Call recording rules, with the statute we opened for each state, are on the <a href="/call-recording-consent-by-state/">call recording consent</a> page. That page is not legal advice.</p>
+    </section>
+    <section>
+      <h2 class="section-title">Sourced starting prices</h2>
+      <p>Blank means not verified. Open a vendor for sources and the date we checked. Visit links for referral partners are labeled and use <code>rel="sponsored"</code>. They never change the order or a price.</p>
+      <VendorTable vendors={page.vendors} industry={page.industryKey} />
+    </section>
+    <nav aria-label="Related" class="guide-related">
+      <h2 class="section-title">Next steps</h2>
+      <ul class="link-grid">
+        {page.related.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+      </ul>
+    </nav>
+    {dfy && (
+      <aside class="dfy-callout" data-industry={dfy.accent} style={`--accent:${accent(dfy.accent)}`} aria-labelledby="dfy-callout-heading">
+        <IndustryIcon name={dfy.icon} />
+        <div class="dfy-callout-copy">
+          <p class="dfy-callout-kicker">Done-for-you setup · from {usd(DFY_OFFERS.founding.price)} one-time</p>
+          <h2 id="dfy-callout-heading">Rather have it set up for you?</h2>
+          <p>We pick, set up and tune an AI receptionist built for {dfy.audience}: {dfy.cardLine.toLowerCase()}. A defined result by day 60, or a full refund of our fee.</p>
+        </div>
+        <a class="btn btn-ghost" href={page.dfyPath}>See the {dfy.name.toLowerCase()} setup <span class="arrow" aria-hidden="true">→</span></a>
+      </aside>
+    )}
+    <Faq items={page.faqs} />
+    <AuditCta />
+  </div>
+</Base>

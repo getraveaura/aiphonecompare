@@ -14,6 +14,7 @@ import stories from '../data/stories.json';
 import { catchGroups, industryLabel, storiesForIndustry } from '../lib/stories.mjs';
 import { accent } from '../lib/industries.mjs';
 import { linkForIndustry } from '../lib/landings.mjs';
+import { bestPathForIndustry } from '../lib/best-guides.mjs';
 import { lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
 import { orderForIndustry } from '../lib/spotlight.mjs';
 import { dfyForIndustryPage, dfyIndustryPath } from '../lib/dfy-industries.mjs';
@@ -40,6 +41,7 @@ const allFaqs = [
 ];
 const relatedStories = storiesForIndustry(stories, key);
 const costGuide = linkForIndustry(key);
+const bestGuide = bestPathForIndustry(key);
 const catchSet = catchGroups(stories, { industry: key });
 const industries = [
   ['dental', 'Dental', '/industries/dental/'],
@@ -72,7 +74,7 @@ const jsonld = {
       <p class="industry-kicker"><IndustryIcon name={key} />{industryLabel(key)}</p>
       <h1>{title}</h1>
       <AnswerSummary sentences={summary} verified={latest} sources={summarySources} />
-      <p class="lead">Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates. <a href={`/cost/calculator/?industry=${key}&calls=150&minutes=3`}>Open the calculator</a>.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}</p>
+      <p class="lead">Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates. <a href={`/cost/calculator/?industry=${key}&calls=150&minutes=3`}>Open the calculator</a>.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}{bestGuide && <> <a href={bestGuide.href}>{bestGuide.label}</a>.</>}</p>
     </div>
   </header>
   <div class="wrap stack">

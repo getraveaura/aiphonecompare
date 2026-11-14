@@ -8,10 +8,10 @@ const pages = buildLandings();
 const dollars = (text) => text.match(/\$\d[\d,]*(?:\.\d{2})?/g) || [];
 
 test('twelve landing pages have distinct paths, titles, and search phrases', () => {
-  assert.equal(pages.length, 12);
-  assert.equal(new Set(pages.map((page) => page.path)).size, 12);
-  assert.equal(new Set(pages.map((page) => page.title)).size, 12);
-  assert.equal(new Set(pages.map((page) => page.phrase)).size, 12);
+  assert.equal(pages.length, 13);
+  assert.equal(new Set(pages.map((page) => page.path)).size, 13);
+  assert.equal(new Set(pages.map((page) => page.title)).size, 13);
+  assert.equal(new Set(pages.map((page) => page.phrase)).size, 13);
   for (const page of pages) {
     assert.ok(page.h1);
     assert.ok(page.description.length > 40 && page.description.length <= 160);
@@ -53,4 +53,21 @@ test('FAQ dollar amounts are copied from the page data, not added beside it', ()
       }
     }
   }
+});
+
+test('the 3-tech HVAC shop page reuses home-services plans and does not invent a typical call volume', () => {
+  const page = pages.find((item) => item.path === '/cost/hvac-shop/');
+  const home = pages.find((item) => item.path === '/cost/home-services/');
+  assert.ok(page);
+  assert.ok(home);
+  assert.equal(page.h1, 'AI receptionist cost for a 3-tech HVAC shop');
+  assert.match(page.answer.join(' '), /do not have a published typical call volume/i);
+  assert.doesNotMatch(page.answer.join(' '), /typically (gets|receives|handles) \d+ calls/i);
+  const pageTable = page.blocks.find((block) => block.type === 'table');
+  const homeTable = home.blocks.find((block) => block.type === 'table');
+  assert.deepEqual(pageTable.rows, homeTable.rows);
+  assert.ok(page.related.some((link) => link.href === '/done-for-you/home-services/'));
+  assert.ok(page.related.some((link) => link.href === '/audit/'));
+  assert.ok(page.related.some((link) => link.href === '/best/hvac-plumbing/'));
+  assert.ok(page.related.some((link) => link.href === '/cost/home-services/'));
 });
