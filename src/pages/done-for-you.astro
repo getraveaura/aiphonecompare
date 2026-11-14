@@ -84,7 +84,7 @@ import OtherOffers from '../components/OtherOffers.astro';
       <h1>We pick, set up and tune your AI receptionist.</h1>
       <p class="lead">Independent: we don't take a cut of vendor subscriptions, and rankings are never for sale. We choose from vendors with verified, sourced prices on aiphonecompare.</p>
       <div class="cta">
-        <a class="btn btn-primary" href={founding.url} data-dfy-checkout={founding.key}>{foundingLabel}</a>
+        <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
         <a class="btn btn-ghost" href="/overpaying/">Run the free check first</a>
       </div>
       <p class="dfy-spots">{spotsNote}</p>
@@ -121,9 +121,9 @@ import OtherOffers from '../components/OtherOffers.astro';
           <li>Full refund of our fee if neither result is reached by day 60</li>
         </ul>
         <p class="dfy-sub">The AI receptionist subscription is paid directly to the vendor you choose, at its published price. We add no markup.</p>
-        <a class="btn btn-primary" href={founding.url} data-dfy-checkout={founding.key}>{foundingLabel}</a>
+        <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
         <p class="dfy-spots">{spotsNote}</p>
-        <a class="btn btn-ghost" href={standard.url} data-dfy-checkout={standard.key}>{standardLabel}</a>
+        <a class="btn btn-ghost" href={standard.url} data-offer-checkout="dfy_standard">{standardLabel}</a>
         <p class="dfy-mail">Questions first? Email <a href={mailto}>{email}</a></p>
       </aside>
     </div>
@@ -182,8 +182,8 @@ import OtherOffers from '../components/OtherOffers.astro';
       <h2 id="close-heading">Ready when you are</h2>
       <p>Pay once and we email you a short intake that asks for 4 quick things. We take it from there: pick, setup, testing and 60 days of tuning.</p>
       <div class="cta">
-        <a class="btn btn-primary" href={founding.url} data-dfy-checkout={founding.key}>{foundingLabel}</a>
-        <a class="btn btn-ghost" href={standard.url} data-dfy-checkout={standard.key}>{standardLabel}</a>
+        <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
+        <a class="btn btn-ghost" href={standard.url} data-offer-checkout="dfy_standard">{standardLabel}</a>
       </div>
       <p class="dfy-spots">{spotsNote}</p>
       <p class="dfy-mail dfy-mail-left">Questions first? Email <a href={mailto}>{email}</a></p>
@@ -201,8 +201,5 @@ import OtherOffers from '../components/OtherOffers.astro';
       banner.hidden = false;
       track('dfy_paid_return');
     }
-    document.querySelectorAll('[data-dfy-checkout]').forEach((link) => {
-      link.addEventListener('click', () => track('dfy_checkout_clicked', { tier: link.getAttribute('data-dfy-checkout') }));
-    });
   </script>
 </Base>

@@ -154,6 +154,7 @@ const jsonld = {
   import vendors from '../../data/vendors.json';
   import { calculatorPath, parseCalculatorQuery, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
   import { overpayingPath } from '../../lib/overpaying.mjs';
+  import { track } from '../../lib/analytics.mjs';
 
   const form = document.getElementById('calc-form');
   const summary = document.getElementById('calc-summary');
@@ -276,8 +277,24 @@ const jsonld = {
     if (`${location.pathname}${location.search}` !== path) history.replaceState(null, '', path);
   }
 
-  function update() {
-    paint(quoteDirectory(vendors, models, readForm()));
+  let lastTracked = '';
+
+  function trackUse(quote) {
+    const key = calculatorPath(quote.input);
+    if (key === lastTracked) return;
+    lastTracked = key;
+    track('tool_used', {
+      tool: 'cost_calculator',
+      industry: quote.input.industry,
+      calls: quote.input.calls,
+      minutes: quote.input.minutes,
+    });
+  }
+
+  function update(fromUser = false) {
+    const quote = quoteDirectory(vendors, models, readForm());
+    paint(quote);
+    if (fromUser) trackUse(quote);
   }
 
   const params = Object.fromEntries(new URLSearchParams(location.search));
@@ -287,11 +304,11 @@ const jsonld = {
     document.getElementById('calls').value = String(parsed.calls);
     document.getElementById('minutes').value = String(parsed.minutes);
     document.getElementById('after').value = parsed.afterHours == null ? '' : String(parsed.afterHours);
-    update();
+    update(false);
   }
 
-  form.addEventListener('input', update);
-  document.getElementById('calc-update').addEventListener('click', update);
+  form.addEventListener('input', () => update(true));
+  document.getElementById('calc-update').addEventListener('click', () => update(true));
   document.getElementById('copy-link').addEventListener('click', async () => {
     const url = `${location.origin}${calculatorPath(readForm())}`;
     copyStatus.textContent = url;

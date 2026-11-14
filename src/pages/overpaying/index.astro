@@ -328,7 +328,8 @@ const jsonld = {
     const key = overpayingPath(result.input);
     if (key === lastTracked) return;
     lastTracked = key;
-    track('overpaying_check_run', {
+    track('tool_used', {
+      tool: 'overpaying',
       industry: result.input.industry,
       monthly_cost_bucket: monthlyCostBucket(result.input.cost),
       cheaper_count: result.cheaperCount,
@@ -417,13 +418,13 @@ const jsonld = {
       leadButton.textContent = 'Email me the results';
       leadStatus.textContent = 'Sent. Check your inbox in a minute — it comes from timothy@aiphonecompare.com.';
       leadForm.reset();
-      track('overpaying_email_submitted', { industry: current.input.industry, cheaper_count: current.cheaperCount });
+      track('lead_submit', { source: 'overpaying', industry: current.input.industry, cheaper_count: current.cheaperCount });
       return;
     }
     leadButton.textContent = 'Try again';
     leadStatus.textContent = status === 429
       ? 'A lot of requests came from this connection. Give it a minute, then try again. Your results are still here.'
       : 'That did not send. Your results are still on this page. Try again in a moment.';
-    track('overpaying_email_failed', { status });
+    track('lead_submit_failed', { source: 'overpaying', status });
   });
 </script>

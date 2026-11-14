@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 const toc = [
   ['summary', 'The short version'],
   ['hosting', 'Hosting'],
-  ['analytics', 'Page-view counts (PostHog)'],
+  ['analytics', 'Page views and actions (PostHog)'],
   ['price-check', 'The price check'],
   ['email-forms', 'Email forms'],
   ['emails', 'Emails we send'],
@@ -30,16 +30,16 @@ const toc = [
     </nav>
 
     <h2 id="summary">The short version</h2>
-    <p>You can use aiphonecompare without an account. We count anonymous page views. If you choose to give us your email address, we use it to send what you asked for and the list you joined. If you buy a spotlight, Stripe handles the card. We do not sell personal information, and we do not use it for advertising.</p>
+    <p>You can use aiphonecompare without an account. We count anonymous page views and a few actions (pay-button clicks, contact and vendor-link clicks, tool use, and form sends), never with your email or name. If you choose to give us your email address, we use it to send what you asked for and the list you joined. If you buy a spotlight, Stripe handles the card. We do not sell personal information, and we do not use it for advertising.</p>
 
     <h2 id="hosting">Hosting</h2>
     <p>The site is a set of static pages hosted on GitHub Pages. To serve a page, GitHub receives standard request data, such as your IP address and browser details. GitHub handles that data under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">its own privacy statement</a>.</p>
 
-    <h2 id="analytics">Page-view counts (PostHog)</h2>
-    <p>We use <a href="https://posthog.com/">PostHog</a> (its US cloud, us.i.posthog.com) to count anonymous page views. A page view includes the page address and the basic technical details PostHog sends with that request. We do not ask you to sign in, and we do not attach these counts to your name.</p>
+    <h2 id="analytics">Page views and actions (PostHog)</h2>
+    <p>We use <a href="https://posthog.com/">PostHog</a> (its US cloud, us.i.posthog.com) to count anonymous page views and a few actions: clicks on pay buttons, contact links, and vendor or referral links, and when someone uses a comparison tool or sends a form. A page view includes the page address and the basic technical details PostHog sends with that request. An action may also include the offer or tool name, a price tier, a vendor slug, or the form's source and industry. We do not ask you to sign in, and we do not attach these counts to your name. Your email and name are never sent to PostHog.</p>
     <p>The counter keeps its id in memory for the page session. It does not set a tracking cookie.</p>
     <p>If your browser sends Do Not Track, we do not start PostHog.</p>
-    <p>Autocapture (recording every click) and session recording are turned off.</p>
+    <p>Autocapture (recording every click) and session recording are turned off. We only record the actions named above, not every click on the page.</p>
 
     <h2 id="price-check">The price check</h2>
     <p>The <a href="/overpaying/">price check</a> runs in your browser. It counts that a check was run, with the industry, a rough cost band, and how many plans came in lower. A shared result link keeps the industry and numbers in the page address, and the page address is part of a page view. Your email and name are never sent to PostHog.</p>
@@ -50,7 +50,7 @@ const toc = [
       <li><strong>"Email me the results" on the price check.</strong> We store your email, the optional first name and business name, the numbers from that check, and the top matches shown to you.</li>
       <li><strong>The stories list on the <a href="/stories/">stories page</a>.</strong> We store your email and the industry you pick.</li>
     </ul>
-    <p>Both forms send to the same place: a <a href="https://supabase.com/">Supabase</a> Edge Function that saves the signup in a Supabase database table in a US region. The public can't read that table. The forms are separate from the PostHog page-view counter.</p>
+    <p>Both forms send to the same place: a <a href="https://supabase.com/">Supabase</a> Edge Function that saves the signup in a Supabase database table in a US region. The public can't read that table. Your email stays in that table. PostHog is only told that a form was sent, with the form's source and industry, never the email.</p>
     <p>We also store your browser's user-agent (the short text that names your browser and system) with the signup. To limit abuse, we make a one-way hash of your IP address. That hash is used only to rate-limit repeated sign-ups and is kept for up to 2 days. We do not store the IP address itself.</p>
 
     <h2 id="emails">Emails we send</h2>

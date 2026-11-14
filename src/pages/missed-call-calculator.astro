@@ -134,6 +134,7 @@ const jsonld = {
     return Number.isFinite(n) ? n : NaN;
   }
   function show(html) { out.innerHTML = html; }
+  var lastTracked = '';
   function calculate() {
     var calls = num('calls');
     var missed = num('missed');
@@ -151,6 +152,11 @@ const jsonld = {
     var lostCustomers = missedCalls * (customers / 100);
     var perWeek = lostCustomers * job;
     var perMonth = perWeek * 52 / 12;
+    var key = [calls, missed, customers, job].join('|');
+    if (key !== lastTracked && typeof window.apcTrack === 'function') {
+      lastTracked = key;
+      window.apcTrack('tool_used', { tool: 'missed_call' });
+    }
     show(
       '<h2>Your estimate</h2>' +
       '<p><strong>' + money.format(perMonth) + '</strong> of revenue per month, from the numbers you entered. This is not a forecast.</p>' +

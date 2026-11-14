@@ -71,7 +71,7 @@ const faqs = [
           <li>Labeled Sponsored</li>
           <li>No contract, one-time payment</li>
         </ul>
-        <a class="btn btn-primary btn-lg btn-block" href={SPOTLIGHT.url} data-spotlight-checkout>Pay $49 for a 30-day industry spotlight</a>
+        <a class="btn btn-primary btn-lg btn-block" href={SPOTLIGHT.url} data-offer-checkout="spotlight">Pay $49 for a 30-day industry spotlight</a>
         <p class="assure"><strong>Full refund</strong> before it goes live, or in the first {SPOTLIGHT.refundDays} days after. <a href="/refunds/">Refund policy</a></p>
         <p class="note" style="margin-top:.85rem; font-size:.92rem;">After paying, email <a href="mailto:timothy@aiphonecompare.com?subject=Industry%20spotlight">timothy@aiphonecompare.com</a> with your company name and the industry you want.</p>
       </aside>
@@ -126,10 +126,4 @@ const faqs = [
 
   <OtherOffers />
 
-  <script>
-    import { track } from '../lib/analytics.mjs';
-    document.querySelectorAll('[data-spotlight-checkout]').forEach((link) => {
-      link.addEventListener('click', () => track('spotlight_checkout_clicked'));
-    });
-  </script>
 </Base>

@@ -69,6 +69,7 @@ const jsonld = {
   import vendors from '../../data/vendors.json';
   import models from '../../data/cost-models.json';
   import { matchVendors, money, MUST_LABEL } from '../../lib/match.mjs';
+  import { track } from '../../lib/analytics.mjs';
 
   const form = document.getElementById('match-form');
   const status = document.getElementById('match-status');
@@ -157,10 +158,16 @@ const jsonld = {
       note.append(link, document.createTextNode(' is labeled sponsored. It is not one of the three fits unless it also appears above.'));
       sponsoredBody.append(note);
     });
+    return result;
   }
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-    render();
+    const result = render();
+    track('tool_used', {
+      tool: 'match',
+      industry: String(new FormData(form).get('industry') || ''),
+      result_count: result.picks.length,
+    });
   });
 </script>
