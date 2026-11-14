@@ -82,7 +82,7 @@ const jsonld = {
       <h1 class="with-mark"><VendorMark slug={v.slug} name={v.name} />{v.name}</h1>
       {v.sponsored && <p><span class="badge">Sponsored</span></p>}
       <AnswerSummary sentences={summary} verified={v.last_checked} sources={summarySources} />
-      {outbound && <p class="lead" style="margin-top:14px"><a href={outbound.href} rel={outbound.rel}>{v.website || outbound.href}</a></p>}
+      {outbound && <p class="lead" style="margin-top:14px"><a href={outbound.href} rel={outbound.rel} data-vendor-slug={v.slug} data-vendor-referral={outbound.isReferral ? "1" : "0"}>{v.website || outbound.href}</a></p>}
       {outbound?.isReferral && <p class="note referral-note">{REFERRAL_NOTE}</p>}
     </div>
   </header>

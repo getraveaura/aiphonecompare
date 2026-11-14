@@ -100,6 +100,7 @@ const jsonld = {
 <script>
   import models from '../data/cost-models.json';
   import { estimateAll, formatUsd } from '../lib/cost.mjs';
+  import { track } from '../lib/analytics.mjs';
   const form = document.getElementById('cost-form');
   const status = document.getElementById('cost-status');
   function value(id) {
@@ -111,6 +112,7 @@ const jsonld = {
     if (plan.status === 'partial') return `Partial subtotal ${formatUsd(plan.scenarioCents)}. ${plan.reason}`;
     return `Cannot estimate. ${plan.reason}`;
   }
+  let lastTracked = '';
   function update() {
     const input = { calls: value('calls'), durationMinutes: value('duration'), uniqueCallers: value('unique') };
     const results = estimateAll(models.providers, input);
@@ -130,6 +132,11 @@ const jsonld = {
     }
     if (status) {
       status.textContent = `${estimated} rows have a monthly scenario, ${partial} are partial subtotals, and ${blocked} cannot be estimated. This is not a ranking.`;
+    }
+    const key = `${input.calls}|${input.durationMinutes}|${input.uniqueCallers}`;
+    if (key !== lastTracked && (input.calls !== '' || input.durationMinutes !== '')) {
+      lastTracked = key;
+      track('tool_used', { tool: 'cost_method', estimated, partial, blocked });
     }
   }
   if (form) {

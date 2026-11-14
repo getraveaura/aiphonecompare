@@ -72,7 +72,7 @@ const industries = [
       status.textContent = storiesSignupMessage(code, ok);
       if (ok) {
         form.reset();
-        track('stories_signup_submitted', { industry: payload.industry });
+        track('lead_submit', { source: 'stories_signup', industry: payload.industry });
       }
     });
   }

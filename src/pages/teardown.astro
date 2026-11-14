@@ -66,7 +66,7 @@ const faqs = [
         <li><strong>Just send your URL.</strong> No logins, no calls.</li>
         <li><strong>Web page + PDF</strong> you can share with your team.</li>
       </ul>
-      <a class="btn btn-primary td-cta" href={TEARDOWN.url} data-teardown-checkout>Get your teardown for ${price}</a>
+      <a class="btn btn-primary td-cta" href={TEARDOWN.url} data-offer-checkout="teardown">Get your teardown for ${price}</a>
       <p class="td-refund"><strong>Full refund if it's not useful.</strong> Just tell us within {TEARDOWN.refundDays} days. <a href="/refunds/#teardown">Refund policy</a></p>
       <p class="td-mail">Questions first? Email <a href="mailto:timothy@aiphonecompare.com?subject=Competitor%20teardown">timothy@aiphonecompare.com</a></p>
     </aside>
@@ -112,9 +112,6 @@ const faqs = [
       banner.hidden = false;
       track('teardown_paid_return');
     }
-    document.querySelectorAll('[data-teardown-checkout]').forEach((link) => {
-      link.addEventListener('click', () => track('teardown_checkout_clicked'));
-    });
   </script>
 </Base>
 

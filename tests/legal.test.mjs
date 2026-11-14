@@ -71,7 +71,7 @@ test('the stories form posts to the shared lead endpoint', () => {
   const signup = read('src/components/Signup.astro');
   assert.ok(signup.includes('LEAD_ENDPOINT'));
   assert.ok(signup.includes('name="company_website"'));
-  assert.ok(signup.includes("track('stories_signup_submitted'"));
+  assert.ok(signup.includes("track('lead_submit'"));
   assert.ok(!signup.includes('signup.json'));
   assert.match(LEAD_ENDPOINT, /\/functions\/v1\/apc-lead$/);
 });

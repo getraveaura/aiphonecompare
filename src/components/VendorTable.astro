@@ -1,5 +1,6 @@
 ---
 import { sponsoredLabel } from '../lib/spotlight.mjs';
+import { outboundLink } from '../lib/outbound.mjs';
 const { vendors, industry = '', caption = 'Blank means not verified. Open a vendor for sources and the date we checked.' } = Astro.props;
 const spotlightLink = (v) => (/^https:\/\//.test(v.spotlight?.href || '') ? v.spotlight.href : '');
 const cols = [
@@ -27,7 +28,7 @@ const cols = [
             <a href={`/vendors/${v.slug}/`}>{v.name}</a>
             {sponsoredLabel(v, industry) && <span class="badge">Sponsored</span>}
             {industry && sponsoredLabel(v, industry) && (v.spotlight.line || spotlightLink(v)) && (
-              <span class="spotlight-line">{v.spotlight.line}{v.spotlight.line && spotlightLink(v) && ' '}{spotlightLink(v) && <a href={spotlightLink(v)} rel="sponsored noopener">Visit {v.name}</a>}</span>
+              <span class="spotlight-line">{v.spotlight.line}{v.spotlight.line && spotlightLink(v) && ' '}{spotlightLink(v) && <a href={spotlightLink(v)} rel="sponsored noopener" data-vendor-slug={v.slug} data-vendor-referral={outboundLink(v)?.isReferral ? "1" : "0"}>Visit {v.name}</a>}</span>
             )}
           </th>
           {cols.map(([key, label]) => (
