@@ -11,8 +11,17 @@ export const INDUSTRIES = [
 const LABEL = Object.fromEntries(INDUSTRIES.map(([id, label]) => [id, label]));
 const HREF = Object.fromEntries(INDUSTRIES.map(([id, , href]) => [id, href]));
 
+const EXTRA_LABEL = {
+  chiropractic: 'Chiropractic',
+  property: 'Property management',
+  auto: 'Auto repair',
+  salon: 'Salons',
+  therapy: 'Therapy',
+  general: 'General',
+};
+
 export function industryLabel(id) {
-  return LABEL[id] || id;
+  return LABEL[id] || EXTRA_LABEL[id] || id;
 }
 
 export function industryHref(id) {

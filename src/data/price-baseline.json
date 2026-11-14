@@ -6,21 +6,21 @@
       "slug": "smith-ai",
       "name": "Smith.ai",
       "starting_price": "Free AI tier (25 calls); AI paid from $150/mo; live agents from $300/mo",
-      "last_checked": "2026-11-13",
+      "last_checked": "2026-11-14",
       "source": "https://smith.ai/blog/top-9-best-ai-answering-services-for-law-firms-and-agencies"
     },
     {
       "slug": "goodcall",
       "name": "Goodcall",
-      "starting_price": "Starter $79/mo for 100 unique customers, then 79¢ each; Growth $129/mo; Scale $299/mo",
-      "last_checked": "2026-11-13",
+      "starting_price": "Starter $79/mo for 100 unique customers, then 79\u00a2 each; Growth $129/mo; Scale $299/mo",
+      "last_checked": "2026-11-14",
       "source": "https://www.goodcall.com/answering-services/ai-answering-service-healthcare-medical-offices-2025"
     },
     {
       "slug": "dialzara",
       "name": "Dialzara",
       "starting_price": "From $29/mo for 60 minutes",
-      "last_checked": "2026-11-13",
+      "last_checked": "2026-11-14",
       "source": "https://justcall.io/blog/best-ai-receptionists-dental.html"
     },
     {
@@ -125,21 +125,21 @@
       "slug": "abby-connect",
       "name": "Abby Connect",
       "starting_price": "Starter $164/mo for 50 Abby Minutes (up to 100 minutes of AI answering); Essential $329/mo for 100 Abby Minutes",
-      "last_checked": "2026-11-13",
+      "last_checked": "2026-11-14",
       "source": "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/"
     },
     {
       "slug": "rosie",
       "name": "Rosie",
       "starting_price": "From $49/mo for 250 minutes; booking & transfers from $149/mo (1,000 minutes)",
-      "last_checked": "2026-11-13",
+      "last_checked": "2026-11-14",
       "source": "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/"
     },
     {
       "slug": "my-ai-front-desk",
       "name": "My AI Front Desk",
       "starting_price": "Pricing page: $99/mo, or $79/mo billed annually, including 200 voice minutes. The medical page also prints $109/mo",
-      "last_checked": "2026-11-13",
+      "last_checked": "2026-11-14",
       "source": "https://www.myaifrontdesk.com/answering-service-for-medical-offices"
     },
     {
@@ -160,7 +160,7 @@
       "slug": "nextphone",
       "name": "NextPhone",
       "starting_price": "From $199/mo, unlimited inbound calls",
-      "last_checked": "2026-11-13",
+      "last_checked": "2026-11-14",
       "source": "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
     },
     {
@@ -202,7 +202,7 @@
       "slug": "upfirst",
       "name": "Upfirst",
       "starting_price": "Starter $24.95/mo billed monthly for 30 calls ($20/mo billed annually)",
-      "last_checked": "2026-11-13",
+      "last_checked": "2026-11-14",
       "source": "https://upfirst.ai/pricing"
     },
     {
@@ -272,7 +272,7 @@
       "slug": "agentzap",
       "name": "AgentZap",
       "starting_price": "Starter $109/mo (150 min, $0.85/min overage); Professional $295/mo (450 min); Business $899/mo (1,500 min); + $499 one-time setup",
-      "last_checked": "2026-11-13",
+      "last_checked": "2026-11-14",
       "source": "https://agentzap.ai/pricing"
     },
     {
@@ -316,6 +316,41 @@
       "starting_price": "Essentials $49/mo for 300 minutes, done-for-you setup included; Pro $99/mo for 700 minutes; Growth $149/mo for 1,000; Scale $249/mo for 2,000",
       "last_checked": "2026-11-13",
       "source": "https://zinng.ai"
+    },
+    {
+      "slug": "marlie-ai",
+      "name": "Marlie AI",
+      "starting_price": "Basic $49/mo for 250 minutes, then $0.35/min; Standard $99/mo for 500 minutes, then $0.35/min; Pro $199/mo for 1,000 minutes, then $0.30/min; Premium $399/mo for 2,000 minutes, then $0.25/min",
+      "last_checked": "2026-11-14",
+      "source": "https://www.marlie.ai/pricing"
+    },
+    {
+      "slug": "autoleap-air",
+      "name": "AutoLeap AIR",
+      "starting_price": "Pay as you go $1/call, no contracts and no minimum spend; Starter $99/mo for 200 calls, then $0.75/call; Growth $199/mo for 500 calls (the card also says 100 calls free), then $0.75/call. A $100 set-up fee may apply",
+      "last_checked": "2026-11-14",
+      "source": "https://autoleap.com/air/"
+    },
+    {
+      "slug": "shopmonkey-concierge",
+      "name": "Shopmonkey Concierge",
+      "starting_price": "Concierge add-on $134/mo with annual pricing or $149/mo monthly, on top of a Shopmonkey plan. The CRM Essentials bundle (Concierge, Reviews Manager, and Campaigns) is $314/mo with annual pricing or $349/mo monthly",
+      "last_checked": "2026-11-14",
+      "source": "https://www.shopmonkey.io/pricing"
+    },
+    {
+      "slug": "callpad",
+      "name": "CallPad",
+      "starting_price": "From US$150/mo per location in the US (from \u00a3100 in the UK, A$200 in Australia, and C$190 in Canada). Flat rate with all minutes included; the exact plan price depends on the plan and number of calendars and is given as a quote. New accounts get a free month",
+      "last_checked": "2026-11-14",
+      "source": "https://www.callpad.ai/pricing"
+    },
+    {
+      "slug": "glossgenius-reception",
+      "name": "GlossGenius Reception",
+      "starting_price": "The Reception product page says it is free on GlossGenius until 30 November 2026. The pricing page lists Reception by GlossGenius at $50/month. Included call or text minutes after the free period are not published on the pricing page",
+      "last_checked": "2026-11-14",
+      "source": "https://glossgenius.com/pricing"
     }
   ]
 }

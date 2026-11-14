@@ -12,9 +12,12 @@
     "industries": [
       "dental",
       "legal",
-      "plumbing"
+      "plumbing",
+      "chiropractic",
+      "property",
+      "auto"
     ],
-    "notes": "AI plus 500+ legally trained live agents.",
+    "notes": "AI plus 500+ legally trained live agents. Has its own industry pages for chiropractic practices, property management companies, and car dealers and repair shops. A salon industry page was not found at the usual Smith.ai industry URL.",
     "sponsored": false,
     "sources": [
       "https://smith.ai/pricing/ai-receptionist",
@@ -22,11 +25,14 @@
       "https://smith.ai/blog/top-9-best-ai-answering-services-for-law-firms-and-agencies",
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/",
-      "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+      "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers",
+      "https://smith.ai/industries/chiropractors-answering-service",
+      "https://smith.ai/industries/property-management-answering-service",
+      "https://smith.ai/industries/car-dealers-repair-shops-answering-service"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
@@ -35,7 +41,7 @@
     "slug": "goodcall",
     "name": "Goodcall",
     "website": "https://www.goodcall.com",
-    "starting_price": "Starter $79/mo for 100 unique customers, then 79¢ each; Growth $129/mo; Scale $299/mo",
+    "starting_price": "Starter $79/mo for 100 unique customers, then 79\u00a2 each; Growth $129/mo; Scale $299/mo",
     "billing_model": "Flat monthly, metered on unique callers",
     "free_trial": "Free demo agent; paying starts when a phone number and plan are added",
     "human_handoff": "FAQ: configure an escalation contact so the agent can transfer the caller to a person",
@@ -45,9 +51,10 @@
       "dental",
       "legal",
       "plumbing",
-      "medical"
+      "medical",
+      "property"
     ],
-    "notes": "Own healthcare page names primary care, specialty practices, dental, mental health, and urgent care. No native dental PMS write-back was restated on that page.",
+    "notes": "Own healthcare page names primary care, specialty practices, dental, mental health, and urgent care. No native dental PMS write-back was restated on that page. Does not have a standalone property-management industry page in the same style as some peers. It is included for property managers because its own Rent Manager integration page is written for property management and repeats plans from $79 a month.",
     "sponsored": false,
     "sources": [
       "https://www.goodcall.com/pricing",
@@ -55,11 +62,12 @@
       "https://www.goodcall.com/faq",
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
-      "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+      "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
+      "https://www.goodcall.com/business-productivity-ai/rentmanager"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
@@ -77,20 +85,28 @@
     "industries": [
       "dental",
       "legal",
-      "plumbing"
+      "plumbing",
+      "chiropractic",
+      "property",
+      "auto",
+      "salon"
     ],
-    "notes": "10 languages advertised (per Technology.org).",
+    "notes": "10 languages advertised (per Technology.org). Has its own industry pages for chiropractors, property managers, auto repair shops, and salons.",
     "sponsored": false,
     "sources": [
       "https://dialzara.com/pricing",
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.legaltexastx.com/best-ai-receptionist-for-law-firms-5-tools-for-2026/",
-      "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
+      "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
+      "https://dialzara.com/industries/chiropractors",
+      "https://dialzara.com/industries/property-management",
+      "https://dialzara.com/industries/automotive",
+      "https://dialzara.com/industries/salons"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
@@ -137,15 +153,17 @@
     "integrations": "CRM logging; PMS via custom API",
     "industries": [
       "dental",
-      "medical"
+      "medical",
+      "auto"
     ],
-    "notes": "Healthcare page describes AI Voice Agent for patient calls, bookings, and transfers. A standalone monthly price for the agent alone is not published on the pricing page.",
+    "notes": "Healthcare page describes AI Voice Agent for patient calls, bookings, and transfers. A standalone monthly price for the agent alone is not published on the pricing page. Has its own product page for an AI answering service for auto repair shops and dealerships. The starting price was last checked on the pricing page on 13 November 2026.",
     "sponsored": false,
     "sources": [
       "https://justcall.io/pricing/",
       "https://justcall.io/industry/healthcare/",
       "https://www.justcall.io/pricing/",
-      "https://justcall.io/blog/best-ai-receptionists-dental.html"
+      "https://justcall.io/blog/best-ai-receptionists-dental.html",
+      "https://justcall.io/product/ai-voice-agent/auto-delearships-and-repairs/"
     ],
     "last_checked": "2026-11-13",
     "price_check": {
@@ -488,21 +506,23 @@
     "integrations": "Clio, Clio Grow, Lawmatics, Salesforce, HubSpot, Zapier; ServiceTitan, Housecall Pro, Jobber native",
     "industries": [
       "legal",
-      "plumbing"
+      "plumbing",
+      "property"
     ],
-    "notes": "",
+    "notes": "Has its own industry page for property managers and landlords.",
     "sponsored": false,
     "sources": [
       "https://www.abby.com/pricing/",
       "https://www.abby.com/products/ai-receptionist/",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
-      "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+      "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers",
+      "https://www.abby.com/industries/property-management/"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
-      "result": "changed",
-      "note": "Read on abby.com/pricing and the AI receptionist page. The separate $99 AI plan is gone; see the price change log."
+      "date": "2026-11-14",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
     }
   },
   {
@@ -518,19 +538,27 @@
     "integrations": "Zapier, calendars",
     "industries": [
       "legal",
-      "plumbing"
+      "plumbing",
+      "chiropractic",
+      "property",
+      "auto",
+      "salon"
     ],
-    "notes": "English and Spanish.",
+    "notes": "English and Spanish. Has its own industry pages for chiropractors, property management, automotive (auto repair and maintenance), and spas and salons.",
     "sponsored": false,
     "sources": [
       "https://heyrosie.com/pricing",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
-      "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
+      "https://www.thedbt.ai/blog/best-plumbing-answering-services/",
+      "https://heyrosie.com/industries/chiropractors",
+      "https://heyrosie.com/industries/property-management",
+      "https://heyrosie.com/industries/automotive",
+      "https://heyrosie.com/industries/salons"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
@@ -547,19 +575,27 @@
     "integrations": "Medical page names Athenahealth, Epic, Cerner, eClinicalWorks, and Practice Fusion. Pricing page names Zapier on the $99 plan",
     "industries": [
       "legal",
-      "medical"
+      "medical",
+      "chiropractic",
+      "property",
+      "auto",
+      "salon"
     ],
-    "notes": "The pricing page and the medical page do not print the same monthly amount.",
+    "notes": "The pricing page and the medical page do not print the same monthly amount. Has its own industry pages for chiropractors, property management, auto repair shops, and salons and spas.",
     "sponsored": false,
     "sources": [
       "https://www.myaifrontdesk.com/pricing",
       "https://www.myaifrontdesk.com/answering-service-for-medical-offices",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
-      "https://theraindex.com/blog/best-ai-tools-for-therapists-2026"
+      "https://theraindex.com/blog/best-ai-tools-for-therapists-2026",
+      "https://www.myaifrontdesk.com/ai-receptionist/chiropractors",
+      "https://www.myaifrontdesk.com/ai-answering-service-for-property-management",
+      "https://www.myaifrontdesk.com/ai-receptionist/auto-repair",
+      "https://www.myaifrontdesk.com/ai-receptionist/salons-and-spas"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
@@ -624,22 +660,29 @@
     "referral_url": "https://getnextphone.com/i/timothy",
     "starting_price": "From $199/mo, unlimited inbound calls",
     "billing_model": "Flat monthly",
-    "free_trial": "",
+    "free_trial": "Pricing page: 7 days free on the self-serve Pro plan",
     "human_handoff": "Transfers emergencies to on-call number",
     "hipaa_baa": "",
     "integrations": "Jobber direct (Growth $299 plan); Zapier for ServiceTitan, Housecall Pro",
     "industries": [
-      "plumbing"
+      "plumbing",
+      "property",
+      "auto",
+      "salon"
     ],
-    "notes": "",
+    "notes": "Has its own industry pages for property management, auto repair shops, salons and spas, and nail salons. A chiropractor industry page was not found at the usual NextPhone industry URL.",
     "sponsored": false,
     "sources": [
       "https://www.getnextphone.com/pricing",
-      "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers"
+      "https://www.getnextphone.com/blog/best-ai-receptionist-for-plumbers",
+      "https://www.getnextphone.com/answering-service-for-property-management",
+      "https://www.getnextphone.com/answering-service-for-auto-repair",
+      "https://www.getnextphone.com/answering-service-for-salons",
+      "https://www.getnextphone.com/answering-service-for-nail-salons"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
@@ -789,18 +832,26 @@
     "integrations": "Google Calendar, Outlook, Calendly, Acuity, and Zapier",
     "industries": [
       "plumbing",
-      "medical"
+      "medical",
+      "chiropractic",
+      "property",
+      "auto",
+      "salon"
     ],
-    "notes": "The hospice page and the Enterprise pricing line do not say the same thing about HIPAA.",
+    "notes": "The hospice page and the Enterprise pricing line do not say the same thing about HIPAA. Has its own industry pages for chiropractic practices, property management, automotive businesses (including mechanic shops), and salons.",
     "sponsored": false,
     "sources": [
       "https://upfirst.ai/pricing",
       "https://upfirst.ai/industries/hospice",
-      "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
+      "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/",
+      "https://upfirst.ai/industries/chiropractic",
+      "https://upfirst.ai/industries/property-management",
+      "https://upfirst.ai/industries/automotive",
+      "https://upfirst.ai/industries/salons"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
@@ -1053,21 +1104,27 @@
     "starting_price": "Starter $109/mo (150 min, $0.85/min overage); Professional $295/mo (450 min); Business $899/mo (1,500 min); + $499 one-time setup",
     "billing_model": "Monthly + per-minute overage",
     "free_trial": "30-day money-back guarantee",
-    "human_handoff": "",
-    "hipaa_baa": "",
-    "integrations": "",
+    "human_handoff": "Pricing page says AI can tap in live agents at your discretion, and that an unexpected technical issue escalates to a live agent.",
+    "hipaa_baa": "Pricing page is labeled HIPAA Compliant. A Business Associate Agreement is not stated on that page.",
+    "integrations": "Chiropractic page names ChiroTouch, Jane App, Genesis, Platinum System, and ChiroFusion. Auto-repair page names Mitchell 1, ShopWare, Tekmetric, Shop-Ware, AutoFluent, and ALLDATA. Salon page names Vagaro, Boulevard, Fresha, and Mangomint. Pricing page names Google Calendar, Outlook, and Calendly, and notes that some practice-management integrations (for example Clio, ServiceTitan, Dentrix) may need extra setup outside the one-time training and setup fee, with integration fees included on the Managed plan.",
     "industries": [
-      "therapy"
+      "therapy",
+      "chiropractic",
+      "auto",
+      "salon"
     ],
-    "notes": "AI receptionist for therapy practices with crisis routing.",
+    "notes": "AI receptionist for therapy practices with crisis routing. Also has its own industry pages for chiropractors, auto repair shops, and hair salons. Pricing is also shown on those industry pages, matching the pricing page.",
     "sponsored": false,
     "sources": [
       "https://agentzap.ai/pricing",
-      "https://theraindex.com/blog/best-ai-tools-for-therapists-2026"
+      "https://theraindex.com/blog/best-ai-tools-for-therapists-2026",
+      "https://agentzap.ai/industries/chiropractic",
+      "https://agentzap.ai/industries/auto-repair",
+      "https://agentzap.ai/industries/salon"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-14",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
@@ -1226,6 +1283,136 @@
     "last_checked": "2026-11-13",
     "price_check": {
       "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
+  },
+  {
+    "slug": "marlie-ai",
+    "name": "Marlie AI",
+    "website": "https://www.marlie.ai",
+    "starting_price": "Basic $49/mo for 250 minutes, then $0.35/min; Standard $99/mo for 500 minutes, then $0.35/min; Pro $199/mo for 1,000 minutes, then $0.30/min; Premium $399/mo for 2,000 minutes, then $0.25/min",
+    "billing_model": "Monthly with included minutes, then per-minute overage",
+    "free_trial": "14-day free trial. The pricing page also mentions a 2-week money-back guarantee.",
+    "human_handoff": "The property-management page describes cascading transfers that try the superintendent, then a backup, then the property manager, until someone answers.",
+    "hipaa_baa": "",
+    "integrations": "The property-management page names logging interactions into Buildium, and also names DoorLoop, Rent Manager, and LeadSimple. The pricing page says 8,000+ integrations.",
+    "industries": [
+      "property"
+    ],
+    "notes": "Has a dedicated property-management answering-service page. Plans are cancel-anytime with no long-term contracts, per the pricing page.",
+    "sponsored": false,
+    "sources": [
+      "https://www.marlie.ai/pricing",
+      "https://www.marlie.ai/industries/property-management-answering-service"
+    ],
+    "last_checked": "2026-11-14",
+    "price_check": {
+      "date": "2026-11-14",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
+  },
+  {
+    "slug": "autoleap-air",
+    "name": "AutoLeap AIR",
+    "website": "https://autoleap.com",
+    "starting_price": "Pay as you go $1/call, no contracts and no minimum spend; Starter $99/mo for 200 calls, then $0.75/call; Growth $199/mo for 500 calls (the card also says 100 calls free), then $0.75/call. A $100 set-up fee may apply",
+    "billing_model": "Per call, or monthly call bundles with per-call overage",
+    "free_trial": "The AIR page advertised a limited-time offer of 30 days free, with no commitments needed, when checked on 14 November 2026",
+    "human_handoff": "The AIR page lists agent call forwarding so calls can be routed to a team member if the customer needs to talk to an employee.",
+    "hipaa_baa": "",
+    "integrations": "The AIR page is built for auto shops on AutoLeap. The sign-up form asks which shop management system you currently use. Named third-party shop systems are not listed as AIR integrations on the AIR page itself.",
+    "industries": [
+      "auto"
+    ],
+    "notes": "AutoLeap AIR is the vendor\u2019s AI receptionist for auto shops. Prices were read on autoleap.com/air/.",
+    "sponsored": false,
+    "sources": [
+      "https://autoleap.com/air/",
+      "https://autoleap.com/pricing/"
+    ],
+    "last_checked": "2026-11-14",
+    "price_check": {
+      "date": "2026-11-14",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
+  },
+  {
+    "slug": "shopmonkey-concierge",
+    "name": "Shopmonkey Concierge",
+    "website": "https://www.shopmonkey.io",
+    "starting_price": "Concierge add-on $134/mo with annual pricing or $149/mo monthly, on top of a Shopmonkey plan. The CRM Essentials bundle (Concierge, Reviews Manager, and Campaigns) is $314/mo with annual pricing or $349/mo monthly",
+    "billing_model": "Monthly add-on to a Shopmonkey plan; the pricing page offers monthly plans and annual savings of up to 10%",
+    "free_trial": "",
+    "human_handoff": "The Concierge product page says it can transfer calls when a customer needs, or prefers, someone from the team.",
+    "hipaa_baa": "",
+    "integrations": "Built into Shopmonkey. The Concierge page says shops stay in Shopmonkey for notifications, call details, appointments, and follow-up.",
+    "industries": [
+      "auto"
+    ],
+    "notes": "Concierge is sold as a paid add-on on the Shopmonkey pricing page, not as a standalone receptionist for shops that do not use Shopmonkey. The two dollar amounts on the Concierge card follow the same annual-versus-monthly pattern as the main Shopmonkey plans (about 10% off with annual pricing). The product page does not publish an included call count.",
+    "sponsored": false,
+    "sources": [
+      "https://www.shopmonkey.io/pricing",
+      "https://www.shopmonkey.io/product/automotive-marketing/concierge"
+    ],
+    "last_checked": "2026-11-14",
+    "price_check": {
+      "date": "2026-11-14",
+      "result": "confirmed",
+      "note": "Add-on prices read on the vendor\u2019s own pricing page. Annual versus monthly is inferred from the page\u2019s annual-savings toggle and the same ~10% gap used on the main plans."
+    }
+  },
+  {
+    "slug": "callpad",
+    "name": "CallPad",
+    "website": "https://www.callpad.ai",
+    "starting_price": "From US$150/mo per location in the US (from \u00a3100 in the UK, A$200 in Australia, and C$190 in Canada). Flat rate with all minutes included; the exact plan price depends on the plan and number of calendars and is given as a quote. New accounts get a free month",
+    "billing_model": "Flat monthly per location, all minutes included",
+    "free_trial": "New accounts get a free month, per the pricing page. Cancel at any time, with the next invoice after canceling as the final invoice.",
+    "human_handoff": "The pricing page says it supports the team, with staff involved when a conversation needs a human touch.",
+    "hipaa_baa": "Homepage FAQ: CallPad offers a BAA.",
+    "integrations": "Homepage says it works live with Mindbody, Booker, Zenoti, Square, GlossGenius, Setmore, Zoho Bookings, Phorest, SalonIQ, Salon Manager, Shortcuts, Simple Salon, Cliniko, Google Calendar, and HubSpot, and that Vagaro, Timely, Kitomba, Booksy, Treatwell, Pabau, and Meevo are live too. It asks you to contact them about Fresha or another system.",
+    "industries": [
+      "salon"
+    ],
+    "notes": "CallPad is an AI receptionist built for salons and other beauty and wellness businesses. US, UK, Australia, and Canada pricing is published; other regions are not stated on the pricing page.",
+    "sponsored": false,
+    "sources": [
+      "https://www.callpad.ai/pricing",
+      "https://www.callpad.ai/"
+    ],
+    "last_checked": "2026-11-14",
+    "price_check": {
+      "date": "2026-11-14",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
+  },
+  {
+    "slug": "glossgenius-reception",
+    "name": "GlossGenius Reception",
+    "website": "https://glossgenius.com",
+    "starting_price": "The Reception product page says it is free on GlossGenius until 30 November 2026. The pricing page lists Reception by GlossGenius at $50/month. Included call or text minutes after the free period are not published on the pricing page",
+    "billing_model": "Monthly add-on to GlossGenius, after the published free period",
+    "free_trial": "Free on GlossGenius until 30 November 2026, per the Reception product page.",
+    "human_handoff": "",
+    "hipaa_baa": "",
+    "integrations": "Books into the GlossGenius calendar, per the pricing page and the Reception product page.",
+    "industries": [
+      "salon"
+    ],
+    "notes": "Reception answers calls and texts 24/7 and books, reschedules, or cancels in the GlossGenius calendar, following the business\u2019s cancellation and rescheduling policies. It is an add-on for GlossGenius users, not a standalone receptionist for shops on other platforms.",
+    "sponsored": false,
+    "sources": [
+      "https://glossgenius.com/pricing",
+      "https://genius.ai/reception"
+    ],
+    "last_checked": "2026-11-14",
+    "price_check": {
+      "date": "2026-11-14",
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }

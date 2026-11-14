@@ -91,18 +91,31 @@ test('the roofing guide is honest about using the home-services directory', () =
   assert.ok(page.related.some((link) => link.href === '/cost/missed-call/'));
 });
 
-test('guides without sourced listings say so and have an empty table', () => {
-  for (const path of ['/best/chiropractors/', '/best/property-management/', '/best/auto-repair/', '/best/salons/']) {
+test('the newer industry guides list only vendors with their own industry pages', () => {
+  const expected = {
+    '/best/chiropractors/': ['agentzap', 'dialzara', 'my-ai-front-desk', 'rosie', 'smith-ai', 'upfirst'],
+    '/best/property-management/': ['abby-connect', 'dialzara', 'goodcall', 'marlie-ai', 'my-ai-front-desk', 'nextphone', 'rosie', 'smith-ai', 'upfirst'],
+    '/best/auto-repair/': ['agentzap', 'autoleap-air', 'dialzara', 'justcall', 'my-ai-front-desk', 'nextphone', 'rosie', 'shopmonkey-concierge', 'smith-ai', 'upfirst'],
+    '/best/salons/': ['agentzap', 'callpad', 'dialzara', 'glossgenius-reception', 'my-ai-front-desk', 'nextphone', 'rosie', 'upfirst'],
+  };
+  for (const [path, slugs] of Object.entries(expected)) {
     const page = pages.find((item) => item.path === path);
     assert.ok(page, path);
-    assert.equal(page.vendors.length, 0);
-    assert.match(page.scope, /does not keep an? .+ directory/i);
-    assert.match(page.emptyLine || page.summary[0], /no sourced vendor listings/i);
+    assert.match(page.scope, /does not keep a separate .+ directory/i);
+    assert.match(page.lede, /not a ranked list/i);
+    assert.deepEqual(page.vendors.map((vendor) => vendor.slug), slugs);
+    assert.ok(page.vendors.length > 0);
     assert.equal(page.dfyPath, '/done-for-you/');
     assert.ok(page.related.some((link) => link.href === '/done-for-you/'));
+    assert.ok(!page.industryPath);
   }
   const salon = pages.find((item) => item.path === '/best/salons/');
   assert.match(salon.scope, /med spas are covered on a separate guide/i);
+  assert.ok(salon.related.some((link) => link.href === '/best/med-spas/'));
   const chiro = pages.find((item) => item.path === '/best/chiropractors/');
-  assert.match(chiro.scope, /are not used here/i);
+  assert.match(chiro.scope, /not copied here in full/i);
+  const property = pages.find((item) => item.path === '/best/property-management/');
+  assert.match(property.scope, /Rent Manager integration page/i);
+  const auto = pages.find((item) => item.path === '/best/auto-repair/');
+  assert.match(auto.scope, /add-on to a Shopmonkey plan/i);
 });
