@@ -174,7 +174,7 @@ function budgetRelation(estimate, budget) {
 export function matchVendors(vendors, models, input) {
   const industry = input.industry;
   const required = MUST.filter((key) => input.must && input.must[key]);
-  const pool = vendors.filter((vendor) => !industry || (vendor.industries || []).includes(industry));
+  const pool = vendors.filter((vendor) => vendor?.site_status?.status !== 'offline' && (!industry || (vendor.industries || []).includes(industry)));
   const ranked = pool.map((vendor) => {
     const features = featureState(vendor, models);
     const estimate = estimateVendor(vendor, models, input);

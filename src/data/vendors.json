@@ -782,7 +782,7 @@
     "industries": [
       "plumbing"
     ],
-    "notes": "",
+    "notes": "Site offline as of 14 Nov 2026.",
     "sponsored": false,
     "sources": [
       "https://www.tradesanswered.com/blog/best-ai-receptionist-for-plumbers/"
@@ -792,6 +792,11 @@
       "date": "2026-11-13",
       "result": "not-confirmed",
       "note": "pickupbell.com returned 503 to every request on 13 Nov 2026, so the price could not be read today. It stays as reported by Trades Answered."
+    },
+    "site_status": {
+      "status": "offline",
+      "since": "2026-11-14",
+      "note": "pickupbell.com returned HTTP 503 (\"This Deployment is paused by the owner\") on 13 and 14 Nov 2026. The listing stays up; its price and trial are as last reported and may no longer apply."
     }
   },
   {
@@ -888,7 +893,7 @@
     "website": "https://www.withallo.com",
     "starting_price": "Business seat $45/user/mo billed monthly ($32 billed yearly); AI Receptionist add-on priced like a Business seat ($32/mo per agent billed yearly)",
     "billing_model": "Per seat, plus a per-agent AI Receptionist add-on",
-    "free_trial": "7-day trial",
+    "free_trial": "3-day free trial, card on file (charged on day 3)",
     "human_handoff": "",
     "hipaa_baa": "",
     "integrations": "",
@@ -900,13 +905,19 @@
     "sources": [
       "https://www.withallo.com/pricing",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers",
-      "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
+      "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers",
+      "https://www.withallo.com/"
     ],
     "last_checked": "2026-11-13",
     "price_check": {
       "date": "2026-11-13",
       "result": "confirmed",
       "note": "Read on withallo.com/pricing. Same $45 seat price as before, with the add-on now spelled out."
+    },
+    "trial_check": {
+      "date": "2026-11-14",
+      "source": "https://www.withallo.com/",
+      "note": "Allo's FAQ: \"There is a 3-day free trial. You leave a card on file and it is only charged on day 3.\" Earlier listing said 7-day trial."
     }
   },
   {

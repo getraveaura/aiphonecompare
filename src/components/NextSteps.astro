@@ -1,0 +1,26 @@
+---
+// Tidy "Next steps" block: up to 3 action cards, a small trust note, and an
+// optional "Other industries" chip row. Replaces run-on link paragraphs.
+const { cards = [], others = [], othersLabel = 'Other industries', trust = 'Sponsored listings are labeled. Rankings are not for sale.' } = Astro.props;
+---
+<nav class="next-steps" aria-labelledby="next-steps-title">
+  <h2 id="next-steps-title" class="next-steps-title">Next steps</h2>
+  <ul class="next-cards" role="list">
+    {cards.filter((c) => c && c.href).map((c) => (
+      <li>
+        <a href={c.href}>
+          <span class="next-card-title">{c.title}</span>
+          {c.text && <span class="next-card-text">{c.text}</span>}
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  {trust && <p class="next-trust">{trust}</p>}
+  {others.length > 0 && (
+    <div class="next-others">
+      <span class="next-others-label">{othersLabel}:</span>
+      <ul class="link-chips" role="list">{others.map((o) => <li><a href={o.href}>{o.label}</a></li>)}</ul>
+    </div>
+  )}
+</nav>

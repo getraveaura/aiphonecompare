@@ -1,4 +1,6 @@
 ---
+import GridCta from '../../components/GridCta.astro';
+import { offlineLabel } from '../../lib/site-status.mjs';
 import PlainIntro from '../../components/PlainIntro.astro';
 import Base from '../../layouts/Base.astro';
 import VendorMark from '../../components/VendorMark.astro';
@@ -46,18 +48,20 @@ const jsonld = {
   <div class="wrap stack">
     <p>Names are alphabetical. That order is not a ranking. Where the dataset has no starting price, the card says Not verified. Open a vendor for the source and the date we checked it. The same list is the <a href="/data/">open dataset</a>.</p>
     <p class="price-cards-caption" id="vendor-index-caption">Every vendor we track, A to Z. Sponsored spots are labeled. Not verified means no starting price was sourced.</p>
-    <ul class="price-cards vendor-index" role="list" aria-labelledby="vendor-index-caption">
+    <ul class="price-cards vendor-index balanced" role="list" aria-labelledby="vendor-index-caption">
       {vendors.map((vendor) => (
         <li class="price-card" id={vendor.slug}>
           <div class="price-card-head">
             <VendorMark slug={vendor.slug} name={vendor.name} />
             <h2><a href={`/vendors/${vendor.slug}/`}>{vendor.name}</a></h2>
             {isSponsored(vendor) && <span class="badge">Sponsored</span>}
+            {offlineLabel(vendor) && <span class="badge badge-warn">{offlineLabel(vendor)}</span>}
           </div>
           <PricePlans vendor={vendor} meta tags size="sm" max={3} />
           <p class="price-card-more"><a href={`/vendors/${vendor.slug}/`}>See details<span class="vh"> for {vendor.name}</span><span class="arrow" aria-hidden="true"> →</span></a></p>
         </li>
       ))}
+      <GridCta count={vendors.length} href="/match/" title="Find my best match" text="Not sure which one? Pick your industry, call volume and must-haves." />
     </ul>
     <AuditCta />
   </div>

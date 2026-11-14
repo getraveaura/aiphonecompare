@@ -9,6 +9,7 @@ import StoryCards from './StoryCards.astro';
 import Catches from './Catches.astro';
 import AnswerSummary from './AnswerSummary.astro';
 import AuditCta from './AuditCta.astro';
+import NextSteps from './NextSteps.astro';
 import { industrySummary, sourceLinks, articleNode, breadcrumbNode } from '../lib/answers.mjs';
 import data from '../data/vendors.json';
 import stories from '../data/stories.json';
@@ -76,21 +77,22 @@ const jsonld = {
       <h1>{title}</h1>
       <PlainIntro text={`Compare AI phone answering services for ${industryLabel(key).toLowerCase()} side by side: real starting prices, patient or client privacy, and whether a real person can take over the call.`} />
       <AnswerSummary sentences={summary} verified={latest} sources={summarySources} />
-      <p class="lead">Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a company publishes enough prices to work it out. <a href={`/cost/calculator/?industry=${key}&calls=150&minutes=3`}>Open the calculator</a>.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}{bestGuide && <> <a href={bestGuide.href}>{bestGuide.label}</a>.</>}</p>
+      <NextSteps
+        cards={[
+          { href: `/match/?industry=${key}`, title: 'Find my best match', text: 'Pick your call volume and must-haves' },
+          { href: `/cost/calculator/?industry=${key}&calls=150&minutes=3`, title: 'See my monthly cost', text: 'Estimate a bill from published prices' },
+          bestGuide ? { href: bestGuide.href, title: `Best for ${industryLabel(key).toLowerCase()}`, text: 'Plain-English buying guide' } : (costGuide ? { href: costGuide.href, title: costGuide.label, text: 'Cost examples from published prices' } : null),
+        ]}
+        others={industries.map(([, label, href]) => ({ href, label }))}
+      />
     </div>
   </header>
   <div class="wrap stack">
-    <p>
-      Other industries:
-      {industries.map(([id, label, href], i) => <>{i ? ', ' : ''}<a href={href}>{label}</a></>)}.
-      All published starting prices are on <a href="/pricing/">pricing</a>.
-      Call recording rules are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.
-      <a href={`/match/?industry=${key}`}>Match a tool to a call volume</a>.
-    </p>
     <section class="guide" aria-label={guideTitle}>
       <h2>{guideTitle}</h2>
       <ul>{guide.map((g) => <li set:html={g}/>)}</ul>
       {note && <p set:html={note}/>}
+      <p class="good-to-know"><strong>Good to know:</strong> {costGuide && bestGuide && <><a href={costGuide.href}>{costGuide.label}</a> · </>}<a href="/pricing/">All published starting prices</a> · <a href="/call-recording-consent-by-state/">Call recording rules by state</a> (not legal advice)</p>
     </section>
     <section>
       <h2 class="section-title">Comparison table</h2>

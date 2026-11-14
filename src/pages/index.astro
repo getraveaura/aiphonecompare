@@ -1,4 +1,5 @@
 ---
+import GridCta from '../components/GridCta.astro';
 import Base from '../layouts/Base.astro';
 import CallSlider from '../components/CallSlider.astro';
 import IndustryIcon from '../components/IndustryIcon.astro';
@@ -98,7 +99,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
     <div class="wrap">
       <h2 class="section-title" id="top-picks-heading">Starting prices, straight from each company</h2>
       <p class="price-cards-caption" id="top-picks-caption">Not a ranking. The first five services, A to Z, that show a starting price on their website.</p>
-      <ul class="price-cards picks" role="list" aria-labelledby="top-picks-caption">
+      <ul class="price-cards picks balanced" role="list" aria-labelledby="top-picks-caption">
         {picks.map((v) => (
           <li class="price-card">
             <div class="price-card-head">
@@ -109,8 +110,8 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
             <p class="price-card-more"><a href={`/vendors/${v.slug}/`}>See {v.name} details<span class="arrow" aria-hidden="true"> →</span></a></p>
           </li>
         ))}
+        <GridCta count={picks.length} href="/vendors/" title={`See all ${data.length} services`} text="Every service we track, A to Z, with sourced starting prices" />
       </ul>
-      <p class="price-cards-more"><a class="btn btn-ghost" href="/vendors/">See all {data.length} services</a></p>
     </div>
   </section>
   <section class="band" id="how-this-works" aria-labelledby="money-heading">
