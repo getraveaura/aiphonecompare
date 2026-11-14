@@ -44,22 +44,22 @@ const groups = [
   ['Tools', [
     ['/match/', 'Match me to a tool'],
     ['/cost/calculator/', 'Cost calculator'],
-    ['/overpaying/', 'Price check'],
+    ['/overpaying/', 'Am I overpaying?'],
     ['/missed-call-calculator/', 'Missed-call calculator'],
-    ['/cost/', 'Full cost method'],
+    ['/cost/', 'How we work out cost'],
   ]],
   ['Learn', [
     ['/stories/', 'Stories'],
     ['/pricing/', 'Pricing'],
     ['/price-index/', 'Price index'],
     ['/price-changes/', 'Price changes'],
-    ['/about/', 'How we rank'],
+    ['/about/', 'How this site works'],
   ]],
   ['For vendors', [
-    ['/get-featured/', 'Get featured'],
-    ['/teardown/', 'Competitor teardown'],
-    ['/badge/', 'Badge'],
-  ]],
+    ['/get-featured/', 'Get featured ($49 ad spot)'],
+    ['/teardown/', 'Competitor check-up ($199)'],
+    ['/badge/', 'Free "Listed on" badge'],
+  ], 'For companies that sell AI phone answering'],
 ];
 const exact = (href) => (path === href ? 'page' : undefined);
 const groupActive = (items) => items.some(([href]) => path === href || (href !== '/cost/' && path.startsWith(href)));
@@ -106,10 +106,11 @@ const groupActive = (items) => items.some(([href]) => path === href || (href !==
       <details class="nav-disclosure">
         <summary aria-label="Menu"><span class="burger" aria-hidden="true"></span>Menu</summary>
         <nav class="nav-panel" aria-label="Main">
-          {groups.map(([label, items]) => (
+          {groups.map(([label, items, note]) => (
             <details class="nav-drop" data-active={groupActive(items) ? '' : undefined}>
               <summary>{label}</summary>
               <div class="nav-menu">
+                {note && <p class="nav-note">{note}</p>}
                 {items.map(([href, text]) => <a href={href} aria-current={exact(href)}>{text}</a>)}
               </div>
             </details>
@@ -182,14 +183,14 @@ const groupActive = (items) => items.some(([href]) => path === href || (href !==
           <a href="/pricing/">Pricing</a>
           <a href="/price-index/">Price index</a>
           <a href="/price-changes/">Price changes</a>
-          <a href="/about/">How we rank</a>
+          <a href="/about/">How this site works</a>
           <a href="/data/">Open dataset</a>
         </nav>
         <nav aria-label="Work with us">
           <h2>Work with us</h2>
           <a href="/done-for-you/">Done-for-you</a>
           <a href="/get-featured/">Get featured</a>
-          <a href="/teardown/">Competitor teardown</a>
+          <a href="/teardown/">Competitor check-up</a>
           <a href="/badge/">Badge</a>
         </nav>
         <nav aria-label="Legal">

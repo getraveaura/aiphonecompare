@@ -65,10 +65,10 @@ export function dfyServiceJsonld({ name, description, pageUrl, orgId }) {
   };
 }
 
-// Competitor teardown for vendors: approved price, refund window and Stripe Payment Link.
+// Competitor check-up (URL /teardown/) for vendors: approved price, refund window and Stripe Payment Link.
 export const TEARDOWN = {
   path: '/teardown/',
-  name: 'Competitor teardown',
+  name: 'Competitor check-up',
   price: 199,
   refundDays: 14,
   url: 'https://buy.stripe.com/cNidR92fpaex6cU7nY9ws03',

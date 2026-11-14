@@ -17,7 +17,7 @@ export const DFY_INDUSTRIES = [
     industryPage: '/industries/dental/',
     title: 'Done-for-you AI receptionist setup for dental practices',
     headline: 'Every new-patient call answered, even when the front desk is busy.',
-    lead: 'We pick, set up and tune an AI receptionist around your practice: new-patient calls, insurance questions, recall booking and after-hours care, handled warmly and the way your team would.',
+    lead: 'We choose, set up and fine-tune an AI receptionist (a phone assistant that answers like your staff) around your practice: new-patient calls, insurance questions, recall booking and after-hours care, handled warmly and the way your team would.',
     description: 'Done-for-you AI receptionist setup for dental practices: new-patient calls, insurance questions, recall and booking, HIPAA-aware handling. $1,500 one-time ($1,000 founding rate), with a defined result or a full refund of our fee.',
     benefits: [
       { h: 'New-patient calls, welcomed', p: 'First-time callers get a friendly answer, a few quick intake questions and an appointment or a callback, instead of a voicemail during the lunch rush.' },
@@ -70,7 +70,7 @@ export const DFY_INDUSTRIES = [
     industryPage: '/industries/legal/',
     title: 'Done-for-you AI receptionist setup for law firms',
     headline: 'Every potential client heard, screened and routed, day or night.',
-    lead: 'We pick, set up and tune an AI receptionist for your firm: intake screening, conflict-safe message taking, callers in more than one language and urgent matters routed to the right person.',
+    lead: 'We choose, set up and fine-tune an AI receptionist (a phone assistant that answers like your staff) for your firm: intake screening, conflict-safe message taking, callers in more than one language and urgent matters routed to the right person.',
     description: 'Done-for-you AI receptionist setup for law firms: intake screening, conflict-safe message taking, multilingual callers and urgent-matter routing. $1,500 one-time ($1,000 founding rate), with a defined result or a full refund of our fee.',
     benefits: [
       { h: 'Intake screening', p: 'Callers are asked your intake questions in your order: practice area, location, timing. Your team gets a clean summary of every potential client.' },
@@ -123,7 +123,7 @@ export const DFY_INDUSTRIES = [
     industryPage: '/industries/plumbing/',
     title: 'Done-for-you AI receptionist setup for home service businesses',
     headline: 'Every emergency job and quote request caught, even while you are on a job.',
-    lead: 'We pick, set up and tune an AI receptionist for plumbers, HVAC, roofing and other home service pros: after-hours emergencies, on-call dispatch, quote requests and service-area questions.',
+    lead: 'We choose, set up and fine-tune an AI receptionist (a phone assistant that answers like your staff) for plumbers, HVAC, roofing and other home service pros: after-hours emergencies, on-call dispatch, quote requests and service-area questions.',
     description: 'Done-for-you AI receptionist setup for plumbing, HVAC, roofing and home service businesses: emergency and after-hours jobs, dispatch and on-call routing, quote requests and service-area questions. $1,500 one-time ($1,000 founding rate), with a defined result or a full refund of our fee.',
     benefits: [
       { h: 'Emergency and after-hours jobs', p: 'Burst pipes, no-heat calls and leaks get answered at any hour and handled by your rules, so urgent work reaches you instead of the next company on the list.' },
@@ -175,7 +175,7 @@ export const DFY_INDUSTRIES = [
     industryPage: null,
     title: 'Done-for-you AI receptionist setup for med spas',
     headline: 'Every consult request booked, even after the spa has closed for the night.',
-    lead: 'We pick, set up and tune an AI receptionist for your med spa: consult booking, treatment questions answered without medical advice, deposits and policies explained, and evening inquiries captured.',
+    lead: 'We choose, set up and fine-tune an AI receptionist (a phone assistant that answers like your staff) for your med spa: consult booking, treatment questions answered without medical advice, deposits and policies explained, and evening inquiries captured.',
     description: 'Done-for-you AI receptionist setup for med spas: consult booking, treatment questions without medical advice, deposits and policies, and after-hours inquiries. $1,500 one-time ($1,000 founding rate), with a defined result or a full refund of our fee.',
     benefits: [
       { h: 'Consult booking', p: 'Callers book a consultation straight into your calendar where the vendor supports it, or leave a request your team can confirm in seconds.' },
