@@ -1204,5 +1204,30 @@
       "result": "no-price",
       "note": "The vendor pages we read print no price, so the listing stays as not published."
     }
+  },
+  {
+    "slug": "zinng-ai",
+    "name": "Zinng.ai",
+    "website": "https://zinng.ai",
+    "starting_price": "Essentials $49/mo for 300 minutes, done-for-you setup included; Pro $99/mo for 700 minutes; Growth $149/mo for 1,000; Scale $249/mo for 2,000",
+    "billing_model": "Flat monthly with a set number of minutes (billed in minutes, not calls). Extra minutes are prepaid buckets that never expire: 150 min $25, 300 min $50, 600 min $100, 1,200 min $200. No per-minute overage rate is published",
+    "free_trial": "7-day free trial (listed on Essentials, Pro and Scale)",
+    "human_handoff": "Essentials transfers to 1 number; Pro transfers to multiple numbers. Only the AI-handled part of a transferred call counts against minutes",
+    "hipaa_baa": "Homepage says HIPAA compliant (their claim). A BAA is not stated",
+    "integrations": "Cal.com, Calendly, Zapier",
+    "industries": [
+      "dental"
+    ],
+    "notes": "Done-for-you setup is included on every plan: the homepage says their team builds, reviews and fine-tunes your AI receptionist for you. Essentials books appointments by SMS link; Pro books live on the call. Growth has every Pro feature; Custom is from $349/mo with a custom minute package. Additional agents are $20/mo each. Spam and blocked calls don't count against minutes. Two-way SMS is unlimited on paid plans (on Essentials, with anyone who texts or calls first), plus a free website chat widget. No contracts; cancel anytime, effective at the end of the billing period. Built by its founder from their own dental practice.",
+    "sponsored": false,
+    "sources": [
+      "https://zinng.ai"
+    ],
+    "last_checked": "2026-11-13",
+    "price_check": {
+      "date": "2026-11-13",
+      "result": "confirmed",
+      "note": "Starting price read on the vendor's own page."
+    }
   }
 ]
