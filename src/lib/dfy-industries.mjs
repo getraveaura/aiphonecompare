@@ -38,7 +38,7 @@ export const DFY_INDUSTRIES = [
       {
         title: 'Insurance question',
         steps: [
-          'Caller: "Do you take Delta Dental?"',
+          'Caller: "Do you take my dental insurance?"',
           'Receptionist answers from the plan list you approved, and explains payment options if their plan is not listed.',
           'For coverage details it cannot confirm, it takes the member details and passes them to your team for a callback.',
         ],
