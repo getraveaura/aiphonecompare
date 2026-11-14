@@ -96,7 +96,7 @@ test('eventFromClick maps pay, vendor and mailto links to the shared event names
 test('offer pages mark every Stripe pay link with data-offer-checkout', () => {
   const featured = read('src/pages/get-featured.astro');
   const dfy = read('src/pages/done-for-you.astro');
-  const teardown = read('src/pages/teardown.astro');
+  const teardown = read('src/pages/competitor-check-up.astro');
   assert.match(featured, /data-offer-checkout="spotlight"/);
   assert.equal([...dfy.matchAll(/data-offer-checkout="dfy_founding"/g)].length, 3);
   assert.equal([...dfy.matchAll(/data-offer-checkout="dfy_standard"/g)].length, 2);

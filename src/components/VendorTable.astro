@@ -1,6 +1,8 @@
 ---
 import { sponsoredLabel } from '../lib/spotlight.mjs';
 import { outboundLink } from '../lib/outbound.mjs';
+import PricePlans from './PricePlans.astro';
+import VendorMark from './VendorMark.astro';
 const { vendors, industry = '', caption = 'Blank means not verified. Open a vendor for sources and the date we checked.' } = Astro.props;
 const spotlightLink = (v) => (/^https:\/\//.test(v.spotlight?.href || '') ? v.spotlight.href : '');
 const cols = [
@@ -12,7 +14,7 @@ const cols = [
   ['integrations', 'Integrations'],
 ];
 ---
-<div class="tablewrap" tabindex="0" aria-labelledby="vendor-compare-caption">
+<div class="tablewrap vt-table" tabindex="0" aria-labelledby="vendor-compare-caption">
   <table class="compare">
     <caption id="vendor-compare-caption">{caption}</caption>
     <thead>
@@ -35,10 +37,40 @@ const cols = [
             )}
           </th>
           {cols.map(([key, label]) => (
-            <td data-label={label}>{v[key] || <span class="missing">Not verified</span>}</td>
+            <td data-label={label} class={key !== 'starting_price' && String(v[key] || '').length <= 48 ? 'kv' : undefined}>{key === 'starting_price' ? <PricePlans vendor={v} meta size="sm" /> : (v[key] || <span class="missing">Not verified</span>)}</td>
           ))}
         </tr>
       ))}
     </tbody>
   </table>
+</div>
+<div class="vt-cards" aria-labelledby="vendor-cards-caption">
+  <p class="price-cards-caption" id="vendor-cards-caption">{caption}</p>
+  <ul class="price-cards" role="list">
+    {vendors.map((v) => (
+      <li class="price-card">
+        <div class="price-card-head">
+          <VendorMark slug={v.slug} name={v.name} />
+          <h3><a href={`/vendors/${v.slug}/`}>{v.name}</a></h3>
+          {sponsoredLabel(v, industry) && <span class="badge">Sponsored</span>}
+        </div>
+        {industry && sponsoredLabel(v, industry) && v.spotlight.line && <p class="spotlight-line">{v.spotlight.line}</p>}
+        <PricePlans vendor={v} meta tags={!industry} size="sm" max={3} />
+        <details class="vt-more">
+          <summary>Billing, trial, handoff, HIPAA and integrations</summary>
+          <dl class="vt-dl">
+            {cols.slice(1).map(([key, label]) => (
+              <div><dt>{label}</dt><dd>{v[key] || <span class="missing">Not verified</span>}</dd></div>
+            ))}
+          </dl>
+        </details>
+        <p class="price-card-more">
+          <a href={`/vendors/${v.slug}/`}>See details<span class="vh"> for {v.name}</span><span class="arrow" aria-hidden="true"> →</span></a>
+          {(spotlightLink(v) && industry && sponsoredLabel(v, industry))
+            ? <a href={spotlightLink(v)} rel="sponsored noopener" data-vendor-slug={v.slug} data-vendor-referral={outboundLink(v)?.isReferral ? "1" : "0"}>Visit {v.name}</a>
+            : outboundLink(v)?.isReferral && <a href={outboundLink(v).href} rel={outboundLink(v).rel} data-vendor-slug={v.slug} data-vendor-referral="1">Visit {v.name}</a>}
+        </p>
+      </li>
+    ))}
+  </ul>
 </div>

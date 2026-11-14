@@ -1,0 +1,68 @@
+---
+// Compact, scannable view of a vendor's published price.
+// Values come word for word from vendors.json (via price-plans.json); text we
+// could not structure safely is shown as written, split at semicolons.
+import planData from '../data/price-plans.json';
+import { priceView, shortDate } from '../lib/plans.mjs';
+import { industryLabel } from '../lib/stories.mjs';
+const { vendor, meta = false, tags = false, size = 'md', max = 0 } = Astro.props;
+const view = priceView(vendor, planData);
+const source = vendor.sources?.[0] || '';
+const entry = view.kind === 'plans' ? planData.vendors[vendor.slug] : null;
+const single = Boolean(entry) && entry.plans.length === 1 && !entry.plans[0].name && entry.plans[0].price.replace(/^from\s+/i, '') === entry.from;
+const only = single ? view.plans[0] : null;
+const allPlans = view.kind === 'plans' && !single ? view.plans : [];
+const listed = max > 0 && allPlans.length > max + 1 ? allPlans.slice(0, max) : allPlans;
+const hidden = allPlans.length - listed.length;
+---
+<div class={`pp pp-${size}`} data-price-kind={view.kind}>
+  {view.kind === 'plans' && (
+    <>
+      <p class="pp-from">
+        {view.headline.amount
+          ? <>{view.headline.prefix && <span class="pp-pre">{view.headline.prefix} </span>}<strong>{view.headline.amount}</strong>{view.headline.unit && <span class="pp-unit">{view.headline.unit}</span>}</>
+          : <strong class="pp-text">{view.headline.text}</strong>}
+      </p>
+      {only && (only.label || only.extra) && (
+        <p class="pp-incl">{only.label}{only.label && only.extra && ' · '}{only.extra}</p>
+      )}
+      {listed.length > 0 && (
+        <ul class="pp-plans" role="list">
+          {listed.map((plan) => (
+            <li>
+              <span class="pp-name">
+                <span class="pp-label">{plan.label}</span>
+                {plan.sub && <small>{plan.sub}</small>}
+                {plan.extra && <small class="pp-extra">{plan.extra}</small>}
+              </span>
+              <span class="pp-price">{plan.price}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+      {hidden > 0 && <p class="pp-more"><a href={`/vendors/${vendor.slug}/`}>+ {hidden} more {hidden === 1 ? 'plan' : 'plans'}<span class="vh"> from {vendor.name}</span></a></p>}
+      {view.oneTime.length > 0 && (
+        <p class="pp-chips">{view.oneTime.map((fee) => <span class="pp-chip">+ {fee.price} {fee.label}</span>)}</p>
+      )}
+      {view.note && <p class="pp-note">{view.note}</p>}
+    </>
+  )}
+  {view.kind === 'text' && (
+    <ul class="pp-lines" role="list">
+      {view.lines.map((line, i) => <li class={i === 0 && line.length <= 60 ? 'pp-first' : undefined}>{line}</li>)}
+    </ul>
+  )}
+  {view.kind === 'empty' && <p class="pp-missing"><span class="missing">Not verified</span></p>}
+  {meta && (vendor.last_checked || source) && (
+    <p class="pp-meta">
+      {vendor.last_checked && <>Checked <time datetime={vendor.last_checked}>{shortDate(vendor.last_checked)}</time></>}
+      {vendor.last_checked && source && <span aria-hidden="true"> · </span>}
+      {source && <a href={source} rel="nofollow noopener">Source<span class="vh"> for {vendor.name}'s price</span></a>}
+    </p>
+  )}
+  {tags && vendor.industries?.length > 0 && (
+    <ul class="pp-tags" role="list" aria-label="Industries">
+      {vendor.industries.map((id) => <li>{industryLabel(id)}</li>)}
+    </ul>
+  )}
+</div>

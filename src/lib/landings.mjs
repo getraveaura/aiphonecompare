@@ -22,6 +22,18 @@ const INDUSTRY_COST = {
   medical: '/cost/medical/',
 };
 
+// Slim vendor record for the structured price view (PricePlans) in Landing tables.
+function priceVendor(vendor) {
+  return {
+    slug: vendor.slug,
+    name: vendor.name,
+    starting_price: vendor.starting_price || '',
+    last_checked: vendor.last_checked || '',
+    sources: (vendor.sources || []).slice(0, 1),
+    industries: vendor.industries || [],
+  };
+}
+
 function cell(text, extra = {}) {
   return { text: text || 'Not verified', ...extra };
 }
@@ -154,15 +166,11 @@ function startingTable(vendors, industry) {
   return {
     type: 'table',
     caption: 'Starting prices recorded for this industry. A starting price is not a bill at 50, 150, or 300 calls.',
-    headers: ['Vendor', 'Starting price', 'Billing', 'Price checked', 'Source'],
+    headers: ['Vendor', 'Starting price', 'Billing'],
     rows: rows.map((vendor) => [
       cell(vendor.name, { href: `/vendors/${vendor.slug}/`, visit: visitFor(vendor) }),
-      cell(vendor.starting_price),
+      cell(vendor.starting_price, { price: priceVendor(vendor), meta: true }),
       cell(vendor.billing_model),
-      cell(vendor.last_checked ? formatDate(vendor.last_checked) : 'Not verified', vendor.last_checked ? { datetime: vendor.last_checked } : {}),
-      vendor.sources?.[0]
-        ? cell('Price source', { href: vendor.sources[0], external: true })
-        : cell('Not verified'),
     ]),
   };
 }
@@ -348,7 +356,7 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
   ];
   const attributeRows = fields.map(([label, readField]) => [
     cell(label),
-    ...selected.map((vendor) => cell(readField(vendor), label === 'Price checked' && vendor.last_checked ? { datetime: vendor.last_checked } : {})),
+    ...selected.map((vendor) => cell(readField(vendor), label === 'Price checked' && vendor.last_checked ? { datetime: vendor.last_checked } : label === 'Starting price' ? { price: priceVendor(vendor) } : {})),
   ]);
   attributeRows.push([
     cell('Visit'),

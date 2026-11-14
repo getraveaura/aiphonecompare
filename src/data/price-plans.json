@@ -1,0 +1,566 @@
+{
+  "note": "Structured view of each vendor's starting_price text in vendors.json. 'basis' must equal that text exactly; if the text changes, update or remove the entry. Vendors not listed here are shown as the original text, split at semicolons.",
+  "vendors": {
+    "smith-ai": {
+      "basis": "Free AI plan (25 calls); AI paid from $150/mo; live agents from $300/mo",
+      "from": "$150/mo",
+      "plans": [
+        {
+          "name": "Free AI plan",
+          "price": "Free",
+          "includes": "25 calls"
+        },
+        {
+          "name": "AI paid plan",
+          "price": "from $150/mo"
+        },
+        {
+          "name": "Live agents",
+          "price": "from $300/mo"
+        }
+      ],
+      "headline": "Free plan · paid from $150/mo"
+    },
+    "goodcall": {
+      "basis": "Starter $79/mo for 100 unique customers, then 79¢ each; Growth $129/mo; Scale $299/mo",
+      "from": "$79/mo",
+      "plans": [
+        {
+          "name": "Starter",
+          "price": "$79/mo",
+          "includes": "100 unique customers",
+          "extra": "then 79¢ each"
+        },
+        {
+          "name": "Growth",
+          "price": "$129/mo"
+        },
+        {
+          "name": "Scale",
+          "price": "$299/mo"
+        }
+      ]
+    },
+    "dialzara": {
+      "basis": "From $29/mo for 60 minutes",
+      "from": "$29/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$29/mo",
+          "includes": "60 minutes"
+        }
+      ]
+    },
+    "ruby": {
+      "basis": "$250/mo for 50 minutes",
+      "from": "$250/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$250/mo",
+          "includes": "50 minutes"
+        }
+      ]
+    },
+    "justcall": {
+      "basis": "Phone plans from $29/user/mo billed annually (2-user minimum); AI Voice Agent: first 100 minutes free, volume pricing down to $0.15",
+      "from": "$29/user/mo",
+      "plans": [
+        {
+          "name": "Phone plans",
+          "price": "from $29/user/mo",
+          "includes": "Billed annually (2-user minimum)"
+        },
+        {
+          "name": "AI Voice Agent",
+          "price": "First 100 minutes free",
+          "includes": "Volume pricing down to $0.15"
+        }
+      ]
+    },
+    "viva-ai": {
+      "basis": "Credit plans: Gold $349/mo (4,000 credits), Platinum $899/mo (7,000), Diamond $1,199/mo (12,000); Unlimited plan $350/mo for the first provider, +$150/mo per added provider",
+      "from": "$349/mo",
+      "plans": [
+        {
+          "name": "Gold",
+          "price": "$349/mo",
+          "includes": "4,000 credits"
+        },
+        {
+          "name": "Platinum",
+          "price": "$899/mo",
+          "includes": "7,000 credits"
+        },
+        {
+          "name": "Diamond",
+          "price": "$1,199/mo",
+          "includes": "12,000 credits"
+        },
+        {
+          "name": "Unlimited",
+          "price": "$350/mo",
+          "includes": "First provider",
+          "extra": "+$150/mo per added provider"
+        }
+      ]
+    },
+    "dentina": {
+      "basis": "From $299/mo (billed annually, per location)",
+      "from": "$299/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$299/mo",
+          "includes": "Billed annually, per location"
+        }
+      ]
+    },
+    "keragon": {
+      "basis": "$99/mo annual, $149/mo monthly",
+      "from": "$99/mo",
+      "plans": [
+        {
+          "name": "Billed annually",
+          "price": "$99/mo"
+        },
+        {
+          "name": "Billed monthly",
+          "price": "$149/mo"
+        }
+      ]
+    },
+    "peerlogic": {
+      "basis": "$399 or $699/mo flat",
+      "from": "$399/mo",
+      "plans": [],
+      "note": "$399 or $699/mo flat"
+    },
+    "abby-connect": {
+      "basis": "Starter $164/mo for 50 Abby Minutes (up to 100 minutes of AI answering); Essential $329/mo for 100 Abby Minutes",
+      "from": "$164/mo",
+      "plans": [
+        {
+          "name": "Starter",
+          "price": "$164/mo",
+          "includes": "50 Abby Minutes (up to 100 minutes of AI answering)"
+        },
+        {
+          "name": "Essential",
+          "price": "$329/mo",
+          "includes": "100 Abby Minutes"
+        }
+      ]
+    },
+    "rosie": {
+      "basis": "From $49/mo for 250 minutes; booking & transfers from $149/mo (1,000 minutes)",
+      "from": "$49/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "from $49/mo",
+          "includes": "250 minutes"
+        },
+        {
+          "name": "Booking & transfers",
+          "price": "from $149/mo",
+          "includes": "1,000 minutes"
+        }
+      ]
+    },
+    "my-ai-front-desk": {
+      "basis": "Pricing page: $99/mo, or $79/mo billed annually, including 200 voice minutes. The medical page also prints $109/mo",
+      "from": "$79/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$99/mo",
+          "includes": "200 voice minutes",
+          "extra": "$79/mo billed annually"
+        }
+      ],
+      "note": "The medical page also prints $109/mo"
+    },
+    "legalclerk-ai": {
+      "basis": "$400 per seat/mo, unlimited calls",
+      "from": "$400 per seat/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$400 per seat/mo",
+          "includes": "Unlimited calls"
+        }
+      ]
+    },
+    "hona-voice-ai": {
+      "basis": "$200/mo for 100 minutes, plus a $249 one-time implementation fee; month-to-month",
+      "from": "$200/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$200/mo",
+          "includes": "100 minutes"
+        }
+      ],
+      "one_time": [
+        {
+          "label": "one-time implementation fee",
+          "price": "$249"
+        }
+      ],
+      "note": "Month-to-month"
+    },
+    "nextphone": {
+      "basis": "From $199/mo, unlimited inbound calls",
+      "from": "$199/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$199/mo",
+          "includes": "Unlimited inbound calls"
+        }
+      ]
+    },
+    "sameday-ai": {
+      "basis": "From $449/mo for 500 minutes",
+      "from": "$449/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$449/mo",
+          "includes": "500 minutes"
+        }
+      ]
+    },
+    "oncrew": {
+      "basis": "Starter $49/mo with 150 minutes of answered calls, then $0.49/min; Pro $149/mo with 200 minutes, then $0.99/min; Multi-Truck $349/mo with 500 minutes, then $0.99/min",
+      "from": "$49/mo",
+      "plans": [
+        {
+          "name": "Starter",
+          "price": "$49/mo",
+          "includes": "150 minutes of answered calls",
+          "extra": "then $0.49/min"
+        },
+        {
+          "name": "Pro",
+          "price": "$149/mo",
+          "includes": "200 minutes",
+          "extra": "then $0.99/min"
+        },
+        {
+          "name": "Multi-Truck",
+          "price": "$349/mo",
+          "includes": "500 minutes",
+          "extra": "then $0.99/min"
+        }
+      ]
+    },
+    "pickupbell": {
+      "basis": "$199/mo, unlimited calls and minutes",
+      "from": "$199/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$199/mo",
+          "includes": "Unlimited calls and minutes"
+        }
+      ]
+    },
+    "turnkey-dispatch": {
+      "basis": "From $299/mo with 300 minutes, then $1/min",
+      "from": "$299/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "$299/mo",
+          "includes": "300 minutes",
+          "extra": "then $1/min"
+        }
+      ]
+    },
+    "upfirst": {
+      "basis": "Starter $24.95/mo billed monthly for 30 calls ($20/mo billed annually)",
+      "from": "$20/mo",
+      "plans": [
+        {
+          "name": "Starter",
+          "price": "$24.95/mo",
+          "includes": "30 calls, billed monthly",
+          "extra": "$20/mo billed annually"
+        }
+      ]
+    },
+    "byvoice": {
+      "basis": "From $29/mo (150 minutes); Pro $99/mo (700 minutes)",
+      "from": "$29/mo",
+      "plans": [
+        {
+          "name": "",
+          "price": "from $29/mo",
+          "includes": "150 minutes"
+        },
+        {
+          "name": "Pro",
+          "price": "$99/mo",
+          "includes": "700 minutes"
+        }
+      ]
+    },
+    "allo": {
+      "basis": "Business seat $45/user/mo billed monthly ($32 billed yearly); AI Receptionist add-on priced like a Business seat ($32/mo per agent billed yearly)",
+      "from": "$32/mo",
+      "plans": [
+        {
+          "name": "Business seat",
+          "price": "$45/user/mo",
+          "includes": "Billed monthly",
+          "extra": "$32 billed yearly"
+        },
+        {
+          "name": "AI Receptionist add-on",
+          "price": "$32/mo per agent",
+          "includes": "Billed yearly; priced like a Business seat"
+        }
+      ]
+    },
+    "futuro-ai": {
+      "basis": "Small business: $200 to $1,000/mo flat, unlimited inbound calls; enterprise $0.10 to $0.30 per call",
+      "from": "$200/mo",
+      "plans": [
+        {
+          "name": "Small business",
+          "price": "$200 to $1,000/mo",
+          "includes": "Flat, unlimited inbound calls"
+        },
+        {
+          "name": "Enterprise",
+          "price": "$0.10 to $0.30 per call"
+        }
+      ]
+    },
+    "serviceagent": {
+      "basis": "Launch $0/mo (pay-as-you-go credits); Core $39/mo annual ($49 monthly, 2,000 credits); Growth $95/mo annual; AI voice minute = 15 credits",
+      "from": "$0/mo",
+      "plans": [
+        {
+          "name": "Launch",
+          "price": "$0/mo",
+          "includes": "Pay-as-you-go credits"
+        },
+        {
+          "name": "Core",
+          "price": "$39/mo annual",
+          "includes": "2,000 credits",
+          "extra": "$49 monthly"
+        },
+        {
+          "name": "Growth",
+          "price": "$95/mo annual"
+        }
+      ],
+      "note": "AI voice minute = 15 credits"
+    },
+    "bland-ai": {
+      "basis": "Start: $0.14/min and $0 platform fee; Build: $0.12/min plus $299/mo platform fee; Enterprise custom. Healthcare FAQ also says $0.11 to $0.14 per minute",
+      "from": "$0.14/min",
+      "plans": [
+        {
+          "name": "Start",
+          "price": "$0.14/min",
+          "includes": "$0 platform fee"
+        },
+        {
+          "name": "Build",
+          "price": "$0.12/min",
+          "includes": "plus $299/mo platform fee"
+        },
+        {
+          "name": "Enterprise",
+          "price": "Custom"
+        }
+      ],
+      "headline": "From $0.14/min, no platform fee",
+      "note": "Healthcare FAQ also says $0.11 to $0.14 per minute"
+    },
+    "jobber-ai-receptionist": {
+      "basis": "Jobber AI Receptionist add-on $29/mo, on top of a Jobber plan",
+      "from": "$29/mo",
+      "plans": [
+        {
+          "name": "AI Receptionist add-on",
+          "price": "$29/mo",
+          "includes": "On top of a Jobber plan"
+        }
+      ]
+    },
+    "agentzap": {
+      "basis": "Starter $109/mo (150 min, then $0.85 per extra minute); Professional $295/mo (450 min); Business $899/mo (1,500 min); + $499 one-time setup",
+      "from": "$109/mo",
+      "plans": [
+        {
+          "name": "Starter",
+          "price": "$109/mo",
+          "includes": "150 min",
+          "extra": "then $0.85 per extra minute"
+        },
+        {
+          "name": "Professional",
+          "price": "$295/mo",
+          "includes": "450 min"
+        },
+        {
+          "name": "Business",
+          "price": "$899/mo",
+          "includes": "1,500 min"
+        }
+      ],
+      "one_time": [
+        {
+          "label": "one-time setup",
+          "price": "$499"
+        }
+      ]
+    },
+    "elevenlabs-ai-receptionist": {
+      "basis": "Free $0/mo (15 call minutes); Starter $6/mo (75 minutes); Creator $22/mo (275 min); Pro $99/mo (1,238 min); Scale $299/mo; Business $990/mo",
+      "from": "$6/mo",
+      "plans": [
+        {
+          "name": "Free",
+          "price": "$0/mo",
+          "includes": "15 call minutes"
+        },
+        {
+          "name": "Starter",
+          "price": "$6/mo",
+          "includes": "75 minutes"
+        },
+        {
+          "name": "Creator",
+          "price": "$22/mo",
+          "includes": "275 min"
+        },
+        {
+          "name": "Pro",
+          "price": "$99/mo",
+          "includes": "1,238 min"
+        },
+        {
+          "name": "Scale",
+          "price": "$299/mo"
+        },
+        {
+          "name": "Business",
+          "price": "$990/mo"
+        }
+      ],
+      "headline": "Free plan · paid from $6/mo"
+    },
+    "zinng-ai": {
+      "basis": "Essentials $49/mo for 300 minutes, done-for-you setup included; Pro $99/mo for 700 minutes; Growth $149/mo for 1,000; Scale $249/mo for 2,000",
+      "from": "$49/mo",
+      "plans": [
+        {
+          "name": "Essentials",
+          "price": "$49/mo",
+          "includes": "300 minutes, done-for-you setup included"
+        },
+        {
+          "name": "Pro",
+          "price": "$99/mo",
+          "includes": "700 minutes"
+        },
+        {
+          "name": "Growth",
+          "price": "$149/mo",
+          "includes": "1,000 minutes"
+        },
+        {
+          "name": "Scale",
+          "price": "$249/mo",
+          "includes": "2,000 minutes"
+        }
+      ]
+    },
+    "marlie-ai": {
+      "basis": "Basic $49/mo for 250 minutes, then $0.35/min; Standard $99/mo for 500 minutes, then $0.35/min; Pro $199/mo for 1,000 minutes, then $0.30/min; Premium $399/mo for 2,000 minutes, then $0.25/min",
+      "from": "$49/mo",
+      "plans": [
+        {
+          "name": "Basic",
+          "price": "$49/mo",
+          "includes": "250 minutes",
+          "extra": "then $0.35/min"
+        },
+        {
+          "name": "Standard",
+          "price": "$99/mo",
+          "includes": "500 minutes",
+          "extra": "then $0.35/min"
+        },
+        {
+          "name": "Pro",
+          "price": "$199/mo",
+          "includes": "1,000 minutes",
+          "extra": "then $0.30/min"
+        },
+        {
+          "name": "Premium",
+          "price": "$399/mo",
+          "includes": "2,000 minutes",
+          "extra": "then $0.25/min"
+        }
+      ]
+    },
+    "autoleap-air": {
+      "basis": "Pay as you go $1/call, no contracts and no minimum spend; Starter $99/mo for 200 calls, then $0.75/call; Growth $199/mo for 500 calls (the card also says 100 calls free), then $0.75/call. A $100 set-up fee may apply",
+      "from": "$99/mo",
+      "plans": [
+        {
+          "name": "Pay as you go",
+          "price": "$1/call",
+          "includes": "No contracts and no minimum spend"
+        },
+        {
+          "name": "Starter",
+          "price": "$99/mo",
+          "includes": "200 calls",
+          "extra": "then $0.75/call"
+        },
+        {
+          "name": "Growth",
+          "price": "$199/mo",
+          "includes": "500 calls (the card also says 100 calls free)",
+          "extra": "then $0.75/call"
+        }
+      ],
+      "one_time": [
+        {
+          "label": "set-up fee may apply",
+          "price": "$100"
+        }
+      ],
+      "headline": "$1/call, or plans from $99/mo"
+    },
+    "shopmonkey-concierge": {
+      "basis": "Concierge add-on $134/mo with annual pricing or $149/mo monthly, on top of a Shopmonkey plan. The CRM Essentials bundle (Concierge, Reviews Manager, and Campaigns) is $314/mo with annual pricing or $349/mo monthly",
+      "from": "$134/mo",
+      "plans": [
+        {
+          "name": "Concierge add-on",
+          "price": "$149/mo",
+          "includes": "On top of a Shopmonkey plan",
+          "extra": "$134/mo with annual pricing"
+        },
+        {
+          "name": "CRM Essentials bundle",
+          "price": "$349/mo",
+          "includes": "Concierge, Reviews Manager, and Campaigns",
+          "extra": "$314/mo with annual pricing"
+        }
+      ]
+    }
+  }
+}

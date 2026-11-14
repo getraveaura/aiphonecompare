@@ -2,7 +2,7 @@
 import fs from 'node:fs'; import path from 'node:path';
 import { renderFeed, renderPriceFeed } from './src/lib/feed.mjs';
 import { getLandings } from './src/lib/landings.mjs';
-import { DFY_PATH, DFY_SUMMARY } from './src/lib/offers.mjs';
+import { DFY_PATH, DFY_SUMMARY, TEARDOWN } from './src/lib/offers.mjs';
 import { DFY_INDUSTRIES, dfyIndustryPath } from './src/lib/dfy-industries.mjs';
 import { AUDIT_PATH, AUDIT_SUMMARY, showAuditLinks } from './src/lib/audit.mjs';
 import { getBestGuides } from './src/lib/best-guides.mjs';
@@ -41,7 +41,8 @@ const priceCell=v=>mdCell(v.starting_price)||'not published';
 const baaCell=v=>mdCell(v.hipaa_baa)||'not stated';
 // Offer pages for llms.txt / llms-full.txt. The audit page is listed only once live.
 const offerLines=[...DFY_INDUSTRIES.map(i=>({title:i.title,path:dfyIndustryPath(i.slug),summary:''})),
- ...(showAuditLinks()?[{title:'Free call coverage check',path:AUDIT_PATH,summary:AUDIT_SUMMARY}]:[])];
+ ...(showAuditLinks()?[{title:'Free call coverage check',path:AUDIT_PATH,summary:AUDIT_SUMMARY}]:[]),
+ {title:TEARDOWN.name,path:TEARDOWN.path,summary:`For companies that sell AI phone answering: how your prices and AI-search visibility compare with rivals, plus 5 fixes. $${TEARDOWN.price} one-time, ${TEARDOWN.refundDays}-day full refund.`}];
 const bestGuideLines=getBestGuides().map(g=>`- [${g.h1}](${SITE}${g.path})`);
 const bestGuideMd=bestGuideLines.join('\n');
 const bestGuideUrls=getBestGuides().map(g=>`- ${SITE}${g.path}`).join('\n');

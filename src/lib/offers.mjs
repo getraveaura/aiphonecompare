@@ -65,9 +65,10 @@ export function dfyServiceJsonld({ name, description, pageUrl, orgId }) {
   };
 }
 
-// Competitor check-up (URL /teardown/) for vendors: approved price, refund window and Stripe Payment Link.
+// Competitor check-up (URL /competitor-check-up/; /teardown/ redirects) for vendors: approved price, refund window and Stripe Payment Link.
 export const TEARDOWN = {
-  path: '/teardown/',
+  path: '/competitor-check-up/',
+  oldPath: '/teardown/',
   name: 'Competitor check-up',
   price: 199,
   refundDays: 14,
@@ -85,5 +86,5 @@ export const SPOTLIGHT = {
 };
 
 // Offer-page results box (OfferProof). Off until a real, permissioned result exists.
-// Set to true to show it on /get-featured/, /done-for-you/ and /teardown/.
+// Set to true to show it on /get-featured/, /done-for-you/ and /competitor-check-up/.
 export const SHOW_OFFER_PROOF = false;

@@ -15,6 +15,13 @@ function oneTime(plan) {
   if (plan.setupFee === 0) return 'No setup fee on the pricing page';
   return `${formatUsd(Math.round(plan.setupFee * 100))} one time`;
 }
+// Headline price for a plan card: the published monthly number, else the label as written.
+function headPrice(plan) {
+  const n = plan.publishedMonthly;
+  if (n != null && plan.publishedLabel.startsWith(`$${n.toLocaleString('en-US')}/month`)) return `$${n.toLocaleString('en-US')}/mo`;
+  if (plan.publishedLabel.length <= 20) return plan.publishedLabel;
+  return '';
+}
 const title = 'What an AI receptionist really costs per month';
 const pageTitle = `AI receptionist cost: what you will pay per month (${models.checked.slice(0, 4)})`;
 const summary = costHubSummary(models);
@@ -59,7 +66,32 @@ const jsonld = {
       <button class="btn btn-primary" type="submit">Update estimates</button>
     </form>
     <p id="cost-status" class="note" aria-live="polite">Enter your calls and average call length to see estimates.</p>
-    <p>These are the companies whose own websites, checked <time datetime={models.checked}>{checkedLabel}</time>, publish enough prices to do this math. The others are in the <a href="/pricing/">starting-price list</a>. Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not listed are not included. Examples at 50, 150 and 300 calls: <a href="/cost/dental/">dental</a>, <a href="/cost/legal/">legal</a>, <a href="/cost/home-services/">home services</a>, <a href="/cost/hvac-shop/">a 3-tech HVAC shop</a>, <a href="/cost/medical/">medical</a>. Industry guides: <a href="/best/">all guides</a>, including <a href="/best/dentists/">dentists</a>, <a href="/best/law-firms/">law firms</a>, <a href="/best/med-spas/">med spas</a>, <a href="/best/hvac-plumbing/">HVAC and plumbing</a>, <a href="/best/roofing/">roofing</a>, and <a href="/best/veterinarians/">veterinarians</a>. <a href="/cost/hidden-fees/">Hidden fees</a> lists the printed setup fees and the story catches. The <a href="/cost/calculator/?calls=150&minutes=3">calculator</a> picks one plan per vendor and keeps the inputs in the link.</p>
+    <p>These are the companies whose own websites, checked <time datetime={models.checked}>{checkedLabel}</time>, publish enough prices to do this math. The others are in the <a href="/pricing/">starting-price list</a>. Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not listed are not included.</p>
+    <nav class="cost-links" aria-label="More cost guides">
+      <p class="cost-links-title">Examples at 50, 150 and 300 calls</p>
+      <ul class="link-chips" role="list">
+        <li><a href="/cost/dental/">Dental</a></li>
+        <li><a href="/cost/legal/">Legal</a></li>
+        <li><a href="/cost/home-services/">Home services</a></li>
+        <li><a href="/cost/hvac-shop/">3-tech HVAC shop</a></li>
+        <li><a href="/cost/medical/">Medical</a></li>
+      </ul>
+      <p class="cost-links-title">Industry guides</p>
+      <ul class="link-chips" role="list">
+        <li><a href="/best/">All guides</a></li>
+        <li><a href="/best/dentists/">Dentists</a></li>
+        <li><a href="/best/law-firms/">Law firms</a></li>
+        <li><a href="/best/med-spas/">Med spas</a></li>
+        <li><a href="/best/hvac-plumbing/">HVAC and plumbing</a></li>
+        <li><a href="/best/roofing/">Roofing</a></li>
+        <li><a href="/best/veterinarians/">Veterinarians</a></li>
+      </ul>
+      <p class="cost-links-title">Also useful</p>
+      <ul class="link-chips" role="list">
+        <li><a href="/cost/hidden-fees/">Hidden fees</a></li>
+        <li><a href="/cost/calculator/?calls=150&minutes=3">Calculator (one plan per vendor)</a></li>
+      </ul>
+    </nav>
     <details class="plain-glossary">
       <summary>Words you'll see, in plain English</summary>
       <dl>
@@ -75,37 +107,39 @@ const jsonld = {
       {models.providers.map((provider) => (
         <article class="cost-provider" aria-labelledby={`${provider.id}-heading`}>
           <h2 id={`${provider.id}-heading`}><a href={`/vendors/${provider.slug}/`}>{provider.name}</a></h2>
-          <p>Checked <time datetime={models.checked}>{checkedLabel}</time>. Sources: {provider.sources.map((source, index) => <><a href={source.href} rel="nofollow noopener">{source.label}</a>{index < provider.sources.length - 1 ? ', ' : ''}</>)}.</p>
-          <p><strong>Booking.</strong> {provider.booking}</p>
-          <p><strong>Transfer.</strong> {provider.transfer}</p>
-          <div class="tablewrap" tabindex="0">
-            <table class="compare">
-              <caption>{provider.name} plans. "Listed price" is what their page shows. "Your estimate" is what your calls would cost on that plan.</caption>
-              <thead>
-                <tr>
-                  <th scope="col">Plan</th>
-                  <th scope="col">Listed price</th>
-                  <th scope="col">Your estimate this month</th>
-                  <th scope="col">One-time fees</th>
-                  <th scope="col">How we got it</th>
-                </tr>
-              </thead>
-              <tbody>
-                {provider.plans.map((plan) => (
-                  <tr>
-                    <th scope="row">{plan.name}</th>
-                    <td data-label="Listed price">{plan.publishedLabel}</td>
-                    <td data-label="Your estimate this month" id={`${provider.id}-${plan.id}-scenario`}>Enter your numbers to estimate.</td>
-                    <td data-label="One-time fees">{oneTime(plan)}</td>
-                    <td data-label="How we got it" id={`${provider.id}-${plan.id}-formula`}>The math shows here once you enter your numbers.</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <p class="cost-provider-meta">Checked <time datetime={models.checked}>{checkedLabel}</time> · Sources: {provider.sources.map((source, index) => <><a href={source.href} rel="nofollow noopener">{source.label}</a>{index < provider.sources.length - 1 ? ', ' : ''}</>)}</p>
+          <ul class="cost-provider-facts" role="list">
+            <li><strong>Booking.</strong> {provider.booking}</li>
+            <li><strong>Transfer.</strong> {provider.transfer}</li>
+          </ul>
+          <p class="vh">{provider.name} plans. "Listed price" is what their page shows. "Your estimate" is what your calls would cost on that plan.</p>
+          <ul class="cost-plans" role="list">
+            {provider.plans.map((plan) => (
+              <li class="cost-plan">
+                <div class="cost-plan-head">
+                  <h3>{plan.name}</h3>
+                  {headPrice(plan) && <span class="cost-plan-price">{headPrice(plan)}</span>}
+                </div>
+                {plan.publishedLabel !== headPrice(plan) && <p class="cost-plan-label"><span class="vh">Listed price: </span>{plan.publishedLabel}</p>}
+                {plan.setupFee > 0 && <p class="pp-chips"><span class="pp-chip">+ {oneTime(plan)}</span></p>}
+                {plan.setupFee === 0 && <p class="cost-plan-label">One-time fees: No setup fee on the pricing page</p>}
+                <div class="cost-plan-est">
+                  <span>Your estimate this month</span>
+                  <strong id={`${provider.id}-${plan.id}-scenario`}>Enter your numbers to estimate.</strong>
+                </div>
+                <details>
+                  <summary>How we got it</summary>
+                  <p id={`${provider.id}-${plan.id}-formula`}>The math shows here once you enter your numbers.</p>
+                </details>
+              </li>
+            ))}
+          </ul>
+          <details class="cost-notes-wrap">
+            <summary>Fine print for {provider.name} ({provider.caveats.length})</summary>
           <ul class="cost-notes">
             {provider.caveats.map((caveat) => <li>{caveat}</li>)}
           </ul>
+          </details>
         </article>
       ))}
     </div>

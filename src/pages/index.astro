@@ -4,6 +4,7 @@ import CallSlider from '../components/CallSlider.astro';
 import IndustryIcon from '../components/IndustryIcon.astro';
 import VendorMark from '../components/VendorMark.astro';
 import AuditCta from '../components/AuditCta.astro';
+import PricePlans from '../components/PricePlans.astro';
 import { showAuditLinks } from '../lib/audit.mjs';
 import data from '../data/vendors.json';
 import stories from '../data/stories.json';
@@ -96,31 +97,20 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
   <section class="picks-band" aria-labelledby="top-picks-heading">
     <div class="wrap">
       <h2 class="section-title" id="top-picks-heading">Starting prices, straight from each company</h2>
-      <div class="tablewrap picks" tabindex="0" aria-labelledby="top-picks-caption">
-        <table class="compare">
-          <caption id="top-picks-caption">Not a ranking. The first five services, A to Z, that show a starting price on their website.</caption>
-          <thead>
-            <tr>
-              <th scope="col">Service</th>
-              <th scope="col">Starting price</th>
-              <th scope="col">Checked</th>
-              <th scope="col">Source</th>
-              <th scope="col">Industry</th>
-            </tr>
-          </thead>
-          <tbody>
-            {picks.map((v) => (
-              <tr>
-                <th scope="row"><a href={`/vendors/${v.slug}/`}>{v.name}</a></th>
-                <td data-label="Starting price">{v.starting_price || <span class="missing">Not verified</span>}</td>
-                <td data-label="Checked">{v.last_checked ? <time datetime={v.last_checked}>{checkedLabel(v.last_checked)}</time> : <span class="missing">Not verified</span>}</td>
-                <td data-label="Source">{v.sources?.[0] ? <a href={v.sources[0]} rel="nofollow noopener">Price source<span class="vh"> for {v.name}</span></a> : <span class="missing">Not verified</span>}</td>
-                <td data-label="Industry">{industryText(v) || <span class="missing">Not verified</span>}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <p class="price-cards-caption" id="top-picks-caption">Not a ranking. The first five services, A to Z, that show a starting price on their website.</p>
+      <ul class="price-cards picks" role="list" aria-labelledby="top-picks-caption">
+        {picks.map((v) => (
+          <li class="price-card">
+            <div class="price-card-head">
+              <VendorMark slug={v.slug} name={v.name} />
+              <h3><a href={`/vendors/${v.slug}/`}>{v.name}</a></h3>
+            </div>
+            <PricePlans vendor={v} meta tags />
+            <p class="price-card-more"><a href={`/vendors/${v.slug}/`}>See {v.name} details<span class="arrow" aria-hidden="true"> →</span></a></p>
+          </li>
+        ))}
+      </ul>
+      <p class="price-cards-more"><a class="btn btn-ghost" href="/vendors/">See all {data.length} services</a></p>
     </div>
   </section>
   <section class="band" id="how-this-works" aria-labelledby="money-heading">

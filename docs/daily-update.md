@@ -79,6 +79,8 @@ Append one object to `changes` in `src/data/price-changes.json`.
 
 Then update that vendor's `starting_price` and `last_checked` in `src/data/vendors.json` if the new text is now the listing. Update the same slug in `src/data/price-baseline.json` so `starting_price` and `last_checked` match. The baseline is the current text, not the history. The history is `price-changes.json`.
 
+If that vendor has an entry in `src/data/price-plans.json`, update its `basis` to the new text and its plans to match (every number must appear in the text), or delete the entry so the site shows the text as written. Tests fail while `basis` is stale, and the site never shows stale plans.
+
 If you cannot verify a change, do not append one. The price-changes page already says tracking started on 2026-11-09.
 
 ## Add a source to an existing story
