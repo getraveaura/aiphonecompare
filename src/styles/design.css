@@ -422,3 +422,16 @@
 @media (max-width: 560px) { .money-grid { grid-template-columns: 1fr; } }
 .plain-example { margin: 1.25rem 0 0; max-width: 40rem; padding: 14px 16px; border-left: 3px solid var(--pine); background: var(--surface); border-radius: 0 12px 12px 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.5; }
 .plain-example strong { color: var(--ink); }
+.plain-intro { margin: 0.9rem 0 1.1rem; max-width: 46rem; }
+.plain-intro-text { margin: 0 0 0.9rem; font-size: 1.12rem; line-height: 1.5; color: var(--ink-soft); }
+.plain-intro-cta { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.trust-chips { list-style: none; margin: 0.75rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-size: 0.9rem; color: var(--ink-soft); }
+.trust-chips li { position: relative; padding-left: 1.15rem; margin: 0; }
+.trust-chips li::before { content: "✓"; position: absolute; left: 0; color: var(--pine); font-weight: 600; }
+@media (max-width: 560px) { .plain-intro-cta .btn { flex: 1 1 100%; justify-content: center; } }
+
+.plain-glossary { margin: 0 0 1.5rem; padding: 14px 18px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; max-width: 52rem; }
+.plain-glossary summary { cursor: pointer; font-weight: 600; color: var(--pine); }
+.plain-glossary dl { margin: 12px 0 0; display: grid; gap: 10px; }
+.plain-glossary dt { font-weight: 600; color: var(--ink); }
+.plain-glossary dd { margin: 2px 0 0; color: var(--ink-soft); }

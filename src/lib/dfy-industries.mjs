@@ -23,7 +23,7 @@ export const DFY_INDUSTRIES = [
       { h: 'New-patient calls, welcomed', p: 'First-time callers get a friendly answer, a few quick intake questions and an appointment or a callback, instead of a voicemail during the lunch rush.' },
       { h: 'Insurance questions, answered', p: 'Your accepted plans and payment options go into the script, so callers hear clear answers and anything plan-specific goes to your team with the details already taken.' },
       { h: 'Recall and booking', p: 'Cleanings and check-ups booked straight into your schedule where your practice software and the vendor support it, or sent to the front desk as a ready-to-confirm request.' },
-      { h: 'HIPAA-aware handling', p: 'We shortlist vendors that publish a BAA, keep messages to what your team needs, and send clinical questions to a person.' },
+      { h: 'HIPAA-aware handling', p: 'We shortlist vendors that sign a HIPAA privacy agreement (BAA), keep messages to what your team needs, and send clinical questions to a person.' },
     ],
     flows: [
       {
@@ -54,7 +54,7 @@ export const DFY_INDUSTRIES = [
     ],
     faqs: [
       { q: 'Will it work with our practice management software?', a: "We check this in the fit review. Where the vendor supports your system, appointments are booked straight into your schedule. Where it doesn't, the receptionist sends a ready-to-confirm request to your front desk, so nothing is lost." },
-      { q: 'How do you handle HIPAA?', a: 'We shortlist vendors that publish a BAA and help you get it signed before go-live. We keep messages to what your team needs to call back, and clinical questions go to a person.' },
+      { q: 'How do you handle HIPAA?', a: 'We shortlist vendors that offer a HIPAA privacy agreement (BAA) and help you get it signed before go-live. We keep messages to what your team needs to call back, and clinical questions go to a person.' },
       { q: 'Does it replace our front desk?', a: 'No. It catches the calls your team cannot get to: lunch, busy mornings, after hours and overflow. Your front desk stays the heart of the practice.' },
       { q: 'What about dental emergencies?', a: 'You set the rules. Urgent calls can transfer to your on-call number or hear your emergency instructions, and the receptionist never gives clinical advice.' },
       { q: 'How long does setup take?', a: 'Go-live within 7 business days of receiving your intake and vendor account access, then 60 days of weekly tuning.' },
@@ -213,7 +213,7 @@ export const DFY_INDUSTRIES = [
       { q: 'Will it give medical advice?', a: 'No. It answers general questions from the treatment menu and wording you approve, and every health or suitability question goes to your providers.' },
       { q: 'Can it take deposits?', a: 'It explains your deposit policy on every booking. Whether it can collect a deposit during the call depends on the vendor and your booking system; we check that in the fit review.' },
       { q: 'Will it work with our booking software?', a: 'We check this in the fit review. Where the vendor integrates with your system, consultations are booked straight in; otherwise your team gets a ready-to-confirm request.' },
-      { q: 'What about privacy?', a: 'We keep messages to what your team needs to follow up. If your spa handles protected health information by phone, we shortlist vendors that publish a BAA.' },
+      { q: 'What about privacy?', a: 'We keep messages to what your team needs to follow up. If your spa handles protected health information by phone, we shortlist vendors that offer a HIPAA privacy agreement (BAA).' },
       { q: 'How long does setup take?', a: 'Go-live within 7 business days of receiving your intake and vendor account access, then 60 days of weekly tuning.' },
     ],
   },

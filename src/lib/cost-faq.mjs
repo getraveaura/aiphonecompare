@@ -3,8 +3,8 @@
 // without a new visible block. No dollar amounts on purpose.
 export function costFaqs(checkedLabel) {
   return [
-    { q: 'How do you estimate a monthly bill?', a: "Enter your own call volume. The rows turn that into a monthly scenario only where the provider's pricing page publishes the unit, the allowance, and the overage. A starting price is not the same as this bill." },
-    { q: 'Which providers are included in these estimates?', a: `These providers are the ones whose own sites, checked ${checkedLabel}, publish enough to do this math. The other vendors stay in the starting-price directory.` },
-    { q: 'Are the estimates sorted by price or marked cheapest?', a: 'Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not printed are not included.' },
+    { q: 'How do you estimate a monthly bill?', a: "Type in how many calls you get. We show your estimated monthly bill only where the company's own price page says what it charges for (calls or minutes), how much is included and what extra use costs. A starting price is often not what you'd really pay." },
+    { q: 'Which companies are included in these estimates?', a: `These are the companies whose own websites, checked ${checkedLabel}, publish enough prices to do this math. The others are in the starting-price list.` },
+    { q: 'Are the estimates sorted by price or marked cheapest?', a: 'Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not listed are not included.' },
   ];
 }

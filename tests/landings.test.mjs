@@ -38,7 +38,7 @@ test('Goodcall is not converted from call count, and Housecall has no invented p
   const dental = pages.find((page) => page.path === '/cost/dental/');
   const table = dental.blocks.find((block) => block.type === 'table');
   const goodcall = table.rows.find((row) => row[0].text === 'Goodcall');
-  assert.match(goodcall[2].text, /Unique callers/);
+  assert.match(goodcall[2].text, /different caller/);
   const jobber = pages.find((page) => page.path === '/compare/jobber-vs-housecall-pro/');
   const blob = JSON.stringify(jobber);
   assert.match(blob, /Not verified/);
@@ -80,9 +80,9 @@ test('new compare pages stay inside sourced records and do not invent a ServiceT
   const oncrew = pages.find((page) => page.path === '/compare/oncrew-vs-nextphone/');
   for (const page of [smith, rosie, jobber, oncrew]) {
     assert.ok(page, 'missing compare page');
-    assert.match(page.answer.join(' '), /directory|cost model/i);
+    assert.match(page.answer.join(' '), /directory|cost model|cost calculator/i);
   }
-  assert.match(smith.answer.join(' '), /unique callers/i);
+  assert.match(smith.answer.join(' '), /different caller/i);
   assert.match(rosie.answer.join(' '), /does not calculate a bill/i);
   assert.match(jobber.answer.join(' '), /no starting price/i);
   assert.doesNotMatch(jobber.answer.join(' '), /ServiceTitan AI Voice Agent: \$\d/);

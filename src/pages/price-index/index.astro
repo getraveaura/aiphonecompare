@@ -149,7 +149,7 @@ const jsonld = {
 
     <section aria-labelledby="plans-h">
       <h2 id="plans-h" class="pindex-h2">Published plan detail</h2>
-      <p class="note">Plan-level prices for providers that publish allowances and overage rates. Checked <time datetime={models.checked}>{formatDate(models.checked)}</time>. Price your own call volume on the <a href="/cost/calculator/">cost calculator</a>.</p>
+      <p class="note">Plan prices for companies that publish what's included and what extra use costs. Checked <time datetime={models.checked}>{formatDate(models.checked)}</time>. Price your own call volume on the <a href="/cost/calculator/">cost calculator</a>.</p>
       <div class="pindex-plans">
         {models.providers.map((p) => (
           <article class="cost-provider">
@@ -203,7 +203,7 @@ const jsonld = {
 
     <section class="prose" aria-labelledby="method-h">
       <h2 id="method-h">Method</h2>
-      <p>A starting price is the entry-level price text published for a vendor, copied as written from the source linked in its row, with the date we checked it. It is not your bill: allowances, overage and setup fees change what you pay. A blank means we could not verify that field, not that it is free. Source type compares the source’s web address with the vendor’s website on file. Sponsorship never changes a price, a row or the order. More on <a href="/about/">how we rank and verify</a>.</p>
+      <p>A starting price is the entry-level price text published for a vendor, copied as written from the source linked in its row, with the date we checked it. It is not your bill: how much is included, extra-use charges and setup fees change what you pay. A blank means we could not verify that field, not that it is free. Source type compares the source’s web address with the vendor’s website on file. Sponsorship never changes a price, a row or the order. More on <a href="/about/">how we rank and verify</a>.</p>
     </section>
   </div>
 </Base>

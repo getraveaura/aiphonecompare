@@ -1,4 +1,5 @@
 ---
+import PlainIntro from '../../components/PlainIntro.astro';
 import Base from '../../layouts/Base.astro';
 import VendorMark from '../../components/VendorMark.astro';
 import VerifyStrip from '../../components/VerifyStrip.astro';
@@ -25,7 +26,7 @@ const checkedLabel = v.last_checked
   : '';
 const facts = [
   ['Starting price', v.starting_price],
-  ['HIPAA / BAA', v.hipaa_baa],
+  ['HIPAA privacy agreement (BAA)', v.hipaa_baa],
   ['Integrations', v.integrations],
 ];
 const details = [
@@ -81,6 +82,7 @@ const jsonld = {
       <VerifyStrip />
       <h1 class="with-mark"><VendorMark slug={v.slug} name={v.name} />{v.name}</h1>
       {v.sponsored && <p><span class="badge">Sponsored</span></p>}
+      <PlainIntro text={`What ${v.name} costs, what it does and how it compares, taken from its own public pages.`} secondary={['/vendors/', 'Compare with others']} />
       <AnswerSummary sentences={summary} verified={v.last_checked} sources={summarySources} />
       {outbound && <p class="lead" style="margin-top:14px"><a href={outbound.href} rel={outbound.rel} data-vendor-slug={v.slug} data-vendor-referral={outbound.isReferral ? "1" : "0"}>{v.website || outbound.href}</a></p>}
       {outbound?.isReferral && <p class="note referral-note">{REFERRAL_NOTE}</p>}

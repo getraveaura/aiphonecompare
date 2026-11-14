@@ -20,7 +20,7 @@ const freeCount = cheapest.filter((v) => v.monthly === 0).length;
 const summary = [
   'Monthly revenue lost to missed calls = calls per week × the share you miss × the share of those callers who would have become customers × your average job value, × 52 ÷ 12.',
   'This calculator uses only the four numbers you enter, with no industry averages, and also shows how many jobs a month would cover each of the lowest published AI receptionist prices.',
-  low ? `The lowest paid monthly amount written in a listing here is ${money(low.monthly)}/mo, for ${low.name}${low.last_checked ? `, checked ${formatDate(low.last_checked)}` : ''}${freeCount ? `; ${freeCount} listing${freeCount === 1 ? '' : 's'} also show a $0 tier` : ''}.` : '',
+  low ? `The lowest paid monthly amount written in a listing here is ${money(low.monthly)}/mo, for ${low.name}${low.last_checked ? `, checked ${formatDate(low.last_checked)}` : ''}${freeCount ? `; ${freeCount} listing${freeCount === 1 ? '' : 's'} also show a free plan` : ''}.` : '',
 ].filter(Boolean);
 const description = 'Work out monthly revenue lost to missed calls from your own four numbers, and how many jobs a month would pay for an AI receptionist at published prices.';
 // dateModified is the latest checked date among the prices this page shows.
@@ -30,7 +30,7 @@ const site = new URL('/', Astro.site).href;
 const faqs = [
   { q: 'How do I calculate revenue lost to missed calls?', a: 'Multiply calls per week by the percent you miss, then by the percent of those callers who would have become customers, then by your average job value. That is a weekly figure. Multiply by 52 and divide by 12 for a month.' },
   { q: 'Does this calculator use industry averages?', a: 'No. It uses only the four numbers you enter. We do not add outside statistics on missed-call rates or conversion, because we could not source one that fits every business.' },
-  { q: 'How many jobs would pay for an AI receptionist?', a: `Divide the plan's monthly price by your average job value. The table below does this for the lowest monthly amounts written in our listings${low ? `, from ${money(low.monthly)}/mo for ${low.name} among paid amounts` : ''}. A starting price is not your full bill: allowances, overage and setup fees can add to it.` },
+  { q: 'How many jobs would pay for an AI receptionist?', a: `Divide the plan's monthly price by your average job value. The table below does this for the lowest monthly amounts written in our listings${low ? `, from ${money(low.monthly)}/mo for ${low.name} among paid amounts` : ''}. A starting price is not your full bill: included amounts, extra-use charges and setup fees can add to it.` },
   { q: 'Are these the best AI receptionists?', a: 'No. They are the listings with the lowest monthly dollar amount written in the published price. This is not a ranking of quality, and sponsorship does not change it.' },
 ];
 const jsonld = {
@@ -173,7 +173,7 @@ const jsonld = {
         cell.innerHTML = '<span class="missing">Enter a job value</span>';
         return;
       }
-      if (monthly === 0) { cell.textContent = '$0 tier'; return; }
+      if (monthly === 0) { cell.textContent = 'Free plan'; return; }
       var jobs = Math.ceil(monthly / job);
       cell.textContent = jobs + (jobs === 1 ? ' job' : ' jobs');
     });

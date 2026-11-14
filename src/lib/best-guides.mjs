@@ -48,15 +48,15 @@ const GUIDES = [
     lede: 'This page is for dental practices comparing AI receptionists. It is not a ranked list. Rows are alphabetical, sponsored listings are labeled, and payment does not change a price.',
     scope: 'The table is the dental directory on this site. Every starting price is the text recorded from the vendor page or cited source, with the date it was checked.',
     checks: [
-      { h: 'Booking write-back', p: 'Ask whether it books straight into your practice management system (Dentrix, Eaglesoft, Open Dental, Curve, Denticon) or only takes a message.' },
-      { h: 'BAA in writing', p: 'A vendor that hears patient details is a HIPAA business associate. A "HIPAA compliant" badge is not a signed Business Associate Agreement.' },
+      { h: 'Books into your schedule', p: 'Ask whether it books straight into your dental software (Dentrix, Eaglesoft, Open Dental, Curve, Denticon) or only takes a message.' },
+      { h: 'Privacy agreement in writing', p: 'A service that hears patient details must sign a HIPAA privacy agreement with you (called a BAA, or Business Associate Agreement). A "HIPAA compliant" badge is not the same as a signed agreement.' },
       { h: 'Emergency handoff', p: 'Place an after-hours urgent call and see whether a person gets it, with the context your team needs.' },
       { h: 'Recording notice', p: 'If the tool records or transcribes, match the announcement to the caller\'s state on the call recording consent page.' },
     ],
     faqs: [
       { q: 'Which AI receptionist is best for a dental office?', a: 'This site does not pick a winner. Use the checks on this page, compare the sourced starting prices, and run your own call volume on the dental cost page and the calculator where a vendor publishes enough to estimate a bill.' },
       { q: 'Are these tools ranked?', a: 'No. Rows are alphabetical. A sponsored listing is labeled and can appear first only on the one industry page it paid for. Payment does not change a price or the order of the other rows.' },
-      { q: 'What should a dental office test before buying?', a: 'Ask for a booking that writes into the practice management system, not only a message. Ask for the signed BAA, not only a HIPAA badge. Place an after-hours urgent call and see whether a person gets it.' },
+      { q: 'What should a dental office test before buying?', a: 'Ask for a booking that lands in your dental software, not only a message. Ask for a signed HIPAA privacy agreement (BAA), not only a HIPAA badge. Place an after-hours urgent call and see whether a person gets it.' },
     ],
   },
   {
@@ -136,7 +136,7 @@ const GUIDES = [
     faqs: [
       { q: 'Which AI receptionist is best for an HVAC or plumbing shop?', a: 'This site does not pick a winner. Use the checks on this page, compare the sourced starting prices, and run your own call volume on the home-services cost page, the 3-tech HVAC shop cost page, and the calculator where a vendor publishes enough to estimate a bill.' },
       { q: 'Are these tools ranked?', a: 'No. Rows are alphabetical. A sponsored listing is labeled and can appear first only on the one industry page it paid for. Payment does not change a price or the order of the other rows.' },
-      { q: 'What should a plumbing or HVAC company test in a demo?', a: 'Place an emergency call and see whether it reaches the on-call technician. Check ServiceTitan, Jobber, or Housecall Pro support on the vendor page. Compare per-minute, per-call, and flat prices against a busy week of your own calls. The cost pages do that math only where the vendor publishes allowances and overage.' },
+      { q: 'What should a plumbing or HVAC company test in a demo?', a: 'Place an emergency call and see whether it reaches the on-call technician. Check ServiceTitan, Jobber, or Housecall Pro support on the vendor page. Compare per-minute, per-call, and flat prices against a busy week of your own calls. The cost pages do that math only where the vendor publishes what’s included and what extra use costs.' },
     ],
   },
   {
@@ -149,12 +149,12 @@ const GUIDES = [
     kicker: 'Veterinary practices',
     description: 'Best AI receptionist for veterinarians: the one sourced listing that mentions veterinary practices, with no paid ranking and no invented vet directory.',
     lede: 'This page is for veterinary practices comparing AI receptionists. It is not a ranked list. Payment does not change a price.',
-    scope: 'This site does not keep a veterinary vendor directory. The table lists the one vendor whose sourced record mentions veterinary practices: Weave. Its questions page says it is built for dental, medical, veterinary, optical, and specialty healthcare, and its integrations line names practice systems across dental, medical, optometry, and veterinary. Automatic booking is described for qualified dental PMS only. The recorded starting price is the base plan, from $199/mo; the AI Receptionist line is labeled early access and has no published price of its own.',
+    scope: 'This site does not keep a veterinary vendor directory. The table lists the one vendor whose sourced record mentions veterinary practices: Weave. Its questions page says it is built for dental, medical, veterinary, optical, and specialty healthcare, and its integrations line names practice systems across dental, medical, optometry, and veterinary. Automatic booking is described for qualified dental software only. The recorded starting price is the base plan, from $199/mo; the AI Receptionist line is labeled early access and has no published price of its own.',
     subsetNote: 'This site does not keep a separate veterinary vendor directory. The table lists the one vendor whose sourced record mentions veterinary practices.',
     checks: [
       { h: 'Who the listing actually names', p: 'Confirm with the vendor that veterinary workflows are supported, not only mentioned on a marketing page. This directory has no second veterinary listing to compare against.' },
-      { h: 'Booking write-back', p: "Weave's record describes automatic booking for qualified dental practice systems only. Ask whether your veterinary practice software is included before you assume a booking will land in the schedule." },
-      { h: 'Health information', p: 'If you handle protected health information, confirm a signed Business Associate Agreement before those details are spoken. Weave publishes a BAA naming Weave Communications, Inc. A HIPAA badge is not a signed agreement.' },
+      { h: 'Books into your schedule', p: "Weave's record describes automatic booking for qualified dental software only. Ask whether your veterinary practice software is included before you assume a booking will land in the schedule." },
+      { h: 'Health information', p: 'If you handle protected health information, confirm a signed HIPAA privacy agreement (Business Associate Agreement, or BAA) before those details are spoken. Weave publishes a BAA naming Weave Communications, Inc. A HIPAA badge is not a signed agreement.' },
       { h: 'Recording notice', p: "If the tool records or transcribes, match the announcement to the caller's state on the call recording consent page." },
     ],
     faqs: [
@@ -233,7 +233,7 @@ const GUIDES = [
     checks: [
       { h: 'After-hours maintenance', p: 'In a demo, ask how an after-hours maintenance call is taken, urgent issues are escalated, and a work order or message reaches your team.' },
       { h: 'Resident vs. applicant calls', p: 'Confirm the agent can tell a current resident from a leasing inquiry, and that each path follows your rules.' },
-      { h: 'Software write-back', p: 'If you need a work order or a showing to land in your property-management software, test that write-back. A marketing or integration page is not the same as a booking in your live system.' },
+      { h: 'Books into your software', p: 'If you need a work order or a showing to land in your property-management software, test that it really does. A marketing or integration page is not the same as a booking in your live system.' },
       { h: 'Recording notice', p: "If calls are recorded, check the caller's state on the call recording consent page." },
     ],
     faqs: [
@@ -257,7 +257,7 @@ const GUIDES = [
     checks: [
       { h: 'After-hours and drop-off', p: 'In a demo, try an after-hours call and a request to schedule a drop-off or a ride, and see whether the shop gets a usable message.' },
       { h: 'Bay and advisor rules', p: 'Ask whether booking follows your advisor hours and bay limits, or only takes a callback request.' },
-      { h: 'Shop software write-back', p: 'If you need the appointment in Tekmetric, Shopmonkey, AutoLeap, or another shop system, test that write-back before you rely on it. Some listings are add-ons for one platform only.' },
+      { h: 'Books into your shop software', p: 'If you need the appointment in Tekmetric, Shopmonkey, AutoLeap, or another shop system, test that it lands there before you rely on it. Some listings are add-ons for one platform only.' },
       { h: 'Recording notice', p: "If calls are recorded, check the caller's state on the call recording consent page." },
     ],
     faqs: [
@@ -281,7 +281,7 @@ const GUIDES = [
     checks: [
       { h: 'This is not the med-spa guide', p: 'If you run a med spa, use the med-spa guide, which is honest about using the medical-practice directory. This page is for salons.' },
       { h: 'Stylist and service booking', p: 'In a demo, try booking, moving, and canceling a service with the right stylist and duration, in the booking system you actually use.' },
-      { h: 'Software write-back', p: 'Confirm the booking lands in your salon software. Some listings are add-ons for one platform only.' },
+      { h: 'Books into your software', p: 'Confirm the booking lands in your salon software. Some listings are add-ons for one platform only.' },
       { h: 'Recording notice', p: "If calls are recorded, check the caller's state on the call recording consent page." },
     ],
     storyLinks: [
@@ -355,12 +355,12 @@ function buildGuide(guide, list) {
     countLine,
     guide.lede,
     range || (ordered.length
-      ? 'Monthly scenarios at 50, 150, and 300 calls are on the matching cost page, only where a vendor publishes enough to estimate a bill.'
+      ? 'Monthly cost examples at 50, 150, and 300 calls are on the matching cost page, only where a vendor publishes enough to estimate a bill.'
       : 'Use the cost calculator with your own call volume. This page does not invent a typical bill for this industry.'),
   ];
   const related = [
     ...(guide.industryPath ? [{ href: guide.industryPath, label: `${industryLabel(guide.industryKey)} directory` }] : []),
-    ...(cost ? [{ href: guide.costPath, label: cost.h1 }] : [{ href: '/cost/', label: 'What an AI receptionist will cost' }]),
+    ...(cost ? [{ href: guide.costPath, label: cost.h1 }] : [{ href: '/cost/', label: 'What an AI receptionist really costs per month' }]),
     ...(extraCost ? [{ href: extraCost.path, label: extraCost.h1 }] : []),
     { href: calculatorPath, label: 'Cost calculator' },
     { href: dfyPath, label: guide.dfySlug ? 'Done-for-you setup for this industry' : 'Done-for-you setup' },

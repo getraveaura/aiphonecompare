@@ -1,4 +1,5 @@
 ---
+import PlainIntro from './PlainIntro.astro';
 import Base from '../layouts/Base.astro';
 import IndustryIcon from './IndustryIcon.astro';
 import VerifyStrip from './VerifyStrip.astro';
@@ -55,7 +56,7 @@ const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 const site = new URL('/', Astro.site).href;
 const pageTitle = `${title}: pricing compared${latest ? ` (${latest.slice(0, 4)})` : ''}`;
 const summarySources = [{ href: '/price-index/', label: 'aiphonecompare price index' }, ...(low ? sourceLinks(low.sources, 1).map((s) => ({ ...s, label: `${low.name}: ${s.label}` })) : [])];
-const metaDescription = `${summary[0]} HIPAA/BAA, human handoff and integrations are compared with sources.`;
+const metaDescription = `${summary[0]} Patient privacy (HIPAA), handing calls to a person and the software each works with are compared with sources.`;
 const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -73,8 +74,9 @@ const jsonld = {
       <VerifyStrip />
       <p class="industry-kicker"><IndustryIcon name={key} />{industryLabel(key)}</p>
       <h1>{title}</h1>
+      <PlainIntro text={`Compare AI phone answering services for ${industryLabel(key).toLowerCase()} side by side: real starting prices, patient or client privacy, and whether a real person can take over the call.`} />
       <AnswerSummary sentences={summary} verified={latest} sources={summarySources} />
-      <p class="lead">Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a provider publishes allowances and overage rates. <a href={`/cost/calculator/?industry=${key}&calls=150&minutes=3`}>Open the calculator</a>.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}{bestGuide && <> <a href={bestGuide.href}>{bestGuide.label}</a>.</>}</p>
+      <p class="lead">Sponsored listings are labeled. <a href="/cost/">See what a call volume costs</a> where a company publishes enough prices to work it out. <a href={`/cost/calculator/?industry=${key}&calls=150&minutes=3`}>Open the calculator</a>.{costGuide && <> <a href={costGuide.href}>{costGuide.label}</a>.</>}{bestGuide && <> <a href={bestGuide.href}>{bestGuide.label}</a>.</>}</p>
     </div>
   </header>
   <div class="wrap stack">

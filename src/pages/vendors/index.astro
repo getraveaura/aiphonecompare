@@ -1,4 +1,5 @@
 ---
+import PlainIntro from '../../components/PlainIntro.astro';
 import Base from '../../layouts/Base.astro';
 import VendorMark from '../../components/VendorMark.astro';
 import data from '../../data/vendors.json';
@@ -37,8 +38,9 @@ const jsonld = {
 <Base title="AI receptionist vendors" description={description} jsonld={jsonld}>
   <header class="page-intro">
     <div class="wrap">
-      <h1>AI receptionist vendors</h1>
-      <p class="lead">This is the directory of AI receptionist vendors we track. Starting prices are sourced. Sponsored spots are labeled.</p>
+      <h1>Every AI phone answering service we compare</h1>
+      <p class="lead">This is the full list of AI receptionists (AI phone answering services) we track, A to Z. Each starting price links to where we found it. Ads are labeled Sponsored.</p>
+      <PlainIntro />
     </div>
   </header>
   <div class="wrap stack">

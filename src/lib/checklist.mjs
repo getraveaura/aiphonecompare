@@ -1,5 +1,5 @@
 const BASE = [
-  'What is the monthly price, what does that price include, and what is the overage rate?',
+  'What is the monthly price, what does it include, and what do extra minutes or calls cost?',
   'Is there a setup fee, a minimum term, or a fee to cancel early?',
   'If a caller asks for a person, or says the call is an emergency, what happens, including after hours?',
   'Does it book into the calendar or job system you already use, and who fixes a booking that is wrong?',

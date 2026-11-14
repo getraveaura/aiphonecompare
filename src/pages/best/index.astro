@@ -1,4 +1,5 @@
 ---
+import PlainIntro from '../../components/PlainIntro.astro';
 import Base from '../../layouts/Base.astro';
 import IndustryIcon from '../../components/IndustryIcon.astro';
 import { getBestGuides } from '../../lib/best-guides.mjs';
@@ -25,7 +26,8 @@ const jsonld = {
   <header class="page-intro">
     <div class="wrap">
       <h1>{title}</h1>
-      <p class="lead">Each guide that has listings uses the sourced directory and the published cost pages. We do not pick a winner, and payment does not change a price or the order of the other rows. Where we have no vendor list for an industry, the guide says so plainly.</p>
+      <p class="lead">Pick your type of business to see which AI phone answering services fit, what they cost and what to test before you buy. We don't pick a winner, and no company can pay to rank higher.</p>
+      <PlainIntro />
     </div>
   </header>
   <div class="wrap stack">
