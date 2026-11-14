@@ -3,7 +3,10 @@ import '../styles/global.css';
 import '../styles/design.css';
 import Wordmark from '../components/Wordmark.astro';
 import PostHog from '../components/PostHog.astro';
-const { title, ogImage: ogPath = '/og.png', dock, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld, noindex = false, modified = '' } = Astro.props;
+import { AUDIT_PATH, showAuditLinks } from '../lib/audit.mjs';
+const { title, ogImage: ogPath = '/og.png', dock, description = "The independent, verified price comparison for AI receptionists, by industry. Every price sourced and dated; sponsored spots labeled.", jsonld, noindex = false, robots = '', modified = '' } = Astro.props;
+// `robots` (e.g. "noindex,nofollow" for a page that is not live yet) wins over `noindex`.
+const robotsContent = robots || (noindex ? 'noindex' : '');
 const canonical = new URL(Astro.url.pathname, Astro.site).href;
 const ogImage = new URL(ogPath, Astro.site).href;
 const logoImage = new URL('/og.png', Astro.site).href;
@@ -67,7 +70,7 @@ const groupActive = (items) => items.some(([href]) => path === href || (href !==
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{title} | aiphonecompare</title>
   <meta name="description" content={description}/>
-  {noindex && <meta name="robots" content="noindex"/>}
+  {robotsContent && <meta name="robots" content={robotsContent}/>}
   <link rel="preload" href="/fonts/source-sans-3-400.woff2" as="font" type="font/woff2" crossorigin/>
   <link rel="preload" href="/fonts/newsreader-600.woff2" as="font" type="font/woff2" crossorigin/>
   <link rel="canonical" href={canonical}/>
@@ -168,6 +171,7 @@ const groupActive = (items) => items.some(([href]) => path === href || (href !==
           <a href="/cost/calculator/">Calculator</a>
           <a href="/overpaying/">Price check</a>
           <a href="/missed-call-calculator/">Missed-call calculator</a>
+          {showAuditLinks() && <a href={AUDIT_PATH}>Free audit</a>}
           <a href="/cost/">Cost</a>
           <a href="/call-recording-consent-by-state/">Call recording consent</a>
         </nav>

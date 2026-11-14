@@ -1,0 +1,21 @@
+---
+// "Built for your industry" cards linking the done-for-you industry pages.
+import IndustryIcon from './IndustryIcon.astro';
+import { DFY_INDUSTRIES, dfyIndustryPath } from '../lib/dfy-industries.mjs';
+const { exclude = '', heading = 'Built for your industry', lead = 'The same setup, pick and guarantee, with scripts, call flows and answers tuned to the calls your business actually gets.' } = Astro.props;
+const items = DFY_INDUSTRIES.filter((item) => item.slug !== exclude);
+---
+<section class="dfy-industries" aria-labelledby="dfy-industries-heading">
+  <h2 id="dfy-industries-heading" class="section-title">{heading}</h2>
+  {lead && <p class="dfy-industries-lead">{lead}</p>}
+  <div class={`industries dfy-industry-cards count-${items.length}`}>
+    {items.map((item) => (
+      <a class="industry" data-industry={item.accent} href={dfyIndustryPath(item.slug)}>
+        <IndustryIcon name={item.icon} />
+        <h3>{item.name}</h3>
+        <p>{item.cardLine}</p>
+        <span class="go">See the {item.name.toLowerCase()} setup <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+      </a>
+    ))}
+  </div>
+</section>

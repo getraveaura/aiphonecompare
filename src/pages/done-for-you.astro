@@ -1,7 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
+import AuditCta from '../components/AuditCta.astro';
+import DfyGuarantee from '../components/DfyGuarantee.astro';
+import DfyIndustryCards from '../components/DfyIndustryCards.astro';
+import DfyMeasure from '../components/DfyMeasure.astro';
 import { SHOW_OFFER_PROOF, DFY_EMAIL, DFY_OFFERS, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../lib/offers.mjs';
+import { DFY_CASE_STUDY_NOTE, DFY_QUESTIONS_LINE } from '../lib/dfy-industries.mjs';
 
 const title = 'Done-for-you AI receptionist setup';
 const description = 'We pick, set up and tune your AI receptionist from vendors with verified, sourced prices. $1,500 one-time ($1,000 founding rate for the first 5 businesses), with a defined result or a full refund of our fee.';
@@ -115,6 +120,7 @@ import OtherOffers from '../components/OtherOffers.astro';
         <h2 id="price-heading">One-time fee</h2>
         <p class="dfy-amount">$1,500 <span>one-time</span></p>
         <p class="dfy-founding"><strong>Founding rate: $1,000</strong> for the first 5 businesses.</p>
+        <p class="dfy-casestudy">{DFY_CASE_STUDY_NOTE}</p>
         <ul class="dfy-terms">
           <li>Fit review, pick, setup, testing and 60 days of tuning</li>
           <li>Live within 7 business days of intake and account access</li>
@@ -124,41 +130,13 @@ import OtherOffers from '../components/OtherOffers.astro';
         <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
         <p class="dfy-spots">{spotsNote}</p>
         <a class="btn btn-ghost" href={standard.url} data-offer-checkout="dfy_standard">{standardLabel}</a>
-        <p class="dfy-mail">Questions first? Email <a href={mailto}>{email}</a></p>
+        <p class="dfy-mail">Questions first? Email <a href={mailto}>{email}</a> — {DFY_QUESTIONS_LINE}</p>
       </aside>
     </div>
 
-    <section class="dfy-measure" aria-labelledby="measure-heading">
-      <h2 id="measure-heading">How we measure</h2>
-      <p class="dfy-measure-lead">The result is defined before we start, from your own phone and booking records.</p>
-      <dl class="record">
-        <div>
-          <dt>Baseline</dt>
-          <dd>The 14 days before go-live, from your phone system's call log: (a) inbound calls during the hours the receptionist will cover, (b) how many were answered or got a usable message (caller name, reason and callback number), which we call "captured", and (c) appointments booked by phone, from your booking system.</dd>
-        </div>
-        <div>
-          <dt>Measurement window</dt>
-          <dd>Days 31 to 60 after go-live, once tuning has settled. Same hours, same sources.</dd>
-        </div>
-        <div>
-          <dt>Result</dt>
-          <dd>
-            Either of these:
-            <ul class="dfy-either">
-              <li>At least <strong>90% of inbound calls</strong> in covered hours are captured (answered, booked, transferred, or a usable message taken), <strong>or</strong></li>
-              <li>Phone-booked appointments are at least <strong>15% higher per week</strong> than the baseline weekly average.</li>
-            </ul>
-          </dd>
-        </div>
-      </dl>
-    </section>
+    <DfyMeasure />
 
-    <section class="dfy-guarantee" aria-labelledby="guarantee-heading">
-      <h2 id="guarantee-heading">The guarantee</h2>
-      <p class="dfy-promise">If neither result is reached by day 60, you get a full refund of our $1,500 fee (or $1,000 at the founding rate). No arguing.</p>
-      <p>Two conditions, in plain words: the receptionist stays live and calls are forwarded as set up for the 60 days, and you share the call log and booking counts for the baseline and measurement windows.</p>
-      <p class="note">Vendor subscription fees are paid to the vendor and are covered by the vendor's own terms, not by this refund. Full terms are in our <a href="/refunds/#done-for-you">refund policy</a>.</p>
-    </section>
+    <DfyGuarantee />
 
     <section class="dfy-fit" aria-labelledby="fit-heading">
       <h2 id="fit-heading" class="section-title">Who it's for</h2>
@@ -174,9 +152,13 @@ import OtherOffers from '../components/OtherOffers.astro';
       </div>
     </section>
 
+    <DfyIndustryCards />
+
     {SHOW_OFFER_PROOF && <OfferProof heading="Results from founding customers" body="We're taking our first 5 founding businesses now. With each one's permission, we'll publish their baseline and day-60 results here, measured the way this page describes. We won't post made-up quotes or numbers." />}
 
     <Faq items={faqs}/>
+
+    <AuditCta />
 
     <section class="dfy-close" aria-labelledby="close-heading">
       <h2 id="close-heading">Ready when you are</h2>
@@ -186,7 +168,7 @@ import OtherOffers from '../components/OtherOffers.astro';
         <a class="btn btn-ghost" href={standard.url} data-offer-checkout="dfy_standard">{standardLabel}</a>
       </div>
       <p class="dfy-spots">{spotsNote}</p>
-      <p class="dfy-mail dfy-mail-left">Questions first? Email <a href={mailto}>{email}</a></p>
+      <p class="dfy-mail dfy-mail-left">Questions first? Email <a href={mailto}>{email}</a> — {DFY_QUESTIONS_LINE}</p>
     </section>
   </div>
 

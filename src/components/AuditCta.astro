@@ -1,0 +1,22 @@
+---
+// "Not sure yet? Get a free missed-call audit" block. Renders nothing until
+// AUDIT_LIVE is true, so no page links to /audit/ before it is ready.
+import { AUDIT_PATH, showAuditLinks } from '../lib/audit.mjs';
+const {
+  heading = 'Not sure yet? Get a free missed-call audit',
+  body = 'We place one short, polite after-hours test call to your business line and email you a one-page report within 1 business day: was it answered, how fast, and what a caller was offered. Free, no obligation.',
+  label = 'Get my free audit',
+} = Astro.props;
+---
+{showAuditLinks() && (
+  <aside class="audit-cta" aria-label="Free missed-call audit">
+    <span class="audit-cta-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z"/><path d="M15 3.5a5.5 5.5 0 0 1 5.5 5.5M15 7a2 2 0 0 1 2 2"/></svg>
+    </span>
+    <div class="audit-cta-copy">
+      <h2>{heading}</h2>
+      <p>{body}</p>
+    </div>
+    <a class="btn btn-primary" href={AUDIT_PATH} data-audit-link>{label} <span class="arrow" aria-hidden="true">→</span></a>
+  </aside>
+)}

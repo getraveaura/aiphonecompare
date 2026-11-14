@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import CallSlider from '../components/CallSlider.astro';
 import IndustryIcon from '../components/IndustryIcon.astro';
 import VendorMark from '../components/VendorMark.astro';
+import AuditCta from '../components/AuditCta.astro';
+import { showAuditLinks } from '../lib/audit.mjs';
 import data from '../data/vendors.json';
 import stories from '../data/stories.json';
 import priceLog from '../data/price-changes.json';
@@ -183,6 +185,13 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
       </div>
     </div>
   </section>
+  {showAuditLinks() && (
+    <section class="band">
+      <div class="wrap">
+        <AuditCta heading="Wondering what happens when customers call after hours?" />
+      </div>
+    </section>
+  )}
   <section class="band">
     <div class="wrap">
       <h2 class="section-title">All vendors</h2>
