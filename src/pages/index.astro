@@ -1,5 +1,7 @@
 ---
 import GridCta from '../components/GridCta.astro';
+import { homePicks } from '../lib/home-picks.mjs';
+import pricePlans from '../data/price-plans.json';
 import Base from '../layouts/Base.astro';
 import CallSlider from '../components/CallSlider.astro';
 import IndustryIcon from '../components/IndustryIcon.astro';
@@ -19,10 +21,7 @@ const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', 
 const checkedLabel = (iso) => iso
   ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`))
   : '';
-const picks = [...data]
-  .filter((v) => v.starting_price)
-  .sort((a, b) => a.name.localeCompare(b.name))
-  .slice(0, 5);
+const picks = homePicks(data, pricePlans, 5);
 const industryText = (v) => (v.industries || []).map((k) => industryLabel[k] || k).filter(Boolean).join(', ');
 const built = new Date().toISOString().slice(0, 10);
 const freshStories = latestByAdded(stories, 4);
@@ -103,7 +102,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
   <section class="picks-band" aria-labelledby="top-picks-heading">
     <div class="wrap">
       <h2 class="section-title" id="top-picks-heading">Starting prices, straight from each company</h2>
-      <p class="price-cards-caption" id="top-picks-caption">Not a ranking. The first five services, A to Z, that show a starting price on their website.</p>
+      <p class="price-cards-caption" id="top-picks-caption">Not a ranking. Five services, A to Z, that publish their plans and prices on their own website.</p>
       <ul class="price-cards picks balanced" role="list" aria-labelledby="top-picks-caption">
         {picks.map((v) => (
           <li class="price-card">
