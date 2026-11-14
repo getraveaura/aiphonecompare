@@ -4,6 +4,7 @@ import Faq from '../../components/Faq.astro';
 import IndustryIcon from '../../components/IndustryIcon.astro';
 import AuditCta from '../../components/AuditCta.astro';
 import DfyGuarantee from '../../components/DfyGuarantee.astro';
+import DfyCarePlans from '../../components/DfyCarePlans.astro';
 import DfyIndustryCards from '../../components/DfyIndustryCards.astro';
 import DfyMeasure from '../../components/DfyMeasure.astro';
 import { DFY_EMAIL, DFY_OFFERS, DFY_PATH, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../../lib/offers.mjs';
@@ -135,6 +136,8 @@ const jsonld = {
     <DfyMeasure />
 
     <DfyGuarantee />
+
+    <DfyCarePlans />
 
     <Faq items={item.faqs}/>
 
