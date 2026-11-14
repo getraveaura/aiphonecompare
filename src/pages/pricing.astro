@@ -4,6 +4,7 @@ import VendorTable from '../components/VendorTable.astro';
 import data from '../data/vendors.json';
 import { formatDate } from '../lib/stories.mjs';
 import { latestChecked } from '../lib/schema.mjs';
+import AuditCta from '../components/AuditCta.astro';
 const v = [...data].sort((a, b) => (b.starting_price ? 1 : 0) - (a.starting_price ? 1 : 0) || a.name.localeCompare(b.name));
 const latest = latestChecked(data);
 const latestLabel = latest ? formatDate(latest) : '';
@@ -34,6 +35,7 @@ const jsonld = {
     </div>
   </header>
   <div class="wrap stack">
+    <AuditCta />
     <VendorTable vendors={v}/>
   </div>
 </Base>

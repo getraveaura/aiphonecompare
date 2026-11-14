@@ -6,8 +6,10 @@ import { accent } from '../../lib/industries.mjs';
 import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
 import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
 const guides = getBestGuides();
+const listed = guides.filter((page) => page.count > 0);
+const unlisted = guides.filter((page) => page.count === 0);
 const title = 'Best AI receptionist by industry';
-const description = 'Sourced guides for dentists, law firms, med spas, and HVAC or plumbing shops. These are not ranked lists. Each page uses the directory and the published cost pages on this site.';
+const description = 'Sourced AI receptionist guides by industry. These are not ranked lists. Where this site has no vendor directory, the page says so and points to the free check, the calculator, and done-for-you setup.';
 const pageUrl = new URL('/best/', Astro.site).href;
 const site = new URL('/', Astro.site).href;
 const jsonld = {
@@ -23,20 +25,36 @@ const jsonld = {
   <header class="page-intro">
     <div class="wrap">
       <h1>{title}</h1>
-      <p class="lead">Each guide uses the sourced directory and the published cost pages. We do not pick a winner, and payment does not change a price or the order of the other rows.</p>
+      <p class="lead">Each guide that has listings uses the sourced directory and the published cost pages. We do not pick a winner, and payment does not change a price or the order of the other rows. Where we have no vendor list for an industry, the guide says so plainly.</p>
     </div>
   </header>
   <div class="wrap stack">
     <div class="industries">
-      {guides.map((page) => (
-        <a class="industry reveal" data-industry={page.industryKey} href={page.path} style={`--accent:${accent(page.accent || page.industryKey)}`}>
+      {listed.map((page) => (
+        <a class="industry reveal" data-industry={page.industryKey || page.accent} href={page.path} style={`--accent:${accent(page.accent || page.industryKey)}`}>
           <IndustryIcon name={page.accent || page.industryKey} />
           <h2>{page.h1}</h2>
-          <p>{page.count} sourced listings · {page.kicker}</p>
+          <p>{page.count} sourced listing{page.count === 1 ? '' : 's'} · {page.kicker}</p>
           <span class="go">Open the guide <span class="arrow" aria-hidden="true">→</span></span>
         </a>
       ))}
     </div>
-    <p>For a 3-tech HVAC shop, the cost page at 50, 150, and 300 calls is <a href="/cost/hvac-shop/">AI receptionist cost for a 3-tech HVAC shop</a>. It uses the same published plans as the <a href="/cost/home-services/">home-services cost page</a>. We do not publish a typical call volume for that shop size. The <a href="/cost/calculator/?industry=plumbing&calls=150&minutes=3">calculator</a> accepts your own numbers.{showAuditLinks() && <> The <a href={AUDIT_PATH}>free call coverage check</a> reviews your public website and listings, with no test call.</>}</p>
+    {unlisted.length > 0 && (
+      <>
+        <h2 class="section-title">Industries without a dedicated directory yet</h2>
+        <p>These pages do not invent a vendor list. They explain what this site does and does not have, and point to the free call coverage check, the cost calculator, and done-for-you setup.</p>
+        <div class="industries">
+          {unlisted.map((page) => (
+            <a class="industry reveal" data-industry={page.accent || 'other'} href={page.path} style={`--accent:${accent(page.accent || 'other')}`}>
+              <IndustryIcon name={page.accent || 'other'} />
+              <h2>{page.h1}</h2>
+              <p>No sourced listings yet · {page.kicker}</p>
+              <span class="go">Open the guide <span class="arrow" aria-hidden="true">→</span></span>
+            </a>
+          ))}
+        </div>
+      </>
+    )}
+    <p>For a 3-tech HVAC shop, the cost page at 50, 150, and 300 calls is <a href="/cost/hvac-shop/">AI receptionist cost for a 3-tech HVAC shop</a>. It uses the same published plans as the <a href="/cost/home-services/">home-services cost page</a>. We do not publish a typical call volume for that shop size. The <a href="/cost/calculator/?industry=plumbing&calls=150&minutes=3">calculator</a> accepts your own numbers. Sourced figures about missed calls, without a typical cost invented, are on <a href="/cost/missed-call/">cost of a missed call</a>.{showAuditLinks() && <> The <a href={AUDIT_PATH}>free call coverage check</a> reviews your public website and listings, with no test call.</>}</p>
   </div>
 </Base>

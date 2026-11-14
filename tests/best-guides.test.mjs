@@ -8,14 +8,26 @@ const pages = buildBestGuides();
 const dollars = (text) => text.match(/\$\d[\d,]*(?:\.\d{2})?/g) || [];
 const read = (path) => fs.readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
 
-test('four industry guides have distinct paths and do not claim a ranking', () => {
-  assert.equal(pages.length, 4);
-  assert.deepEqual(pages.map((page) => page.path), [
+test('industry guides have distinct paths and do not claim a ranking', () => {
+  assert.deepEqual(pages.slice(0, 4).map((page) => page.path), [
     '/best/dentists/',
     '/best/law-firms/',
     '/best/med-spas/',
     '/best/hvac-plumbing/',
   ]);
+  assert.deepEqual(pages.map((page) => page.path), [
+    '/best/dentists/',
+    '/best/law-firms/',
+    '/best/med-spas/',
+    '/best/hvac-plumbing/',
+    '/best/veterinarians/',
+    '/best/roofing/',
+    '/best/chiropractors/',
+    '/best/property-management/',
+    '/best/auto-repair/',
+    '/best/salons/',
+  ]);
+  assert.equal(new Set(pages.map((page) => page.path)).size, pages.length);
   for (const page of pages) {
     assert.ok(page.h1);
     assert.ok(page.description.length > 40);
@@ -24,7 +36,7 @@ test('four industry guides have distinct paths and do not claim a ranking', () =
     assert.ok(page.related.some((link) => link.href === page.dfyPath));
     assert.ok(page.related.some((link) => link.href === '/audit/'));
     assert.ok(page.related.some((link) => link.href.startsWith('/cost/calculator/')));
-    assert.ok(page.vendors.length > 0);
+    assert.ok(page.related.some((link) => link.href === '/cost/' || link.href.startsWith('/cost/')));
   }
 });
 
@@ -55,4 +67,42 @@ test('industry pages can link to the matching guide', () => {
   assert.match(industry, /bestPathForIndustry/);
   assert.match(read('src/pages/index.astro'), /getBestGuides/);
   assert.match(read('src/layouts/Base.astro'), /href="\/best\/"/);
+});
+
+test('the veterinary guide lists only Weave and does not invent a vet directory', () => {
+  const page = pages.find((item) => item.path === '/best/veterinarians/');
+  assert.ok(page);
+  assert.match(page.scope, /does not keep a veterinary vendor directory/i);
+  assert.deepEqual(page.vendors.map((vendor) => vendor.slug), ['weave']);
+  assert.match(page.scope, /\$199\/mo/);
+  assert.match(page.scope, /no published price/i);
+  assert.equal(page.dfyPath, '/done-for-you/');
+  assert.ok(!page.industryPath);
+});
+
+test('the roofing guide is honest about using the home-services directory', () => {
+  const page = pages.find((item) => item.path === '/best/roofing/');
+  assert.ok(page);
+  assert.match(page.scope, /does not keep a separate roofing vendor directory/i);
+  assert.equal(page.industryKey, 'plumbing');
+  assert.equal(page.dfyPath, '/done-for-you/home-services/');
+  assert.equal(page.vendors.length, vendors.filter((vendor) => vendor.industries?.includes('plumbing')).length);
+  assert.ok(page.related.some((link) => link.href === '/stories/truchoice-roofing-after-hours-ai/'));
+  assert.ok(page.related.some((link) => link.href === '/cost/missed-call/'));
+});
+
+test('guides without sourced listings say so and have an empty table', () => {
+  for (const path of ['/best/chiropractors/', '/best/property-management/', '/best/auto-repair/', '/best/salons/']) {
+    const page = pages.find((item) => item.path === path);
+    assert.ok(page, path);
+    assert.equal(page.vendors.length, 0);
+    assert.match(page.scope, /does not keep an? .+ directory/i);
+    assert.match(page.emptyLine || page.summary[0], /no sourced vendor listings/i);
+    assert.equal(page.dfyPath, '/done-for-you/');
+    assert.ok(page.related.some((link) => link.href === '/done-for-you/'));
+  }
+  const salon = pages.find((item) => item.path === '/best/salons/');
+  assert.match(salon.scope, /med spas are covered on a separate guide/i);
+  const chiro = pages.find((item) => item.path === '/best/chiropractors/');
+  assert.match(chiro.scope, /are not used here/i);
 });

@@ -4,6 +4,7 @@ import Faq from './Faq.astro';
 import AnswerSummary from './AnswerSummary.astro';
 import { articleNode } from '../lib/answers.mjs';
 import { REFERRAL_NOTE } from '../lib/outbound.mjs';
+import AuditCta from './AuditCta.astro';
 const { page } = Astro.props;
 const url = new URL(page.path, Astro.site).href;
 const graph = [
@@ -136,5 +137,6 @@ graph.push(articleNode({
       </ul>
     </nav>
     <Faq items={page.faqs} />
+    <AuditCta />
   </div>
 </Base>

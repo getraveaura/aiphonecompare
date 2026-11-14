@@ -5,6 +5,7 @@ import vendors from '../../data/vendors.json';
 import { DEFAULT_INPUT, INDUSTRY_OPTIONS, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
 import { formatDate } from '../../lib/stories.mjs';
 import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
+import AuditCta from '../../components/AuditCta.astro';
 const quote = quoteDirectory(vendors, models, DEFAULT_INPUT);
 const description = 'Monthly and first-year AI receptionist estimates from published plans. A missing setup fee or allowance stays “not enough public pricing”. The link keeps your call count.';
 const pageUrl = new URL('/cost/calculator/', Astro.site).href;
@@ -154,6 +155,8 @@ const jsonld = {
         </tbody>
       </table>
     </div>
+    <p>Sourced figures about missed calls, with no typical cost invented, are on <a href="/cost/missed-call/">cost of a missed call</a>.</p>
+    <AuditCta />
     <p>Plan-by-plan formulas, without picking one plan per vendor, are on the <a href="/cost/">cost method</a>.</p>
   </div>
 </Base>

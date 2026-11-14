@@ -5,6 +5,7 @@ import data from '../../data/vendors.json';
 import { formatDate } from '../../lib/stories.mjs';
 import { latestChecked } from '../../lib/schema.mjs';
 import { isSponsored } from '../../lib/spotlight.mjs';
+import AuditCta from '../../components/AuditCta.astro';
 const vendors = [...data].sort((a, b) => a.name.localeCompare(b.name));
 const description = 'Directory of the AI receptionist vendors we track. Starting prices are sourced. Sponsored spots are labeled.';
 const latest = latestChecked(vendors);
@@ -64,6 +65,7 @@ const jsonld = {
           ))}
         </tbody>
       </table>
+    <AuditCta />
     </div>
   </div>
 </Base>

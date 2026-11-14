@@ -7,6 +7,7 @@ import Faq from '../components/Faq.astro';
 import AnswerSummary from '../components/AnswerSummary.astro';
 import { articleNode, breadcrumbNode } from '../lib/answers.mjs';
 import { formatDate } from '../lib/stories.mjs';
+import AuditCta from '../components/AuditCta.astro';
 const cheapest = byPublishedMonthlyPrice(data)
   .filter((v) => lowestMonthly(v.starting_price) != null)
   .slice(0, 5)
@@ -116,9 +117,10 @@ const jsonld = {
     <section aria-labelledby="method-heading" class="prose">
       <h2 id="method-heading" class="section-title">How the math works</h2>
       <p>Weekly lost revenue = calls per week × (percent missed ÷ 100) × (percent who would become customers ÷ 100) × average job value. Monthly = weekly × 52 ÷ 12. Jobs a month to cover a plan = the plan's monthly amount ÷ your average job value, rounded up to a whole job.</p>
-      <p>Related: <a href="/cost/calculator/">AI receptionist cost calculator</a> for your call volume, <a href="/worth-it/">is an AI receptionist worth it?</a> from sourced stories, the <a href="/price-index/">price index</a>, and <a href="/small-business/">AI receptionists for small business</a>.</p>
+      <p>Related: <a href="/cost/missed-call/">cost of a missed call, from sourced stories</a>, <a href="/cost/calculator/">AI receptionist cost calculator</a> for your call volume, <a href="/worth-it/">is an AI receptionist worth it?</a> from sourced stories, the <a href="/price-index/">price index</a>, and <a href="/small-business/">AI receptionists for small business</a>.</p>
     </section>
     <Faq items={faqs}/>
+    <AuditCta />
   </div>
 </Base>
 <script is:inline>

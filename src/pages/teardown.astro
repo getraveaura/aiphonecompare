@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import { SHOW_OFFER_PROOF, TEARDOWN } from '../lib/offers.mjs';
 import OfferProof from '../components/OfferProof.astro';
 import OtherOffers from '../components/OtherOffers.astro';
+import AuditCta from '../components/AuditCta.astro';
 const pageUrl = new URL('/teardown/', Astro.site).href;
 const price = TEARDOWN.price;
 const jsonld = {
@@ -106,6 +107,7 @@ const faqs = [
       {faqs.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
     </dl>
   </section>
+  <div class="wrap"><AuditCta /></div>
   <OtherOffers />
 
   <script>
