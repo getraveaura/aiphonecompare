@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
+import AuditCta from '../components/AuditCta.astro';
 import VendorTable from '../components/VendorTable.astro';
 import data from '../data/vendors.json';
 import { byPublishedMonthlyPrice, lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
@@ -55,6 +56,7 @@ const caption = 'Sorted by the lowest monthly dollar amount written in each list
       <h2 id="compare-heading" class="section-title">Comparison table</h2>
       <VendorTable vendors={vendors} caption={caption}/>
     </section>
+    <AuditCta />
     <Faq items={faqs}/>
   </div>
 </Base>

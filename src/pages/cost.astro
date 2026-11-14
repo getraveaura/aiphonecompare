@@ -6,6 +6,7 @@ import { costFaqs } from '../lib/cost-faq.mjs';
 import AnswerSummary from '../components/AnswerSummary.astro';
 import { costHubSummary } from '../lib/landings.mjs';
 import { articleNode, sourceLinks } from '../lib/answers.mjs';
+import AuditCta from '../components/AuditCta.astro';
 
 const checkedLabel = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${models.checked}T00:00:00Z`));
 function oneTime(plan) {
@@ -56,7 +57,7 @@ const jsonld = {
       <button class="btn btn-primary" type="submit">Update estimates</button>
     </form>
     <p id="cost-status" class="note" aria-live="polite">Enter calls and an average length. Estimates stay blank until those numbers are usable.</p>
-    <p>These providers are the ones whose own sites, checked <time datetime={models.checked}>{checkedLabel}</time>, publish enough to do this math. The other vendors stay in the <a href="/pricing/">starting-price directory</a>. Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not printed are not included. Worked examples for 50, 150, and 300 calls: <a href="/cost/dental/">dental</a>, <a href="/cost/legal/">legal</a>, <a href="/cost/home-services/">home services</a>, <a href="/cost/hvac-shop/">a 3-tech HVAC shop</a>, <a href="/cost/medical/">medical</a>. Industry guides: <a href="/best/dentists/">dentists</a>, <a href="/best/law-firms/">law firms</a>, <a href="/best/med-spas/">med spas</a>, <a href="/best/hvac-plumbing/">HVAC and plumbing</a>. <a href="/cost/hidden-fees/">Hidden fees</a> lists the printed setup fees and the story catches. The <a href="/cost/calculator/?calls=150&minutes=3">calculator</a> picks one plan per vendor and keeps the inputs in the link.</p>
+    <p>These providers are the ones whose own sites, checked <time datetime={models.checked}>{checkedLabel}</time>, publish enough to do this math. The other vendors stay in the <a href="/pricing/">starting-price directory</a>. Nothing here is sorted by price, and nothing is marked cheapest. Taxes and add-ons that are not printed are not included. Worked examples for 50, 150, and 300 calls: <a href="/cost/dental/">dental</a>, <a href="/cost/legal/">legal</a>, <a href="/cost/home-services/">home services</a>, <a href="/cost/hvac-shop/">a 3-tech HVAC shop</a>, <a href="/cost/medical/">medical</a>. Industry guides: <a href="/best/">all guides</a>, including <a href="/best/dentists/">dentists</a>, <a href="/best/law-firms/">law firms</a>, <a href="/best/med-spas/">med spas</a>, <a href="/best/hvac-plumbing/">HVAC and plumbing</a>, <a href="/best/roofing/">roofing</a>, and <a href="/best/veterinarians/">veterinarians</a>. <a href="/cost/hidden-fees/">Hidden fees</a> lists the printed setup fees and the story catches. The <a href="/cost/calculator/?calls=150&minutes=3">calculator</a> picks one plan per vendor and keeps the inputs in the link.</p>
     <div class="cost-list">
       {models.providers.map((provider) => (
         <article class="cost-provider" aria-labelledby={`${provider.id}-heading`}>
@@ -95,6 +96,8 @@ const jsonld = {
         </article>
       ))}
     </div>
+    <AuditCta />
+    <p>Industry guides also cover <a href="/best/">more trades and practices</a>, including roofing, veterinarians, and industries we do not yet have a vendor list for. Sourced figures about missed calls, with no typical cost invented, are on <a href="/cost/missed-call/">cost of a missed call</a>.</p>
   </div>
 </Base>
 <script>

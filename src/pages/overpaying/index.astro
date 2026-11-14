@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import AuditCta from '../../components/AuditCta.astro';
 import VerifyStrip from '../../components/VerifyStrip.astro';
 import IndustryIcon from '../../components/IndustryIcon.astro';
 import models from '../../data/cost-models.json';
@@ -163,6 +164,7 @@ const jsonld = {
         </div>
         <p id="op-lead-status" class="note" role="status" aria-live="polite"></p>
       </form>
+      <AuditCta />
       <p class="note">We only use your email to send these results and occasional price updates. Unsubscribe anytime by replying. <a href="/privacy/">Privacy</a>.</p>
     </section>
   </div>

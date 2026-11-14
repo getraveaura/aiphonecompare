@@ -593,6 +593,146 @@ function worthPage({ stories }) {
   };
 }
 
+
+function missedCallPage({ stories }) {
+  const slugs = [
+    'ghaffari-eve-intake',
+    'stg-divorce-lexidesk',
+    'kent-heating-firm-90-day-test',
+    'truchoice-roofing-after-hours-ai',
+    'carolina-pines-allie',
+    'la-dental-call-log',
+    'red-dogs-roofing-stopped-ai',
+    'home-services-review-roundup',
+  ];
+  const selected = slugs.map((slug) => stories.find((story) => story.slug === slug)).filter(Boolean);
+  const rows = [
+    [
+      cell('Ghaffari Law Firm', { href: '/stories/ghaffari-eve-intake/' }),
+      cell('Missed calls fell from about 20% to zero, per the case study. The first client from a warm transfer was signed within a day of turning that feature on.'),
+      cell('Not stated'),
+      cell('Vendor case study (Eve)'),
+    ],
+    [
+      cell('STG Divorce Law, P.C.', { href: '/stories/stg-divorce-lexidesk/' }),
+      cell('In the three months after Lexidesk, the missed-call rate went from 13.7% to 3.7%. The study also says the firm missed about 33 calls a month in July through September 2025, with a peak miss rate of 18.3% in September, and that by March 2026 the miss rate was 1.8%.'),
+      cell('Not stated'),
+      cell('Vendor case study (Lexidesk)'),
+    ],
+    [
+      cell('Unnamed four-engineer heating firm in Kent, UK', { href: '/stories/kent-heating-firm-90-day-test/' }),
+      cell('Over 90 days, 61 calls that would have gone unanswered were picked up: 43 became a booking on the call, 12 became callbacks closed within 24 hours, and 6 callers hung up once they realised it was not a person. The vendor is not named.'),
+      cell('The author says the plan was £199 a month for up to 100 calls, then £1.20 per call, and the bill averaged £212 a month over three months.'),
+      cell('Consultant post (Lilach Bullock)'),
+    ],
+    [
+      cell('TruChoice Roofing', { href: '/stories/truchoice-roofing-after-hours-ai/' }),
+      cell("The co-founder says an AI agent booked 26 sales appointments in 30 days from calls no one answered, and later added that most were after hours. He does not say how many closed, and he does not name the product."),
+      cell('Not stated'),
+      cell("Founder's posts on X"),
+    ],
+    [
+      cell('Carolina Pines Dentistry, as told on a vendor podcast', { href: '/stories/carolina-pines-allie/' }),
+      cell('The host says that over five months the team missed 28 new-patient calls and the agent scheduled 19 of them, and that one patient who scheduled through the agent paid for the platform for the year. The numbers are the host\'s, on a show that sells the agent. The product brand is not named.'),
+      cell('The host says the AI agent is $299 a month.'),
+      cell('Vendor podcast'),
+    ],
+    [
+      cell('Unnamed LA-area dental office', { href: '/stories/la-dental-call-log/' }),
+      cell('Of 637 calls where someone wanted something done, the AI completed 263 (41%), including 70 appointments booked. 709 of 1,432 logged calls were silent or hung up at the greeting. The vendor is not named. The author later built a competing product.'),
+      cell('The author says the subscription was about $300 a month, or about $400 a month if staff time to return messages is counted, using his own assumption of 10 minutes per callback at $25 an hour.'),
+      cell('Press (How Dentists Use AI)'),
+    ],
+    [
+      cell("Red Dog's Roofing", { href: '/stories/red-dogs-roofing-stopped-ai/' }),
+      cell('The CEO said customers did not give good feedback on an after-hours AI, so the company asked its answering service to stop using it. The service and product are not named.'),
+      cell('Not stated'),
+      cell('Press (RoofersCoffeeShop)'),
+    ],
+    [
+      cell('Hire Bloom review of 125 comments', { href: '/stories/home-services-review-roundup/' }),
+      cell('Of 10,938 Google reviews of HVAC, pest control, plumbing, electrical, and roofing companies, 125 mentioned an AI answering service, chatbot, or automated phone system. The article says 78% of those 125 were negative, 16% neutral, and 6% positive, and that every positive review described an after-hours booking that a person honored. Hire Bloom sells human agents.'),
+      cell("The article's cost table gives a general range of $200 to $2,000 or more a month, or about $1 to $3 per resolution. That is not one vendor's bill, and it is not tied to a named company in the reviews."),
+      cell('Review analysis (Hire Bloom)'),
+    ],
+  ];
+  const answer = [
+    'This page does not publish a typical cost of a missed call. The figures below are only what the sourced stories on this site already state.',
+    'To estimate revenue lost at your own shop, enter four numbers on the missed-call calculator. That calculator uses no industry averages.',
+    'Vendor-published case studies and a vendor podcast are labeled in the source column. Where a source states no price, the cell says "Not stated". Pound figures are left in pounds; they are not converted to dollars.',
+  ];
+  const faqs = [
+    {
+      q: 'What does a missed call cost?',
+      a: 'This site does not publish a typical figure. The missed-call calculator uses only the four numbers you enter: calls per week, the share you miss, the share of those callers who would have become customers, and your average job value. No industry average is added.',
+    },
+    {
+      q: 'What do the stories on this site say about missed calls?',
+      a: 'Ghaffari Law Firm\'s vendor case study says missed calls fell from about 20% to zero. STG Divorce Law\'s vendor case study says the missed-call rate went from 13.7% to 3.7%. A consultant post about an unnamed Kent heating firm says 43 of 61 otherwise unanswered calls became bookings in 90 days, with 12 more closed as callbacks. TruChoice Roofing\'s co-founder says an AI agent booked 26 sales appointments in 30 days from unanswered calls. A vendor podcast about Carolina Pines says 19 of 28 missed new-patient calls were scheduled, at $299 a month. An LA-area dental write-up says the AI completed 41% of 637 calls that asked for something, at about $300 a month. Other stories record pushback: Red Dog\'s Roofing asked to turn the after-hours AI off, and a Hire Bloom review of 125 comments found 78% were negative.',
+    },
+    {
+      q: 'Which of these stories state a price?',
+      a: 'The Kent heating-firm post states £199 a month for up to 100 calls, then £1.20 per call, averaging £212 a month. The Carolina Pines podcast states $299 a month. The LA dental write-up states about $300 a month, or about $400 a month if staff callback time is counted at the author\'s assumption of 10 minutes per callback at $25 an hour. Hire Bloom\'s article gives a general range of $200 to $2,000 or more a month, or about $1 to $3 per resolution, not tied to a named company. The Ghaffari, STG Divorce Law, TruChoice Roofing, and Red Dog\'s Roofing stories state no price.',
+    },
+    {
+      q: 'Are vendor-published stories labeled?',
+      a: 'Yes. The Ghaffari and STG Divorce Law rows are vendor case studies, and the Carolina Pines row is a vendor podcast. Treat those figures as the publisher\'s. The Kent, TruChoice, LA dental, Red Dog\'s, and Hire Bloom rows are not vendor case studies on this site; the LA dental author later built a competing product, and Hire Bloom sells human agents.',
+    },
+  ];
+  const dollars = [
+    answer.join(' '),
+    faqs.map((item) => item.a).join(' '),
+    '$299',
+    '$300',
+    '$400',
+    '$25',
+    '$200',
+    '$2,000',
+    '$1',
+    '$3',
+  ].join(' ');
+  return {
+    summary: answer.slice(0, 2),
+    verified: selected.map((story) => sourceDate(story)).filter(Boolean).sort().at(-1) || '',
+    sources: selected.flatMap((story) => (story.sources || []).slice(0, 1).map((source) => ({ href: source.url, label: source.title || source.publisher || story.title }))),
+    kind: 'missed-call',
+    topic: 'missed-call',
+    path: '/cost/missed-call/',
+    phrase: 'cost of a missed call',
+    title: 'Cost of a missed call, from sourced stories',
+    h1: 'Cost of a missed call, from sourced stories',
+    description: 'Sourced missed-call stories, with the figures each source states. No typical cost is invented. Use the calculator with your own numbers.',
+    date: selected.map((story) => sourceDate(story)).filter(Boolean).sort().at(-1) || '',
+    answer,
+    blocks: [
+      {
+        type: 'table',
+        caption: 'Figures copied from sourced stories already on this site. Vendor-published pieces are labeled. "Not stated" means the source gives no price.',
+        headers: ['Story', 'What was reported', 'Price in the source', 'Source'],
+        rows,
+      },
+      {
+        type: 'list',
+        heading: 'Work out your own number',
+        items: [
+          { text: 'Missed-call calculator, using only the four numbers you enter', href: '/missed-call-calculator/' },
+          { text: 'AI receptionist cost calculator, from published plans', href: '/cost/calculator/?calls=150&minutes=3' },
+          { text: 'Free call coverage check of your public website and listings', href: AUDIT_PATH },
+        ],
+      },
+    ],
+    faqs,
+    vendorSlugs: [...new Set(selected.map((story) => story.vendorSlug).filter(Boolean))],
+    industries: [...new Set(selected.flatMap((story) => story.industries || []))],
+    dollars,
+    crumbs: [
+      { name: 'Home', href: '/' },
+      { name: 'Cost', href: '/cost/' },
+      { name: 'Cost of a missed call', href: '/cost/missed-call/' },
+    ],
+  };
+}
+
 function relatedFor(page, pages) {
   const picks = [];
   const add = (href) => {
@@ -600,6 +740,13 @@ function relatedFor(page, pages) {
     picks.push(href);
   };
   add('/cost/');
+  if (showAuditLinks()) add(AUDIT_PATH);
+  add('/cost/missed-call/');
+  add('/missed-call-calculator/');
+  if (page.industries?.includes('dental')) add('/done-for-you/dental/');
+  if (page.industries?.includes('legal')) add('/done-for-you/legal/');
+  if (page.industries?.includes('plumbing')) add('/done-for-you/home-services/');
+  if (page.industries?.includes('medical')) add('/done-for-you/med-spa/');
   for (const id of page.industries || []) add(INDUSTRY_COST[id]);
   const industryPath = { dental: '/industries/dental/', legal: '/industries/legal/', plumbing: '/industries/plumbing/', medical: '/industries/medical/' };
   const bestPath = { dental: '/best/dentists/', legal: '/best/law-firms/', plumbing: '/best/hvac-plumbing/', medical: '/best/med-spas/' };
@@ -608,11 +755,7 @@ function relatedFor(page, pages) {
   if (page.path === '/cost/home-services/' || page.path === '/cost/hvac-shop/') add('/compare/jobber-vs-housecall-pro/');
   if (page.path === '/cost/home-services/') add('/cost/hvac-shop/');
   if (page.path === '/cost/hvac-shop/') add('/cost/home-services/');
-  if (showAuditLinks()) add(AUDIT_PATH);
-  if (page.industries?.includes('plumbing')) add('/done-for-you/home-services/');
-  if (page.industries?.includes('dental')) add('/done-for-you/dental/');
-  if (page.industries?.includes('legal')) add('/done-for-you/legal/');
-  if (page.industries?.includes('medical')) add('/done-for-you/med-spa/');
+  if (page.industries?.includes('plumbing')) add('/best/roofing/');
   for (const other of pages) {
     if (other.kind === 'compare' && other.vendorSlugs?.some((slug) => page.vendorSlugs?.includes(slug))) add(other.path);
     if (other.kind === 'vendor-cost' && other.vendorSlugs?.some((slug) => page.vendorSlugs?.includes(slug))) add(other.path);
@@ -631,6 +774,14 @@ function relatedFor(page, pages) {
   labels.set('/best/law-firms/', 'Best AI receptionist for law firms');
   labels.set('/best/med-spas/', 'Best AI receptionist for med spas');
   labels.set('/best/hvac-plumbing/', 'Best AI receptionist for HVAC and plumbing');
+  labels.set('/best/veterinarians/', 'Best AI receptionist for veterinarians');
+  labels.set('/best/roofing/', 'Best AI receptionist for roofing companies');
+  labels.set('/best/chiropractors/', 'Best AI receptionist for chiropractors');
+  labels.set('/best/property-management/', 'Best AI receptionist for property management');
+  labels.set('/best/auto-repair/', 'Best AI receptionist for auto repair shops');
+  labels.set('/best/salons/', 'Best AI receptionist for salons');
+  labels.set('/cost/missed-call/', 'Cost of a missed call, from sourced stories');
+  labels.set('/missed-call-calculator/', 'Missed-call calculator');
   if (showAuditLinks()) labels.set(AUDIT_PATH, 'Free call coverage check');
   labels.set('/done-for-you/dental/', 'Done-for-you dental setup');
   labels.set('/done-for-you/legal/', 'Done-for-you legal setup');
@@ -711,8 +862,33 @@ export function buildLandings(data) {
       description: 'Jobber vs Housecall Pro AI receptionist cost from the directory. Jobber publishes an add-on price. Housecall’s AI price is not verified.',
       scope: 'This page compares the AI receptionist line only. It is not a price for the rest of Jobber or Housecall Pro. Housecall Pro’s AI receptionist has no starting price in this directory.',
     }),
+    comparePage({
+      models, vendors, pair: 'smith-ai-vs-goodcall', slugs: ['smith-ai', 'goodcall'],
+      h1: 'Smith.ai vs Goodcall', phrase: 'smith ai vs goodcall',
+      description: 'Smith.ai vs Goodcall from sourced starting prices. Goodcall bills unique callers, so a call count is not a Goodcall bill.',
+      scope: 'Smith.ai and Goodcall are both in the directory and the cost model. Smith.ai records a free AI tier (25 calls), paid AI from $150/mo, and live agents from $300/mo, billed per call. Goodcall records Starter $79/mo for 100 unique customers, then 79¢ each. Goodcall bills unique callers, so a call count is not turned into a Goodcall bill.',
+    }),
+    comparePage({
+      models, vendors, pair: 'rosie-vs-my-ai-front-desk', slugs: ['rosie', 'my-ai-front-desk'],
+      h1: 'Rosie vs My AI Front Desk', phrase: 'rosie vs my ai front desk',
+      description: 'Rosie vs My AI Front Desk from sourced starting prices. Neither is in the cost model, so no 150-call bill is calculated.',
+      scope: 'Rosie and My AI Front Desk are both in the directory. Rosie publishes minute bundles, from $49/mo for 250 minutes, with booking and transfers from $149/mo. My AI Front Desk’s pricing page prints $99/mo, or $79/mo billed annually, including 200 voice minutes, and the medical page also prints $109/mo. Neither vendor is in the cost model, so this page does not calculate a bill at 50, 150, or 300 calls.',
+    }),
+    comparePage({
+      models, vendors, pair: 'jobber-vs-servicetitan', slugs: ['jobber-ai-receptionist', 'servicetitan-ai-voice-agent'],
+      h1: 'Jobber vs ServiceTitan AI receptionist', phrase: 'jobber vs servicetitan ai receptionist',
+      description: 'Jobber vs ServiceTitan AI receptionist from the directory. Jobber publishes a $29/mo add-on. ServiceTitan’s AI price is not verified.',
+      scope: 'This page compares the AI receptionist line only. It is not a price for the rest of Jobber or ServiceTitan. Jobber publishes an AI Receptionist add-on at $29/mo, on top of a Jobber plan. ServiceTitan’s AI Voice Agent has no starting price in this directory. Neither is in the cost model, so this page does not calculate a bill at 50, 150, or 300 calls.',
+    }),
+    comparePage({
+      models, vendors, pair: 'oncrew-vs-nextphone', slugs: ['oncrew', 'nextphone'],
+      h1: 'OnCrew vs NextPhone', phrase: 'oncrew vs nextphone',
+      description: 'OnCrew vs NextPhone from sourced starting prices. Neither is in the cost model, so no 150-call bill is calculated.',
+      scope: 'OnCrew and NextPhone are both in the home-services (plumbing) directory. OnCrew publishes per-answered-minute plans with a monthly allowance, starting at $49/mo with 150 minutes, then $0.49/min. NextPhone publishes a flat monthly starting price of $199/mo for unlimited inbound calls. Neither is in the cost model, so this page does not calculate a bill at 50, 150, or 300 calls.',
+    }),
     hiddenFeesPage({ models, stories }),
     worthPage({ stories }),
+    missedCallPage({ stories }),
   ];
   for (const page of pages) page.related = relatedFor(page, pages);
   return pages;

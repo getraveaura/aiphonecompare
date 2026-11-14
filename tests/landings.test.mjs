@@ -7,11 +7,11 @@ import models from '../src/data/cost-models.json' with { type: 'json' };
 const pages = buildLandings();
 const dollars = (text) => text.match(/\$\d[\d,]*(?:\.\d{2})?/g) || [];
 
-test('twelve landing pages have distinct paths, titles, and search phrases', () => {
-  assert.equal(pages.length, 13);
-  assert.equal(new Set(pages.map((page) => page.path)).size, 13);
-  assert.equal(new Set(pages.map((page) => page.title)).size, 13);
-  assert.equal(new Set(pages.map((page) => page.phrase)).size, 13);
+test('landing pages have distinct paths, titles, and search phrases', () => {
+  assert.equal(pages.length, 18);
+  assert.equal(new Set(pages.map((page) => page.path)).size, 18);
+  assert.equal(new Set(pages.map((page) => page.title)).size, 18);
+  assert.equal(new Set(pages.map((page) => page.phrase)).size, 18);
   for (const page of pages) {
     assert.ok(page.h1);
     assert.ok(page.description.length > 40 && page.description.length <= 160);
@@ -70,4 +70,38 @@ test('the 3-tech HVAC shop page reuses home-services plans and does not invent a
   assert.ok(page.related.some((link) => link.href === '/audit/'));
   assert.ok(page.related.some((link) => link.href === '/best/hvac-plumbing/'));
   assert.ok(page.related.some((link) => link.href === '/cost/home-services/'));
+});
+
+
+test('new compare pages stay inside sourced records and do not invent a ServiceTitan price', () => {
+  const smith = pages.find((page) => page.path === '/compare/smith-ai-vs-goodcall/');
+  const rosie = pages.find((page) => page.path === '/compare/rosie-vs-my-ai-front-desk/');
+  const jobber = pages.find((page) => page.path === '/compare/jobber-vs-servicetitan/');
+  const oncrew = pages.find((page) => page.path === '/compare/oncrew-vs-nextphone/');
+  for (const page of [smith, rosie, jobber, oncrew]) {
+    assert.ok(page, 'missing compare page');
+    assert.match(page.answer.join(' '), /directory|cost model/i);
+  }
+  assert.match(smith.answer.join(' '), /unique callers/i);
+  assert.match(rosie.answer.join(' '), /does not calculate a bill/i);
+  assert.match(jobber.answer.join(' '), /no starting price/i);
+  assert.doesNotMatch(jobber.answer.join(' '), /ServiceTitan AI Voice Agent: \$\d/);
+  assert.match(oncrew.answer.join(' '), /\$199\/mo/);
+});
+
+test('the missed-call explainer uses sourced stories and does not invent a typical cost', () => {
+  const page = pages.find((item) => item.path === '/cost/missed-call/');
+  assert.ok(page);
+  assert.equal(page.topic, 'missed-call');
+  const blob = `${page.answer.join(' ')} ${page.faqs.map((item) => item.a).join(' ')}`;
+  assert.match(blob, /does not publish a typical/i);
+  assert.match(blob, /20%/);
+  assert.match(blob, /13\.7%/);
+  assert.match(blob, /26 sales appointments/);
+  assert.match(blob, /\$299/);
+  assert.match(blob, /£212/);
+  assert.doesNotMatch(blob, /typically costs \$\d/);
+  assert.ok(page.related.some((link) => link.href === '/audit/'));
+  assert.ok(page.related.some((link) => link.href === '/missed-call-calculator/' || link.href === '/cost/'));
+  assert.ok(page.blocks.some((block) => block.type === 'table' && block.rows.length === 8));
 });
