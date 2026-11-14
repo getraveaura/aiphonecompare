@@ -996,7 +996,7 @@ pre {
 @media (max-width: 980px) { .dfy-flow-grid { grid-template-columns: 1fr; } }
 @media (max-width: 640px) { .dfy-benefits, .audit-checks { grid-template-columns: 1fr; } }
 
-/* Free missed-call audit (/audit/) */
+/* Free call coverage check (/audit/) */
 .audit-card.dfy-price { position: relative; top: auto; }
 .audit-card .audit-card-title { margin: 0 0 0.25rem; font-family: var(--serif); font-size: 1.6rem; color: var(--ink); letter-spacing: -0.02em; }
 .audit-card-sub { margin-bottom: 1rem; color: var(--muted); font-size: 0.95rem; }

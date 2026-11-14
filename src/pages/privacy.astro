@@ -49,15 +49,15 @@ const toc = [
     <ul>
       <li><strong>"Email me the results" on the price check.</strong> We store your email, the optional first name and business name, the numbers from that check, and the top matches shown to you.</li>
       <li><strong>The stories list on the <a href="/stories/">stories page</a>.</strong> We store your email and the industry you pick.</li>
-      <li><strong>The free missed-call audit form.</strong> We store your name, business name, business website, business phone number, industry and email. We use them to place one short test call to that number and to email you the report, and we keep a one-way hash of the phone number for up to 2 days to limit repeat requests.</li>
+      <li><strong>The free call coverage check form.</strong> We store your name, business name, business website, industry and email. We use them to find your public website, Google Business Profile and public reviews, and to email you the report. We never place a test call.</li>
     </ul>
-    <p>All of these forms send to the same place: a <a href="https://supabase.com/">Supabase</a> Edge Function that saves the signup in a Supabase database table in a US region. The public can't read that table. Your email stays in that table. PostHog is only told that a form was sent, with the form's source and industry, never the email or phone number.</p>
+    <p>All of these forms send to the same place: a <a href="https://supabase.com/">Supabase</a> Edge Function that saves the signup in a Supabase database table in a US region. The public can't read that table. Your email stays in that table. PostHog is only told that a form was sent, with the form's source and industry, never the email or other details you typed.</p>
     <p>We also store your browser's user-agent (the short text that names your browser and system) with the signup. To limit abuse, we make a one-way hash of your IP address. That hash is used only to rate-limit repeated sign-ups and is kept for up to 2 days. We do not store the IP address itself.</p>
 
     <h2 id="emails">Emails we send</h2>
     <p>We send email with <a href="https://resend.com/">Resend</a>, from timothy@aiphonecompare.com.</p>
     <ul>
-      <li>After you sign up, a welcome email: your price check results, or a note confirming the stories list you joined, or a confirmation of your missed-call audit followed by its report.</li>
+      <li>After you sign up, a welcome email: your price check results, or a note confirming the stories list you joined, or a confirmation of your call coverage check followed by its report.</li>
       <li>For the stories list, new stories and logged price changes for the industry you picked.</li>
       <li>For the price check list, occasional price updates.</li>
     </ul>

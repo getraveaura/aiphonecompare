@@ -1,27 +1,29 @@
-// Free missed-call audit (/audit/): what we check, the form fields, and the
+// Free call coverage check (/audit/): what we review, the form fields, and the
 // validation shared by the page and the tests. The edge function repeats the
 // same rules server-side (supabase/functions/apc-lead/index.ts).
 import { linksVisible, robotsFor } from './launch.mjs';
 import { validEmail } from './leads.mjs';
 
-// Off until we have a calling line. While false, /audit/ builds and its form
-// works, but it is noindex,nofollow, left out of sitemap/llms/IndexNow, and no
-// page links to it.
-export const AUDIT_LIVE = false;
+// When true, /audit/ is indexable, listed in sitemap/llms/IndexNow, and linked
+// from the home, done-for-you, industry and footer pages.
+export const AUDIT_LIVE = true;
 
 export const AUDIT_PATH = '/audit/';
 export const AUDIT_EMAIL = 'timothy@aiphonecompare.com';
 
-export const AUDIT_SUMMARY = 'Free missed-call audit: we place one short, polite after-hours test call to your business line and email a one-page report within 1 business day. No obligation.';
+export const AUDIT_SUMMARY = 'Free call coverage check: we review your public website, Google Business Profile and public reviews (we never place a test call) and email a one-page report within 1 business day. No obligation.';
 
-// What the one-page report scores, in report order.
+// What the one-page report covers, in report order. All of this is public
+// information. We never place a test call.
 export const AUDIT_CHECKS = [
-  { key: 'answered', label: 'Was it answered?', detail: 'Whether a person, an answering service or an AI picked up, or the call went unanswered.' },
-  { key: 'rings', label: 'Rings to answer', detail: 'How many rings a caller waits before anyone, or anything, picks up.' },
-  { key: 'after-hours', label: 'After-hours handling', detail: 'What a caller hears outside your hours: a greeting, your hours, an emergency option, or silence.' },
-  { key: 'booking', label: 'Was booking offered?', detail: 'Whether the caller is offered a way to book, schedule or request a callback.' },
-  { key: 'voicemail', label: 'Voicemail quality', detail: 'If it reaches voicemail: is the greeting clear, current and inviting, and is the box accepting messages?' },
-  { key: 'text-back', label: 'Text-back', detail: 'Whether a text arrives after a missed call, and how quickly.' },
+  { key: 'click-to-call', label: 'Click-to-call on mobile', detail: 'Whether a visitor on a phone can tap a number on your site and place a call.' },
+  { key: 'hours', label: 'Hours on your website', detail: 'Whether your open hours are easy to find, including midday breaks and weekend closures.' },
+  { key: 'after-hours', label: 'After-hours instructions', detail: 'What a visitor is told to do when you are closed: an emergency option, a next step, or a way to leave a request.' },
+  { key: 'booking', label: 'Online booking', detail: 'Whether someone can request or book an appointment on your site without waiting on a call.' },
+  { key: 'chat-text', label: 'Chat or text options', detail: 'Whether your site offers chat, SMS or another way to message you besides a phone call.' },
+  { key: 'contact-form', label: 'Contact form', detail: 'Whether there is a working contact form, and what a visitor is told will happen after they write.' },
+  { key: 'gbp', label: 'Google Business Profile', detail: 'Whether your public listing shows matching hours, a phone number and a website, so searchers can reach you.' },
+  { key: 'reviews', label: 'What callers already say', detail: 'Public reviews that mention reaching you by phone, quoted with links. We only use real reviews, and we treat them as opportunities.' },
 ];
 
 // Value, label. Keys match the INDUSTRIES map in the edge function.
@@ -38,22 +40,7 @@ export const AUDIT_INDUSTRIES = [
 ];
 const INDUSTRY_KEYS = new Set(AUDIT_INDUSTRIES.map(([key]) => key));
 
-export const AUDIT_LIMITS = { name: 60, business: 120, site_url: 200, phone: 40, email: 254 };
-
-const PHONE_CHARS = /^[0-9+().\-\s]+$/;
-
-// Digits only, or '' when the value has characters a phone number should not.
-export function phoneDigits(value) {
-  const raw = String(value ?? '').trim();
-  if (!raw || !PHONE_CHARS.test(raw)) return '';
-  return raw.replace(/\D/g, '');
-}
-
-// Digits, spaces and + ( ) - . only, with 10 to 15 digits.
-export function validPhone(value) {
-  const digits = phoneDigits(value);
-  return digits.length >= 10 && digits.length <= 15;
-}
+export const AUDIT_LIMITS = { name: 60, business: 120, site_url: 200, email: 254 };
 
 // "example.com" -> "https://example.com/". Returns '' for anything that is
 // not an http(s) address with a dotted host, or is longer than 200 characters.
@@ -82,13 +69,12 @@ const MESSAGES = {
   name: 'Add your name so we know who to address the report to.',
   business: 'Add your business name.',
   site_url: 'Add your website, like yourbusiness.com.',
-  phone: 'Add the business phone number customers call, with area code.',
   industry: 'Pick the closest industry. "Other" is fine.',
   email: 'Add an email address, like name@example.com.',
 };
 
 // Field order for focusing the first error.
-export const AUDIT_FIELDS = ['name', 'business', 'site_url', 'phone', 'industry', 'email'];
+export const AUDIT_FIELDS = ['name', 'business', 'site_url', 'industry', 'email'];
 
 // Validates the form fields. Returns { ok, errors, values } where values are
 // cleaned and normalized, ready for buildAuditPayload.
@@ -97,7 +83,6 @@ export function validateAuditForm(fields = {}) {
     name: clean(fields.name, AUDIT_LIMITS.name),
     business: clean(fields.business, AUDIT_LIMITS.business),
     site_url: normalizeWebsite(fields.site_url),
-    phone: clean(fields.phone, AUDIT_LIMITS.phone),
     industry: INDUSTRY_KEYS.has(String(fields.industry ?? '')) ? String(fields.industry) : '',
     email: clean(fields.email, AUDIT_LIMITS.email).toLowerCase(),
   };
@@ -105,7 +90,6 @@ export function validateAuditForm(fields = {}) {
   if (!values.name) errors.name = MESSAGES.name;
   if (!values.business) errors.business = MESSAGES.business;
   if (!values.site_url) errors.site_url = String(fields.site_url ?? '').trim() ? 'That website address does not look right. Try yourbusiness.com.' : MESSAGES.site_url;
-  if (!validPhone(values.phone)) errors.phone = String(fields.phone ?? '').trim() ? 'That number does not look right. Use 10 to 15 digits, like (555) 123-4567.' : MESSAGES.phone;
   if (!values.industry) errors.industry = MESSAGES.industry;
   if (!validEmail(values.email)) errors.email = String(fields.email ?? '').trim() ? 'That email does not look right. Try name@example.com.' : MESSAGES.email;
   return { ok: Object.keys(errors).length === 0, errors, values };
@@ -119,7 +103,6 @@ export function buildAuditPayload(values, honeypot) {
     name: values.name,
     business: values.business,
     site_url: values.site_url,
-    phone: values.phone,
     industry: values.industry,
     email: values.email,
     company_website: honeypot == null ? '' : String(honeypot),
@@ -137,7 +120,7 @@ export function auditErrorMessage(status, error) {
 
 export const AUDIT_SUCCESS = {
   heading: "You're in.",
-  body: 'Look for a confirmation email from Timothy (timothy@aiphonecompare.com) in the next few minutes. We will place one short after-hours test call to your business line and email your one-page report within 1 business day.',
+  body: 'Look for a confirmation email from Timothy (timothy@aiphonecompare.com) in the next few minutes. We will review your public website, Google Business Profile and public reviews — we never place a test call — and email your one-page report within 1 business day.',
 };
 
 // Base `robots` prop and link visibility for the audit page.
