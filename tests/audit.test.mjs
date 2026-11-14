@@ -164,7 +164,7 @@ test('links to /audit/ only render through the gate', () => {
   assert.match(base, /\{showAuditLinks\(\) && <a href=\{AUDIT_PATH\}>/);
   const home = read('src/pages/index.astro');
   assert.match(home, /\{showAuditLinks\(\) && \(/);
-  for (const p of ['src/pages/index.astro', 'src/pages/done-for-you.astro', 'src/components/Industry.astro']) {
+  for (const p of ['src/pages/index.astro', 'src/pages/done-for-you.astro', 'src/pages/done-for-you/[industry].astro', 'src/components/Industry.astro']) {
     assert.match(read(p), /<AuditCta\b/, `${p} has the audit CTA`);
   }
 });

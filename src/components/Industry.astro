@@ -16,6 +16,8 @@ import { accent } from '../lib/industries.mjs';
 import { linkForIndustry } from '../lib/landings.mjs';
 import { lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
 import { orderForIndustry } from '../lib/spotlight.mjs';
+import { dfyForIndustryPage, dfyIndustryPath } from '../lib/dfy-industries.mjs';
+import { DFY_OFFERS, usd } from '../lib/offers.mjs';
 const { key, title, guide, faqs = [], guideTitle = 'What to check before you buy', note = '' } = Astro.props;
 const vendors = orderForIndustry(data, key);
 const money = (n) => (Number.isInteger(n) ? `$${n}` : `$${n}`);
@@ -45,6 +47,7 @@ const industries = [
   ['plumbing', 'Plumbing', '/industries/plumbing/'],
   ['medical', 'Medical', '/industries/medical/'],
 ].filter(([id]) => id !== key);
+const dfy = dfyForIndustryPage(key);
 const summary = industrySummary({ key, vendors, priceSentence });
 const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 const site = new URL('/', Astro.site).href;
@@ -97,6 +100,17 @@ const jsonld = {
       </section>
     )}
     <Catches groups={catchSet} />
+    {dfy && (
+      <aside class="dfy-callout" data-industry={dfy.accent} style={`--accent:${accent(dfy.accent)}`} aria-labelledby="dfy-callout-heading">
+        <IndustryIcon name={dfy.icon} />
+        <div class="dfy-callout-copy">
+          <p class="dfy-callout-kicker">Done-for-you setup · from {usd(DFY_OFFERS.founding.price)} one-time</p>
+          <h2 id="dfy-callout-heading">Rather have it set up for you?</h2>
+          <p>We pick, set up and tune an AI receptionist built for {dfy.audience}: {dfy.cardLine.toLowerCase()}. A defined result by day 60, or a full refund of our fee.</p>
+        </div>
+        <a class="btn btn-ghost" href={dfyIndustryPath(dfy.slug)}>See the {dfy.name.toLowerCase()} setup <span class="arrow" aria-hidden="true">→</span></a>
+      </aside>
+    )}
     <Faq items={allFaqs}/>
     <AuditCta />
   </div>

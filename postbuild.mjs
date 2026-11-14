@@ -3,6 +3,7 @@ import fs from 'node:fs'; import path from 'node:path';
 import { renderFeed } from './src/lib/feed.mjs';
 import { getLandings } from './src/lib/landings.mjs';
 import { DFY_PATH, DFY_SUMMARY } from './src/lib/offers.mjs';
+import { DFY_INDUSTRIES, dfyIndustryPath } from './src/lib/dfy-industries.mjs';
 import { AUDIT_PATH, AUDIT_SUMMARY, showAuditLinks } from './src/lib/audit.mjs';
 import { indexRows } from './src/lib/price-index.mjs';
 import { AI_BOTS, renderRobots, pickLastmod } from './src/lib/seo-files.mjs';
@@ -35,8 +36,9 @@ const storyLines=stories.map(s=>`- [${mdCell(s.title)}](${SITE}/stories/${s.slug
 const changeLines=priceLog.changes.map(c=>`- [${mdCell(vendorName(c.vendorSlug))} price change](${SITE}/price-changes/${c.id}/) (observed ${c.observed}): ${mdCell(c.summary)}`).join('\n');
 const priceCell=v=>mdCell(v.starting_price)||'not published';
 const baaCell=v=>mdCell(v.hipaa_baa)||'not stated';
-// Gated pages for llms.txt / llms-full.txt: listed only once live.
-const offerLines=[...(showAuditLinks()?[{title:'Free missed-call audit',path:AUDIT_PATH,summary:AUDIT_SUMMARY}]:[])];
+// Offer pages for llms.txt / llms-full.txt. The audit page is listed only once live.
+const offerLines=[...DFY_INDUSTRIES.map(i=>({title:i.title,path:dfyIndustryPath(i.slug),summary:''})),
+ ...(showAuditLinks()?[{title:'Free missed-call audit',path:AUDIT_PATH,summary:AUDIT_SUMMARY}]:[])];
 const offerMd=offerLines.map(o=>`- [${o.title}](${SITE}${o.path})${o.summary?`: ${o.summary}`:''}\n`).join('');
 const offerFull=offerLines.map(o=>`- ${SITE}${o.path}${o.summary?`: ${o.summary}`:''}\n`).join('');
 fs.writeFileSync('dist/llms.txt',`# aiphonecompare\n\n> The independent, verified price comparison for AI receptionists. Compares ${vendors.length} AI receptionists / AI phone answering services by industry (dental, legal, plumbing, medical). Rankings are not for sale. Each listing shows starting price, billing model, free trial, human handoff, HIPAA/BAA and integrations, with source links and a last-checked date. Blank fields mean not verified. Sponsored placements are always labeled and never change data.\n\nLast verified: ${latest}. Price index with sources: ${SITE}/price-index/\n\n## Industries\n- [Dental](${SITE}/industries/dental/): ${ind('dental')}\n- [Legal](${SITE}/industries/legal/): ${ind('legal')}\n- [Plumbing](${SITE}/industries/plumbing/): ${ind('plumbing')}\n- [Medical](${SITE}/industries/medical/): ${ind('medical')}\n\n## Key pages\n- [What it costs](${SITE}/cost/)\n- [Cost calculator](${SITE}/cost/calculator/)\n- [Are you overpaying? Price check](${SITE}/overpaying/): compare what you pay with published plans at your call volume\n- [All pricing](${SITE}/pricing/)\n- [Price index](${SITE}/price-index/): every verified starting price with its source and date, plus logged changes\n- [AI answering service](${SITE}/ai-answering-service/)\n- [Small business](${SITE}/small-business/)\n- [Medical practices](${SITE}/industries/medical/)\n- [Call recording consent by state](${SITE}/call-recording-consent-by-state/)\n- [Missed-call calculator](${SITE}/missed-call-calculator/)\n- [Vendors](${SITE}/vendors/)\n- [Real stories](${SITE}/stories/)\n- [Price changes](${SITE}/price-changes/)\n- [Match a tool](${SITE}/match/)\n- [Done-for-you setup](${SITE}${DFY_PATH}): ${DFY_SUMMARY}

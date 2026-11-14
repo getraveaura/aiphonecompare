@@ -247,7 +247,7 @@ const jsonld = {
       wrap.hidden = true;
       success.hidden = false;
       $('audit-success-heading')!.focus();
-      track('audit_requested', { industry: payload.industry });
+      track('lead_submit', { source: 'audit', industry: payload.industry });
       return;
     }
     button.textContent = 'Try again';

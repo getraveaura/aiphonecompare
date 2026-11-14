@@ -1,0 +1,161 @@
+---
+import Base from '../../layouts/Base.astro';
+import Faq from '../../components/Faq.astro';
+import IndustryIcon from '../../components/IndustryIcon.astro';
+import AuditCta from '../../components/AuditCta.astro';
+import DfyGuarantee from '../../components/DfyGuarantee.astro';
+import DfyIndustryCards from '../../components/DfyIndustryCards.astro';
+import DfyMeasure from '../../components/DfyMeasure.astro';
+import { DFY_EMAIL, DFY_OFFERS, DFY_PATH, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../../lib/offers.mjs';
+import { DFY_CASE_STUDY_NOTE, DFY_INCLUDED, DFY_INDUSTRIES, DFY_QUESTIONS_LINE, dfyIndustryPath } from '../../lib/dfy-industries.mjs';
+import { accent } from '../../lib/industries.mjs';
+
+export function getStaticPaths() {
+  return DFY_INDUSTRIES.map((item) => ({ params: { industry: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const pageUrl = new URL(dfyIndustryPath(item.slug), Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const { founding, standard } = DFY_OFFERS;
+const email = DFY_EMAIL;
+const mailto = `mailto:${email}?subject=${encodeURIComponent(`Done-for-you AI receptionist (${item.name})`)}`;
+const foundingLabel = `Claim a founding spot — ${usd(founding.price)}`;
+const standardLabel = `Pay the standard rate — ${usd(standard.price)}`;
+const spotsNote = `${FOUNDING_SPOTS} founding spots at ${usd(founding.price)}, then ${usd(standard.price)}.`;
+
+const { '@context': _context, ...service } = dfyServiceJsonld({
+  name: item.title,
+  description: item.description,
+  pageUrl,
+  orgId: new URL('/#organization', Astro.site).href,
+});
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { ...service, audience: { '@type': 'BusinessAudience', name: item.audience } },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: site },
+        { '@type': 'ListItem', position: 2, name: 'Done-for-you setup', item: new URL(DFY_PATH, Astro.site).href },
+        { '@type': 'ListItem', position: 3, name: item.name, item: pageUrl },
+      ],
+    },
+    { '@type': 'FAQPage', mainEntity: item.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  ],
+};
+---
+<Base title={item.title} description={item.description} jsonld={jsonld} ogImage="/og/done-for-you.png" dock={[['#price-heading', 'See pricing'], ['#flows-heading', 'Example calls']]}>
+  <header class="page-intro dfy-intro offer-hero dfy-ind-hero" data-industry={item.accent} style={`--accent:${accent(item.accent)}`}>
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href={DFY_PATH}>Done-for-you setup</a></li>
+          <li><span aria-current="page">{item.name}</span></li>
+        </ol>
+      </nav>
+      <p class="industry-kicker"><IndustryIcon name={item.icon} />Done-for-you setup for {item.audience}</p>
+      <h1>{item.headline}</h1>
+      <p class="lead">{item.lead}</p>
+      <div class="cta">
+        <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
+        <a class="btn btn-ghost" href="#flows-heading">See example call flows</a>
+      </div>
+      <p class="dfy-spots">{spotsNote}</p>
+    </div>
+  </header>
+
+  <div class="wrap stack dfy">
+    <div class="dfy-grid">
+      <section aria-labelledby="benefits-heading">
+        <h2 id="benefits-heading" class="section-title">Tuned for {item.audience}</h2>
+        <ul class="dfy-benefits">
+          {item.benefits.map((b) => (
+            <li>
+              <span class="dfy-check" aria-hidden="true"></span>
+              <div>
+                <h3>{b.h}</h3>
+                <p>{b.p}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <h2 class="section-title dfy-included-title" id="included-heading">What's included</h2>
+        <ol class="dfy-steps">
+          {DFY_INCLUDED.map((s, i) => (
+            <li>
+              <span class="dfy-num" aria-hidden="true">{i + 1}</span>
+              <div>
+                <h3>{s.h}</h3>
+                <p>{s.p}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="dfy-timeline"><strong>Timeline:</strong> go-live within 7 business days of receiving your intake and vendor account access.</p>
+      </section>
+
+      <aside class="dfy-price" aria-labelledby="price-heading">
+        <h2 id="price-heading">One-time fee</h2>
+        <p class="dfy-amount">{usd(standard.price)} <span>one-time</span></p>
+        <p class="dfy-founding"><strong>Founding rate: {usd(founding.price)}</strong> for the first {FOUNDING_SPOTS} businesses.</p>
+        <p class="dfy-casestudy">{DFY_CASE_STUDY_NOTE}</p>
+        <ul class="dfy-terms">
+          <li>Fit review, pick, setup, testing and 60 days of tuning</li>
+          <li>Live within 7 business days of intake and account access</li>
+          <li>Full refund of our fee if neither result is reached by day 60</li>
+        </ul>
+        <p class="dfy-sub">The AI receptionist subscription is paid directly to the vendor you choose, at its published price. We add no markup.</p>
+        <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
+        <p class="dfy-spots">{spotsNote}</p>
+        <a class="btn btn-ghost" href={standard.url} data-offer-checkout="dfy_standard">{standardLabel}</a>
+        <p class="dfy-mail">Questions? Email <a href={mailto}>{email}</a> — {DFY_QUESTIONS_LINE}</p>
+      </aside>
+    </div>
+
+    <section class="dfy-flows" aria-labelledby="flows-heading">
+      <h2 id="flows-heading" class="section-title">Example call flows</h2>
+      <p class="dfy-flows-lead">Examples only, to show the shape of a call. Your script is written around your hours, services and rules, and you approve every word before go-live.</p>
+      <div class="dfy-flow-grid">
+        {item.flows.map((flow) => (
+          <article class="dfy-flow">
+            <p class="dfy-flow-tag">Example</p>
+            <h3>{flow.title}</h3>
+            <ol>
+              {flow.steps.map((step) => <li>{step}</li>)}
+            </ol>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <DfyMeasure />
+
+    <DfyGuarantee />
+
+    <Faq items={item.faqs}/>
+
+    <AuditCta />
+
+    <section class="dfy-close" aria-labelledby="close-heading">
+      <h2 id="close-heading">Ready when you are</h2>
+      <p>Pay once and we email you a short intake that asks for 4 quick things. We take it from there: pick, setup, testing and 60 days of tuning, all tuned for {item.audience}.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
+        <a class="btn btn-ghost" href={standard.url} data-offer-checkout="dfy_standard">{standardLabel}</a>
+      </div>
+      <p class="dfy-spots">{spotsNote}</p>
+      <p class="dfy-mail dfy-mail-left">Questions? Email <a href={mailto}>{email}</a> — {DFY_QUESTIONS_LINE}</p>
+      <p class="dfy-more">
+        <a href={DFY_PATH}>See the full done-for-you details</a>
+        {item.industryPage && <> · <a href={item.industryPage}>Compare AI receptionists for {item.audience}</a></>}
+      </p>
+    </section>
+
+    <DfyIndustryCards exclude={item.slug} heading="Other industries" lead="" />
+  </div>
+
+</Base>
