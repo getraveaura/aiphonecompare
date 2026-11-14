@@ -2,9 +2,9 @@
 import { DFY_OFFERS, DFY_PATH, TEARDOWN, SPOTLIGHT, usd } from '../lib/offers.mjs';
 const path = Astro.url.pathname;
 const offers = [
-  { href: DFY_PATH, kicker: 'For businesses', name: 'Done-for-you setup', price: `From ${usd(DFY_OFFERS.founding.price)} one-time`, body: 'We pick, set up and tune your AI receptionist, with a result guarantee.' },
-  { href: TEARDOWN.path, kicker: 'For vendors', name: TEARDOWN.name, price: `${usd(TEARDOWN.price)} one-time`, body: 'How buyers compare you with your rivals, plus 5 fixes.' },
-  { href: SPOTLIGHT.path, kicker: 'For vendors', name: SPOTLIGHT.name, price: `${usd(SPOTLIGHT.price)} for ${SPOTLIGHT.days} days`, body: 'The top spot on one industry page, labeled Sponsored.' },
+  { href: DFY_PATH, kicker: 'For businesses', name: 'Done-for-you setup', price: `From ${usd(DFY_OFFERS.founding.price)} one-time`, body: 'We pick and set up your AI phone answering for you, with a money-back result guarantee.' },
+  { href: TEARDOWN.path, kicker: 'For vendors', name: TEARDOWN.name, price: `${usd(TEARDOWN.price)} one-time`, body: 'For companies that sell AI phone answering: how you compare with rivals, plus 5 fixes.' },
+  { href: SPOTLIGHT.path, kicker: 'For vendors', name: SPOTLIGHT.name, price: `${usd(SPOTLIGHT.price)} for ${SPOTLIGHT.days} days`, body: 'For companies that sell AI phone answering: the top spot on one industry page, labeled Sponsored.' },
 ].filter((o) => o.href !== path);
 ---
 <section class="offer-section" aria-labelledby="other-offers">

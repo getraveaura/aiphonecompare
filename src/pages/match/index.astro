@@ -12,8 +12,8 @@ const jsonld = {
 <Base title="Match an AI receptionist" description={description} jsonld={jsonld} ogImage="/og/match.png">
   <header class="page-intro">
     <div class="wrap">
-      <h1>Match an AI receptionist</h1>
-      <p class="lead">Three fits from the listings we already publish. A must-have counts only when the listing text says so. Blank means not verified, and not verified is not a yes. Sponsored listings do not move up this list.</p>
+      <h1>Find the best AI phone answering service for you</h1>
+      <p class="lead">Answer a few quick questions and see your top 3 matches with an estimated monthly cost. We only count a feature when the company says so on its own website. Ads never move up this list.</p>
     </div>
   </header>
   <div class="wrap stack">
@@ -99,9 +99,9 @@ const jsonld = {
     heading.append(link);
     article.append(heading);
     const cost = row.estimate.status === 'unknown' || row.estimate.cents == null
-      ? 'Scenario bill not verified'
+      ? 'Monthly cost not confirmed'
       : `${money(row.estimate.cents)} on ${row.estimate.planName}${row.estimate.status === 'partial' ? ' (partial subtotal)' : ''}`;
-    article.append(line('Scenario:', cost));
+    article.append(line('Estimated monthly cost:', cost));
     if (row.estimate.reason) article.append(line('Unknown:', row.estimate.reason));
     if (row.estimate.formula) article.append(line('Math:', row.estimate.formula));
     if (row.estimate.oneTimeKnown && row.estimate.oneTimeCents) {

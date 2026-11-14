@@ -29,24 +29,24 @@ const jsonld = dfyServiceJsonld({
 
 const steps = [
   {
-    h: 'Fit review',
-    p: 'A short intake form plus your call log export (or a 15-minute call). We look at call volume, call length, after-hours share and what callers ask for.',
+    h: 'We learn your calls',
+    p: 'A short form plus your call history (or a 15-minute call). We look at how many calls you get, how long they last, how many come after hours and what callers ask for.',
   },
   {
-    h: 'Shortlist and pick',
-    p: "We compare plans using the same sourced prices as the site's calculator and recommend one, with the reasons and the total first-year cost written out.",
+    h: 'We pick the best fit',
+    p: "We compare plans using the same real prices as our cost calculator and recommend one, with the reasons and the full first-year cost written out.",
   },
   {
-    h: 'Setup',
+    h: 'We set it up',
     p: null,
   },
   {
-    h: 'Testing',
-    p: '20 scripted test calls, including the tricky ones (emergencies, pricing questions, wrong numbers), before your number goes live.',
+    h: 'We test it',
+    p: '20 practice calls, including the tricky ones (emergencies, pricing questions, wrong numbers), before your number goes live.',
   },
   {
-    h: '60 days of tuning',
-    p: 'A weekly review of calls and transcripts, script and FAQ fixes, and a written results report at day 30 and day 60.',
+    h: '60 days of fine-tuning',
+    p: 'Each week we review your calls and improve what the assistant says. You get a written results report at day 30 and day 60.',
   },
 ];
 
@@ -87,13 +87,13 @@ import OtherOffers from '../components/OtherOffers.astro';
   <header class="page-intro dfy-intro offer-hero">
     <div class="wrap">
       <p class="dfy-kicker">Done-for-you setup</p>
-      <h1>Your phones answered the way your team would — without you doing the setup.</h1>
-      <p class="lead">We pick, set up and tune an AI receptionist from vendors with verified, sourced prices. Independent: we don't take a cut of vendor subscriptions, and rankings are never for sale.</p>
+      <h1>Every call answered, without you doing the setup.</h1>
+      <p class="lead">We choose the right AI receptionist (a phone assistant that answers like your staff), set it up, test it and fine-tune it for 60 days. If it doesn't reach the agreed result, you get our fee back.</p>
       <div class="cta">
         <a class="btn btn-primary" href={founding.url} data-offer-checkout="dfy_founding">{foundingLabel}</a>
         {showAuditLinks() ? <a class="btn btn-ghost" href={AUDIT_PATH}>Get a free call coverage check</a> : <a class="btn btn-ghost" href="/overpaying/">Run the free check first</a>}
       </div>
-      <p class="dfy-spots">{spotsNote} A defined result by day 60, or a full refund of our fee. Go-live within 7 business days of receiving your intake.</p>
+      <p class="dfy-spots">{spotsNote} Live within 7 business days. Independent: we take no cut of the service you pick.</p>
     </div>
   </header>
 
