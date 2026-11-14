@@ -42,6 +42,11 @@ const start = weekStart(built);
 const priceChangesWeek = priceLog.changes.filter((change) => change.observed >= start && change.observed <= built).length;
 const lastUpdated = data.map((vendor) => vendor.last_checked).filter(Boolean).sort().at(-1) || built;
 const guides = [...getBestGuides(), ...getLandings()];
+const guideGroups = [
+  { title: 'Best for your business', items: guides.filter((g) => g.path.startsWith('/best/')), all: { href: '/best/', label: 'All industry guides' } },
+  { title: 'What it really costs', items: guides.filter((g) => !g.path.startsWith('/best/') && !g.path.startsWith('/compare/')), all: { href: '/cost/', label: 'All cost guides' } },
+  { title: 'Side-by-side comparisons', items: guides.filter((g) => g.path.startsWith('/compare/')), all: { href: '/vendors/', label: 'All services' } },
+].filter((g) => g.items.length);
 const homeUrl = new URL('/', Astro.site).href;
 const jsonld = {
   '@context': 'https://schema.org',
@@ -144,10 +149,16 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
   </section>
   <section class="band" aria-labelledby="guides-heading">
     <div class="wrap">
-      <h2 class="section-title" id="guides-heading">Guides for your type of business</h2>
-      <ul class="link-grid">
-        {guides.map((page) => <li><a href={page.path}>{page.h1}</a></li>)}
-      </ul>
+      <h2 class="section-title" id="guides-heading">Guides, costs and comparisons</h2>
+      <div class="guide-groups">
+        {guideGroups.map((group) => (
+          <section class="guide-group" aria-label={group.title}>
+            <h3>{group.title}</h3>
+            <ul role="list">{group.items.map((page) => <li><a href={page.path}>{page.h1}</a></li>)}</ul>
+            <a class="guide-group-all" href={group.all.href}>{group.all.label} <span class="arrow" aria-hidden="true">→</span></a>
+          </section>
+        ))}
+      </div>
     </div>
   </section>
   <section class="band" id="industries">

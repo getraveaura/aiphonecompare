@@ -582,6 +582,7 @@ function worthPage({ stories }) {
         a: priced.length
           ? priced.map((story) => `${story.business || story.title}: ${story.cost}`).join(' ')
           : 'No story states a price.',
+        list: priced.map((story) => `${story.business || story.title}: ${story.cost}`),
       },
       {
         q: 'How many of these businesses stopped using the AI?',

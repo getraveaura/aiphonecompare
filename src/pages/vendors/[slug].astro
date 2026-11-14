@@ -88,7 +88,7 @@ const jsonld = {
       {siteOffline(v) && <p class="offline-note" role="note"><span class="badge badge-warn">{offlineLabel(v)}</span> {v.site_status.note}</p>}
       <PlainIntro text={`What ${v.name} costs, what it does and how it compares, taken from its own public pages.`} secondary={['/vendors/', 'Compare with others']} />
       <AnswerSummary sentences={summary} verified={v.last_checked} sources={summarySources} />
-      {outbound && <p class="lead" style="margin-top:14px"><a href={outbound.href} rel={outbound.rel} data-vendor-slug={v.slug} data-vendor-referral={outbound.isReferral ? "1" : "0"}>{v.website || outbound.href}</a></p>}
+      {outbound && <p class="vendor-visit"><a class="btn btn-ghost" href={outbound.href} rel={outbound.rel} data-vendor-slug={v.slug} data-vendor-referral={outbound.isReferral ? "1" : "0"}>Visit {(v.website || outbound.href).replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')} <span aria-hidden="true">↗</span></a></p>}
       {outbound?.isReferral && <p class="note referral-note">{REFERRAL_NOTE}</p>}
     </div>
   </header>

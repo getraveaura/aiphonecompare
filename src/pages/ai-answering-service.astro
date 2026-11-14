@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
+import NextSteps from '../components/NextSteps.astro';
 import AuditCta from '../components/AuditCta.astro';
 import VendorTable from '../components/VendorTable.astro';
 import data from '../data/vendors.json';
@@ -48,13 +49,22 @@ const caption = 'Sorted by the lowest monthly dollar amount written in each list
         </p>
       )}
       <p class="lead">An AI answering service uses software to pick up inbound calls. This page lists every AI receptionist in the directory. The order uses only the monthly dollar amount written in each published price, checked against the source on the vendor page.</p>
+      <NextSteps
+        cards={[
+          { href: '/match/', title: 'Find my best match', text: 'Pick your industry, call volume and must-haves' },
+          { href: '/cost/calculator/?calls=150&minutes=3', title: 'See my monthly cost', text: 'Estimate a bill from published prices' },
+          { href: '/pricing/', title: 'All published prices', text: 'Every starting price, with its source' },
+        ]}
+        othersLabel="By industry"
+        others={[{ href: '/industries/dental/', label: 'Dental' }, { href: '/industries/legal/', label: 'Legal' }, { href: '/industries/plumbing/', label: 'Plumbing' }, { href: '/industries/medical/', label: 'Medical' }]}
+      />
     </div>
   </header>
   <div class="wrap stack">
-    <p>Compare by industry: <a href="/industries/dental/">dental practices</a>, <a href="/industries/legal/">law firms</a>, <a href="/industries/plumbing/">plumbing companies</a>, and <a href="/industries/medical/">medical practices</a>. Every published starting price is also on <a href="/pricing/">the pricing page</a>. Phone-recording statutes are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.</p>
     <section aria-labelledby="compare-heading">
       <h2 id="compare-heading" class="section-title">Comparison table</h2>
       <VendorTable vendors={vendors} caption={caption}/>
+      <p class="good-to-know"><strong>Good to know:</strong> recording a call has rules that differ by state. See <a href="/call-recording-consent-by-state/">call recording consent by state</a> (not legal advice).</p>
     </section>
     <AuditCta />
     <Faq items={faqs}/>
