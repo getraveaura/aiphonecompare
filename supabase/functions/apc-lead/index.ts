@@ -2,6 +2,8 @@
 // Inserts an aiphonecompare lead (from the free overpaying check) and sends
 // the welcome email right away. Abuse protection: origin allowlist, honeypot,
 // strict validation, and per-IP / per-email / global rate limits.
+// source "audit" (free missed-call audit form on /audit/) has its own branch
+// below; every other source follows the original overpaying/stories path.
 import { button, esc, json, sendEmail, sha256, shell, sql, SITE } from "../_shared/common.ts";
 
 const ALLOWED_ORIGINS = new Set([
@@ -20,7 +22,11 @@ const INDUSTRIES = new Map([
   ["hvac", "HVAC"],
   ["roofing", "Roofing"],
   ["other", "Other"],
+  ["home-services", "Home services"],
+  ["med-spa", "Med spa"],
 ]);
+// Industries the audit form accepts (keys of INDUSTRIES above).
+const AUDIT_INDUSTRIES = new Set(["dental", "legal", "home-services", "med-spa", "medical", "hvac", "roofing", "plumbing", "other"]);
 const EMAIL_RE = /^[^@\s<>"']{1,64}@[A-Za-z0-9.-]{1,190}\.[A-Za-z]{2,24}$/;
 
 function cors(origin: string | null): Record<string, string> {
@@ -56,6 +62,137 @@ async function rateLimited(keys: [string, number, string][]): Promise<boolean> {
   return false;
 }
 
+// Audit phone: digits, spaces and + ( ) - . only, with 10 to 15 digits.
+function auditPhone(v: unknown): string {
+  const raw = cleanText(v, 40);
+  if (!raw || !/^[0-9+().\-\s]+$/.test(raw)) return "";
+  const digits = raw.replace(/\D/g, "");
+  return digits.length >= 10 && digits.length <= 15 ? raw : "";
+}
+// Audit website: http(s) only, scheme added when missing, max 200 characters.
+function auditWebsite(v: unknown): string {
+  const raw = String(v ?? "").trim();
+  if (!raw || /\s/.test(raw) || raw.length > 300) return "";
+  const withScheme = /^[a-z][a-z0-9+.-]*:/i.test(raw) ? raw : `https://${raw}`;
+  try {
+    const u = new URL(withScheme);
+    if (u.protocol !== "http:" && u.protocol !== "https:") return "";
+    if (u.username || u.password) return "";
+    if (!/^[a-z0-9-]+(\.[a-z0-9-]+)*\.[a-z]{2,}$/i.test(u.hostname)) return "";
+    return u.href.length <= 200 ? u.href : "";
+  } catch {
+    return "";
+  }
+}
+
+async function handleAudit(body: Record<string, unknown>, req: Request, headers: Record<string, string>): Promise<Response> {
+  const email = cleanText(body.email, 254).toLowerCase();
+  if (!EMAIL_RE.test(email)) return json({ ok: false, error: "email" }, 400, headers);
+  const business = cleanText(body.business, 120);
+  if (!business) return json({ ok: false, error: "business" }, 400, headers);
+  const siteUrl = auditWebsite(body.site_url);
+  if (!siteUrl) return json({ ok: false, error: "site_url" }, 400, headers);
+  const phone = auditPhone(body.phone);
+  if (!phone) return json({ ok: false, error: "phone" }, 400, headers);
+  const name = cleanText(body.name, 60);
+  const industry = AUDIT_INDUSTRIES.has(String(body.industry)) ? String(body.industry) : "other";
+  const industryLabel = INDUSTRIES.get(industry)!;
+
+  const ip = (req.headers.get("x-forwarded-for") ?? "").split(",")[0].trim() || "unknown";
+  const ipHash = (await sha256(`apc:${ip}`)).slice(0, 32);
+  const emailHash = (await sha256(`apc:${email}`)).slice(0, 32);
+  const phoneHash = (await sha256(`apc:${phone.replace(/\D/g, "")}`)).slice(0, 32);
+  if (await rateLimited([
+    [`ip:${ipHash}`, 5, "1 hour"],
+    [`email:${emailHash}`, 3, "1 day"],
+    [`audit-phone:${phoneHash}`, 2, "2 days"],
+    ["audit-global", 50, "1 day"],
+    ["global", 300, "1 day"],
+  ])) {
+    return json({ ok: false, error: "rate_limited" }, 429, headers);
+  }
+
+  const requestedAt = new Date().toISOString();
+  const payload = {
+    audit: { site_url: siteUrl, phone, requested_at: requestedAt },
+    user_agent: cleanText(req.headers.get("user-agent"), 200),
+    welcome_email: null,
+  };
+  const inserted = await sql`
+    insert into aiphonecompare.leads (email, name, business, industry, source, stage, payload)
+    values (${email}, ${name || null}, ${business}, ${industry}, 'audit', 'lead', ${sql.json(payload)})
+    returning id`;
+  const leadId = inserted[0].id as string;
+
+  const hi = name ? `Hi ${esc(name)},` : "Hi there,";
+  const checks = [
+    "Whether the call was answered",
+    "How many rings it took",
+    "What a caller hears after hours",
+    "Whether booking or a callback was offered",
+    "Voicemail quality, if it goes to voicemail",
+    "Whether a text-back arrives after a missed call",
+  ];
+  const html = shell(`
+<p>${hi}</p>
+<p>Thanks for booking a free missed-call audit for <strong>${esc(business)}</strong>. You're all set.</p>
+<p><strong>What happens next</strong></p>
+<p>Within 1 business day, we'll place one short, polite test call to ${esc(phone)} after your business hours, the way a new customer would. Then we'll email you a one-page report.</p>
+<p><strong>What we score</strong></p>
+<ul style="padding-left:18px;margin:8px 0 16px 0;">${checks.map((c) => `<li style="margin:4px 0;">${esc(c)}</li>`).join("")}</ul>
+<p>Each finding comes with the simplest fix we know, so the report is useful whatever you decide to do next.</p>
+${button(`${SITE}/done-for-you/`, "See how done-for-you setup works")}
+<p>Reply any time with questions. I read every reply.</p>
+<p>Timothy<br><span style="color:#6b6b66;">aiphonecompare.com</span></p>`);
+  const text = [
+    name ? `Hi ${name},` : "Hi there,",
+    "",
+    `Thanks for booking a free missed-call audit for ${business}. You're all set.`,
+    "",
+    "What happens next:",
+    `Within 1 business day, we'll place one short, polite test call to ${phone} after your business hours, the way a new customer would. Then we'll email you a one-page report.`,
+    "",
+    "What we score:",
+    ...checks.map((c) => `- ${c}`),
+    "",
+    "Each finding comes with the simplest fix we know.",
+    "",
+    "Reply any time with questions. I read every reply.",
+    "",
+    "Timothy",
+    "aiphonecompare.com",
+  ].join("\n");
+  const sent = await sendEmail({
+    to: email,
+    subject: "Your free missed-call audit is booked",
+    html,
+    text,
+    tags: [{ name: "type", value: "welcome" }, { name: "source", value: "audit" }],
+  });
+  await sql`update aiphonecompare.leads set payload = payload || ${sql.json({ welcome_email: { ...sent, at: new Date().toISOString() } })} where id = ${leadId}`;
+
+  // Internal heads-up with every field, so we can place the call.
+  await sendEmail({
+    to: "timothy@aiphonecompare.com",
+    subject: `New audit request: ${business} (${industryLabel})`,
+    html: shell(`<p>New audit request ${esc(leadId)}.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:14px;">
+<tr><td style="padding:4px 12px 4px 0;color:#6b6b66;">Business</td><td>${esc(business)}</td></tr>
+<tr><td style="padding:4px 12px 4px 0;color:#6b6b66;">Industry</td><td>${esc(industryLabel)}</td></tr>
+<tr><td style="padding:4px 12px 4px 0;color:#6b6b66;">Phone</td><td>${esc(phone)}</td></tr>
+<tr><td style="padding:4px 12px 4px 0;color:#6b6b66;">Website</td><td><a href="${esc(siteUrl)}">${esc(siteUrl)}</a></td></tr>
+<tr><td style="padding:4px 12px 4px 0;color:#6b6b66;">Email</td><td>${esc(email)}</td></tr>
+<tr><td style="padding:4px 12px 4px 0;color:#6b6b66;">Name</td><td>${esc(name || "(not given)")}</td></tr>
+<tr><td style="padding:4px 12px 4px 0;color:#6b6b66;">Requested</td><td>${esc(requestedAt)}</td></tr>
+</table>
+<p>Confirmation email: ${sent.ok ? "sent" : "FAILED " + esc(sent.error)}</p>`),
+    text: `New audit request ${leadId}\nBusiness: ${business}\nIndustry: ${industryLabel}\nPhone: ${phone}\nWebsite: ${siteUrl}\nEmail: ${email}\nName: ${name || "(not given)"}\nRequested: ${requestedAt}\nConfirmation email: ${sent.ok ? "sent" : "FAILED"}`,
+    tags: [{ name: "type", value: "internal" }],
+  }).catch(() => null);
+
+  return json({ ok: true, welcome: sent.ok }, 200, headers);
+}
+
 Deno.serve(async (req) => {
   const origin = req.headers.get("origin");
   const headers = cors(origin);
@@ -74,6 +211,8 @@ Deno.serve(async (req) => {
 
   // Honeypot: bots fill every field. Pretend success, store nothing.
   if (cleanText(body.company_website, 200) !== "") return json({ ok: true }, 200, headers);
+
+  if (cleanText(body.source, 40) === "audit") return handleAudit(body, req, headers);
 
   const email = cleanText(body.email, 254).toLowerCase();
   if (!EMAIL_RE.test(email)) return json({ ok: false, error: "email" }, 400, headers);
