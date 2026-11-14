@@ -38,10 +38,9 @@ test('the "From" headline is a monthly amount from the text and not above any mo
   }
 });
 
-test('structured from-price agrees with the site-wide lowest monthly amount, except known add-on wording', () => {
-  const known = new Set(['viva-ai']); // "+$150/mo per added provider" is an add-on, not a plan.
+test('structured from-price agrees with the site-wide lowest monthly amount', () => {
   for (const [slug, entry] of Object.entries(plans.vendors)) {
-    if (entry.headline || known.has(slug)) continue;
+    if (entry.headline) continue;
     const low = lowestMonthly(entry.basis);
     if (low == null) continue;
     const n = Number(splitMoney(entry.from).amount.replace(/[^\d.]/g, ''));
