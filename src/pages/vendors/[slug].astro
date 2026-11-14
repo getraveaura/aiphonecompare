@@ -7,6 +7,7 @@ import StoryCards from '../../components/StoryCards.astro';
 import Catches from '../../components/Catches.astro';
 import Checklist from '../../components/Checklist.astro';
 import AnswerSummary from '../../components/AnswerSummary.astro';
+import PricePlans from '../../components/PricePlans.astro';
 import models from '../../data/cost-models.json';
 import data from '../../data/vendors.json';
 import stories from '../../data/stories.json';
@@ -18,6 +19,7 @@ import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
 import { vendorSummary, sourceLinks, articleNode, productNode, breadcrumbNode } from '../../lib/answers.mjs';
 export function getStaticPaths(){ return data.map((v) => ({ params: { slug: v.slug }, props: { v } })); }
 const { v } = Astro.props;
+const shortUrl = (href) => { try { const u = new URL(href); return `${u.hostname.replace(/^www\./, '')}${u.pathname === '/' ? '' : u.pathname.replace(/\/$/, '')}`; } catch { return href; } };
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical', chiropractic: 'Chiropractic', property: 'Property management', auto: 'Auto repair', salon: 'Salons', therapy: 'Therapy', general: 'General' };
 const industryHref = { dental: '/industries/dental/', legal: '/industries/legal/', plumbing: '/industries/plumbing/', medical: '/industries/medical/' };
 const formatCheck = (d) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${d}T00:00:00Z`));
@@ -90,7 +92,12 @@ const jsonld = {
   </header>
   <div class="wrap stack">
     <div class="facts">
-      {facts.map(([label, val]) => (
+      {facts.map(([label, val]) => label === 'Starting price' ? (
+        <section class="fact fact-price">
+          <h2>{label}</h2>
+          <PricePlans vendor={v} meta />
+        </section>
+      ) : (
         <section class="fact">
           <h2>{label}</h2>
           <p>{val || <span class="missing">Not verified</span>}</p>
@@ -136,7 +143,7 @@ const jsonld = {
     <Checklist catches={vendorCatches} />
     <section>
       <h2 class="section-title">Sources</h2>
-      <ul class="sources">{v.sources.map((s) => <li><a href={s} rel="nofollow noopener">{s}</a></li>)}</ul>
+      <ul class="sources">{v.sources.map((s) => <li><a href={s} rel="nofollow noopener">{shortUrl(s)}</a></li>)}</ul>
       {v.price_check && (
         <p class="note">{v.price_check.result === 'not-confirmed' ? 'Not confirmed on the vendor’s site' : 'Price check'}, <time datetime={v.price_check.date}>{formatCheck(v.price_check.date)}</time>: {v.price_check.note}</p>
       )}

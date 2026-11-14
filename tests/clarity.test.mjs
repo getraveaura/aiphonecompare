@@ -13,7 +13,7 @@ test('homepage says what the site is, shows 3 steps and explains how we make mon
 });
 
 test('vendor pages open with who they are for and a plain example', () => {
-  for (const p of ['src/pages/teardown.astro', 'src/pages/get-featured.astro']) {
+  for (const p of ['src/pages/competitor-check-up.astro', 'src/pages/get-featured.astro']) {
     const page = read(p);
     assert.match(page, /For companies that sell AI phone answering/);
     assert.match(page, /class="plain-example"/);
@@ -21,7 +21,7 @@ test('vendor pages open with who they are for and a plain example', () => {
 });
 
 test('offer pages avoid jargon in visible copy', () => {
-  const src = read('src/pages/teardown.astro');
+  const src = read('src/pages/competitor-check-up.astro');
   const teardown = src.slice(src.indexOf('<Base'), src.indexOf('<script>'));
   for (const word of [/\bteardown\b(?![_'"\/])/i, /AI answers/, /\bcites\b/, /\boverage\b/i, /\btier\b/i, /entry plan/i, /Usually in 2 to 6/]) {
     const visible = teardown.replace(/TEARDOWN\.\w+|\/og\/teardown\.png|\/teardown\/|data-offer-checkout="teardown"|#teardown|teardown_paid_return/g, '');

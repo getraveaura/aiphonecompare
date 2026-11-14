@@ -6,6 +6,7 @@ import AnswerSummary from './AnswerSummary.astro';
 import { articleNode } from '../lib/answers.mjs';
 import { REFERRAL_NOTE } from '../lib/outbound.mjs';
 import AuditCta from './AuditCta.astro';
+import PricePlans from './PricePlans.astro';
 const { page } = Astro.props;
 const url = new URL(page.path, Astro.site).href;
 const graph = [
@@ -80,7 +81,13 @@ graph.push(articleNode({
       <PlainIntro text={page.path.startsWith('/compare/') ? 'See how these two compare on price and features, side by side, using each company’s own published prices.' : page.path.startsWith('/cost/') ? 'See what you would really pay per month, using each company’s own price list. No guessing: if a fee is not published, we say so.' : ''} />
       <AnswerSummary sentences={page.summary} verified={page.verified} sources={page.sources} />
       <div class="landing-notes">
-        {notes.map((paragraph) => <p>{paragraph}</p>)}
+        {notes.slice(0, 1).map((paragraph) => <p>{paragraph}</p>)}
+        {notes.length > 1 && (
+          <details class="landing-more">
+            <summary>How we worked this out ({notes.length - 1} more {notes.length === 2 ? 'note' : 'notes'})</summary>
+            {notes.slice(1).map((paragraph) => <p>{paragraph}</p>)}
+          </details>
+        )}
       </div>
       {page.referrals?.length > 0 && <p class="note referral-note">{REFERRAL_NOTE}</p>}
     </div>
@@ -102,8 +109,8 @@ graph.push(articleNode({
                   const visit = item.visit;
                   const visitIsPrimary = visit && item.href === visit.href;
                   return (
-                    <Tag scope={index === 0 ? 'row' : undefined} data-label={block.headers[index]}>
-                      {item.href && !visitIsPrimary
+                    <Tag scope={index === 0 ? 'row' : undefined} data-label={block.headers[index]} class={index > 0 && !item.price && String(item.text || '').length <= 48 ? 'kv' : undefined}>
+                      {item.price ? <PricePlans vendor={item.price} meta={Boolean(item.meta)} size="sm" /> : item.href && !visitIsPrimary
                         ? <a href={item.href} rel={visit ? undefined : rel}>{item.text}</a>
                         : item.datetime ? <time datetime={item.datetime}>{item.text}</time>
                         : !visitIsPrimary ? item.text
@@ -111,7 +118,7 @@ graph.push(articleNode({
                       {visit && (
                         <>
                           {item.href && !visitIsPrimary && ' '}
-                          <a href={visit.href} rel={visit.rel} data-vendor-slug={visit.slug} data-vendor-referral={visit.isReferral ? '1' : '0'}>{visitIsPrimary ? item.text : `Visit ${visit.name}`}</a>
+                          <a class={visitIsPrimary ? undefined : 'visit-inline'} href={visit.href} rel={visit.rel} data-vendor-slug={visit.slug} data-vendor-referral={visit.isReferral ? '1' : '0'}>{visitIsPrimary ? item.text : `Visit ${visit.name}`}</a>
                         </>
                       )}
                     </Tag>
@@ -134,7 +141,7 @@ graph.push(articleNode({
     ))}
     <nav aria-label="Related">
       <h2 class="section-title">Related</h2>
-      <ul>
+      <ul class="link-chips" role="list">
         {page.related.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
       </ul>
     </nav>

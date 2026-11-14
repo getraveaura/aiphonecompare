@@ -1,164 +1,23 @@
 ---
-import Base from '../layouts/Base.astro';
-import { SHOW_OFFER_PROOF, TEARDOWN } from '../lib/offers.mjs';
-import OfferProof from '../components/OfferProof.astro';
-import OtherOffers from '../components/OtherOffers.astro';
-import AuditCta from '../components/AuditCta.astro';
-const pageUrl = new URL('/teardown/', Astro.site).href;
-const price = TEARDOWN.price;
-const jsonld = {
-  '@context': 'https://schema.org',
-  '@type': 'Service',
-  name: 'Competitor check-up',
-  serviceType: 'Competitor price and visibility report for companies that sell AI phone answering',
-  description: 'A report for companies that sell AI phone answering: how your prices compare with 3 to 5 rivals, whether ChatGPT and Google recommend you, what confuses buyers on your pricing page, and 5 clear fixes.',
-  provider: { '@type': 'Organization', name: 'aiphonecompare', url: new URL('/', Astro.site).href },
-  url: pageUrl,
-  offers: { '@type': 'Offer', price: String(price), priceCurrency: 'USD', url: pageUrl, availability: 'https://schema.org/InStock' },
-};
-const included = [
-  ['Your prices next to your rivals', 'Your plans side by side with 3 to 5 of your closest competitors, and what each one really costs a customer per month at different call amounts.'],
-  ['Who ChatGPT and Google recommend', 'We ask ChatGPT, Perplexity and Google the questions your buyers ask, like "best AI receptionist for dentists," and show whether you come up, and who does.'],
-  ['What confuses buyers on your pricing page', 'We read your pricing page like a shopper would and point out what is unclear: how many calls or minutes are included, the cost of extra minutes, the free trial and setup fees.'],
-  ['5 clear fixes', 'Ranked from easiest to hardest, each with the exact words or change to make, and why it helps you win customers.'],
-  ['Proof for every point', 'Every price and search result links to the public page we found it on, with the date we checked.'],
-];
-const faqs = [
-  ['Who is this for?', 'Companies that sell an AI phone answering service (also called an AI receptionist) to small businesses.'],
-  ['What do you need from me?', 'Just your website address. If you like, tell us which rivals you lose customers to. No logins, no calls.'],
-  ['How fast is it?', 'Within 24 hours of your reply to our short intake email.'],
-  ['What do I get?', 'An easy-to-read report as a web page and a PDF you can share with your team.'],
-  ['Does buying one change my listing or ranking?', 'Never. Listings, prices and rankings on this site are not for sale. Your report is private.'],
-  ['What if it is not useful?', `Tell us within ${TEARDOWN.refundDays} days and we refund you in full. No questions asked.`],
-];
+// Old URL. The Competitor check-up moved to /competitor-check-up/.
+// Kept so old links, emails and the Stripe return URL keep working (query string is carried over).
+import { TEARDOWN } from '../lib/offers.mjs';
+const target = new URL(TEARDOWN.path, Astro.site).href;
 ---
-<Base title="Competitor check-up for AI phone answering companies" description={`You sell an AI phone answering service. See how your prices compare with your rivals, whether ChatGPT and Google recommend you, and 5 clear fixes. $${price}, ready within 24 hours, full refund if it's not useful.`} jsonld={jsonld} ogImage="/og/teardown.png" dock={[[TEARDOWN.url, `Buy for $${price}`], ['#sample', 'See a sample']]}>
-  <div class="dfy-paid" id="td-paid" role="status" hidden>
-    <div class="wrap"><strong>Payment received, thank you.</strong> Your intake email from timothy@aiphonecompare.com is on its way; it asks for 3 quick things.</div>
-  </div>
-
-  <header class="page-intro td-intro offer-hero">
-    <div class="wrap">
-      <p class="td-eyebrow">For companies that sell AI phone answering</p>
-      <h1>See why customers pick your rivals, and how to win them back</h1>
-      <p class="lead">Competitor check-up: a short report that shows how you stack up against 3 to 5 rivals on price, whether ChatGPT and Google recommend you, and 5 clear fixes to win more customers.</p>
-      <div class="cta">
-        <a class="btn btn-primary btn-lg td-hero-cta" href={TEARDOWN.url} data-offer-checkout="teardown">Get my check-up for ${price} <span class="arrow" aria-hidden="true">→</span></a>
-        <a class="btn btn-secondary btn-lg" href="#sample">See an example</a>
-      </div>
-      <ul class="offer-points">
-        <li>Ready within 24 hours</li>
-        <li>Just send your website</li>
-        <li>Full refund within {TEARDOWN.refundDays} days if it's not useful</li>
-      </ul>
-      <p class="plain-example"><strong>Example:</strong> say you sell an AI receptionist for dentists. We put your prices next to your closest rivals, ask ChatGPT and Google "best AI receptionist for dentists" to see who gets recommended, and read your pricing page like a buyer would. You get 5 changes to make, in plain words.</p>
-    </div>
-  </header>
-
-  <div class="wrap td-grid">
-    <section class="td-included" aria-labelledby="included">
-      <h2 id="included">What's in your check-up</h2>
-      <ol class="td-list">
-        {included.map(([title, body]) => (
-          <li><h3>{title}</h3><p>{body}</p></li>
-        ))}
-      </ol>
-    </section>
-
-    <aside class="td-card" aria-labelledby="offer">
-      <h2 id="offer" class="td-card-title">Competitor check-up</h2>
-      <p class="td-price">${price} <span>one-time, no subscription</span></p>
-      <ul class="td-facts">
-        <li><strong>Ready within 24 hours.</strong></li>
-        <li><strong>Just send your website.</strong> No logins, no calls.</li>
-        <li><strong>Web page + PDF</strong> you can share with your team.</li>
-        <li><strong>Private.</strong> Buying never changes your listing or ranking.</li>
-      </ul>
-      <a class="btn btn-primary td-cta" href={TEARDOWN.url} data-offer-checkout="teardown">Get my check-up for ${price}</a>
-      <p class="td-refund"><strong>Full refund if it's not useful.</strong> Just tell us within {TEARDOWN.refundDays} days. <a href="/refunds/#teardown">Refund policy</a></p>
-      <p class="td-mail">Questions first? Email <a href="mailto:timothy@aiphonecompare.com?subject=Competitor%20check-up">timothy@aiphonecompare.com</a></p>
-    </aside>
-  </div>
-
-  <section class="wrap td-sample" aria-labelledby="sample">
-    <h2 id="sample">What you'll learn: 3 example findings</h2>
-    <div class="td-samples">
-      <figure>
-        <figcaption>Your price</figcaption>
-        <p>"For a business with 50 to 100 calls a month, your cheapest plan ties for the lowest price. You're also the only one at that price that can book appointments during the call. Say that right next to your price."</p>
-      </figure>
-      <figure>
-        <figcaption>ChatGPT and Google</figcaption>
-        <p>"When someone asks ChatGPT for the 'best AI receptionist for plumbers,' it points to five websites. None of them mention you. Here are the sites to contact first, and what to send them."</p>
-      </figure>
-      <figure>
-        <figcaption>Your pricing page</figcaption>
-        <p>"Your middle plan adds only 50 minutes, and extra minutes cost twice as much. Next to a rival's plan at the same price, buyers skip it. Here are 3 ways to fix it."</p>
-      </figure>
-    </div>
-    <p class="note">Made-up examples to show the style. Your real report uses only public pages about your company and your rivals.</p>
-  </section>
-
-  {SHOW_OFFER_PROOF && <section class="wrap offer-section" style="padding-top:2rem">
-    <OfferProof heading="What vendors say" body="The check-up is new. With each buyer's permission, we'll share what they changed and what happened here. Until then, the sample findings above show the format. We won't post made-up quotes or numbers." />
-  </section>}
-
-  <section class="wrap td-faq" aria-labelledby="faq">
-    <h2 id="faq">Questions</h2>
-    <dl>
-      {faqs.map(([q, a]) => (<div><dt>{q}</dt><dd>{a}</dd></div>))}
-    </dl>
-  </section>
-  <div class="wrap"><AuditCta /></div>
-  <OtherOffers />
-
-  <script>
-    import { isPaidReturn } from '../lib/offers.mjs';
-    import { track } from '../lib/analytics.mjs';
-
-    const banner = document.getElementById('td-paid');
-    if (banner && isPaidReturn(window.location.search)) {
-      banner.hidden = false;
-      track('teardown_paid_return');
-    }
-  </script>
-</Base>
-
-<style>
-  .td-intro { padding-bottom: 24px; }
-  .td-eyebrow { margin: 0 0 12px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--pine); }
-  .td-intro h1 { max-width: 22ch; }
-  .td-intro .lead { max-width: 58ch; }
-  .td-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(280px, 1fr); gap: 32px; align-items: start; padding-top: 16px; padding-bottom: 40px; }
-  .td-included h2, .td-sample h2, .td-faq h2 { font-size: 1.6rem; margin: 0 0 16px; }
-  .td-list { list-style: none; counter-reset: td; margin: 0; padding: 0; display: grid; gap: 4px; }
-  .td-list li { counter-increment: td; position: relative; padding: 16px 0 16px 48px; border-top: 1px solid var(--line); }
-  .td-list li::before { content: counter(td); position: absolute; left: 0; top: 16px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--pine); font-weight: 600; text-align: center; line-height: 28px; }
-  .td-list h3 { margin: 0 0 4px; font-size: 1.15rem; letter-spacing: -0.01em; }
-  .td-list p { color: var(--ink-soft); }
-  .td-card { position: sticky; top: 24px; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; box-shadow: var(--shadow); }
-  .td-card-title { margin: 0 0 6px; font-size: 1.3rem; }
-  .td-price { font-family: var(--serif); font-size: 2.6rem; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 16px; }
-  .td-price span { font-family: var(--sans); font-size: 1rem; font-weight: 600; color: var(--muted); letter-spacing: 0; }
-  .td-facts { list-style: none; margin: 0 0 20px; padding: 0; display: grid; gap: 8px; color: var(--ink-soft); }
-  .td-facts li { padding-left: 22px; position: relative; }
-  .td-facts li::before { content: "✓"; position: absolute; left: 0; color: var(--pine); font-weight: 600; }
-  .td-cta { display: flex; width: 100%; justify-content: center; min-height: 3rem; align-items: center; }
-  .td-refund { margin: 14px 0 0; padding: 12px 14px; border-radius: 10px; background: var(--checked-bg); color: var(--ink-soft); font-size: 0.95rem; }
-  .td-mail { margin: 12px 0 0; font-size: 0.92rem; color: var(--muted); }
-  .td-sample { padding-bottom: 40px; }
-  .td-samples { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 12px; }
-  .td-samples figure { margin: 0; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; }
-  .td-samples figcaption { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--pine); margin-bottom: 8px; }
-  .td-samples p { font-family: var(--serif); font-size: 1.08rem; line-height: 1.45; color: var(--ink); }
-  .td-faq { padding-bottom: 64px; }
-  .td-faq dl { margin: 0; display: grid; gap: 0; max-width: 760px; }
-  .td-faq dl div { padding: 14px 0; border-top: 1px solid var(--line); }
-  .td-faq dt { font-weight: 600; }
-  .td-faq dd { margin: 4px 0 0; color: var(--ink-soft); }
-  @media (max-width: 860px) {
-    .td-grid { grid-template-columns: 1fr; }
-    .td-card { position: static; order: -1; }
-    .td-samples { grid-template-columns: 1fr; }
-  }
-</style>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Competitor check-up has moved</title>
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={target} />
+    <meta http-equiv="refresh" content={`0; url=${TEARDOWN.path}`} />
+    <script is:inline define:vars={{ path: TEARDOWN.path }}>
+      location.replace(path + location.search + location.hash);
+    </script>
+  </head>
+  <body>
+    <p>The Competitor check-up has moved to <a href={TEARDOWN.path}>{target}</a>.</p>
+  </body>
+</html>

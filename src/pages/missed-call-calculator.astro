@@ -8,6 +8,7 @@ import AnswerSummary from '../components/AnswerSummary.astro';
 import { articleNode, breadcrumbNode } from '../lib/answers.mjs';
 import { formatDate } from '../lib/stories.mjs';
 import AuditCta from '../components/AuditCta.astro';
+import PricePlans from '../components/PricePlans.astro';
 const cheapest = byPublishedMonthlyPrice(data)
   .filter((v) => lowestMonthly(v.starting_price) != null)
   .slice(0, 5)
@@ -105,7 +106,7 @@ const jsonld = {
               <tr>
                 <th scope="row"><a href={`/vendors/${v.slug}/`}>{v.name}</a></th>
                 <td data-label="Monthly amount in the listing">{money(v.monthly)}/mo</td>
-                <td data-label="Published price">{v.starting_price}</td>
+                <td data-label="Published price"><PricePlans vendor={v} size="sm" /></td>
                 <td data-label="Checked">{v.last_checked ? <time datetime={v.last_checked}>{v.last_checked}</time> : <span class="missing">Not verified</span>}</td>
                 <td data-label="Jobs a month to cover it" data-breakeven={v.monthly}><span class="missing">Enter a job value</span></td>
               </tr>
