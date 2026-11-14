@@ -1090,10 +1090,41 @@ pre {
 .answer-box .answer-label { display: block; margin: 0 0 4px; color: var(--pine-deep); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .answer-box .answer-meta { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
 .answer-box .answer-meta a { color: var(--ink-soft); overflow-wrap: anywhere; }
+.answer-box .answer-points { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 8px; }
+.answer-box .answer-points li { position: relative; margin: 0; padding-left: 22px; font-size: 1.06rem; line-height: 1.45; color: var(--ink); }
+.answer-box .answer-points li::before { content: ""; position: absolute; left: 4px; top: 0.55em; width: 8px; height: 8px; border-radius: 50%; background: var(--pine); }
+.answer-box .answer-points strong { color: var(--pine-deep); font-weight: 800; font-variant-numeric: tabular-nums; }
+.answer-box .answer-meta { font-size: 0.84rem; line-height: 1.5; }
+
+/* Next steps block (industry + best guides): 3 action cards, trust note, chips */
+.next-steps { margin-top: 22px; max-width: 860px; }
+.next-steps-title { margin: 0 0 10px; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
+.next-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.next-cards li { margin: 0; display: flex; }
+.next-cards a {
+  position: relative; flex: 1; display: flex; flex-direction: column; gap: 4px; min-height: 64px;
+  padding: 12px 36px 12px 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  color: var(--ink); text-decoration: none; box-shadow: var(--shadow); transition: border-color .15s ease;
+}
+.next-cards a:hover { border-color: var(--pine); }
+.next-cards .next-card-title { font-weight: 700; color: var(--pine-deep); line-height: 1.25; }
+.next-cards .next-card-text { font-size: 0.88rem; color: var(--muted); line-height: 1.35; }
+.next-cards .arrow { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--pine); transition: transform .15s ease; }
+.next-cards a:hover .arrow { transform: translate(3px, -50%); }
+.next-trust { margin: 10px 0 0; font-size: 0.86rem; color: var(--muted); }
+.next-others { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; }
+.next-others-label { font-size: 0.9rem; font-weight: 600; color: var(--ink-soft); }
+.good-to-know { margin: 14px 0 0; font-size: 0.9rem; color: var(--muted); }
+.good-to-know strong { color: var(--ink-soft); }
+@media (max-width: 720px) {
+  .next-cards { grid-template-columns: 1fr; gap: 8px; }
+  .next-cards a { min-height: 56px; }
+}
 /* Landing pages: method notes under the answer-first summary */
 .landing-notes { margin-top: 16px; max-width: 72ch; color: var(--ink-soft); font-size: 0.98rem; }
 .landing-notes p { margin: 0 0 8px; }
 .answer-box + .lead, .answer-box + .landing-notes { margin-top: 18px; }
+.answer-box + .next-steps { margin-top: 22px; }
 
 /* Weekly price-change log (/price-changes/) */
 .price-log { display: flex; flex-direction: column; gap: 2.4rem; padding-bottom: 2rem; }
@@ -1116,7 +1147,7 @@ pre {
 .log-tools a { color: var(--pine); }
 
 /* ---------- Structured prices (PricePlans) ---------- */
-.pp { display: grid; gap: 8px; font-variant-numeric: tabular-nums; min-width: 0; }
+.pp { display: grid; gap: 8px; align-content: start; font-variant-numeric: tabular-nums; min-width: 0; }
 .pp p { margin: 0; }
 .pp-from { font-family: var(--sans); color: var(--ink); line-height: 1.15; }
 .pp-pre { color: var(--muted); font-size: 0.9rem; font-weight: 600; }
@@ -1152,12 +1183,32 @@ pre {
 .pp-meta { color: var(--muted); font-size: 0.85rem; }
 .pp-meta a { color: var(--muted); }
 .pp-meta a:hover { color: var(--pine); }
-.pp-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.pp-tags { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: flex-start; align-content: flex-start; gap: 6px; }
 .pp-tags li { background: var(--checked-bg); color: var(--pine-deep); font-weight: 600; }
 .compare td .pp { gap: 6px; }
 
 /* ---------- Vendor price cards (home picks, vendor list) ---------- */
 .price-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+/* Grids that end in a CTA card use fixed columns so the CTA can fill the last row exactly. */
+.price-cards.balanced { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-cta { display: flex; grid-column: span var(--cta-span-3, 1); }
+.grid-cta a {
+  flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; text-align: center;
+  min-height: 120px; padding: 20px; border-radius: 16px; text-decoration: none;
+  background: var(--pine-deep); color: #fff; border: 1px solid var(--pine-deep); box-shadow: var(--shadow);
+  transition: background .15s ease, transform .15s ease;
+}
+.grid-cta a:hover { background: var(--pine); transform: translateY(-1px); }
+.grid-cta a:focus-visible { outline: 3px solid var(--pine); outline-offset: 3px; }
+.grid-cta-title { font-weight: 700; font-size: 1.15rem; line-height: 1.3; }
+.grid-cta-text { font-size: 0.95rem; opacity: .9; max-width: 34ch; }
+.grid-cta-wide3 a { min-height: 72px; flex-direction: row; gap: 14px; }
+@media (max-width: 979px) {
+  .price-cards.balanced { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .grid-cta { grid-column: span var(--cta-span-2, 1); }
+  .grid-cta-wide3 a { min-height: 120px; flex-direction: column; gap: 6px; }
+  .grid-cta-wide2 a { min-height: 72px; flex-direction: row; gap: 14px; }
+}
 .price-card {
   display: flex; flex-direction: column; gap: 10px;
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
@@ -1211,6 +1262,9 @@ html { scroll-padding-top: 96px; }
   .page-intro { padding-top: 28px; }
   .lead { font-size: 1.06rem; }
   .price-cards, .cost-plans { grid-template-columns: 1fr; }
+  .price-cards.balanced { grid-template-columns: 1fr; }
+  .grid-cta { grid-column: auto; }
+  .grid-cta a, .grid-cta-wide2 a, .grid-cta-wide3 a { min-height: 56px; padding: 14px 18px; flex-direction: column; gap: 2px; }
   .price-card { padding: 14px 16px 12px; }
   .stack > * + * { margin-top: 24px; }
   .compare tr { padding: 4px 14px 8px; }
@@ -1252,3 +1306,7 @@ html { scroll-padding-top: 96px; }
 .landing-more { margin-top: 10px; }
 .landing-more summary { cursor: pointer; color: var(--pine); font-weight: 600; min-height: 44px; display: flex; align-items: center; }
 .landing-more p + p { margin-top: 10px; }
+
+/* Vendor whose own site was offline when checked */
+.badge.badge-warn { background: #fdf0e1; color: #8a4b0f; border-color: #f0cfa6; }
+.offline-note { margin: 10px 0 0; max-width: 72ch; padding: 10px 14px; background: #fdf6ee; border: 1px solid #f0cfa6; border-radius: 10px; font-size: 0.95rem; color: var(--ink-soft); }

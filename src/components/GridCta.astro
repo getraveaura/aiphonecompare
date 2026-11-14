@@ -1,0 +1,16 @@
+---
+// A call-to-action card that closes a card grid so the last row is never
+// left with an empty slot. `count` is the number of cards before it; the card
+// spans whatever is left of the last row at 3 and 2 columns (full row when
+// the row is already complete), and is a full-width button-like card at 1.
+import { ctaSpan } from '../lib/grid.mjs';
+const { count = 0, href, title, text = '' } = Astro.props;
+const span = (cols) => ctaSpan(count, cols);
+const style = `--cta-span-3:${span(3)};--cta-span-2:${span(2)}`;
+---
+<li class={`grid-cta${span(3) === 3 ? ' grid-cta-wide3' : ''}${span(2) === 2 ? ' grid-cta-wide2' : ''}`} style={style}>
+  <a href={href}>
+    <span class="grid-cta-title">{title} <span class="arrow" aria-hidden="true">→</span></span>
+    {text && <span class="grid-cta-text">{text}</span>}
+  </a>
+</li>

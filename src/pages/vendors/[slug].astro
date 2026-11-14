@@ -1,4 +1,5 @@
 ---
+import { siteOffline, offlineLabel } from '../../lib/site-status.mjs';
 import PlainIntro from '../../components/PlainIntro.astro';
 import Base from '../../layouts/Base.astro';
 import VendorMark from '../../components/VendorMark.astro';
@@ -84,6 +85,7 @@ const jsonld = {
       <VerifyStrip />
       <h1 class="with-mark"><VendorMark slug={v.slug} name={v.name} />{v.name}</h1>
       {v.sponsored && <p><span class="badge">Sponsored</span></p>}
+      {siteOffline(v) && <p class="offline-note" role="note"><span class="badge badge-warn">{offlineLabel(v)}</span> {v.site_status.note}</p>}
       <PlainIntro text={`What ${v.name} costs, what it does and how it compares, taken from its own public pages.`} secondary={['/vendors/', 'Compare with others']} />
       <AnswerSummary sentences={summary} verified={v.last_checked} sources={summarySources} />
       {outbound && <p class="lead" style="margin-top:14px"><a href={outbound.href} rel={outbound.rel} data-vendor-slug={v.slug} data-vendor-referral={outbound.isReferral ? "1" : "0"}>{v.website || outbound.href}</a></p>}
