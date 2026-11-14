@@ -4,24 +4,24 @@ import Faq from '../components/Faq.astro';
 import { AUDIT_CHECKS, AUDIT_EMAIL, AUDIT_INDUSTRIES, AUDIT_LIMITS, AUDIT_PATH, AUDIT_SUCCESS, auditRobots } from '../lib/audit.mjs';
 import { DFY_PATH } from '../lib/offers.mjs';
 
-const title = 'Free missed-call audit';
-const description = 'Find out what a customer hears when they call your business after hours. We place one short, polite test call and email you a one-page report within 1 business day. Free, no obligation.';
+const title = 'Free call coverage check';
+const description = 'See how easy it is for a new customer to reach you. We review your public website, Google Business Profile and public reviews — we never place a test call — and email you a one-page report within 1 business day. Free, no obligation.';
 const pageUrl = new URL(AUDIT_PATH, Astro.site).href;
-const mailto = `mailto:${AUDIT_EMAIL}?subject=${encodeURIComponent('Free missed-call audit')}`;
+const mailto = `mailto:${AUDIT_EMAIL}?subject=${encodeURIComponent('Free call coverage check')}`;
 
 const how = [
-  { h: 'Tell us where to call', p: 'Your business name, website and the phone number customers dial. It takes about a minute.' },
-  { h: 'We place one test call', p: "One short, polite call to your business line after your hours, the way a new customer would. We don't book anything or leave a fake request." },
-  { h: 'Your one-page report', p: 'Within 1 business day, by email: what happened, what worked well, and the simplest fixes for anything that slipped.' },
+  { h: 'Tell us about your business', p: 'Your name, business name, website and industry. It takes about a minute.' },
+  { h: 'We review what\'s already public', p: 'Your website, your Google Business Profile and public reviews. We never place a test call to your line.' },
+  { h: 'Your one-page report', p: 'Within 1 business day, by email: what\'s already working, and the simplest next steps for catching every inquiry.' },
 ];
 
 const faqs = [
-  { q: 'Is it really free?', a: 'Yes. The audit is free, there is no obligation, and you do not need to buy anything to get your report.' },
-  { q: 'What exactly happens on the call?', a: "We place a single, short test call to the number you give us, after your business hours, and ask the kind of simple question a new customer would. If someone answers, we keep it brief and polite and don't book anything." },
-  { q: 'When will I get the report?', a: 'We place the call after your business hours and email your one-page report within 1 business day.' },
-  { q: 'Will my team know it is a test?', a: 'You are welcome to tell them, though the report is most useful when the call is handled the way it would be for any customer.' },
-  { q: 'What do you do with my details?', a: 'We use them to place the one test call and send your report. We never sell or share them. Details are in our privacy policy.' },
-  { q: 'What if the report finds gaps?', a: 'Each report includes simple fixes you can make yourself. If you would rather have it handled for you, our done-for-you setup is there, with no pressure either way.' },
+  { q: 'Is it really free?', a: 'Yes. The check is free, there is no obligation, and you do not need to buy anything to get your report.' },
+  { q: 'Do you call my business?', a: 'No. We only use information that is already public: your website, your Google Business Profile and public reviews. We never place a test call.' },
+  { q: 'What exactly do you look at?', a: 'Click-to-call on mobile, the hours on your website, after-hours instructions, online booking, chat or text options, your contact form, your Google Business Profile, and public reviews that mention reaching you by phone. We only quote real reviews, with links, and we frame findings as opportunities.' },
+  { q: 'When will I get the report?', a: 'We email your one-page report within 1 business day.' },
+  { q: 'What do you do with my details?', a: 'We use them to find your public pages and email you the report. We never sell or share them. Details are in our privacy policy.' },
+  { q: 'What if the report finds opportunities?', a: 'Each report includes simple improvements you can make yourself. If you would rather have after-hours coverage handled for you, our done-for-you setup is there, with no pressure either way.' },
 ];
 
 const jsonld = {
@@ -32,7 +32,7 @@ const jsonld = {
       name: title,
       description,
       url: pageUrl,
-      serviceType: 'Missed-call audit',
+      serviceType: 'Call coverage check',
       provider: { '@id': new URL('/#organization', Astro.site).href },
       isAccessibleForFree: true,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: pageUrl },
@@ -41,15 +41,15 @@ const jsonld = {
   ],
 };
 ---
-<Base title={title} description={description} jsonld={jsonld} robots={auditRobots()} dock={[['#audit-heading', 'Get my free audit'], ['#checks-heading', 'What we check']]}>
+<Base title={title} description={description} jsonld={jsonld} robots={auditRobots()} dock={[['#audit-heading', 'Get my free check'], ['#checks-heading', 'What we review']]}>
   <header class="page-intro offer-hero audit-hero">
     <div class="wrap">
-      <p class="dfy-kicker">Free missed-call audit</p>
-      <h1>Hear what your customers hear when they call after hours.</h1>
-      <p class="lead">We place one short, polite test call to your business line after hours, then email you a friendly one-page report: what went well, what slipped, and the simplest ways to catch every call.</p>
+      <p class="dfy-kicker">Free call coverage check</p>
+      <h1>See how easy it is for a new customer to reach you.</h1>
+      <p class="lead">We review your public website, Google Business Profile and public reviews — we never place a test call — then email you a friendly one-page report within 1 business day: what's already working, and the simplest ways to catch every inquiry.</p>
       <ul class="offer-points">
         <li>Free, no obligation</li>
-        <li>One short test call</li>
+        <li>No test call</li>
         <li>One-page report within 1 business day</li>
       </ul>
     </div>
@@ -91,8 +91,8 @@ const jsonld = {
 
       <aside class="dfy-price audit-card" aria-labelledby="audit-heading">
         <div id="audit-form-wrap">
-          <h2 id="audit-heading" class="audit-card-title" tabindex="-1">Book your free audit</h2>
-          <p class="audit-card-sub">About a minute. We only call the number you give us, once.</p>
+          <h2 id="audit-heading" class="audit-card-title" tabindex="-1">Request your free check</h2>
+          <p class="audit-card-sub">About a minute. We only look at what's already public.</p>
           <form id="audit-form" class="calc-form audit-form" novalidate>
             <div>
               <label for="audit-name">Your name</label>
@@ -108,12 +108,6 @@ const jsonld = {
               <label for="audit-site">Business website</label>
               <input id="audit-site" name="site_url" type="text" inputmode="url" autocomplete="url" required maxlength={AUDIT_LIMITS.site_url} placeholder="yourbusiness.com" aria-describedby="audit-site_url-error">
               <p id="audit-site_url-error" class="field-error" hidden></p>
-            </div>
-            <div>
-              <label for="audit-phone">Business phone number</label>
-              <input id="audit-phone" name="phone" type="tel" autocomplete="tel" required maxlength={AUDIT_LIMITS.phone} placeholder="(555) 123-4567" aria-describedby="audit-phone-hint audit-phone-error">
-              <p id="audit-phone-hint" class="hint">The number customers call. This is the one we will test.</p>
-              <p id="audit-phone-error" class="field-error" hidden></p>
             </div>
             <div>
               <label for="audit-industry">Industry</label>
@@ -132,12 +126,12 @@ const jsonld = {
               <label for="audit-company-website">Company website</label>
               <input id="audit-company-website" name="company_website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
             </div>
-            <button class="btn btn-primary" type="submit" id="audit-submit">Book my free audit</button>
-            <p class="audit-consent">By submitting, you agree we may place one test call to the number provided and email you the report. <a href="/privacy/">Privacy</a>.</p>
+            <button class="btn btn-primary" type="submit" id="audit-submit">Request my free check</button>
+            <p class="audit-consent">By submitting, you agree we may review your public website, Google Business Profile and public reviews, and email you the report. <a href="/privacy/">Privacy</a>.</p>
             <p id="audit-status" class="audit-status" role="status" aria-live="polite"></p>
           </form>
           <noscript>
-            <p class="note">This form needs JavaScript. Email <a href={mailto}>{AUDIT_EMAIL}</a> with your business name, website and phone number instead, and we will set it up.</p>
+            <p class="note">This form needs JavaScript. Email <a href={mailto}>{AUDIT_EMAIL}</a> with your business name and website instead, and we will set it up.</p>
           </noscript>
         </div>
         <div id="audit-success" class="audit-success" hidden>
@@ -168,7 +162,7 @@ const jsonld = {
   const status = $('audit-status')!;
   const wrap = $('audit-form-wrap')!;
   const success = $('audit-success')!;
-  const ids = { name: 'audit-name', business: 'audit-business', site_url: 'audit-site', phone: 'audit-phone', industry: 'audit-industry', email: 'audit-email' };
+  const ids = { name: 'audit-name', business: 'audit-business', site_url: 'audit-site', industry: 'audit-industry', email: 'audit-email' };
   const touched = new Set();
 
   function read() {
@@ -221,7 +215,7 @@ const jsonld = {
     const payload = buildAuditPayload(result.values, honeypot);
     button.disabled = true;
     button.setAttribute('aria-busy', 'true');
-    button.textContent = 'Booking your audit…';
+    button.textContent = 'Sending…';
     status.textContent = '';
     status.classList.remove('is-error');
     let code = 0;
