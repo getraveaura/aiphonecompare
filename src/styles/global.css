@@ -1226,7 +1226,8 @@ pre {
 .price-cards-caption { color: var(--muted); margin: 0 0 14px; }
 
 /* ---------- /cost/ plan cards ---------- */
-.cost-plans { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.cost-plans { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 12px; }
+.cost-plans > li { flex: 1 1 260px; }
 .cost-plan { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; display: grid; gap: 8px; align-content: start; }
 .cost-plan-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .cost-plan-head h3 { margin: 0; font-family: var(--sans); font-size: 1.05rem; letter-spacing: 0; }
@@ -1310,3 +1311,35 @@ html { scroll-padding-top: 96px; }
 /* Vendor whose own site was offline when checked */
 .badge.badge-warn { background: #fdf0e1; color: #8a4b0f; border-color: #f0cfa6; }
 .offline-note { margin: 10px 0 0; max-width: 72ch; padding: 10px 14px; background: #fdf6ee; border: 1px solid #f0cfa6; border-radius: 10px; font-size: 0.95rem; color: var(--ink-soft); }
+
+/* Home: guides grouped into three tidy columns */
+.guide-groups { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.guide-group { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 18px 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; }
+.guide-group h3 { margin: 0 0 8px; font-family: var(--sans); font-size: 1.05rem; letter-spacing: 0; color: var(--pine-deep); }
+.guide-group ul { list-style: none; margin: 0 0 10px; padding: 0; }
+.guide-group li { margin: 0; border-bottom: 1px solid var(--line); }
+.guide-group li:last-child { border-bottom: 0; }
+.guide-group li a { display: flex; align-items: center; min-height: 44px; padding: 6px 0; color: var(--ink); text-decoration: none; font-size: 0.97rem; line-height: 1.35; }
+.guide-group li a:hover { color: var(--pine); text-decoration: underline; }
+.guide-group-all { margin-top: auto; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 700; color: var(--pine-deep); text-decoration: none; }
+.guide-group-all:hover { text-decoration: underline; }
+@media (max-width: 900px) { .guide-groups { grid-template-columns: 1fr; } }
+
+/* Home industries: no orphan card at 2 columns; the "All pricing" card spans the row */
+@media (max-width: 1099px) and (min-width: 641px) {
+  .industries:not(.dfy-industry-cards) { grid-template-columns: 1fr 1fr; }
+  .industries:not(.dfy-industry-cards) > :last-child:nth-child(odd) { grid-column: 1 / -1; min-height: 0; }
+}
+
+/* Footer: last nav column spans the row when it would sit alone */
+@media (max-width: 760px) { .foot-cols > :last-child:nth-child(odd) { grid-column: 1 / -1; } }
+
+/* Match form: radios and checkboxes sit next to their labels with 44px rows */
+.calc-form fieldset label { display: flex; align-items: center; gap: 12px; min-height: 44px; margin: 0; font-weight: 500; cursor: pointer; }
+.calc-form fieldset input[type="radio"], .calc-form fieldset input[type="checkbox"] {
+  flex: none; width: 22px; height: 22px; min-height: 0; margin: 0; padding: 0; accent-color: var(--pine);
+}
+.calc-form fieldset { display: grid; gap: 2px; }
+.vendor-visit { margin: 14px 0 0; }
+.faq-list { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+#match-form { max-width: 640px; }

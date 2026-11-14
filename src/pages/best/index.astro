@@ -2,6 +2,7 @@
 import PlainIntro from '../../components/PlainIntro.astro';
 import Base from '../../layouts/Base.astro';
 import IndustryIcon from '../../components/IndustryIcon.astro';
+import NextSteps from '../../components/NextSteps.astro';
 import { getBestGuides } from '../../lib/best-guides.mjs';
 import { accent } from '../../lib/industries.mjs';
 import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
@@ -57,6 +58,16 @@ const jsonld = {
         </div>
       </>
     )}
-    <p>For a 3-tech HVAC shop, the cost page at 50, 150, and 300 calls is <a href="/cost/hvac-shop/">AI receptionist cost for a 3-tech HVAC shop</a>. It uses the same published plans as the <a href="/cost/home-services/">home-services cost page</a>. We do not publish a typical call volume for that shop size. The <a href="/cost/calculator/?industry=plumbing&calls=150&minutes=3">calculator</a> accepts your own numbers. Sourced figures about missed calls, without a typical cost invented, are on <a href="/cost/missed-call/">cost of a missed call</a>.{showAuditLinks() && <> The <a href={AUDIT_PATH}>free call coverage check</a> reviews your public website and listings, with no test call.</>}</p>
+    <NextSteps
+      title="Work out your cost"
+      id="cost-help-title"
+      trust=""
+      cards={[
+        { href: '/cost/hvac-shop/', title: 'Cost for a 3-tech HVAC shop', text: '50, 150 and 300 calls, same plans as home services' },
+        { href: '/cost/calculator/?industry=plumbing&calls=150&minutes=3', title: 'Use my own numbers', text: 'Cost calculator with your call volume' },
+        { href: '/cost/missed-call/', title: 'Cost of a missed call', text: 'Sourced figures, no invented averages' },
+      ]}
+    />
+    {showAuditLinks() && <p class="good-to-know"><strong>Free:</strong> the <a href={AUDIT_PATH}>call coverage check</a> reviews your public website and listings, with no test call.</p>}
   </div>
 </Base>

@@ -6,7 +6,7 @@ const { items } = Astro.props;
   {items.map((item) => (
     <section class="faq-item">
       <h3>{item.q}</h3>
-      <p>{item.a}</p>
+      {item.list?.length ? <ul class="faq-list">{item.list.map((line) => <li>{line}</li>)}</ul> : <p>{item.a}</p>}
     </section>
   ))}
 </section>

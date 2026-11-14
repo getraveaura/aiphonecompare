@@ -68,3 +68,11 @@ test('vendor "on record" line becomes one bullet per fact', () => {
   const { points } = summaryPoints(['On record, free trial: 7-day trial; human handoff: Blind transfer on entry plan; warm transfer on Pro; HIPAA privacy agreement (BAA): not stated.']);
   assert.deepEqual(points, ['**Free trial:** 7-day trial', '**Human handoff:** Blind transfer on entry plan; warm transfer on Pro', '**HIPAA privacy agreement (BAA):** Not stated']);
 });
+
+test('no run-on link paragraphs left on learn pages and the best hub', () => {
+  for (const f of ['src/pages/ai-answering-service.astro', 'src/pages/small-business.astro', 'src/pages/best/index.astro', 'src/components/Industry.astro', 'src/components/BestGuide.astro']) {
+    const src = readFileSync(new URL(`../${f}`, import.meta.url), 'utf8');
+    assert.doesNotMatch(src, /<p>(Compare by industry|Industry pages|Other industries):/, f);
+    assert.doesNotMatch(src, /<p>For a 3-tech HVAC shop/, f);
+  }
+});

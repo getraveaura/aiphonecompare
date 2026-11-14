@@ -78,7 +78,7 @@ graph.push(articleNode({
         </ol>
       </nav>
       <h1>{page.h1}</h1>
-      <PlainIntro text={page.path.startsWith('/compare/') ? 'See how these two compare on price and features, side by side, using each company’s own published prices.' : page.path.startsWith('/cost/') ? 'See what you would really pay per month, using each company’s own price list. No guessing: if a fee is not published, we say so.' : ''} />
+      <PlainIntro {...(page.path.startsWith('/cost/') ? { primary: ['/cost/calculator/', 'See my monthly cost'], secondary: ['/match/', 'Find my best match'] } : {})} text={page.path.startsWith('/compare/') ? 'See how these two compare on price and features, side by side, using each company’s own published prices.' : page.path.startsWith('/cost/') ? 'See what you would really pay per month, using each company’s own price list. No guessing: if a fee is not published, we say so.' : ''} />
       <AnswerSummary sentences={page.summary} verified={page.verified} sources={page.sources} />
       <div class="landing-notes">
         {notes.slice(0, 1).map((paragraph) => <p>{paragraph}</p>)}

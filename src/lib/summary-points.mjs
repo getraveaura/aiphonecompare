@@ -22,6 +22,7 @@ export function splitSentences(text) {
 }
 
 const RULES = [
+  [/^(\d+) (stor(?:y|ies)) (says?|states?) (.+)\.$/, (m) => `**${m[1]}** ${m[2]} ${m[3]} ${m[4]}`],
   [/^aiphonecompare lists (\d+) (AI receptionists?) for (.+)\.$/, (m) => `**${m[1]}** ${m[2]} listed for ${m[3]}`],
   [/^(\d+) vendors are in the (.+?) directory used on this page\.$/, (m) => `**${m[1]}** AI receptionists in the ${m[2]} directory`],
   [/^The lowest (?:paid )?monthly amount written in (?:these listings|a listing here) is (\$[\d,.]+\/mo), for (.+?)(?:, checked [^.;]+)?(?:; (.+))?\.$/,
@@ -54,7 +55,14 @@ export function summaryPoints(sentences = []) {
       continue;
     }
     const rule = RULES.find(([re]) => re.test(s));
-    points.push(rule ? rule[1](s.match(rule[0])) : autoBold(s.replace(/\.$/, '')));
+    const text = rule ? rule[1](s.match(rule[0])) : autoBold(s.replace(/\.$/, ''));
+    // A very short follow-on sentence ("The others do not state a price.")
+    // reads as a fragment on its own; keep it with the bullet before it.
+    if (!rule && points.length && ((s.length < 40 && !/\d/.test(s)) || /^Where /.test(s)) && !/legal advice/i.test(s)) {
+      points[points.length - 1] += `; ${text.replace(/^./, (c) => c.toLowerCase())}`;
+      continue;
+    }
+    points.push(text);
   }
   return { points, note: notRanked ? NOT_RANKED_NOTE : '' };
 }
