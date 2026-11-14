@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Faq from '../components/Faq.astro';
 import AuditCta from '../components/AuditCta.astro';
 import DfyGuarantee from '../components/DfyGuarantee.astro';
+import DfyCarePlans from '../components/DfyCarePlans.astro';
 import DfyIndustryCards from '../components/DfyIndustryCards.astro';
 import DfyMeasure from '../components/DfyMeasure.astro';
 import { SHOW_OFFER_PROOF, DFY_EMAIL, DFY_OFFERS, FOUNDING_SPOTS, dfyServiceJsonld, usd } from '../lib/offers.mjs';
@@ -65,7 +66,7 @@ const faqs = [
   },
   {
     q: 'What happens after 60 days?',
-    a: 'You keep everything we set up: the vendor account, the script and the reports.',
+    a: 'You keep everything we set up: the vendor account, the script and the reports. If you would like us to keep reviewing calls and updating the script, an optional monthly care plan is available after those 60 days. You can cancel anytime.',
   },
   {
     q: 'How does the refund work?',
@@ -79,9 +80,12 @@ const faqs = [
 import OfferProof from '../components/OfferProof.astro';
 import OtherOffers from '../components/OtherOffers.astro';
 ---
-<Base title={title} description={description} jsonld={jsonld} ogImage="/og/done-for-you.png" dock={[['#price-heading', 'See pricing'], ['/overpaying/', 'Free check']]}>
+<Base title={title} description={description} jsonld={jsonld} ogImage="/og/done-for-you.png" dock={[['#price-heading', 'See pricing'], ['#care-plans', 'Care plans'], ['/overpaying/', 'Free check']]}>
   <div class="dfy-paid" id="dfy-paid" role="status" hidden>
     <div class="wrap"><strong>Payment received, thank you.</strong> Your intake email from {email} is on its way; it asks for 4 quick things.</div>
+  </div>
+  <div class="dfy-paid" id="care-paid" role="status" hidden>
+    <div class="wrap"><strong>You're on the care plan, thank you.</strong> Your welcome email from {email} is on its way. It explains how to add access and how to cancel anytime.</div>
   </div>
 
   <header class="page-intro dfy-intro offer-hero">
@@ -139,6 +143,8 @@ import OtherOffers from '../components/OtherOffers.astro';
 
     <DfyGuarantee />
 
+    <DfyCarePlans />
+
     <section class="dfy-fit" aria-labelledby="fit-heading">
       <h2 id="fit-heading" class="section-title">Who it's for</h2>
       <div class="dfy-fit-grid">
@@ -176,13 +182,18 @@ import OtherOffers from '../components/OtherOffers.astro';
   <OtherOffers />
 
   <script>
-    import { isPaidReturn } from '../lib/offers.mjs';
+    import { isCarePaidReturn, isPaidReturn } from '../lib/offers.mjs';
     import { track } from '../lib/analytics.mjs';
 
     const banner = document.getElementById('dfy-paid');
     if (banner && isPaidReturn(window.location.search)) {
       banner.hidden = false;
       track('dfy_paid_return');
+    }
+    const careBanner = document.getElementById('care-paid');
+    if (careBanner && isCarePaidReturn(window.location.search)) {
+      careBanner.hidden = false;
+      track('care_paid_return');
     }
   </script>
 </Base>

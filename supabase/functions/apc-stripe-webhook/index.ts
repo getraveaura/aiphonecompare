@@ -1,8 +1,10 @@
 // POST /functions/v1/apc-stripe-webhook
-// Stripe webhook for the Industry spotlight, Done-for-you and Competitor check-up Payment Links. Verifies the
-// Stripe signature, logs the payment to aiphonecompare.leads
-// (stage active_client, source stripe, idempotent per checkout session), and
-// sends a thank-you email with next steps.
+// Stripe webhook for the Industry spotlight, Done-for-you, Competitor check-up
+// and monthly care-plan Payment Links. Verifies the Stripe signature, logs the
+// payment to aiphonecompare.leads (stage active_client, source stripe,
+// idempotent per checkout session), and sends a thank-you or welcome email.
+// Subscription renewals (invoice.paid) are ignored here so a welcome email is
+// sent only on the first checkout.session.completed.
 import { button, esc, json, secret, sendEmail, shell, sql } from "../_shared/common.ts";
 
 const OFFERS: Record<string, { name: string; sku: string; tier: string }> = {
@@ -10,6 +12,8 @@ const OFFERS: Record<string, { name: string; sku: string; tier: string }> = {
   plink_1UbSgxDIQTTGLh9lxuqafUsQ: { name: "Done-for-you AI receptionist setup", sku: "done-for-you-setup", tier: "founding" },
   plink_1UbSh6DIQTTGLh9lNnNdDoCZ: { name: "Done-for-you AI receptionist setup", sku: "done-for-you-setup", tier: "standard" },
   plink_1UbSr1DIQTTGLh9lGvqLAYW5: { name: "Competitor check-up", sku: "competitor-teardown", tier: "standard" },
+  plink_1UbnYBDIQTTGLh9lUfUU9cGw: { name: "AI receptionist care plan", sku: "care-plan", tier: "care" },
+  plink_1UbnYCDIQTTGLh9l8QoG2G4u: { name: "AI receptionist care plan Plus", sku: "care-plan", tier: "plus" },
 };
 // deno-lint-ignore no-explicit-any
 function offerFor(s: any) {
@@ -19,6 +23,10 @@ function offerFor(s: any) {
   if (sku === "competitor-teardown") return OFFERS.plink_1UbSr1DIQTTGLh9lGvqLAYW5;
   if (sku === "done-for-you-setup") {
     return { ...OFFERS.plink_1UbSh6DIQTTGLh9lNnNdDoCZ, tier: s.metadata?.tier === "founding" ? "founding" : "standard" };
+  }
+  if (sku === "care-plan") {
+    const plus = s.metadata?.tier === "plus";
+    return plus ? OFFERS.plink_1UbnYCDIQTTGLh9l8QoG2G4u : OFFERS.plink_1UbnYBDIQTTGLh9lUfUU9cGw;
   }
   return null;
 }
@@ -93,6 +101,30 @@ ${button("https://aiphonecompare.com/competitor-check-up/", "See what's included
     tags: [{ name: "type", value: "teardown_intake" }],
   };
 }
+function careEmail(to: string, first: string, paid: string, tier: string) {
+  const hi = first ? `Hi ${esc(first)},` : "Hi there,";
+  const plus = tier === "plus";
+  const plan = plus ? "Care Plus" : "Care";
+  const price = plus ? "$299" : "$199";
+  const extras = plus
+    ? " Each month I'll review a sample of your calls, update the script if something should change, check your plan and price, and email you a short report with your missed-call and booking numbers. Mid-month I'll do a second review, and we can have a 20-minute call if you'd like one."
+    : " Each month I'll review a sample of your calls, update the script if something should change, check your plan and price, and email you a short report with your missed-call and booking numbers.";
+  const portal = "https://billing.stripe.com/p/login/dRmdR9aLVbiB7gY8s29ws00";
+  return {
+    to,
+    subject: "You're on the care plan — here's how the month works",
+    html: shell(`
+<p>${hi}</p>
+<p>Welcome, and thank you. You're on the monthly ${esc(plan)} plan at ${esc(price)}/month. We received ${esc(paid)} for the first month. Your receipt comes separately from Stripe. You can cancel anytime; billing then stops at the end of the month you've paid for.</p>
+<p>If you haven't already, please add <strong>timothy@aiphonecompare.com</strong> as a user in your vendor dashboard, with access to view calls and edit the script. I don't need billing access.</p>
+<p>${extras.trim()} If anything comes up in between, email me here — I reply within one business day.</p>
+<p style="font-size:13px;color:#6b6b66;">Cancel anytime in the Stripe billing portal or by emailing me. Terms: aiphonecompare.com/refunds/#care-plan</p>
+${button(portal, "Manage or cancel your plan")}
+<p>Glad to keep this going with you,<br>Timothy<br><span style="color:#6b6b66;">aiphonecompare.com</span></p>`),
+    text: `${first ? `Hi ${first},` : "Hi there,"}\n\nWelcome, and thank you. You're on the monthly ${plan} plan at ${price}/month. We received ${paid} for the first month. Your receipt comes separately from Stripe. You can cancel anytime; billing then stops at the end of the month you've paid for.\n\nIf you haven't already, please add timothy@aiphonecompare.com as a user in your vendor dashboard, with access to view calls and edit the script. I don't need billing access.\n\n${extras.trim()} If anything comes up in between, email me here — I reply within one business day.\n\nCancel anytime in the Stripe billing portal (${portal}) or by emailing me. Terms: https://aiphonecompare.com/refunds/#care-plan\n\nGlad to keep this going with you,\nTimothy\naiphonecompare.com`,
+    tags: [{ name: "type", value: "care_welcome" }],
+  };
+}
 const TOLERANCE_S = 300;
 
 function hex(buf: ArrayBuffer): string {
@@ -145,7 +177,9 @@ Deno.serve(async (req) => {
     payment_link: s.payment_link ?? null,
     payment_intent: s.payment_intent ?? null,
     customer: s.customer ?? null,
+    subscription: s.subscription ?? null,
     invoice: s.invoice ?? null,
+    mode: s.mode ?? null,
     amount_total: amount,
     currency: s.currency ?? null,
     payment_status: s.payment_status ?? null,
@@ -171,6 +205,8 @@ Deno.serve(async (req) => {
       ? dfyEmail(email, first, paid, offer.tier)
       : offer.sku === "competitor-teardown"
       ? teardownEmail(email, first, paid, business)
+      : offer.sku === "care-plan"
+      ? careEmail(email, first, paid, offer.tier)
       : spotlightEmail(email, first, paid));
   }
   await sql`update aiphonecompare.leads set payload = payload || ${sql.json({ thank_you_email: { ...sent, at: new Date().toISOString() } })} where id = ${leadId}`;

@@ -910,7 +910,7 @@ pre {
   border-radius: 16px;
   padding: 1.5rem 1.6rem 0.75rem;
 }
-.dfy-measure h2, .dfy-guarantee h2, .dfy-close h2 { margin: 0 0 0.4rem; font-size: 1.85rem; }
+.dfy-measure h2, .dfy-guarantee h2, .dfy-care h2, .dfy-close h2 { margin: 0 0 0.4rem; font-size: 1.85rem; }
 .dfy-measure-lead { color: var(--ink-soft); margin-bottom: 0.5rem; }
 .dfy-measure .record div:last-child { border-bottom: 0; }
 .dfy-either { margin: 0.5rem 0 0; padding-left: 1.15rem; }
@@ -931,10 +931,54 @@ pre {
 .dfy .faq-item p { max-width: 68ch; color: var(--ink-soft); }
 .dfy-close { padding-top: 2rem; border-top: 1px solid var(--line); }
 .dfy-close p { max-width: 56ch; color: var(--ink-soft); }
+.dfy-care-kicker { margin: 0 0 0.45rem; color: var(--pine); font-weight: 600; font-size: 0.95rem; }
+.dfy-care-lead, .dfy-care-foot { max-width: 68ch; color: var(--ink-soft); }
+.dfy-care-lead { margin: 0 0 1.35rem; }
+.dfy-care-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: stretch; }
+.dfy-care-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.35rem 1.4rem 1.3rem;
+  box-shadow: var(--shadow-sm);
+}
+.dfy-care-plus { border-color: #c9e0d3; background: linear-gradient(180deg, var(--checked-bg) 0%, var(--surface) 38%); }
+.dfy-care-badge {
+  display: inline-block;
+  margin: 0 0 0.45rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 1px solid #c9e0d3;
+  color: var(--pine-deep);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+.dfy-care-card h3 { margin: 0 0 0.25rem; font-size: 1.45rem; }
+.dfy-care-amount { font-family: var(--serif); font-size: 2.4rem; font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; margin: 0 0 0.85rem; }
+.dfy-care-amount span { font-family: var(--sans); font-size: 1rem; letter-spacing: 0; color: var(--muted); font-weight: 500; }
+.dfy-care-card ul { margin: 0; padding: 0; list-style: none; flex: 1; }
+.dfy-care-card li { position: relative; padding: 0.4rem 0 0.4rem 1.6rem; color: var(--ink-soft); border-top: 1px solid var(--line); }
+.dfy-care-card li:first-child { border-top: 0; }
+.dfy-care-card li::before {
+  content: ""; position: absolute; left: 0.2rem; top: 0.85rem;
+  width: 0.7rem; height: 0.38rem;
+  border-left: 2px solid var(--pine); border-bottom: 2px solid var(--pine);
+  transform: rotate(-45deg);
+}
+.dfy-care-note { margin: 0.9rem 0 1rem; color: var(--muted); font-size: 0.95rem; }
+.dfy-care-card .btn { display: flex; width: 100%; height: auto; padding: 0.85rem 1rem; text-align: center; margin-top: auto; }
+.dfy-care-foot { margin: 1.15rem 0 0; font-size: 0.95rem; }
 @media (max-width: 860px) {
-  .dfy-grid, .dfy-fit-grid { grid-template-columns: 1fr; }
+  .dfy-grid, .dfy-fit-grid, .dfy-care-grid { grid-template-columns: 1fr; }
   .dfy-price { position: static; order: -1; }
   .dfy-amount { font-size: 2.5rem; }
+  .dfy-care-amount { font-size: 2.15rem; }
 }
 
 /* Done-for-you: founding case-study note, industry cards, callouts (shared) */

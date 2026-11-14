@@ -19,7 +19,7 @@ test('privacy, terms and refunds pages exist with a date and contact', () => {
   for (const path of Object.values(pages)) {
     assert.ok(fs.existsSync(new URL(`../${path}`, import.meta.url)), `${path} exists`);
     const source = read(path);
-    assert.match(source, /Last updated: November 13, 2026/);
+    assert.match(source, /Last updated: November \d+, 2026/);
     assert.match(source, /timothy@aiphonecompare\.com/);
     assert.match(source, /description=/);
   }
@@ -74,4 +74,20 @@ test('the stories form posts to the shared lead endpoint', () => {
   assert.ok(signup.includes("track('lead_submit'"));
   assert.ok(!signup.includes('signup.json'));
   assert.match(LEAD_ENDPOINT, /\/functions\/v1\/apc-lead$/);
+});
+
+test('refunds and terms cover the monthly care plan', () => {
+  const refunds = read(pages.refunds);
+  const terms = read(pages.terms);
+  const care = refunds.slice(refunds.indexOf('id="care-plan"'), refunds.indexOf('id="contact"'));
+  assert.match(care, /\$199\/month/);
+  assert.match(care, /\$299\/month/);
+  assert.match(care, /Cancel anytime/);
+  assert.match(care, /No partial refunds/);
+  assert.match(care, /60-day setup guarantee is separate/);
+  assert.match(care, /href="\/done-for-you\/#care-plans"/);
+  assert.match(terms, /id="care"/);
+  assert.match(terms, /href="\/refunds\/#care-plan"/);
+  assert.match(refunds, /Last updated: November 14, 2026/);
+  assert.match(terms, /Last updated: November 14, 2026/);
 });

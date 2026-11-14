@@ -2,12 +2,15 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import {
+  CARE_PLANS,
+  CARE_PORTAL_URL,
   DFY_EMAIL,
   DFY_OFFERS,
   DFY_PATH,
   DFY_SUMMARY,
   FOUNDING_SPOTS,
   dfyServiceJsonld,
+  isCarePaidReturn,
   isPaidReturn,
   usd,
 } from '../src/lib/offers.mjs';
@@ -34,6 +37,27 @@ test('isPaidReturn only matches paid=1', () => {
   assert.equal(isPaidReturn('?paid=0'), false);
   assert.equal(isPaidReturn('?paid=10'), false);
   assert.equal(isPaidReturn('?unpaid=1'), false);
+  assert.equal(isPaidReturn('?paid=care'), false);
+});
+
+test('care plan constants match the approved prices and payment links', () => {
+  assert.equal(CARE_PLANS.care.price, 199);
+  assert.equal(CARE_PLANS.plus.price, 299);
+  assert.equal(CARE_PLANS.care.url, 'https://buy.stripe.com/fZu14naLV2M5bxefUu9ws04');
+  assert.equal(CARE_PLANS.plus.url, 'https://buy.stripe.com/dRm7sLg6f72l0SAgYy9ws05');
+  assert.equal(CARE_PLANS.care.paymentLinkId, 'plink_1UbnYBDIQTTGLh9lUfUU9cGw');
+  assert.equal(CARE_PLANS.plus.paymentLinkId, 'plink_1UbnYCDIQTTGLh9l8QoG2G4u');
+  assert.equal(CARE_PORTAL_URL, 'https://billing.stripe.com/p/login/dRmdR9aLVbiB7gY8s29ws00');
+  assert.equal(usd(199), '$199');
+});
+
+test('isCarePaidReturn only matches paid=care', () => {
+  assert.equal(isCarePaidReturn('?paid=care'), true);
+  assert.equal(isCarePaidReturn('?utm_source=x&paid=care'), true);
+  assert.equal(isCarePaidReturn(''), false);
+  assert.equal(isCarePaidReturn(undefined), false);
+  assert.equal(isCarePaidReturn('?paid=1'), false);
+  assert.equal(isCarePaidReturn('?paid=careless'), false);
 });
 
 test('Service JSON-LD has a founding and a standard Offer', () => {
@@ -56,7 +80,9 @@ test('done-for-you page is live: indexable, no draft banner, payment links', () 
   assert.match(page, /You keep everything we set up: the vendor account, the script and the reports\./);
   assert.match(page, /id="dfy-paid"[^>]*hidden/);
   assert.match(page, /Payment received, thank you\./);
+  assert.match(page, /id="care-paid"[^>]*hidden/);
   assert.match(page, /isPaidReturn\(window\.location\.search\)/);
+  assert.match(page, /isCarePaidReturn\(window\.location\.search\)/);
   assert.match(page, /dfyServiceJsonld\(/);
 });
 
@@ -82,4 +108,39 @@ test('refunds page carries the approved done-for-you terms', () => {
     assert.ok(section.includes(s), `refunds section includes ${s}`);
   }
   assert.doesNotMatch(section, /once it is offered|when it launches/);
+});
+
+test('done-for-you page has a two-tier care plan section', () => {
+  const component = read('src/components/DfyCarePlans.astro');
+  assert.match(page, /<DfyCarePlans \/>/);
+  assert.match(component, /id="care-plans"/);
+  assert.match(component, /starts after your 60 days of tuning/i);
+  assert.match(component, /cancel anytime/i);
+  assert.doesNotMatch(component, /most popular/i);
+  assert.doesNotMatch(page, /most popular/i);
+  assert.match(component, /The fuller option/);
+  assert.match(component, /href=\{care\.url\}/);
+  assert.match(component, /href=\{plus\.url\}/);
+  assert.match(component, /usd\(care\.price\)/);
+  assert.match(component, /usd\(plus\.price\)/);
+});
+
+test('industry done-for-you pages include the care plan section', () => {
+  const industry = read('src/pages/done-for-you/[industry].astro');
+  assert.match(industry, /DfyCarePlans/);
+});
+
+test('webhook maps care-plan payment links and sends a welcome email', () => {
+  const hook = read('supabase/functions/apc-stripe-webhook/index.ts');
+  assert.match(hook, /plink_1UbnYBDIQTTGLh9lUfUU9cGw/);
+  assert.match(hook, /plink_1UbnYCDIQTTGLh9l8QoG2G4u/);
+  assert.match(hook, /sku: "care-plan"/);
+  assert.match(hook, /function careEmail/);
+  assert.match(hook, /You're on the care plan/);
+  assert.match(hook, /timothy@aiphonecompare\.com/);
+  assert.match(hook, /view calls and edit the script/);
+  assert.match(hook, /billing.stripe.com\/p\/login/);
+  assert.match(hook, /offer\.sku === "care-plan"/);
+  assert.match(hook, /subscription: s\.subscription/);
+  assert.match(hook, /event\.type !== "checkout\.session\.completed"/);
 });

@@ -26,7 +26,8 @@ export const usd = (n) => `$${n.toLocaleString('en-US')}`;
 // One line used in llms.txt and llms-full.txt.
 export const DFY_SUMMARY = `We pick, set up and tune your AI receptionist. ${usd(DFY_OFFERS.standard.price)} one-time (${usd(DFY_OFFERS.founding.price)} founding rate for the first ${FOUNDING_SPOTS} businesses), with a full refund of our fee if the defined result is not reached by day 60.`;
 
-// Stripe sends buyers back to /done-for-you/?paid=1 after payment.
+// Stripe sends done-for-you buyers back to /done-for-you/?paid=1,
+// and care-plan subscribers to /done-for-you/?paid=care.
 export function isPaidReturn(search) {
   try {
     return new URLSearchParams(search || '').get('paid') === '1';
@@ -34,6 +35,35 @@ export function isPaidReturn(search) {
     return false;
   }
 }
+
+export function isCarePaidReturn(search) {
+  try {
+    return new URLSearchParams(search || '').get('paid') === 'care';
+  } catch {
+    return false;
+  }
+}
+
+// Optional monthly care plans, starting after the included 60-day tuning.
+// Approved 2026-11-14: Care $199/mo, Care Plus $299/mo. Cancel anytime.
+export const CARE_PORTAL_URL = 'https://billing.stripe.com/p/login/dRmdR9aLVbiB7gY8s29ws00';
+
+export const CARE_PLANS = {
+  care: {
+    key: 'care',
+    name: 'Care',
+    price: 199,
+    url: 'https://buy.stripe.com/fZu14naLV2M5bxefUu9ws04',
+    paymentLinkId: 'plink_1UbnYBDIQTTGLh9lUfUU9cGw',
+  },
+  plus: {
+    key: 'plus',
+    name: 'Care Plus',
+    price: 299,
+    url: 'https://buy.stripe.com/dRm7sLg6f72l0SAgYy9ws05',
+    paymentLinkId: 'plink_1UbnYCDIQTTGLh9l8QoG2G4u',
+  },
+};
 
 // Service JSON-LD with one Offer per price.
 export function dfyServiceJsonld({ name, description, pageUrl, orgId }) {

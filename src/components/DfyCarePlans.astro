@@ -1,0 +1,44 @@
+---
+import { CARE_PLANS, DFY_EMAIL, usd } from '../lib/offers.mjs';
+
+const email = DFY_EMAIL;
+const mailto = `mailto:${email}?subject=${encodeURIComponent('Care plan question')}`;
+const { care, plus } = CARE_PLANS;
+
+const shared = [
+  "A review of a sample of that month's calls",
+  'Updates to what the assistant says, when something should change',
+  "A check of your vendor's current price, and whether a better option has appeared",
+  'A short report with your missed-call and booking numbers',
+  'Priority email to Timothy, with a reply within one business day',
+];
+---
+<section class="dfy-care" id="care-plans" aria-labelledby="care-heading">
+  <p class="dfy-care-kicker">After the first 60 days</p>
+  <h2 id="care-heading">Keep every call in good hands, month after month.</h2>
+  <p class="dfy-care-lead">The 60 days of fine-tuning are included in your setup. After that, a monthly care plan is optional. It starts after your 60 days of tuning, and you can cancel anytime. We keep reviewing your calls, tightening what the assistant says, and checking that you're still on a fair plan.</p>
+  <div class="dfy-care-grid">
+    <article class="dfy-care-card">
+      <h3>{care.name}</h3>
+      <p class="dfy-care-amount">{usd(care.price)} <span>/month</span></p>
+      <ul>
+        {shared.map((item) => <li>{item}</li>)}
+      </ul>
+      <p class="dfy-care-note">Your receptionist bill is still paid directly to the company you chose. We add no markup.</p>
+      <a class="btn btn-primary" href={care.url} data-offer-checkout="care">{`Start Care — ${usd(care.price)}/month`}</a>
+    </article>
+    <article class="dfy-care-card dfy-care-plus">
+      <p class="dfy-care-badge">The fuller option</p>
+      <h3>{plus.name}</h3>
+      <p class="dfy-care-amount">{usd(plus.price)} <span>/month</span></p>
+      <ul>
+        <li>Everything in Care</li>
+        <li>A mid-month second call review and extra script updates</li>
+        <li>An optional 20-minute monthly call</li>
+      </ul>
+      <p class="dfy-care-note">Same cancel-anytime terms. Vendor fees stay with the vendor.</p>
+      <a class="btn btn-primary" href={plus.url} data-offer-checkout="care_plus">{`Start Care Plus — ${usd(plus.price)}/month`}</a>
+    </article>
+  </div>
+  <p class="dfy-care-foot">Not included: the vendor's own fees, and any new setup (a second location, a new booking system, or a switch to a different company). Those are quoted separately. The 60-day results guarantee applies only to the one-time setup fee. <a href="/refunds/#care-plan">Refund and cancel terms</a>. Questions? Email <a href={mailto}>{email}</a>.</p>
+</section>
