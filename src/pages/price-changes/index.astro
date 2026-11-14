@@ -4,44 +4,102 @@ import Share from '../../components/Share.astro';
 import log from '../../data/price-changes.json';
 import vendors from '../../data/vendors.json';
 import { formatDate } from '../../lib/stories.mjs';
+import { changesByWeek, weekRangeLabel, priceChangeHeadline, summaryRest } from '../../lib/price-changes.mjs';
+
 const names = Object.fromEntries(vendors.map((vendor) => [vendor.slug, vendor.name]));
-const description = log.changes.length
-  ? `${log.changes.length} logged change to a published AI receptionist price. Each row links to the source.`
+const today = new Date().toISOString().slice(0, 10);
+const weeks = changesByWeek(log, { todayIso: today });
+const count = log.changes.length;
+const newest = log.changes.map((change) => change.observed).filter(Boolean).sort().at(-1) || '';
+const noun = count === 1 ? 'change' : 'changes';
+const description = count
+  ? `${count} logged ${noun} to a published AI receptionist price, grouped by week. Each entry links to its sources.`
   : `Price tracking started ${formatDate(log.trackingStarted)}. No verified price change is logged yet.`;
+const pageUrl = new URL('/price-changes/', Astro.site).href;
+const site = new URL('/', Astro.site).href;
 const jsonld = {
   '@context': 'https://schema.org',
-  '@type': 'WebPage',
-  name: 'Price changes',
-  url: new URL('/price-changes/', Astro.site).href,
-  description,
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': `${pageUrl}#webpage`,
+      name: 'Price changes',
+      url: pageUrl,
+      description,
+      isPartOf: { '@id': `${site}#website` },
+      ...(newest ? { dateModified: newest } : {}),
+      mainEntity: { '@id': `${pageUrl}#list` },
+    },
+    {
+      '@type': 'ItemList',
+      '@id': `${pageUrl}#list`,
+      name: 'Logged AI receptionist price changes',
+      numberOfItems: count,
+      itemListOrder: 'https://schema.org/ItemListOrderDescending',
+      itemListElement: log.changes
+        .map((change, index) => ({ change, index }))
+        .sort((a, b) => String(b.change.observed || '').localeCompare(String(a.change.observed || '')) || a.index - b.index)
+        .map(({ change }, position) => ({
+          '@type': 'ListItem',
+          position: position + 1,
+          url: new URL(`/price-changes/${change.id}/`, Astro.site).href,
+          name: priceChangeHeadline(change),
+        })),
+    },
+  ],
 };
 ---
-<Base title="Price changes" description={description} jsonld={jsonld}>
+<Base title="Price changes" description={description} jsonld={jsonld} modified={newest}>
   <header class="page-intro">
     <div class="wrap">
       <h1>Price changes</h1>
-      <p class="lead">A change is logged only when two public sources disagree: an archive, a changelog, or an announcement, against the price we have recorded. Tracking started <time datetime={log.trackingStarted}>{formatDate(log.trackingStarted)}</time>. Price a call count on the <a href="/cost/calculator/?calls=150&minutes=3">cost calculator</a>.</p>
-      <p class="index-link">Current prices, with sources and dates, are in the <a href="/price-index/">price index</a>.</p>
+      <p class="lead">We only log a change when two public sources disagree: an archive, a changelog or an announcement, against the price we have on file. Tracking started <time datetime={log.trackingStarted}>{formatDate(log.trackingStarted)}</time>. {count ? `${count} logged ${noun} so far.` : 'No verified price change is logged yet.'}</p>
+      <p class="index-link">Current prices, with sources and dates, are in the <a href="/price-index/">price index</a>. Price a call count on the <a href="/cost/calculator/?calls=150&minutes=3">cost calculator</a>.</p>
+      <p class="log-tools">
+        <a href="/price-changes/feed.xml">Subscribe to price changes by RSS</a>
+        <span aria-hidden="true">·</span>
+        <a href="/feed.xml">Stories and prices together</a>
+      </p>
+      <Share url={pageUrl} title="AI receptionist price changes" />
     </div>
   </header>
-  <div class="wrap stack">
-    {log.changes.length === 0 ? (
+  <div class="wrap price-log">
+    {count === 0 ? (
       <p>No verified price change is logged yet. The <a href="/data/">open dataset</a> is the baseline those future diffs will use.</p>
     ) : (
-      log.changes.map((change) => {
-        const url = new URL(`/price-changes/${change.id}/`, Astro.site).href;
-        return (
-          <article class="story-card">
-            <p class="story-meta">
-              <a href={`/vendors/${change.vendorSlug}/`}>{names[change.vendorSlug] || change.vendorSlug}</a>
-              <time datetime={change.observed}>Observed {formatDate(change.observed)}</time>
-            </p>
-            <h2><a href={`/price-changes/${change.id}/`}>{names[change.vendorSlug] || change.vendorSlug} price change</a></h2>
-            <p>{change.summary}</p>
-            <Share url={url} title={`${names[change.vendorSlug] || change.vendorSlug} price change`} />
-          </article>
-        );
-      })
+      weeks.map((week) => (
+        <section class="week-block" aria-labelledby={`week-${week.monday}`}>
+          <h2 id={`week-${week.monday}`}>
+            {week.isThisWeek ? 'This week, ' : ''}
+            {weekRangeLabel(week.monday, formatDate)}
+          </h2>
+          {week.changes.map((change) => {
+            const name = names[change.vendorSlug] || change.vendorSlug;
+            const url = new URL(`/price-changes/${change.id}/`, Astro.site).href;
+            const headline = priceChangeHeadline(change);
+            const rest = summaryRest(change.summary);
+            return (
+              <article class="story-card change-card">
+                <p class="story-meta">
+                  <a href={`/vendors/${change.vendorSlug}/`}>{name}</a>
+                  <time datetime={change.observed}>Observed {formatDate(change.observed)}</time>
+                </p>
+                <h3><a href={`/price-changes/${change.id}/`}>{headline}</a></h3>
+                {rest && <p>{rest}</p>}
+                <ul class="sources">
+                  {change.sources.map((source) => (
+                    <li>
+                      <a href={source.url} rel="nofollow noopener">{source.title}</a>
+                      {' '}<span class="missing">({source.publisher}, <time datetime={source.date}>{formatDate(source.date)}</time>)</span>
+                    </li>
+                  ))}
+                </ul>
+                <Share url={url} title={headline} />
+              </article>
+            );
+          })}
+        </section>
+      ))
     )}
   </div>
 </Base>

@@ -5,13 +5,15 @@ import log from '../../data/price-changes.json';
 import vendors from '../../data/vendors.json';
 import { formatDate } from '../../lib/stories.mjs';
 import { priceChangeLead } from '../../lib/schema.mjs';
+import { priceChangeHeadline } from '../../lib/price-changes.mjs';
 export function getStaticPaths() {
   return log.changes.map((change) => ({ params: { id: change.id }, props: { change } }));
 }
 const { change } = Astro.props;
 const vendor = vendors.find((item) => item.slug === change.vendorSlug);
 const name = vendor?.name || change.vendorSlug;
-const title = `${name} price change`;
+const headline = priceChangeHeadline(change);
+const title = headline || `${name} price change`;
 const description = change.summary.slice(0, 220);
 const url = new URL(`/price-changes/${change.id}/`, Astro.site).href;
 const lead = priceChangeLead(change, formatDate);

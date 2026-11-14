@@ -1094,3 +1094,23 @@ pre {
 .landing-notes { margin-top: 16px; max-width: 72ch; color: var(--ink-soft); font-size: 0.98rem; }
 .landing-notes p { margin: 0 0 8px; }
 .answer-box + .lead, .answer-box + .landing-notes { margin-top: 18px; }
+
+/* Weekly price-change log (/price-changes/) */
+.price-log { display: flex; flex-direction: column; gap: 2.4rem; padding-bottom: 2rem; }
+.week-block h2 {
+  margin: 0 0 4px;
+  font-size: 1.35rem;
+  letter-spacing: -0.03em;
+}
+.week-block .change-card { margin-top: 16px; }
+.change-card .sources { margin: 10px 0 0; }
+.change-card .share { margin-top: 14px; }
+.log-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+  align-items: center;
+  margin: 14px 0 0;
+  font-weight: 600;
+}
+.log-tools a { color: var(--pine); }
