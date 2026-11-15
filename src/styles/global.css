@@ -1017,6 +1017,42 @@ pre {
   .audit-cta .btn, .dfy-callout .btn { grid-column: 1 / -1; width: 100%; white-space: normal; }
 }
 
+.setup-cta {
+  display: grid;
+  gap: 1rem 1.35rem;
+  padding: 1.45rem 1.55rem 1.4rem;
+  background: linear-gradient(155deg, var(--checked-bg) 0%, var(--surface) 62%);
+  border: 1px solid #c9e0d3;
+  border-left: 4px solid var(--pine);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.setup-cta-icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid #c9e0d3;
+  color: var(--pine);
+}
+.setup-cta-icon svg { width: 24px; height: 24px; }
+.setup-cta-copy h2 { margin: 0 0 0.35rem; font-size: 1.5rem; }
+.setup-cta-copy p { margin: 0; color: var(--ink-soft); max-width: 62ch; }
+.setup-cta-price { margin-top: 0.45rem; color: var(--muted); font-size: 0.95rem; }
+.setup-cta-actions { display: flex; flex-wrap: wrap; gap: 0.7rem; align-items: center; }
+.setup-cta-actions .btn { white-space: nowrap; }
+@media (min-width: 761px) {
+  .setup-cta { grid-template-columns: auto minmax(0, 1fr); align-items: start; }
+  .setup-cta-actions { grid-column: 2; }
+}
+@media (max-width: 760px) {
+  .setup-cta { grid-template-columns: auto minmax(0, 1fr); }
+  .setup-cta-actions { grid-column: 1 / -1; }
+  .setup-cta-actions .btn { flex: 1 1 100%; width: 100%; white-space: normal; justify-content: center; }
+}
+
 /* Done-for-you industry pages (/done-for-you/<industry>/) */
 .dfy-ind-hero .crumbs ol { margin-bottom: 14px; }
 .dfy-ind-hero .industry-kicker .i-icon { width: 24px; height: 24px; }
