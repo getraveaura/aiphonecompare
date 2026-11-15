@@ -6,6 +6,7 @@ import {
   EVENTS,
   checkoutProperties,
   contactProperties,
+  ctaProperties,
   eventFromClick,
   offerFromStripeUrl,
   sanitizeProperties,
@@ -28,6 +29,7 @@ function el(attrs = {}) {
         if (part === 'a[href*="buy.stripe.com"]' && href.includes('buy.stripe.com')) return node;
         if (part === '[data-vendor-slug]' && attrs['data-vendor-slug']) return node;
         if (part === 'a[href^="mailto:"]' && href.startsWith('mailto:')) return node;
+        if (part === '[data-offer-cta]' && attrs['data-offer-cta']) return node;
       }
       return null;
     },
@@ -91,6 +93,13 @@ test('eventFromClick maps pay, vendor and mailto links to the shared event names
   });
   assert.equal(eventFromClick(el({ href: 'mailto:?subject=Share%20this' })), null);
   assert.equal(eventFromClick(el({ href: '/vendors/oncrew/' })), null);
+  assert.deepEqual(ctaProperties('dfy', 'cost_method'), { offer: 'dfy', source: 'cost_method' });
+  assert.deepEqual(ctaProperties('dfy', '  '), { offer: 'dfy' });
+  assert.equal(ctaProperties(''), null);
+  assert.deepEqual(
+    eventFromClick(el({ 'data-offer-cta': 'dfy', 'data-offer-cta-source': 'match', href: '/done-for-you/' })),
+    { event: EVENTS.cta, properties: { offer: 'dfy', source: 'match' } },
+  );
 });
 
 test('offer pages mark every Stripe pay link with data-offer-checkout', () => {
@@ -133,3 +142,28 @@ test('forms and tools fire the shared event names without passing an email', () 
   const missed = read('src/pages/missed-call-calculator.astro');
   assert.match(missed, /apcTrack\('tool_used', \{ tool: 'missed_call' \}\)/);
 });
+
+test('setup next-step card is the post-result CTA on cost and match tools', () => {
+  const card = read('src/components/SetupNextStep.astro');
+  assert.match(card, /Want us to set this up for you\?/);
+  assert.match(card, /pick the right service, set it up, test it with 20 calls, and tune it for 60 days, with a money-back guarantee/);
+  assert.match(card, /href=\{DFY_PATH\}/);
+  assert.match(card, /data-offer-cta="dfy"/);
+  assert.match(card, /data-offer-cta-source=\{source\}/);
+  assert.match(card, /usd\(DFY_OFFERS\.standard\.price\)/);
+  assert.match(card, /\{showAuditLinks\(\) && \(/);
+  assert.match(card, /href=\{AUDIT_PATH\}/);
+  assert.doesNotMatch(card, /["'`]\/audit\/["'`]/);
+  const cost = read('src/pages/cost.astro');
+  assert.match(cost, /<SetupNextStep source="cost_method" untilResults \/>/);
+  assert.match(cost, /next\.hidden = !hasInput/);
+  const calculator = read('src/pages/cost/calculator.astro');
+  assert.match(calculator, /<SetupNextStep source="cost_calculator" \/>/);
+  const match = read('src/pages/match/index.astro');
+  assert.match(match, /<SetupNextStep source="match" untilResults \/>/);
+  assert.match(match, /if \(next\) next\.hidden = false/);
+  const privacy = read('src/pages/privacy.astro');
+  assert.match(privacy, /done-for-you setup buttons/);
+  assert.match(privacy, /setup-offer clicks/);
+});
+

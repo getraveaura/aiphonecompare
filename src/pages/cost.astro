@@ -7,7 +7,7 @@ import { costFaqs } from '../lib/cost-faq.mjs';
 import AnswerSummary from '../components/AnswerSummary.astro';
 import { costHubSummary } from '../lib/landings.mjs';
 import { articleNode, sourceLinks } from '../lib/answers.mjs';
-import AuditCta from '../components/AuditCta.astro';
+import SetupNextStep from '../components/SetupNextStep.astro';
 
 const checkedLabel = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${models.checked}T00:00:00Z`));
 function oneTime(plan) {
@@ -143,7 +143,7 @@ const jsonld = {
         </article>
       ))}
     </div>
-    <AuditCta />
+    <SetupNextStep source="cost_method" untilResults />
     <p>Industry guides also cover <a href="/best/">more trades and practices</a>, including roofing, veterinarians, and industries we do not yet have a vendor list for. Sourced figures about missed calls, with no typical cost invented, are on <a href="/cost/missed-call/">cost of a missed call</a>.</p>
   </div>
 </Base>
@@ -182,6 +182,11 @@ const jsonld = {
     }
     if (status) {
       status.textContent = `${estimated} plans have a full monthly estimate, ${partial} have a minimum only, and ${blocked} can't be estimated from public prices. This is not a ranking.`;
+    }
+    const next = document.getElementById('setup-next-step');
+    if (next) {
+      const hasInput = input.calls !== '' || input.durationMinutes !== '' || input.uniqueCallers !== '';
+      next.hidden = !hasInput;
     }
     const key = `${input.calls}|${input.durationMinutes}|${input.uniqueCallers}`;
     if (key !== lastTracked && (input.calls !== '' || input.durationMinutes !== '')) {

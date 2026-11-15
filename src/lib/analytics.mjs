@@ -10,6 +10,7 @@ export const EVENTS = {
   lead: 'lead_submit',
   tool: 'tool_used',
   vendor: 'vendor_outbound_click',
+  cta: 'offer_cta_click',
 };
 
 // One place for offer name + price tier on pay-button clicks.
@@ -89,6 +90,13 @@ export function vendorProperties(slug, isReferral) {
   };
 }
 
+export function ctaProperties(offer, source) {
+  if (typeof offer !== 'string' || !offer.trim()) return null;
+  const properties = { offer: offer.trim() };
+  if (typeof source === 'string' && source.trim()) properties.source = source.trim();
+  return properties;
+}
+
 export function eventFromClick(target) {
   if (!target || typeof target.closest !== 'function') return null;
 
@@ -112,6 +120,15 @@ export function eventFromClick(target) {
   if (mailEl) {
     const properties = contactProperties(mailEl.getAttribute('href'));
     if (properties) return { event: EVENTS.contact, properties };
+  }
+
+  const ctaEl = target.closest('[data-offer-cta]');
+  if (ctaEl) {
+    const properties = ctaProperties(
+      ctaEl.getAttribute('data-offer-cta'),
+      ctaEl.getAttribute('data-offer-cta-source'),
+    );
+    if (properties) return { event: EVENTS.cta, properties };
   }
 
   return null;

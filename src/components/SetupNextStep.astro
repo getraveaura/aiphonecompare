@@ -1,0 +1,33 @@
+---
+// Next-step card after a cost or match result: paid setup as the main
+// action, free call coverage check as the secondary when that offer is live.
+import { DFY_PATH, DFY_OFFERS, usd } from '../lib/offers.mjs';
+import { AUDIT_PATH, showAuditLinks } from '../lib/audit.mjs';
+
+const {
+  source,
+  untilResults = false,
+  title = 'Want us to set this up for you?',
+} = Astro.props;
+const setupFee = usd(DFY_OFFERS.standard.price);
+---
+<aside class="setup-cta" id="setup-next-step" aria-labelledby="setup-next-step-title" hidden={untilResults || undefined}>
+  <span class="setup-cta-icon" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M8 7H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3"/>
+      <rect x="8" y="3" width="8" height="6" rx="1.5"/>
+      <path d="m9 14 2 2 4-4"/>
+    </svg>
+  </span>
+  <div class="setup-cta-copy">
+    <h2 id="setup-next-step-title">{title}</h2>
+    <p>We pick the right service, set it up, test it with 20 calls, and tune it for 60 days, with a money-back guarantee.</p>
+    <p class="setup-cta-price">Setup is {setupFee} one-time.</p>
+  </div>
+  <div class="setup-cta-actions">
+    <a class="btn btn-primary" href={DFY_PATH} data-offer-cta="dfy" data-offer-cta-source={source}>See the done-for-you setup <span class="arrow" aria-hidden="true">→</span></a>
+    {showAuditLinks() && (
+      <a class="btn btn-ghost" href={AUDIT_PATH}>Get a free call coverage check</a>
+    )}
+  </div>
+</aside>

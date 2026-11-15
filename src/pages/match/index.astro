@@ -1,5 +1,6 @@
 ---
 import Base from '../../layouts/Base.astro';
+import SetupNextStep from '../../components/SetupNextStep.astro';
 const description = 'Pick an industry, a call volume, a budget, and the must-haves you can verify. The three fits come from the published listings. A blank field stays unknown.';
 const jsonld = {
   '@context': 'https://schema.org',
@@ -58,6 +59,7 @@ const jsonld = {
     </form>
     <p id="match-status" class="note" role="status" aria-live="polite">Choose an industry and a volume, then show fits.</p>
     <div id="match-results"></div>
+    <SetupNextStep source="match" untilResults />
     <aside id="match-sponsored" hidden>
       <h2 class="section-title">Sponsored</h2>
       <p>This slot is separate from the three fits. Payment does not change their order.</p>
@@ -158,6 +160,8 @@ const jsonld = {
       note.append(link, document.createTextNode(' is labeled sponsored. It is not one of the three fits unless it also appears above.'));
       sponsoredBody.append(note);
     });
+    const next = document.getElementById('setup-next-step');
+    if (next) next.hidden = false;
     return result;
   }
 
