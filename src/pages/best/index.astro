@@ -7,6 +7,9 @@ import { getBestGuides } from '../../lib/best-guides.mjs';
 import { accent } from '../../lib/industries.mjs';
 import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
 import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
+import { getBudgets, getAlternatives, ALTERNATIVES_INDEX } from '../../lib/alternatives.mjs';
+const budgets = getBudgets();
+const alternatives = getAlternatives();
 const guides = getBestGuides();
 const listed = guides.filter((page) => page.count > 0);
 const unlisted = guides.filter((page) => page.count === 0);
@@ -19,7 +22,7 @@ const jsonld = {
   '@graph': [
     articleNode({ url: pageUrl, headline: title, description, site }),
     breadcrumbNode([['Home', site], [title, pageUrl]]),
-    { '@type': 'ItemList', name: title, itemListElement: guides.map((page, i) => ({ '@type': 'ListItem', position: i + 1, name: page.h1, url: new URL(page.path, Astro.site).href })) },
+    { '@type': 'ItemList', name: title, itemListElement: [...guides, ...budgets].map((page, i) => ({ '@type': 'ListItem', position: i + 1, name: page.h1, url: new URL(page.path, Astro.site).href })) },
   ],
 };
 ---
@@ -58,6 +61,14 @@ const jsonld = {
         </div>
       </>
     )}
+    <NextSteps
+      title="Shop by budget"
+      id="budget-title"
+      trust="Sorted by the price each company prints on its own website. Rankings are not for sale."
+      cards={budgets.map((b) => ({ href: b.path, title: `Under ${b.cap}`, text: `${b.count} with a published starting plan` }))}
+      others={[...alternatives.map((p) => ({ href: p.path, label: `${p.target.vendor.name} alternatives` })), { href: ALTERNATIVES_INDEX, label: 'All alternatives' }]}
+      othersLabel="Alternatives to"
+    />
     <NextSteps
       title="Work out your cost"
       id="cost-help-title"

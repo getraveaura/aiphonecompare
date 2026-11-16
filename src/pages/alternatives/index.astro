@@ -1,0 +1,68 @@
+---
+import Base from '../../layouts/Base.astro';
+import PlainIntro from '../../components/PlainIntro.astro';
+import VendorMark from '../../components/VendorMark.astro';
+import NextSteps from '../../components/NextSteps.astro';
+import { getAlternatives, budgetPath, BUDGETS, ALTERNATIVES_INDEX } from '../../lib/alternatives.mjs';
+import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
+import { formatDate } from '../../lib/stories.mjs';
+import { money, latestChecked } from '../../lib/starting-price.mjs';
+import { DFY_PATH } from '../../lib/offers.mjs';
+const pages = getAlternatives();
+const latest = latestChecked(pages.flatMap((p) => [p.target.vendor, ...p.rows.map((r) => r.vendor)]));
+const title = 'AI receptionist alternatives, compared by published price';
+const description = `Alternatives to ${pages.map((p) => p.target.vendor.name).join(', ')}: every listed company for the same industries, sorted by the price printed on its own website. Sources and check dates on every listing.`;
+const pageUrl = new URL(ALTERNATIVES_INDEX, Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    articleNode({ url: pageUrl, headline: title, description, modified: latest, site }),
+    breadcrumbNode([['Home', site], ['Alternatives', pageUrl]]),
+    { '@type': 'ItemList', name: title, ...(latest ? { dateModified: latest } : {}), itemListElement: pages.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: `${p.target.vendor.name} alternatives`, url: new URL(p.path, Astro.site).href })) },
+  ],
+};
+---
+<Base title={title} description={description} jsonld={jsonld} modified={latest}>
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><span aria-current="page">Alternatives</span></li>
+        </ol>
+      </nav>
+      <h1>AI receptionist alternatives</h1>
+      <p class="lead">Already looking at one company? See who else serves the same kinds of business, and what each one prints as its starting price. Checked {formatDate(latest)}.</p>
+      <PlainIntro />
+    </div>
+  </header>
+  <div class="wrap stack">
+    <ul class="price-cards alt-index" role="list">
+      {pages.map((p) => (
+        <li class="price-card alt-index-card">
+          <div class="price-card-head">
+            <VendorMark slug={p.target.vendor.slug} name={p.target.vendor.name} />
+            <h2><a href={p.path}>{p.target.vendor.name} alternatives</a></h2>
+          </div>
+          <p class="alt-start">
+            {p.base != null ? <><span class="alt-k">{p.target.vendor.name} starts at</span>{" "}<strong>{money(p.base)}/mo</strong></> : <strong class="alt-np">Not published</strong>}
+          </p>
+          <ul class="alt-index-facts" role="list">
+            <li><strong>{p.count}</strong> alternatives compared</li>
+            {p.base != null && <li><strong>{p.cheaperCount}</strong> start lower</li>}
+            {p.livePeopleCount > 0 && <li><strong>{p.livePeopleCount}</strong> also offer live people</li>}
+          </ul>
+          <p class="price-card-more"><a href={p.path}>See the comparison<span class="vh"> of {p.target.vendor.name} alternatives</span><span class="arrow" aria-hidden="true"> →</span></a></p>
+        </li>
+      ))}
+    </ul>
+    <NextSteps
+      title="Shopping by budget?"
+      id="budget-title"
+      cards={BUDGETS.map((b) => ({ href: budgetPath(b), title: `Under ${money(b)} a month`, text: 'Published starting prices, lowest first' }))}
+      others={[{ href: '/match/', label: 'Find my best match' }, { href: '/cost/', label: 'What it really costs' }, { href: DFY_PATH, label: 'Done-for-you setup' }, { href: '/best/', label: 'Industry guides' }]}
+      othersLabel="Or"
+    />
+  </div>
+</Base>

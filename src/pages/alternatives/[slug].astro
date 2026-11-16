@@ -1,0 +1,110 @@
+---
+import Base from '../../layouts/Base.astro';
+import PlainIntro from '../../components/PlainIntro.astro';
+import VerifyStrip from '../../components/VerifyStrip.astro';
+import AnswerSummary from '../../components/AnswerSummary.astro';
+import NextSteps from '../../components/NextSteps.astro';
+import AltCards from '../../components/AltCards.astro';
+import Faq from '../../components/Faq.astro';
+import AuditCta from '../../components/AuditCta.astro';
+import { alternativesTargets, buildAlternatives, getAlternatives, budgetPath, BUDGETS, SIMILAR_SHARE, ALTERNATIVES_INDEX } from '../../lib/alternatives.mjs';
+import { articleNode, breadcrumbNode, sourceLinks } from '../../lib/answers.mjs';
+import { firstSentence } from '../../lib/schema.mjs';
+import { industryLabel } from '../../lib/stories.mjs';
+import { money } from '../../lib/starting-price.mjs';
+import { DFY_PATH } from '../../lib/offers.mjs';
+export function getStaticPaths() {
+  return alternativesTargets().map((slug) => ({ params: { slug }, props: { page: buildAlternatives(slug) } }));
+}
+const { page } = Astro.props;
+const t = page.target.vendor;
+const pageUrl = new URL(page.path, Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const known = firstSentence(t.notes || '');
+const industries = page.sharedIndustries.map((id) => industryLabel(id).toLowerCase());
+const others = getAlternatives().filter((p) => p.slug !== page.slug).map((p) => ({ href: p.path, label: `${p.target.vendor.name} alternatives` }));
+const summarySources = [
+  ...sourceLinks(t.sources, 1).map((s) => ({ ...s, label: `${t.name}: ${s.label}` })),
+  { href: '/price-index/', label: 'aiphonecompare price index' },
+];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    articleNode({ url: pageUrl, headline: page.title, description: page.description, modified: page.latest, citations: [t, ...page.rows.map((r) => r.vendor)].map((v) => (v.sources || [])[0]).filter(Boolean), site }),
+    breadcrumbNode([['Home', site], ['Alternatives', new URL(ALTERNATIVES_INDEX, Astro.site).href], [`${t.name} alternatives`, pageUrl]]),
+    { '@type': 'WebPage', name: `${t.name} alternatives`, url: pageUrl, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(page.latest ? { dateModified: page.latest } : {}) },
+    { '@type': 'ItemList', name: `${t.name} alternatives`, ...(page.latest ? { dateModified: page.latest } : {}), itemListElement: page.rows.map((r, i) => ({ '@type': 'ListItem', position: i + 1, name: r.vendor.name, url: new URL(`/vendors/${r.vendor.slug}/`, Astro.site).href })) },
+    { '@type': 'FAQPage', mainEntity: page.faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
+};
+---
+<Base title={page.title} description={page.description} jsonld={jsonld} modified={page.latest}>
+  <header class="page-intro">
+    <div class="wrap">
+      <VerifyStrip />
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href={ALTERNATIVES_INDEX}>Alternatives</a></li>
+          <li><span aria-current="page">{t.name}</span></li>
+        </ol>
+      </nav>
+      <p class="industry-kicker">Alternatives</p>
+      <h1>{page.h1}</h1>
+      <PlainIntro text={`Other AI phone answering services for the same kinds of business as ${t.name}, with the price each one prints on its own website. Sorted by price, never by payment.`} />
+      <AnswerSummary sentences={page.summary} verified={page.latest} sources={summarySources} note="Not a ranking: sorted by published starting price. Sponsored listings are labeled." />
+      <NextSteps
+        cards={[
+          { href: '/match/', title: 'Find my best match', text: 'Pick your call volume and must-haves' },
+          { href: '/cost/', title: 'See what it really costs', text: 'Monthly cost from published prices' },
+          { href: DFY_PATH, title: 'Have it set up for me', text: 'Done-for-you setup, picked and tuned' },
+        ]}
+      />
+      {page.referralNote && <p class="note referral-note">{page.referralNote}</p>}
+    </div>
+  </header>
+  <div class="wrap stack">
+    <section aria-labelledby="about-target">
+      <h2 id="about-target" class="section-title">{t.name} at a glance</h2>
+      {known && <p class="alt-known"><strong>From its record:</strong> {known}</p>}
+      <AltCards rows={[page.target]} label={t.name} />
+    </section>
+
+    <nav class="alt-jump" aria-label="Jump to a group">
+      <span class="next-others-label">Jump to:</span>
+      <ul class="link-chips" role="list">
+        {page.groups.map((g) => <li><a href={`#${g.id}`}>{g.title} ({g.rows.length})</a></li>)}
+      </ul>
+    </nav>
+
+    {page.groups.map((g) => (
+      <section class="alt-group" aria-labelledby={g.id}>
+        <h2 id={g.id} class="section-title">{g.title} <span class="alt-count">{g.rows.length}</span></h2>
+        <p class="alt-intro">{g.intro}</p>
+        <AltCards rows={g.rows} compact={g.compact} label={g.title} />
+      </section>
+    ))}
+
+    <section class="guide" aria-labelledby="how-this-works">
+      <h2 id="how-this-works">How this page works</h2>
+      <ul>
+        <li><strong>Who is listed:</strong> every company in our directory listed for at least one of the same industries as {t.name}{industries.length ? ` (${industries.join(', ')})` : ''}.</li>
+        <li><strong>Starting price:</strong> the lowest paid monthly plan printed on the company’s own website, read on the date shown. Free and pay-as-you-go plans are in the plan text but are not counted as a starting price.</li>
+        {page.base != null && <li><strong>About the same:</strong> from {money(page.base)}/mo up to {Math.round(SIMILAR_SHARE * 100)}% more.</li>}
+        <li><strong>Not published:</strong> we never fill in a price. If the only figure we have is from another website, it is not shown here.</li>
+      </ul>
+    </section>
+
+    <Faq items={page.faqs} />
+
+    <nav aria-label="More comparisons" class="guide-related">
+      <h2 class="section-title">More comparisons</h2>
+      <ul class="link-grid">
+        {others.map((o) => <li><a href={o.href}>{o.label}</a></li>)}
+        {BUDGETS.map((b) => <li><a href={budgetPath(b)}>AI receptionists under {money(b)}/mo</a></li>)}
+        <li><a href={`/vendors/${t.slug}/`}>{t.name} full record</a></li>
+      </ul>
+    </nav>
+    <AuditCta />
+  </div>
+</Base>

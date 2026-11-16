@@ -1,0 +1,102 @@
+---
+import Base from '../../layouts/Base.astro';
+import PlainIntro from '../../components/PlainIntro.astro';
+import VerifyStrip from '../../components/VerifyStrip.astro';
+import AnswerSummary from '../../components/AnswerSummary.astro';
+import NextSteps from '../../components/NextSteps.astro';
+import AltCards from '../../components/AltCards.astro';
+import Faq from '../../components/Faq.astro';
+import AuditCta from '../../components/AuditCta.astro';
+import { BUDGETS, buildBudget, getAlternatives, ALTERNATIVES_INDEX } from '../../lib/alternatives.mjs';
+import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
+import { DFY_PATH } from '../../lib/offers.mjs';
+export function getStaticPaths() {
+  return BUDGETS.map((amount) => ({ params: { amount: String(amount) }, props: { page: buildBudget(amount) } }));
+}
+const { page } = Astro.props;
+const pageUrl = new URL(page.path, Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const alternatives = getAlternatives().map((p) => ({ href: p.path, label: `${p.target.vendor.name} alternatives` }));
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    articleNode({ url: pageUrl, headline: page.title, description: page.description, modified: page.latest, citations: page.listed.map((r) => (r.vendor.sources || [])[0]).filter(Boolean), site }),
+    breadcrumbNode([['Home', site], ['Industry guides', new URL('/best/', Astro.site).href], [page.h1, pageUrl]]),
+    { '@type': 'WebPage', name: page.h1, url: pageUrl, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(page.latest ? { dateModified: page.latest } : {}) },
+    { '@type': 'ItemList', name: page.h1, ...(page.latest ? { dateModified: page.latest } : {}), itemListOrder: 'https://schema.org/ItemListOrderAscending', itemListElement: page.listed.map((r, i) => ({ '@type': 'ListItem', position: i + 1, name: r.vendor.name, url: new URL(`/vendors/${r.vendor.slug}/`, Astro.site).href })) },
+    { '@type': 'FAQPage', mainEntity: page.faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
+};
+---
+<Base title={page.title} description={page.description} jsonld={jsonld} modified={page.latest}>
+  <header class="page-intro">
+    <div class="wrap">
+      <VerifyStrip />
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/best/">Industry guides</a></li>
+          <li><span aria-current="page">Under {page.cap}</span></li>
+        </ol>
+      </nav>
+      <p class="industry-kicker">By budget</p>
+      <h1>{page.h1}</h1>
+      <PlainIntro text={`AI phone answering services whose own website lists a plan at or under ${page.cap}, cheapest first.`} />
+      <AnswerSummary sentences={page.summary} verified={page.latest} sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }]} note="Sorted by published price, lowest first. Payment never changes the order." />
+      <NextSteps
+        cards={[
+          { href: '/match/', title: 'Find my best match', text: 'Pick your call volume and must-haves' },
+          { href: '/cost/', title: 'See what it really costs', text: 'A low starting plan is not always a low bill' },
+          { href: DFY_PATH, title: 'Have it set up for me', text: 'Done-for-you setup, picked and tuned' },
+        ]}
+        others={page.others}
+        othersLabel="Other budgets"
+      />
+      {page.referralNote && <p class="note referral-note">{page.referralNote}</p>}
+    </div>
+  </header>
+  <div class="wrap stack">
+    <section class="guide" aria-labelledby="the-rule">
+      <h2 id="the-rule">What counts, in plain words</h2>
+      <ul>{page.rule.map((line) => { const [k, ...rest] = line.split(': '); return <li><strong>{k}:</strong> {rest.join(': ')}</li>; })}</ul>
+    </section>
+
+    <section class="alt-group" aria-labelledby="list">
+      <h2 id="list" class="section-title">Starting at or under {page.cap} <span class="alt-count">{page.listed.length}</span></h2>
+      <p class="alt-intro">Lowest first. Each card shows the plan as the company writes it, so you can see what the starting price includes.</p>
+      {page.listed.length
+        ? <AltCards rows={page.listed} label={`Starting at or under ${page.cap}`} />
+        : <p>No company in our directory publishes a starting plan at or under {page.cap} on its own website.</p>}
+    </section>
+
+    {page.addons.length > 0 && (
+      <section class="alt-group" aria-labelledby="addons">
+        <h2 id="addons" class="section-title">Add-ons at or under {page.cap} <span class="alt-count">{page.addons.length}</span></h2>
+        <p class="alt-intro">Good value if you already use the company’s main software. The price is for the add-on only.</p>
+        <AltCards rows={page.addons} compact label="Add-ons" />
+      </section>
+    )}
+
+    {page.notCounted.length > 0 && (
+      <section class="alt-group" aria-labelledby="not-counted">
+        <h2 id="not-counted" class="section-title">Close, but not counted <span class="alt-count">{page.notCounted.length}</span></h2>
+        <p class="alt-intro">A dollar figure at or under {page.cap} appears in these records, but it does not meet the rule above. Here is why.</p>
+        <AltCards rows={page.notCounted} compact label="Not counted" />
+      </section>
+    )}
+    {page.noPrice > 0 && <p class="good-to-know"><strong>Good to know:</strong> {page.noPrice} more companies in our directory publish no price at all. See them on the <a href="/price-index/">price index</a>.</p>}
+
+    <Faq items={page.faqs} />
+
+    <nav aria-label="More comparisons" class="guide-related">
+      <h2 class="section-title">More comparisons</h2>
+      <ul class="link-grid">
+        {page.others.map((o) => <li><a href={o.href}>AI receptionists {o.label.toLowerCase()}</a></li>)}
+        {alternatives.map((o) => <li><a href={o.href}>{o.label}</a></li>)}
+        <li><a href={ALTERNATIVES_INDEX}>All alternatives pages</a></li>
+        <li><a href="/best/">Guides by industry</a></li>
+      </ul>
+    </nav>
+    <AuditCta />
+  </div>
+</Base>
