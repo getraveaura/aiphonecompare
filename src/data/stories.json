@@ -979,5 +979,83 @@
     "told_by": "Told by Mervin Wickey (TruChoice Roofing co-founder) on X",
     "verified_claims": "X posts by @mervwickey on 13 and 16 October 2026: 26 sales appointments in the last 30 days from unanswered calls, majority after hours, AI covers after hours and daytime overflow while an inside sales team handles other calls. No vendor or price is named. Found via aibusinessplays.com.",
     "archive_url": null
+  },
+  {
+    "slug": "american-family-care-flip-urgent-care",
+    "title": "An urgent care chain put an AI voice receptionist on its clinic phones and booked more callers",
+    "added": "2026-11-16",
+    "industries": [
+      "medical"
+    ],
+    "business": "American Family Care",
+    "vendorSlug": null,
+    "vendorName": "Flip",
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "American Family Care, which runs more than 400 urgent care and walk-in clinics in the US, piloted an AI voice receptionist from Flip at a handful of clinics. As of Sept. 22 it was live at 80 corporate clinics and more than 10 franchise groups. It handles routine calls such as scheduling, hours, directions, services, billing, self-pay pricing, walk-in availability and lab-result status, and is connected to the patient systems. Callers can still ask to speak with staff. AFC is also piloting outbound appointment confirmations.",
+    "cost": null,
+    "outcome": "CX Dive reports that the share of inbound calls ending in a scheduled visit rose from 11% to 34%, and call abandonment fell from 40% to 14%. Rebooking of canceled appointments rose from 6% to 10%, and of missed appointments from 7% to 13%. The article does not say who measured these figures or over what period.",
+    "catches": [
+      {
+        "id": "staff-hold-still-applies",
+        "label": "Callers who ask for a person may still wait on hold",
+        "summary": "AFC CEO Jeremy Morgan told CX Dive that callers who prefer staff may wait on hold, because how fast they reach a person depends on what is happening at the clinic at that moment.",
+        "sources": [
+          {
+            "url": "https://www.customerexperiencedive.com/news/how-a-healthcare-clinic-chain-uses-conversational-ai-to-improve-patient-exp/874561/",
+            "title": "How a healthcare clinic chain uses conversational AI to improve patient experience",
+            "date": "2026-11-13",
+            "publisher": "CX Dive"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.customerexperiencedive.com/news/how-a-healthcare-clinic-chain-uses-conversational-ai-to-improve-patient-exp/874561/",
+        "title": "How a healthcare clinic chain uses conversational AI to improve patient experience",
+        "date": "2026-11-13",
+        "publisher": "CX Dive",
+        "archive_url": null
+      }
+    ],
+    "evidence": "independent",
+    "source_type": "press",
+    "source_publisher": "CX Dive",
+    "told_by": "Reported by CX Dive, with comments from AFC CEO Jeremy Morgan and Flip CEO Brian Schiff",
+    "archive_url": null,
+    "verified_claims": "CX Dive (Matt Vartabedian, Nov. 13, 2026): American Family Care, Flip, 400+ clinics, 80 corporate clinics and 10+ franchise groups as of Sept. 22, scheduled-visit share 11% to 34%, abandonment 40% to 14%, canceled rebooked 6% to 10%, missed rebooked 7% to 13%. No price stated."
+  },
+  {
+    "slug": "kings-head-tealby-porchlight-thomas",
+    "title": "A village pub let an AI phone host take the calls staff could not, and it booked 165 covers in October",
+    "added": "2026-11-16",
+    "industries": [
+      "other"
+    ],
+    "business": "The King’s Head, Tealby",
+    "vendorSlug": null,
+    "vendorName": "Porchlight Hospitality",
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "The King’s Head in Tealby, Lincolnshire, trialled an AI phone host called Thomas from August and went live with the finished version on September 29. It answers when staff are busy with service or the pub is closed, checks free tables and books them into the pub diary, moves or cancels bookings, and passes tricky calls such as large parties or suppliers back to the team with an alert on the bar tablet. It was built by Porchlight Hospitality, a Market Rasen start-up whose founder used to help manage the pub.",
+    "cost": "Porchlight’s founder says it costs around £8 a day, covering the wider app (booking diary, rotas, timesheets and more), not only the phone. Setup cost not stated.",
+    "outcome": "Per the article, Thomas booked 165 covers by phone in October, worth about £4,125 at the pub’s £25 average spend, from calls the team could not get to; 199 phone covers to date. Across phone, Google and website it took 430 covers that month. The figures appear to come from Porchlight and the pub. The landlord says it has made a big difference to revenue, and that older regulars the team worried about have not minded.",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://www.lincolnshireworld.com/news/lincolnshires-oldest-thatched-pub-the-kings-head-in-tealby-hands-its-phone-to-an-ai-9348929",
+        "title": "Lincolnshire’s oldest thatched pub, The King’s Head in Tealby hands its phone to AI",
+        "date": "2026-11-13",
+        "publisher": "LincolnshireWorld",
+        "archive_url": null
+      }
+    ],
+    "evidence": "independent",
+    "source_type": "press",
+    "source_publisher": "LincolnshireWorld",
+    "told_by": "Reported by LincolnshireWorld, with quotes from the landlord and from Porchlight’s founder",
+    "archive_url": null,
+    "verified_claims": "LincolnshireWorld (Andy Hubbert, 13 Nov 2026): The King’s Head, Tealby; Porchlight Hospitality AI called Thomas; trial from August, live September 29; 165 phone covers in October worth about £4,125 at £25 a head; 430 covers across channels worth about £10,750; 199 phone covers to date; around £8 a day."
   }
 ]
