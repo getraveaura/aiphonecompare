@@ -268,6 +268,26 @@ The Nov 2–8 metrics row uses only the Nov 5–9 snapshot provided with this ta
 
 ---
 
+## Week 3 log (Nov 16–22, 2026)
+
+Shipped in this pass:
+
+- **Alternatives pages:** `/alternatives/` plus `/alternatives/smith-ai/` (43 alternatives), `/alternatives/ruby/` (39), `/alternatives/goodcall/` (44), `/alternatives/my-ai-front-desk/` (26), and `/alternatives/rosie/` (33). Each page lists every vendor that shares at least one industry with the named vendor. Groups are built from the data: also offer live people (Smith.ai and Ruby only), lower starting price, about the same (up to 20% more), higher, add-ons, priced another way, and not published. Each page has an answer-first "In short" box, cards showing the recorded price, billing, free trial, human handoff, HIPAA BAA, last-checked date, and source. It also has Next steps (`/match/`, `/cost/`, `/done-for-you/`), FAQPage and BreadcrumbList JSON-LD, and the checked date in the H1.
+- **Budget pages:** `/best/under-50/` (10 plans), `/best/under-100/` (14), `/best/under-200/` (21). A plan counts only if the company's own pricing page lists a paid monthly plan at or under the cap, and the latest price check confirmed it there. Plans are sorted by price, ties alphabetical. Add-ons are listed separately. Per-seat prices, prices seen only on third-party sites, and base-plan-only prices appear under "Close, but not counted" with the reason. The rule is written on each page in plain words.
+- **One price rule** (`src/lib/starting-price.mjs`) drives both page types. It reads the starting amount from `vendors.json` text, or from its matching `price-plans.json` entry. Free and $0 pay-as-you-go tiers do not count as a starting price. No vendor data or price was changed.
+- **Discovery:** vendor pages for the five vendors link to their alternatives page. `/best/` has a "Shop by budget" block and alternatives chips. The footer links `/alternatives/` and `/best/under-100/`. `llms.txt` has new "Best by budget" and "Alternatives" sections with one-line factual summaries, and `llms-full.txt` lists the new URLs. The sitemap and the IndexNow payload pick the pages up automatically. Postbuild now fails if any of them is missing.
+- `growth/metrics.csv`: Nov 9–15 row. `growth/submissions.csv`: ToolPilot (submitted) and Dang.ai (pending), both Nov 12.
+
+Testing:
+
+- Do the alternatives pages and the under-$X pages earn Google impressions within 2–3 weeks (Search Console, by page)?
+- Do AI assistants start citing them (monthly prompt panel: "Smith.ai alternatives", "Ruby receptionist alternatives", "cheapest AI receptionist under $50")?
+- Secondary: do visitors from these pages click through to `/match/`, `/cost/`, or `/done-for-you/` (PostHog)?
+
+Nov 9–15 numbers (PostHog, PT): 111 pageviews, 38 on the homepage; 8 visits from Google, 3 from Bing, 0 from AI assistants. The top referred pages were `/`, `/get-featured/`, `/industries/plumbing/`, `/match/`, and `/cost/calculator/`. `direct_homepage_pageviews` is blank because the homepage count includes referred visits.
+
+---
+
 ## 10. Metrics (weekly, in growth/metrics.csv)
 
 - **Search:** indexed pages, impressions and clicks (Search Console).

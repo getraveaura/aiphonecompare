@@ -1,0 +1,92 @@
+---
+// Cards for the alternatives and "best under $X" pages. Every value is a
+// vendors.json field shown as written; "Starts at" is the monthly amount read
+// from that same text (src/lib/starting-price.mjs). A price that is not on the
+// vendor's own site shows as "Not published", never as the third-party figure.
+import VendorMark from './VendorMark.astro';
+import { outboundLink } from '../lib/outbound.mjs';
+import { shortDate } from '../lib/plans.mjs';
+import { KIND } from '../lib/starting-price.mjs';
+import { offlineLabel } from '../lib/site-status.mjs';
+const { rows = [], compact = false, label = '', showReason = true } = Astro.props;
+const facts = [
+  ['billing_model', 'Billing'],
+  ['free_trial', 'Free trial'],
+  ['human_handoff', 'Human handoff'],
+  ['hipaa_baa', 'HIPAA BAA'],
+];
+const published = (r) => r.status.kind !== KIND.notPublished;
+const startLabel = (r) => (r.status.kind === KIND.monthly ? 'Starts at' : r.status.kind === KIND.addon ? 'Add-on from' : 'Published price');
+const visit = (v) => { const o = outboundLink(v); return o?.isReferral ? o : null; };
+---
+{compact ? (
+  <ul class="alt-rows" role="list" aria-label={label || undefined}>
+    {rows.map((r) => (
+      <li class="alt-row">
+        <div class="alt-row-name">
+          <VendorMark slug={r.vendor.slug} name={r.vendor.name} />
+          <a href={`/vendors/${r.vendor.slug}/`}>{r.vendor.name}</a>
+          {r.sponsored && <span class="badge">Sponsored</span>}
+          {offlineLabel(r.vendor) && <span class="badge badge-warn">{offlineLabel(r.vendor)}</span>}
+        </div>
+        <div class="alt-row-price">
+          {r.status.kind === KIND.monthly
+            ? <><span class="alt-k">Starts at</span>{" "}<strong>{r.status.display}</strong></>
+            : published(r)
+              ? <span class="alt-row-text">{r.vendor.starting_price}</span>
+              : <strong class="alt-np">Not published</strong>}
+        </div>
+        <div class="alt-row-meta">
+          {r.vendor.billing_model && published(r) && <span class="alt-row-billing">{r.vendor.billing_model}</span>}
+          {showReason && r.status.short && <span class="alt-row-reason">{r.status.short}</span>}
+          <span class="alt-row-check">
+            {r.vendor.last_checked && <>Checked <time datetime={r.vendor.last_checked}>{shortDate(r.vendor.last_checked)}</time></>}
+            {published(r) && r.vendor.sources?.[0] && <> · <a href={r.vendor.sources[0]} rel="nofollow noopener">Source<span class="vh"> for {r.vendor.name}'s price</span></a></>}
+          </span>
+        </div>
+      </li>
+    ))}
+  </ul>
+) : (
+  <ul class="price-cards alt-cards" role="list" aria-label={label || undefined}>
+    {rows.map((r) => (
+      <li class="price-card alt-card">
+        <div class="price-card-head">
+          <VendorMark slug={r.vendor.slug} name={r.vendor.name} />
+          <h3><a href={`/vendors/${r.vendor.slug}/`}>{r.vendor.name}</a></h3>
+          {r.sponsored && <span class="badge">Sponsored</span>}
+          {offlineLabel(r.vendor) && <span class="badge badge-warn">{offlineLabel(r.vendor)}</span>}
+        </div>
+        {published(r) ? (
+          <>
+            <p class="alt-start">
+              {r.status.amount != null
+                ? <><span class="alt-k">{startLabel(r)}</span>{" "}<strong>{r.status.display}</strong></>
+                : <strong class="alt-np">See plan text</strong>}
+            </p>
+            <p class="alt-plan" title={r.vendor.starting_price}>{r.vendor.starting_price}</p>
+          </>
+        ) : (
+          <>
+            <p class="alt-start"><strong class="alt-np">Not published</strong></p>
+            <p class="alt-plan">{r.status.reason}</p>
+          </>
+        )}
+        {showReason && published(r) && r.status.reason && <p class="alt-reason">{r.status.reason}</p>}
+        <dl class="alt-facts">
+          {facts.map(([key, name]) => (
+            <div><dt>{name}</dt><dd>{r.vendor[key] || <span class="missing">Not stated</span>}</dd></div>
+          ))}
+        </dl>
+        <p class="alt-meta">
+          {r.vendor.last_checked && <>Checked <time datetime={r.vendor.last_checked}>{shortDate(r.vendor.last_checked)}</time></>}
+          {published(r) && r.vendor.sources?.[0] && <> · <a href={r.vendor.sources[0]} rel="nofollow noopener">Source<span class="vh"> for {r.vendor.name}'s price</span></a></>}
+        </p>
+        <p class="price-card-more">
+          <a href={`/vendors/${r.vendor.slug}/`}>Full record<span class="vh"> for {r.vendor.name}</span><span class="arrow" aria-hidden="true"> →</span></a>
+          {visit(r.vendor) && <a href={visit(r.vendor).href} rel={visit(r.vendor).rel} data-vendor-slug={r.vendor.slug} data-vendor-referral="1">Visit {r.vendor.name}</a>}
+        </p>
+      </li>
+    ))}
+  </ul>
+)}
