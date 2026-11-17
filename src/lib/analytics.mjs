@@ -33,12 +33,18 @@ export function sanitizeProperties(properties = {}) {
   return out;
 }
 
-export function track(event, properties = {}) {
+// Clicks that leave the page must skip PostHog's batch queue, or the page
+// unloads before the batch is flushed and the event is lost (seen in a real
+// browser test on Nov 16, 2026: offer_cta_click was captured but never sent).
+export const SEND_NOW = { send_instantly: true, transport: 'sendBeacon' };
+
+export function track(event, properties = {}, options) {
   if (typeof window === 'undefined') return;
   const payload = sanitizeProperties(properties);
   const send = () => {
     try {
-      window.posthog?.capture?.(event, payload);
+      if (options) window.posthog?.capture?.(event, payload, options);
+      else window.posthog?.capture?.(event, payload);
     } catch {
       // Analytics must never break the page.
     }
@@ -139,6 +145,6 @@ export function bindClickTracking() {
   document.documentElement.dataset.apcAnalytics = 'bound';
   document.addEventListener('click', (event) => {
     const hit = eventFromClick(event.target);
-    if (hit) track(hit.event, hit.properties);
+    if (hit) track(hit.event, hit.properties, SEND_NOW);
   });
 }

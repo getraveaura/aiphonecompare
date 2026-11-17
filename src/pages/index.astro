@@ -16,6 +16,11 @@ import { addedThisWeek, formatDate, latestByAdded, sourceDate, weekStart } from 
 import { priceChangeHeadline } from '../lib/price-changes.mjs';
 import { getLandings } from '../lib/landings.mjs';
 import { getBestGuides } from '../lib/best-guides.mjs';
+import QuickAnswer from '../components/QuickAnswer.astro';
+import KeyFindings from '../components/KeyFindings.astro';
+import { marketFindings, marketAnswer, marketFindingsList } from '../lib/quotable.mjs';
+import { money } from '../lib/starting-price.mjs';
+const market = marketFindings();
 const c = (k) => data.filter((v) => v.industries.includes(k)).length;
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical' };
 const checkedLabel = (iso) => iso
@@ -56,13 +61,14 @@ const jsonld = {
 };
 const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
 ---
-<Base title="Compare AI phone answering services, with real prices" description="A free, independent site that compares AI phone answering services for small businesses. See real monthly prices for your call volume, then pick one yourself or have us set it up. Rankings are not for sale." jsonld={jsonld}>
+<Base title="Compare AI phone answering services, with real prices" description={`Compare ${data.length} AI phone answering services for small businesses. Half start at ${money(market.median)}/mo or less. See real prices for your call volume, or have us set it up.`} jsonld={jsonld}>
   <section class="hero hero-home">
     <div class="wrap hero-grid">
       <div class="hero-copy">
         <p class="eyebrow">Free · Independent · Real prices</p>
         <h1>Never miss a customer call. Find the right AI answering service.</h1>
         <p class="lead">A free, independent site that compares {data.length} AI phone answering services for small businesses, with real prices from each company's own website.</p>
+        <QuickAnswer text={marketAnswer(market)} label="The short answer" />
         <ol class="how-steps" aria-label="How it works">
           <li><span>1</span>Tell us your business and how many calls you get</li>
           <li><span>2</span>See the services that fit, and what each really costs a month</li>
@@ -97,6 +103,17 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
           <div><strong>{data.length} services compared</strong><span>{stories.length} real stories · <a href="/price-changes/">{priceChangesWeek} price {priceChangesWeek === 1 ? 'change' : 'changes'} this week</a></span></div>
         </li>
       </ul>
+    </div>
+  </section>
+  <section class="home-findings" aria-label="Key findings">
+    <div class="wrap">
+      <KeyFindings
+        heading={`Key findings, ${new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${market.latest}T00:00:00Z`))}`}
+        findings={marketFindingsList(market)}
+        verified={market.latest}
+        sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }, { href: '/cost/', label: 'monthly cost guide' }]}
+        cite={{ title: 'Compare AI phone answering services, with real prices', url: 'https://aiphonecompare.com/', date: market.latest }}
+      />
     </div>
   </section>
   <section class="picks-band" aria-labelledby="top-picks-heading">

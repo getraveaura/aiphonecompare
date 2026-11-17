@@ -1,4 +1,5 @@
 ---
+import SetupNextStep from '../../components/SetupNextStep.astro';
 import Base from '../../layouts/Base.astro';
 import Share from '../../components/Share.astro';
 import Checklist from '../../components/Checklist.astro';
@@ -89,6 +90,7 @@ const jsonld = {
       <h2 class="section-title">Outcome</h2>
       <p>{story.outcome}</p>
     </section>
+    <SetupNextStep source={`story_${story.slug}`} title="Want this set up the right way for your business?" />
     <Share url={url} title={story.title} />
     <Checklist catches={story.catches || []} />
     <section>

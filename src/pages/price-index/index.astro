@@ -4,6 +4,10 @@ import vendors from '../../data/vendors.json';
 import log from '../../data/price-changes.json';
 import models from '../../data/cost-models.json';
 import { formatDate } from '../../lib/stories.mjs';
+import QuickAnswer from '../../components/QuickAnswer.astro';
+import KeyFindings from '../../components/KeyFindings.astro';
+import { marketFindings, marketFindingsList } from '../../lib/quotable.mjs';
+import { money } from '../../lib/starting-price.mjs';
 import { firstSentence } from '../../lib/schema.mjs';
 import { sponsoredLabel } from '../../lib/spotlight.mjs';
 import {
@@ -19,8 +23,18 @@ const intro = introSentences(summary, formatDate);
 const changes = changesNewestFirst(log);
 const names = Object.fromEntries(vendors.map((v) => [v.slug, v.name]));
 const citation = citationLine(latest, formatDate, pageUrl);
+const market = marketFindings();
+const answer = `As of ${formatDate(latest)}, the index tracks ${summary.listed} AI receptionists and **${summary.withPrice} list a dollar price**. Counting the ${market.counted} standard monthly plans read on each company's own website, **the middle starting price is ${money(market.median)}/mo**.`;
+const marketList = marketFindingsList(market);
+const findings = [
+  `**${summary.withPrice} of ${summary.listed}** list a dollar price; **${summary.withoutPrice}** are quote-only or not published.`,
+  `**${market.counted}** are a standard monthly plan read on the company's own website. The middle of those is **${money(market.median)}/mo**.`,
+  marketList[2],
+  ...(market.sbLow ? [marketList[3]] : []),
+  ...(summary.trackingStarted ? [marketList.at(-1)] : []),
+];
 const title = 'AI receptionist price index';
-const description = `Every published AI receptionist starting price we track (${summary.withPrice} of ${summary.listed} vendors), with its source, source type and last-checked date, plus ${summary.changes} logged price change${summary.changes === 1 ? '' : 's'}.`;
+const description = `${summary.listed} AI receptionists tracked. The middle standard monthly plan price is ${money(marketFindings().median)}/mo, across ${marketFindings().counted} published on their own sites. Sources, dates and ${summary.changes} logged price change${summary.changes === 1 ? '' : 's'}.`;
 const stypeClass = {
   [SOURCE_TYPES.vendor]: 'stype stype-vendor',
   [SOURCE_TYPES.third]: 'stype stype-third',
@@ -84,10 +98,8 @@ const jsonld = {
         </ol>
       </nav>
       <h1>AI receptionist price index</h1>
-      <div class="answer-box">
-        <span class="answer-label">In short</span>
-        <p>{intro.join(' ')} Each row shows where the price came from and the day we checked it.</p>
-      </div>
+      <QuickAnswer text={answer} />
+      <KeyFindings findings={findings} verified={latest} sources={[{ href: '/data/vendors.csv', label: 'vendors.csv (CC BY 4.0)' }]} cite={{ text: citation }} />
       {latest && (
         <p class="checked">
           <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -196,8 +208,9 @@ const jsonld = {
         </ul>
       </section>
       <section class="guide" aria-labelledby="cite-h">
-        <h2 id="cite-h">How to cite this page</h2>
+        <h2 id="cite-h">Citing or reusing the data</h2>
         <p class="pindex-cite">{citation}</p>
+        <p class="note">The data is free to reuse under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> with a link back to this page.</p>
       </section>
     </div>
 

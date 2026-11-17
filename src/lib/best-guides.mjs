@@ -9,6 +9,8 @@ import { getLandings } from './landings.mjs';
 import { outboundLink, REFERRAL_NOTE } from './outbound.mjs';
 import { lowestMonthly, lowestMonthlyListing } from './price.mjs';
 import { orderForIndustry } from './spotlight.mjs';
+import { industryFindings, industryAnswer, industryFindingsList, findingDollars, citeText, EXAMPLE_CALLS, EXAMPLE_MINUTES, usdCents } from './quotable.mjs';
+import { money as usd } from './starting-price.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -30,6 +32,38 @@ function priceSentence(list) {
   const lowChecked = low?.last_checked ? formatDate(low.last_checked) : '';
   if (lowAmount == null) return 'None of these listings has a monthly dollar amount in the starting price.';
   return `The lowest monthly amount written in these listings is ${money(lowAmount)}/mo, for ${low.name}${lowChecked ? `, checked ${lowChecked}` : ''}.`;
+}
+
+function shortDay(iso) {
+  if (!iso) return '';
+  return new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
+}
+
+const nameList = (names) => (names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names.join(''));
+
+// Cost and free-trial answers for the strengthened guides, counted from the data.
+function industryFaqs(guide, f, audience) {
+  const out = [];
+  if (f.lowest) {
+    const date = formatDate(f.latest);
+    const range = f.counted > 1
+      ? `published starting prices for the services on this page run from ${f.lowest.status.display} (${f.lowest.vendor.name}) to ${f.highest.status.display} (${f.highest.vendor.name})`
+      : `the only published starting price on this page is ${f.lowest.status.display} (${f.lowest.vendor.name})`;
+    const busy = f.sbLow
+      ? ` A starting plan covers a set number of calls or minutes. At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes each), the cheapest complete plan we can price is ${usdCents(f.sbLow.cents)}/mo (${f.sbLow.provider} ${f.sbLow.plan}).`
+      : ' A starting plan covers a set number of calls or minutes, so check what is included.';
+    out.push({
+      q: `How much does an AI receptionist cost for ${audience}?`,
+      a: `As of ${date}, ${range}.${busy} Enter your own call volume in the cost calculator for your monthly bill.`,
+    });
+  }
+  if (f.freeStart.length) {
+    out.push({
+      q: 'Can I try one for free first?',
+      a: `Yes. ${f.freeStart.length} of the ${f.listed} services on this page list a free trial, free calls or a free period: ${nameList(f.freeStart.map((v) => v.name))}. Check each listing for whether a card is needed.`,
+    });
+  }
+  return out;
 }
 
 const GUIDES = [
@@ -206,6 +240,23 @@ const GUIDES = [
     lede: 'This page is for chiropractic offices comparing AI receptionists. It is not a ranked list. Rows are alphabetical, sponsored listings are labeled, and payment does not change a price.',
     scope: 'This site does not keep a separate chiropractic vendor directory. The table lists vendors whose own pages name chiropractic practices. Every starting price is the text recorded from the vendor pricing page, with the date it was checked. The medical-practice directory and the therapy listing are not copied here in full; a vendor appears only when it has a chiropractic page of its own.',
     subsetNote: 'This site does not keep a separate chiropractic vendor directory. The table lists vendors whose own pages name chiropractic practices.',
+    audience: 'chiropractic offices',
+    pageWord: 'chiropractic',
+    searchName: 'chiropractors',
+    extraChecks: [
+      { h: 'Works with your practice software', p: 'AgentZap\'s chiropractic page names ChiroTouch, Jane App, Genesis, Platinum System and ChiroFusion. For any other service, ask whether it books straight into your system or only sends you a message.' },
+    ],
+    demoQuestions: [
+      'Can you book a new-patient visit and a follow-up adjustment with the right appointment length?',
+      'What happens when a patient calls after hours to reschedule or cancel?',
+      'Will you sign a Business Associate Agreement (BAA) before patients share health details?',
+      'How do you hand a call to my front desk, and what does my team see?',
+      'What does the plan include, and what does an extra call or minute cost?',
+    ],
+    extraFaqs: [
+      { q: 'Can an AI receptionist book chiropractic appointments?', a: 'Many can. AgentZap\'s chiropractic page names ChiroTouch, Jane App, Genesis, Platinum System and ChiroFusion. For the other services on this page, test a new-patient booking in a demo and confirm it lands in your schedule, not only in a message.' },
+      { q: 'Is an AI receptionist HIPAA compliant for a chiropractor?', a: 'It depends on the service and the plan. My AI Front Desk\'s medical page says HIPAA with a BAA. Upfirst\'s pricing page lists BAAs on its Enterprise plan. AgentZap\'s pricing page is labeled HIPAA Compliant but does not state a BAA. Ask for a signed BAA before patients share health details on calls.' },
+    ],
     checks: [
       { h: 'Who the listing actually names', p: 'These vendors have a chiropractic page of their own. Still confirm in writing that chiropractic scheduling and intake are supported for your office. A medical or therapy mention by itself is not a chiropractic listing, which is why those directories are not copied here.' },
       { h: 'Booking and intake', p: 'Test a new-patient call, a reschedule, and an after-hours message against your real appointment lengths, and ask whether it writes into your practice software.' },
@@ -230,6 +281,22 @@ const GUIDES = [
     lede: 'This page is for property-management companies comparing AI receptionists or answering services. It is not a ranked list. Rows are alphabetical, sponsored listings are labeled, and payment does not change a price.',
     scope: 'This site does not keep a separate property-management vendor directory. The table lists vendors whose own pages name property managers. Every starting price is the text recorded from the vendor pricing page, with the date it was checked. Goodcall is included because its own Rent Manager integration page is written for property managers, not because a standalone Goodcall property-management industry page was found.',
     subsetNote: 'This site does not keep a separate property-management vendor directory. The table lists vendors whose own pages name property managers.',
+    audience: 'property managers',
+    pageWord: 'property-management',
+    searchName: 'property management',
+    extraChecks: [
+      { h: 'Works with your property software', p: 'Marlie AI\'s property-management page names Buildium, DoorLoop, Rent Manager and LeadSimple. Goodcall has a Rent Manager integration page written for property managers. For other services, test that a work order or showing really lands in your system.' },
+    ],
+    demoQuestions: [
+      'A resident calls at 2 a.m. about a burst pipe. Who gets called, and in what order?',
+      'Can you tell a current resident from someone asking about a vacancy?',
+      'Can you book a showing and send the details to my leasing team?',
+      'Does a maintenance request land in my property software or arrive as a message?',
+      'What does the plan include, and what does an extra call or minute cost?',
+    ],
+    extraFaqs: [
+      { q: 'Can an AI receptionist handle after-hours maintenance emergencies?', a: 'Several services describe this. Marlie AI\'s property-management page describes cascading transfers that try the superintendent, then a backup, then the property manager until someone answers. NextPhone says it transfers emergencies to an on-call number. Place a real after-hours test call before you rely on it.' },
+    ],
     checks: [
       { h: 'After-hours maintenance', p: 'In a demo, ask how an after-hours maintenance call is taken, urgent issues are escalated, and a work order or message reaches your team.' },
       { h: 'Resident vs. applicant calls', p: 'Confirm the agent can tell a current resident from a leasing inquiry, and that each path follows your rules.' },
@@ -254,6 +321,23 @@ const GUIDES = [
     lede: 'This page is for auto repair shops comparing AI receptionists. It is not a ranked list. Rows are alphabetical, sponsored listings are labeled, and payment does not change a price.',
     scope: 'This site does not keep a separate auto-repair vendor directory. The table lists vendors whose own pages name auto repair shops. Every starting price is the text recorded from the vendor pricing page, with the date it was checked. AutoLeap AIR and Shopmonkey Concierge are built for shops already on those platforms; Shopmonkey Concierge is an add-on to a Shopmonkey plan.',
     subsetNote: 'This site does not keep a separate auto-repair vendor directory. The table lists vendors whose own pages name auto repair shops.',
+    audience: 'auto repair shops',
+    pageWord: 'auto-shop',
+    searchName: 'auto repair shops',
+    extraChecks: [
+      { h: 'Works with your shop software', p: 'AgentZap\'s auto-repair page names Mitchell 1, Tekmetric, Shop-Ware, AutoFluent and ALLDATA. AutoLeap AIR is built for shops on AutoLeap, and Shopmonkey Concierge is an add-on inside Shopmonkey.' },
+    ],
+    demoQuestions: [
+      'Can you book a drop-off for an oil change or a diagnostic within my bay and advisor hours?',
+      'What happens when a customer calls after hours to ask whether their car is ready?',
+      'Can a caller reach a service advisor right away when they need one?',
+      'Does the appointment land in my shop software, or arrive as a message?',
+      'What does the plan include, and what does an extra call or minute cost?',
+    ],
+    extraFaqs: [
+      { q: 'Can an AI receptionist tell a customer whether their car is ready?', a: 'Only if it can read your shop software. Ask about this in the demo. If it cannot, it can still take the message and pass it to your service advisor, so the customer gets a callback instead of voicemail.' },
+      { q: 'How is AutoLeap AIR priced?', a: 'Its AIR page lists pay as you go at $1/call with no minimum spend, Starter at $99/mo for 200 calls, then $0.75/call, and Growth at $199/mo for 500 calls. A $100 set-up fee may apply. It is built for shops on AutoLeap.' },
+    ],
     checks: [
       { h: 'After-hours and drop-off', p: 'In a demo, try an after-hours call and a request to schedule a drop-off or a ride, and see whether the shop gets a usable message.' },
       { h: 'Bay and advisor rules', p: 'Ask whether booking follows your advisor hours and bay limits, or only takes a callback request.' },
@@ -278,6 +362,23 @@ const GUIDES = [
     lede: 'This page is for hair, nail, and beauty salons comparing AI receptionists. It is not a ranked list. Rows are alphabetical, sponsored listings are labeled, and payment does not change a price.',
     scope: 'This site does not keep a separate salon vendor directory. The table lists vendors whose own pages name hair, nail, or beauty salons. Every starting price is the text recorded from the vendor pricing page, with the date it was checked. GlossGenius Reception is an add-on for GlossGenius users. Med spas are covered on a separate guide that uses the medical-practice directory, which is not a salon list.',
     subsetNote: 'This site does not keep a separate salon vendor directory. The table lists vendors whose own pages name hair, nail, or beauty salons.',
+    audience: 'hair, nail and beauty salons',
+    pageWord: 'salon',
+    searchName: 'salons',
+    extraChecks: [
+      { h: 'Works with your booking app', p: 'CallPad\'s homepage lists live connections that include Mindbody, Booker, Zenoti, Square, GlossGenius, Vagaro and Booksy. AgentZap\'s salon page names Vagaro, Boulevard, Fresha and Mangomint. GlossGenius Reception books into the GlossGenius calendar.' },
+    ],
+    demoQuestions: [
+      'Can you book a color appointment with a specific stylist and the right length of time?',
+      'What happens when a client asks for a stylist who is fully booked?',
+      'Can you move or cancel an appointment, and does my calendar update?',
+      'Can you answer questions about my services and prices the way I would?',
+      'What does the plan include, and what does an extra call or minute cost?',
+    ],
+    extraFaqs: [
+      { q: 'Can an AI receptionist book with the right stylist?', a: 'Test this in a demo with a real service, stylist and appointment length. CallPad, AgentZap and GlossGenius Reception name salon booking systems on their own pages. If your app is not named, ask whether bookings land in your calendar or arrive as a message.' },
+      { q: 'Is GlossGenius Reception free?', a: 'The Reception product page says it is free on GlossGenius until 30 November 2026. The pricing page lists Reception by GlossGenius at $50/month. It is an add-on for GlossGenius users.' },
+    ],
     checks: [
       { h: 'This is not the med-spa guide', p: 'If you run a med spa, use the med-spa guide, which is honest about using the medical-practice directory. This page is for salons.' },
       { h: 'Stylist and service booking', p: 'In a demo, try booking, moving, and canceling a service with the right stylist and duration, in the booking system you actually use.' },
@@ -368,13 +469,27 @@ function buildGuide(guide, list) {
     { href: '/best/', label: 'All industry guides' },
     ...(guide.storyLinks || []),
   ];
+  const findings = industryFindings(ordered);
+  const audience = guide.audience || (guide.kicker || industryLabel(guide.industryKey)).toLowerCase();
+  const ownPages = Boolean(guide.subsetNote && /own pages/.test(guide.subsetNote));
+  const answer = industryAnswer(findings, { audience, own: ownPages });
+  const keyFindings = industryFindingsList(findings, { audience, own: ownPages });
+  const autoFaqs = guide.audience ? industryFaqs(guide, findings, audience) : [];
+  const faqs = [...autoFaqs, ...(guide.extraFaqs || []), ...guide.faqs];
+  const checks = [...guide.checks.slice(0, 1), ...(guide.extraChecks || []), ...guide.checks.slice(1)];
+  const description = guide.audience && findings.lowest
+    ? `AI receptionist for ${guide.searchName}: ${findings.listed} with their own ${guide.pageWord} page, from ${findings.lowest.status.display}. Checked ${shortDay(findings.latest)}, plus demo questions and FAQ.`
+    : guide.description;
   const dollars = [
+    findingDollars(findings),
+    autoFaqs.map((item) => item.a).join(' '),
     sentence,
     ...ordered.map((vendor) => vendor.starting_price || ''),
     cost?.dollars || '',
     extraCost?.dollars || '',
     summary.join(' '),
     guide.faqs.map((item) => item.a).join(' '),
+    (guide.extraFaqs || []).map((item) => item.a).join(' '),
   ].join(' ');
   return {
     ...guide,
@@ -385,7 +500,17 @@ function buildGuide(guide, list) {
     summary,
     verified: latest,
     date: latest,
-    title: `${guide.h1}: sourced prices, no paid ranking${latest ? ` (${latest.slice(0, 4)})` : ''}`,
+    title: guide.audience && findings.lowest
+      ? `AI receptionist for ${guide.searchName}: ${findings.listed} compared, from ${findings.lowest.status.display}${latest ? ` (${latest.slice(0, 4)})` : ''}`
+      : `${guide.h1}: sourced prices, no paid ranking${latest ? ` (${latest.slice(0, 4)})` : ''}`,
+    description,
+    faqs,
+    checks,
+    audience,
+    findings,
+    answer,
+    keyFindings,
+    cite: { title: guide.h1, url: `https://aiphonecompare.com${guide.path}`, date: latest },
     related,
     dollars,
     count: ordered.length,

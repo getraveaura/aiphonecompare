@@ -147,7 +147,8 @@ test('setup next-step card is the post-result CTA on cost and match tools', () =
   const card = read('src/components/SetupNextStep.astro');
   assert.match(card, /Want us to set this up for you\?/);
   assert.match(card, /pick the right service, set it up, test it with 20 calls, and tune it for 60 days, with a money-back guarantee/);
-  assert.match(card, /href=\{DFY_PATH\}/);
+  assert.match(card, /href = DFY_PATH,/);
+  assert.match(card, /href=\{href\} data-offer-cta="dfy"/);
   assert.match(card, /data-offer-cta="dfy"/);
   assert.match(card, /data-offer-cta-source=\{source\}/);
   assert.match(card, /usd\(DFY_OFFERS\.standard\.price\)/);

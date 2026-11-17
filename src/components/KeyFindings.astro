@@ -1,0 +1,37 @@
+---
+// "Key findings" box: short bullets with bold numbers counted from the data,
+// a "Last checked · Sources" line, and a one-line "How to cite this page".
+import { formatDate } from '../lib/stories.mjs';
+import { boldParts } from '../lib/summary-points.mjs';
+import { citeText } from '../lib/quotable.mjs';
+const {
+  findings = [],
+  verified = '',
+  sources = [],
+  cite = null,
+  heading = 'Key findings',
+  note = '',
+  id = 'key-findings',
+} = Astro.props;
+const citeLine = cite ? (cite.text || citeText(cite)) : '';
+---
+{findings.length > 0 && (
+  <section class="answer-box key-findings" data-key-findings aria-labelledby={`${id}-h`}>
+    <h2 id={`${id}-h`} class="answer-label">{heading}</h2>
+    <ul class="answer-points">
+      {findings.map((p) => <li>{boldParts(p).map((part) => part.bold ? <strong>{part.text}</strong> : part.text)}</li>)}
+    </ul>
+    {(verified || sources.length > 0 || note) && (
+      <p class="answer-meta">
+        {verified && <span>Last checked <time datetime={verified}>{formatDate(verified)}</time></span>}
+        {sources.length > 0 && <span>{verified && ' · '}Sources: {sources.map((s, i) => <>{i ? ', ' : ''}<a href={s.href} rel={s.href.startsWith('/') ? undefined : 'nofollow noopener'}>{s.label}</a></>)}</span>}
+        {note && <span class="answer-note">{(verified || sources.length) ? ' · ' : ''}{note}</span>}
+      </p>
+    )}
+    {citeLine && (
+      <p class="cite-note" data-cite>
+        <strong>How to cite this page:</strong>{' '}<span class="cite-text">{citeLine}</span>
+      </p>
+    )}
+  </section>
+)}
