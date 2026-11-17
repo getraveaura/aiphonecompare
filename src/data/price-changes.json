@@ -98,6 +98,23 @@
           "publisher": "Viva AI"
         }
       ]
+    },
+    {
+      "id": "oncrew-minutes-and-overage-rates",
+      "vendorSlug": "oncrew",
+      "added": "2026-11-16",
+      "observed": "2026-11-16",
+      "summary": "OnCrew's public pricing now includes more minutes on every plan, and lower overage rates on Pro and Multi-Truck. The plan prices themselves are unchanged. This entry compares oncrew.ai/pricing as we recorded it on 12 November 2026 with the live page read on 16 November 2026.",
+      "before": "Pricing page checked 12 November 2026: Starter $49/mo with 150 minutes of answered calls, then $0.49 per extra minute; Pro $149/mo with 200 minutes, then $0.99 per extra minute; Multi-Truck $349/mo with 500 minutes, then $0.99 per extra minute. No setup fee. 14-day free trial with no card required.",
+      "after": "Pricing page checked 16 November 2026: Starter $49/mo with 250 minutes of answered calls, then $0.49 per extra minute; Pro $149/mo with 500 minutes, then $0.39 per extra minute; Multi-Truck $349/mo with 1,500 minutes, then $0.29 per extra minute. No setup fee. 14-day free trial with no card required.",
+      "sources": [
+        {
+          "url": "https://oncrew.ai/pricing",
+          "title": "oncrew.ai/pricing",
+          "date": "2026-11-16",
+          "publisher": "OnCrew"
+        }
+      ]
     }
   ]
 }

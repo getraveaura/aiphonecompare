@@ -180,8 +180,8 @@
     {
       "slug": "oncrew",
       "name": "OnCrew",
-      "starting_price": "Starter $49/mo with 150 minutes of answered calls, then $0.49/min; Pro $149/mo with 200 minutes, then $0.99/min; Multi-Truck $349/mo with 500 minutes, then $0.99/min",
-      "last_checked": "2026-11-13",
+      "starting_price": "Starter $49/mo with 250 minutes of answered calls, then $0.49/min; Pro $149/mo with 500 minutes, then $0.39/min; Multi-Truck $349/mo with 1,500 minutes, then $0.29/min",
+      "last_checked": "2026-11-16",
       "source": "https://oncrew.ai/pricing"
     },
     {
@@ -222,9 +222,9 @@
     {
       "slug": "futuro-ai",
       "name": "Futuro AI",
-      "starting_price": "Small business: $200 to $1,000/mo flat, unlimited inbound calls; enterprise $0.10 to $0.30 per call",
-      "last_checked": "2026-11-13",
-      "source": "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
+      "starting_price": "Small business: $200 to $1,000/mo flat, unlimited inbound calls; mid-market and enterprise $0.10 to $0.30 per call",
+      "last_checked": "2026-11-16",
+      "source": "https://www.futurocorp.com/pricing"
     },
     {
       "slug": "serviceagent",
