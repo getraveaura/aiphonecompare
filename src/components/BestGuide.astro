@@ -5,14 +5,15 @@ import IndustryIcon from './IndustryIcon.astro';
 import VerifyStrip from './VerifyStrip.astro';
 import VendorTable from './VendorTable.astro';
 import Faq from './Faq.astro';
-import AnswerSummary from './AnswerSummary.astro';
+import QuickAnswer from './QuickAnswer.astro';
+import KeyFindings from './KeyFindings.astro';
+import SetupNextStep from './SetupNextStep.astro';
 import AuditCta from './AuditCta.astro';
 import NextSteps from './NextSteps.astro';
 import { articleNode, breadcrumbNode, sourceLinks } from '../lib/answers.mjs';
 import { industryLabel } from '../lib/stories.mjs';
 import { accent } from '../lib/industries.mjs';
 import { REFERRAL_NOTE } from '../lib/outbound.mjs';
-import { DFY_OFFERS, usd } from '../lib/offers.mjs';
 import { dfyIndustry } from '../lib/dfy-industries.mjs';
 import { getBestGuides } from '../lib/best-guides.mjs';
 import { lowestMonthlyListing } from '../lib/price.mjs';
@@ -55,8 +56,9 @@ const jsonld = {
       </nav>
       <p class="industry-kicker"><IndustryIcon name={page.accent || page.industryKey} />{page.kicker || industryLabel(page.industryKey)}</p>
       <h1>{page.h1}</h1>
+      <QuickAnswer text={page.answer} />
       <PlainIntro text={`A plain-English guide to choosing an AI phone answering service for ${(page.kicker || industryLabel(page.industryKey)).toLowerCase()}: who is listed, what it costs and what to test before you buy.`} />
-      <AnswerSummary sentences={page.summary} verified={latest} sources={summarySources} />
+      <KeyFindings findings={page.keyFindings} verified={latest} sources={summarySources} cite={page.cite} note="Not a ranking: rows are A to Z." />
       <NextSteps
         cards={[
           { href: page.industryKey ? `/match/?industry=${page.industryKey}` : '/match/', title: 'Find my best match', text: 'Pick your call volume and must-haves' },
@@ -69,8 +71,8 @@ const jsonld = {
     </div>
   </header>
   <div class="wrap stack">
-    <section class="guide" aria-label="What to check before you buy">
-      <h2>What to check before you buy</h2>
+    <section class="guide" aria-labelledby="look-for-heading">
+      <h2 id="look-for-heading">What to look for in an AI receptionist for {page.audience}</h2>
       <ul>
         {page.checks.map((item) => (
           <li><strong>{item.h}:</strong> {item.p}</li>
@@ -78,6 +80,15 @@ const jsonld = {
       </ul>
       <p class="good-to-know"><strong>Good to know:</strong> {page.scope}{page.costPath && page.industryPath && <> <a href={page.costPath}>Cost at 50, 150 and 300 calls</a>.</>} Call recording rules by state are on the <a href="/call-recording-consent-by-state/">call recording consent</a> page (not legal advice).</p>
     </section>
+    {page.demoQuestions?.length > 0 && (
+      <section class="guide guide-demo" aria-labelledby="demo-heading">
+        <h2 id="demo-heading">5 questions to ask in every demo</h2>
+        <p>Call each service on your shortlist and ask these. The answers show quickly which one fits {page.audience}.</p>
+        <ol>
+          {page.demoQuestions.map((q) => <li>{q}</li>)}
+        </ol>
+      </section>
+    )}
     {page.vendors.length > 0 ? (
       <section>
         <h2 class="section-title">Sourced starting prices</h2>
@@ -96,17 +107,23 @@ const jsonld = {
         {page.related.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
       </ul>
     </nav>
-    {dfy && (
-      <aside class="dfy-callout" data-industry={dfy.accent} style={`--accent:${accent(dfy.accent)}`} aria-labelledby="dfy-callout-heading">
-        <IndustryIcon name={dfy.icon} />
-        <div class="dfy-callout-copy">
-          <p class="dfy-callout-kicker">Done-for-you setup · from {usd(DFY_OFFERS.founding.price)} one-time</p>
-          <h2 id="dfy-callout-heading">Rather have it set up for you?</h2>
-          <p>We pick, set up and tune an AI receptionist built for {dfy.audience}: {dfy.cardLine.toLowerCase()}. A defined result by day 60, or a full refund of our fee.</p>
-        </div>
-        <a class="btn btn-ghost" href={page.dfyPath}>See the {dfy.name.toLowerCase()} setup <span class="arrow" aria-hidden="true">→</span></a>
-      </aside>
+    {page.demoQuestions?.length > 0 && (
+      <section class="guide guide-next" aria-labelledby="next-heading">
+        <h2 id="next-heading">Your next steps</h2>
+        <ol>
+          <li><strong>Shortlist 2 or 3</strong> from the price table above. Start with the ones that offer a free trial.</li>
+          <li><strong>Run the 5 demo questions</strong> on a real test call with each one.</li>
+          <li><strong>Check your monthly bill</strong> with your own call volume in the <a href={page.calculatorPath}>cost calculator</a>.</li>
+          <li><strong>Short on time?</strong> We can pick, set up and tune one for you, below.</li>
+        </ol>
+      </section>
     )}
+    <SetupNextStep
+      source={`best_${page.slug}`}
+      href={page.dfyPath}
+      audience={dfy ? dfy.audience : page.audience}
+      title={page.demoQuestions?.length ? 'Rather have us set it up for you?' : 'Want us to set this up for you?'}
+    />
     <Faq items={page.faqs} />
     <AuditCta />
   </div>

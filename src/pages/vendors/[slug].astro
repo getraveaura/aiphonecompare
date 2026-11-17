@@ -1,4 +1,5 @@
 ---
+import SetupNextStep from '../../components/SetupNextStep.astro';
 import { siteOffline, offlineLabel } from '../../lib/site-status.mjs';
 import PlainIntro from '../../components/PlainIntro.astro';
 import Base from '../../layouts/Base.astro';
@@ -145,6 +146,7 @@ const jsonld = {
         <StoryCards stories={relatedStories} />
       </section>
     )}
+    <SetupNextStep source={`vendor_${v.slug}`} />
     <Catches groups={catchSet} />
     <Checklist catches={vendorCatches} />
     <section>

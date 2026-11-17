@@ -7,6 +7,7 @@ import NextSteps from '../../components/NextSteps.astro';
 import AltCards from '../../components/AltCards.astro';
 import Faq from '../../components/Faq.astro';
 import AuditCta from '../../components/AuditCta.astro';
+import SetupNextStep from '../../components/SetupNextStep.astro';
 import { BUDGETS, buildBudget, getAlternatives, ALTERNATIVES_INDEX } from '../../lib/alternatives.mjs';
 import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
 import { DFY_PATH } from '../../lib/offers.mjs';
@@ -84,6 +85,7 @@ const jsonld = {
         <AltCards rows={page.notCounted} compact label="Not counted" />
       </section>
     )}
+    <SetupNextStep source={`best_under_${page.amount}`} title="Want the best fit for your budget, set up for you?" />
     {page.noPrice > 0 && <p class="good-to-know"><strong>Good to know:</strong> {page.noPrice} more companies in our directory publish no price at all. See them on the <a href="/price-index/">price index</a>.</p>}
 
     <Faq items={page.faqs} />

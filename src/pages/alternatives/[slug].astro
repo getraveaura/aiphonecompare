@@ -1,4 +1,5 @@
 ---
+import SetupNextStep from '../../components/SetupNextStep.astro';
 import Base from '../../layouts/Base.astro';
 import PlainIntro from '../../components/PlainIntro.astro';
 import VerifyStrip from '../../components/VerifyStrip.astro';
@@ -84,6 +85,8 @@ const jsonld = {
         <AltCards rows={g.rows} compact={g.compact} label={g.title} />
       </section>
     ))}
+
+    <SetupNextStep source={`alternatives_${t.slug}`} title="Not sure which one to pick? We can choose and set it up for you." />
 
     <section class="guide" aria-labelledby="how-this-works">
       <h2 id="how-this-works">How this page works</h2>

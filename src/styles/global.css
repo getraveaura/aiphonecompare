@@ -1463,3 +1463,47 @@ html { scroll-padding-top: 96px; }
 .alt-index-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; color: var(--ink-soft); font-size: 0.95rem; }
 .alt-index-facts strong { color: var(--pine-deep); font-variant-numeric: tabular-nums; }
 .budget-cards { margin-top: 8px; }
+
+/* Quotable answer + key findings (homepage, /cost/, /price-index/, /best/) */
+.quick-answer {
+  margin: 12px 0 0;
+  max-width: 68ch;
+  font-size: 1.16rem;
+  line-height: 1.55;
+  color: var(--ink);
+}
+.quick-answer-label {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 2px 9px;
+  border-radius: 999px;
+  background: var(--checked-bg);
+  color: var(--pine-deep);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  vertical-align: 2px;
+}
+.quick-answer strong { color: var(--pine-deep); font-weight: 700; font-variant-numeric: tabular-nums; }
+.quick-answer + .plain-intro, .quick-answer + .lead { margin-top: 12px; }
+.key-findings h2.answer-label { font-family: var(--sans); line-height: 1.3; }
+.key-findings .cite-note {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: var(--paper);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+.key-findings .cite-note strong { color: var(--ink-soft); font-weight: 700; }
+.key-findings .cite-text { overflow-wrap: anywhere; }
+.home-findings { padding: 34px 0 6px; }
+.home-findings .key-findings { max-width: 880px; margin: 0; }
+.home-findings .quick-answer { margin: 0 0 4px; }
+
+/* Industry guide extras: demo questions + next steps */
+.guide-demo ol, .guide-next ol { margin: 0; padding-left: 1.3rem; }
+.guide-demo li + li, .guide-next li + li { margin-top: 8px; }
+.guide-next li strong { color: var(--ink); }
