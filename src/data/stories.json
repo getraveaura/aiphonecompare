@@ -1057,5 +1057,201 @@
     "told_by": "Reported by LincolnshireWorld, with quotes from the landlord and from Porchlight’s founder",
     "archive_url": null,
     "verified_claims": "LincolnshireWorld (Andy Hubbert, 13 Nov 2026): The King’s Head, Tealby; Porchlight Hospitality AI called Thomas; trial from August, live September 29; 165 phone covers in October worth about £4,125 at £25 a head; 430 covers across channels worth about £10,750; 199 phone covers to date; around £8 a day."
+  },
+  {
+    "slug": "thorpe-practice-sheffield-emma-switched-off",
+    "title": "A Sheffield GP practice switched off its AI receptionist after patient feedback and went back to its reception team",
+    "added": "2026-11-17",
+    "industries": [
+      "medical"
+    ],
+    "business": "The Thorpe Practice (Owlthorpe and Hackenthorpe surgeries, Sheffield)",
+    "vendorSlug": null,
+    "vendorName": null,
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "The Thorpe Practice, an NHS GP practice in Sheffield, England, had its phones answered by an AI receptionist called Emma, which asked callers for their details so it could book appointments or help order prescriptions. In May 2026 The Star reported resident complaints, and the practice said on Facebook that it was working to improve how requests were handled. On September 22 the practice announced it would discontinue Emma from 4 November 2026, and on November 11 it confirmed Emma was switched off and all calls are answered by its reception team.",
+    "cost": null,
+    "outcome": "The practice says many patients found Emma helpful, but it received significant feedback from patients who felt it did not meet their needs, so it removed the system. From 5 November 2026 calls go to the reception team again. The practice warns this means longer phone waits at busy times and asks patients who can to use its online triage form instead.",
+    "catches": [
+      {
+        "id": "callers-reject-ai",
+        "label": "Callers pushed back and the business stopped the AI",
+        "summary": "Residents told The Star that Emma made it harder to reach the practice, especially for elderly and less confident callers. The practice later switched Emma off, citing significant patient feedback.",
+        "sources": [
+          {
+            "url": "https://www.thestar.co.uk/health/access-to-a-gp-should-be-simple-it-isnt-residents-call-out-ai-receptionist-introduced-at-sheffield-gp-7293868",
+            "title": "'Access to a GP should be simple - it isn’t': Residents call out AI receptionist introduced at Sheffield GP",
+            "date": "2026-05-06",
+            "publisher": "The Star (Sheffield)"
+          },
+          {
+            "url": "https://thethorpepractice.co.uk/important-update-emma-ai-receptionist/",
+            "title": "Important Update: Emma AI Receptionist",
+            "date": "2026-09-22",
+            "publisher": "The Thorpe Practice"
+          },
+          {
+            "url": "https://thethorpepractice.co.uk/emma-ai-receptionist-update/",
+            "title": "Emma AI Receptionist Update",
+            "date": "2026-11-11",
+            "publisher": "The Thorpe Practice"
+          }
+        ]
+      },
+      {
+        "id": "phantom-booking",
+        "label": "The AI confirmed a time the company could not keep",
+        "summary": "The Star reports that some patients said online that the system booked them appointments that did not actually exist. This is patients’ account, not a figure from the practice.",
+        "sources": [
+          {
+            "url": "https://www.thestar.co.uk/health/access-to-a-gp-should-be-simple-it-isnt-residents-call-out-ai-receptionist-introduced-at-sheffield-gp-7293868",
+            "title": "'Access to a GP should be simple - it isn’t': Residents call out AI receptionist introduced at Sheffield GP",
+            "date": "2026-05-06",
+            "publisher": "The Star (Sheffield)"
+          }
+        ]
+      },
+      {
+        "id": "longer-waits-after-removal",
+        "label": "Taking the AI off the phones brought back longer waits",
+        "summary": "When it removed the AI receptionist, the practice told patients to expect a significant rise in calls to reception and longer phone waits at busy times.",
+        "sources": [
+          {
+            "url": "https://thethorpepractice.co.uk/important-update-emma-ai-receptionist/",
+            "title": "Important Update: Emma AI Receptionist",
+            "date": "2026-09-22",
+            "publisher": "The Thorpe Practice"
+          },
+          {
+            "url": "https://thethorpepractice.co.uk/emma-ai-receptionist-update/",
+            "title": "Emma AI Receptionist Update",
+            "date": "2026-11-11",
+            "publisher": "The Thorpe Practice"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.thestar.co.uk/health/access-to-a-gp-should-be-simple-it-isnt-residents-call-out-ai-receptionist-introduced-at-sheffield-gp-7293868",
+        "title": "'Access to a GP should be simple - it isn’t': Residents call out AI receptionist introduced at Sheffield GP",
+        "date": "2026-05-06",
+        "publisher": "The Star (Sheffield)",
+        "archive_url": "https://web.archive.org/web/20260507074713/https://www.thestar.co.uk/health/access-to-a-gp-should-be-simple-it-isnt-residents-call-out-ai-receptionist-introduced-at-sheffield-gp-7293868"
+      },
+      {
+        "url": "https://thethorpepractice.co.uk/important-update-emma-ai-receptionist/",
+        "title": "Important Update: Emma AI Receptionist",
+        "date": "2026-09-22",
+        "publisher": "The Thorpe Practice",
+        "archive_url": "https://web.archive.org/web/20261017105426/https://thethorpepractice.co.uk/important-update-emma-ai-receptionist/"
+      },
+      {
+        "url": "https://thethorpepractice.co.uk/emma-ai-receptionist-update/",
+        "title": "Emma AI Receptionist Update",
+        "date": "2026-11-11",
+        "publisher": "The Thorpe Practice",
+        "archive_url": "https://web.archive.org/web/20261117162229/https://thethorpepractice.co.uk/emma-ai-receptionist-update/"
+      }
+    ],
+    "evidence": "independent",
+    "source_type": "press",
+    "source_publisher": "The Star (Sheffield)",
+    "told_by": "Reported by The Star (Sheffield), with the practice’s own notices on its website",
+    "archive_url": "https://web.archive.org/web/20260507074713/https://www.thestar.co.uk/health/access-to-a-gp-should-be-simple-it-isnt-residents-call-out-ai-receptionist-introduced-at-sheffield-gp-7293868",
+    "verified_claims": "The Star (Finn Smith, 6 May 2026): AI receptionist Emma at Hackenthorpe Medical Centre, run by The Thorpe Practice; resident complaints; patients online said it booked appointments that did not exist; practice Facebook statement of May 1. Thorpe Practice notices: 22 Sep 2026 (discontinue Emma from 4 Nov 2026; calls to reception from 5 Nov) and 11 Nov 2026 (Emma switched off). No vendor or price stated."
+  },
+  {
+    "slug": "bluebells-takeaway-mangia-mangia-ai",
+    "title": "A takeaway that uses an AI to answer its phones moved to pay-first phone orders after years of fake orders",
+    "added": "2026-11-17",
+    "industries": [
+      "other"
+    ],
+    "business": "Bluebells Takeaway, West Wallsend (NSW, Australia)",
+    "vendorSlug": null,
+    "vendorName": "Mangia Mangia AI",
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Bluebells Takeaway recently started using Mangia Mangia AI, a hospitality platform that answers customer enquiries and takes phone orders. The owner, Ashley Clarke, has also dealt with fake phone orders for about three years and now only accepts phone orders that are paid before pick-up; cash customers order and pay at the counter.",
+    "cost": null,
+    "outcome": "The article does not give results for the AI itself. The owner says he has logged 80 to 100 fake calls over three years, some orders worth hundreds of dollars, and has switched to pay-first phone orders.",
+    "catches": [
+      {
+        "id": "fake-orders-by-phone",
+        "label": "Fake phone orders still need a pay-first rule",
+        "summary": "The fake orders started before the AI arrived. Newcastle Weekly says it is not yet clear whether callers knowing they are talking to a machine has made the problem worse. The shop now requires payment before pick-up for phone orders.",
+        "sources": [
+          {
+            "url": "https://newcastleweekly.com.au/west-wallsend-takeaway-switches-to-pay-first-phone-orders-after-years-of-fake-orders/",
+            "title": "West Wallsend takeaway switches to pay-first phone orders after years of fake orders",
+            "date": "2026-11-15",
+            "publisher": "Newcastle Weekly"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://newcastleweekly.com.au/west-wallsend-takeaway-switches-to-pay-first-phone-orders-after-years-of-fake-orders/",
+        "title": "West Wallsend takeaway switches to pay-first phone orders after years of fake orders",
+        "date": "2026-11-15",
+        "publisher": "Newcastle Weekly",
+        "archive_url": "https://web.archive.org/web/20261117162301/https://newcastleweekly.com.au/west-wallsend-takeaway-switches-to-pay-first-phone-orders-after-years-of-fake-orders/"
+      }
+    ],
+    "evidence": "independent",
+    "source_type": "press",
+    "source_publisher": "Newcastle Weekly",
+    "told_by": "Reported by Newcastle Weekly, with quotes from the owner",
+    "archive_url": "https://web.archive.org/web/20261117162301/https://newcastleweekly.com.au/west-wallsend-takeaway-switches-to-pay-first-phone-orders-after-years-of-fake-orders/",
+    "verified_claims": "Newcastle Weekly (Greg Yanda, 15 Nov 2026): Bluebells Takeaway, West Wallsend; owner Ashley Clarke; recently adopted Mangia Mangia AI to answer phones and take orders; 80 to 100 fake calls kept over three years; pay-first phone orders from now on. No price or AI results stated."
+  },
+  {
+    "slug": "neurology-center-new-england-healow-genie",
+    "title": "A neurology practice put an AI receptionist on routine patient calls, and patients took about 30 days to get used to it",
+    "added": "2026-11-17",
+    "industries": [
+      "medical"
+    ],
+    "business": "Neurology Center of New England",
+    "vendorSlug": null,
+    "vendorName": "healow Genie (eClinicalWorks)",
+    "vendorPublished": false,
+    "sourceLabel": "Press",
+    "whatTheyDid": "Neurology Center of New England uses healow Genie, the AI receptionist from its EHR vendor eClinicalWorks, to handle routine patient requests such as billing questions, medication refills and general office information. Staff take the more complicated calls. The practice also uses eClinicalWorks’ AI scribe and fax tools.",
+    "cost": null,
+    "outcome": "Per the practice’s VP of Operations, Kate Sciore, the AI receptionist frees staff for the more complicated neurology calls. She says patients needed some time to get comfortable with it, and within about 30 days they had largely accepted it. No call counts are given for the receptionist.",
+    "catches": [
+      {
+        "id": "patients-need-time-to-adjust",
+        "label": "Patients needed time to get used to it",
+        "summary": "The practice says patients took some time to get comfortable with the AI receptionist and had largely accepted it after about 30 days.",
+        "sources": [
+          {
+            "url": "https://www.healthcareittoday.com/2026/11/17/ai-is-taking-the-busywork-out-of-neurology-practice-operations/",
+            "title": "AI Is Taking the Busywork Out of Neurology Practice Operations",
+            "date": "2026-11-17",
+            "publisher": "Healthcare IT Today"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.healthcareittoday.com/2026/11/17/ai-is-taking-the-busywork-out-of-neurology-practice-operations/",
+        "title": "AI Is Taking the Busywork Out of Neurology Practice Operations",
+        "date": "2026-11-17",
+        "publisher": "Healthcare IT Today",
+        "archive_url": "https://web.archive.org/web/20261117162324/https://www.healthcareittoday.com/2026/11/17/ai-is-taking-the-busywork-out-of-neurology-practice-operations/"
+      }
+    ],
+    "evidence": "independent",
+    "source_type": "press",
+    "source_publisher": "Healthcare IT Today",
+    "told_by": "Reported by Healthcare IT Today from an interview with the practice’s VP of Operations",
+    "archive_url": "https://web.archive.org/web/20261117162324/https://www.healthcareittoday.com/2026/11/17/ai-is-taking-the-busywork-out-of-neurology-practice-operations/",
+    "verified_claims": "Healthcare IT Today (John Lynn, 17 Nov 2026): Neurology Center of New England; Kate Sciore, VP of Operations; healow Genie AI receptionist from eClinicalWorks handles billing questions, refills and office information; patients largely accepted it within about 30 days. No price or call numbers stated."
   }
 ]

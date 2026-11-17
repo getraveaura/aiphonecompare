@@ -66,7 +66,7 @@ test('independent stories sort ahead of vendor-told stories', () => {
 test('shared catches count independent source URLs', () => {
   const groups = catchGroups(stories);
   const rejected = groups.find((group) => group.id === 'callers-reject-ai');
-  assert.equal(rejected.sources.length, 3);
+  assert.equal(rejected.sources.length, 6);
   const transfer = groups.find((group) => group.id === 'no-transfer-to-person');
   assert.equal(transfer.sources.length, 2);
   assert.equal(catchGroups(stories, { industry: 'roofing' }).some((group) => group.id === 'callers-reject-ai'), false);
