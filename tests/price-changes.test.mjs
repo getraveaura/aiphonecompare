@@ -11,7 +11,7 @@ import { renderPriceFeed } from '../src/lib/feed.mjs';
 const log = JSON.parse(fs.readFileSync('src/data/price-changes.json', 'utf8'));
 
 test('headlines are the first sentence of each logged summary, nothing added', () => {
-  assert.equal(log.changes.length, 4);
+  assert.equal(log.changes.length, 5);
   for (const change of log.changes) {
     const headline = priceChangeHeadline(change);
     assert.equal(headline, firstSentence(change.summary));
@@ -21,7 +21,7 @@ test('headlines are the first sentence of each logged summary, nothing added', (
   }
 });
 
-test('the four logged changes fall in the week of 9–15 November 2026', () => {
+test('logged changes are grouped by week, with the first four in 9–15 November 2026', () => {
   assert.equal(mondayOf('2026-11-09'), '2026-11-09');
   assert.equal(mondayOf('2026-11-14'), '2026-11-09');
   assert.equal(mondayOf('2026-11-15'), '2026-11-09');
@@ -29,17 +29,24 @@ test('the four logged changes fall in the week of 9–15 November 2026', () => {
   assert.equal(sundayOf('2026-11-09'), '2026-11-15');
   assert.equal(weekRangeLabel('2026-11-09', formatDate), '9–15 November 2026');
   const weeks = changesByWeek(log, { todayIso: '2026-11-14' });
-  assert.equal(weeks.length, 1);
-  assert.equal(weeks[0].monday, '2026-11-09');
-  assert.equal(weeks[0].isThisWeek, true);
+  assert.equal(weeks.length, 2);
+  assert.equal(weeks[0].monday, '2026-11-16');
+  assert.equal(weeks[0].isThisWeek, false);
   assert.deepEqual(weeks[0].changes.map((c) => c.id), [
+    'oncrew-minutes-and-overage-rates',
+  ]);
+  assert.equal(weeks[1].monday, '2026-11-09');
+  assert.equal(weeks[1].isThisWeek, true);
+  assert.deepEqual(weeks[1].changes.map((c) => c.id), [
     'abby-connect-ai-plans-merged',
     'viva-ai-unlimited-plan-added',
     'oncrew-per-call-to-per-minute',
     'agentzap-per-call-to-per-minute',
   ]);
   const later = changesByWeek(log, { todayIso: '2026-11-16' });
-  assert.equal(later[0].isThisWeek, false);
+  assert.equal(later[0].monday, '2026-11-16');
+  assert.equal(later[0].isThisWeek, true);
+  assert.equal(later[1].isThisWeek, false);
 });
 
 function escXml(value) {

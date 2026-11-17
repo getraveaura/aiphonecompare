@@ -893,7 +893,7 @@ export function buildLandings(data) {
       models, vendors, pair: 'oncrew-vs-nextphone', slugs: ['oncrew', 'nextphone'],
       h1: 'OnCrew vs NextPhone', phrase: 'oncrew vs nextphone',
       description: 'OnCrew vs NextPhone from sourced starting prices. Neither is in our cost calculator, so no 150-call bill is calculated.',
-      scope: 'OnCrew and NextPhone are both in the home-services (plumbing) directory. OnCrew charges by the answered minute, with minutes included each month, starting at $49/mo with 150 minutes, then $0.49/min. NextPhone publishes a flat monthly starting price of $199/mo for unlimited inbound calls. Neither is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
+      scope: 'OnCrew and NextPhone are both in the home-services (plumbing) directory. OnCrew charges by the answered minute, with minutes included each month, starting at $49/mo with 250 minutes, then $0.49/min. NextPhone publishes a flat monthly starting price of $199/mo for unlimited inbound calls. Neither is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
     }),
     hiddenFeesPage({ models, stories }),
     worthPage({ stories }),

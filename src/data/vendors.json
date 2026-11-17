@@ -747,26 +747,26 @@
     "name": "OnCrew",
     "website": "https://oncrew.ai",
     "referral_url": "https://oncrew.ai/ref/aiphonecompare",
-    "starting_price": "Starter $49/mo with 150 minutes of answered calls, then $0.49/min; Pro $149/mo with 200 minutes, then $0.99/min; Multi-Truck $349/mo with 500 minutes, then $0.99/min",
+    "starting_price": "Starter $49/mo with 250 minutes of answered calls, then $0.49/min; Pro $149/mo with 500 minutes, then $0.39/min; Multi-Truck $349/mo with 1,500 minutes, then $0.29/min",
     "billing_model": "Per answered minute, after the minutes included each month",
     "free_trial": "14-day free trial, no card required",
-    "human_handoff": "Pricing page lists live transfers that announce the caller before connecting (Starter includes 4 destinations). On Nov 9, 2026, OnCrew told us live transfer is not turned on for new accounts yet; on-call rotation is live (urgent calls text the person on call, and every call emails the owner the recording and summary).",
+    "human_handoff": "Pricing page lists live transfers that announce the caller before connecting (Starter includes 4 destinations).",
     "hipaa_baa": "",
     "integrations": "Google Calendar and Housecall Pro (MAX plan) from the dashboard; Jobber, ServiceTitan and others through a webhook export connected with Zapier. Features page says QuickBooks is not integrated.",
     "industries": [
       "plumbing"
     ],
-    "notes": "No setup fee. Annual billing is available on request and takes two months off any plan. The pricing page says answered calls averaged about 1.2 minutes.",
+    "notes": "No setup fee. Annual billing is available on request and takes two months off any plan ($490, $1,490 or $3,490 a year). The pricing page also says there is a 30-day money-back guarantee, that answered calls averaged 1.2 minutes (1,600 calls, last 60 days), that the first month you go over included minutes the extra minutes are free, that it alerts you at 80% and 100% of the minutes, and that after that a month never costs more than the plan that would have fit it.",
     "sponsored": false,
     "sources": [
       "https://oncrew.ai/pricing",
       "https://oncrew.ai/features"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-16",
     "price_check": {
-      "date": "2026-11-13",
-      "result": "confirmed",
-      "note": "Starting price read on the vendor's own page."
+      "date": "2026-11-16",
+      "result": "changed",
+      "note": "Read on oncrew.ai/pricing. Included minutes and Pro/Multi-Truck overage rates changed since the 12 November 2026 check; see the price change log."
     }
   },
   {
@@ -924,26 +924,29 @@
     "slug": "futuro-ai",
     "name": "Futuro AI",
     "website": "https://www.futurocorp.com",
-    "starting_price": "Small business: $200 to $1,000/mo flat, unlimited inbound calls; enterprise $0.10 to $0.30 per call",
+    "starting_price": "Small business: $200 to $1,000/mo flat, unlimited inbound calls; mid-market and enterprise $0.10 to $0.30 per call",
     "billing_model": "Flat monthly (small business) or per call (enterprise)",
-    "free_trial": "",
-    "human_handoff": "",
-    "hipaa_baa": "",
-    "integrations": "Housecall Pro",
+    "free_trial": "7-day free trial, no card required",
+    "human_handoff": "Pricing page lists warm-transfer to human staff",
+    "hipaa_baa": "Homepage says GDPR, CCPA, HIPAA, and SOC 2 Type II compliant. Mid-market and enterprise pricing lists HIPAA-ready (BAA available). The small-business plan card does not mention a BAA.",
+    "integrations": "Public pages name ServiceTitan, Housecall Pro, Jobber, FieldEdge, Google Calendar, Microsoft Outlook, Apple Calendar, Cal.com, Salesforce, HubSpot, Zoho CRM, Pipedrive, Twilio, WhatsApp Business, Zendesk, ServiceNow, Jira Service Desk and Freshdesk. Pricing page says 150+ pre-built integrations.",
     "industries": [
       "plumbing"
     ],
-    "notes": "",
+    "notes": "Pricing page includes a 30-day money-back guarantee on every paid plan, and says all 53 languages are included with no extra language charge.",
     "sponsored": false,
     "sources": [
       "https://www.futurocorp.com/pricing",
+      "https://www.futurocorp.com/",
+      "https://www.futurocorp.com/about/futuro-agent-tools-and-integrations",
+      "https://www.futurocorp.com/tradework",
       "https://www.futurocorp.com/blogs/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-16",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-16",
       "result": "confirmed",
-      "note": "Read on futurocorp.com/pricing. Same $200 starting point as before, with the range now spelled out."
+      "note": "Read on futurocorp.com/pricing. Same $200 to $1,000 small-business range and $0.10 to $0.30 per-call enterprise range."
     }
   },
   {

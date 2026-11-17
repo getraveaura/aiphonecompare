@@ -234,26 +234,26 @@
       ]
     },
     "oncrew": {
-      "basis": "Starter $49/mo with 150 minutes of answered calls, then $0.49/min; Pro $149/mo with 200 minutes, then $0.99/min; Multi-Truck $349/mo with 500 minutes, then $0.99/min",
+      "basis": "Starter $49/mo with 250 minutes of answered calls, then $0.49/min; Pro $149/mo with 500 minutes, then $0.39/min; Multi-Truck $349/mo with 1,500 minutes, then $0.29/min",
       "from": "$49/mo",
       "plans": [
         {
           "name": "Starter",
           "price": "$49/mo",
-          "includes": "150 minutes of answered calls",
+          "includes": "250 minutes of answered calls",
           "extra": "then $0.49/min"
         },
         {
           "name": "Pro",
           "price": "$149/mo",
-          "includes": "200 minutes",
-          "extra": "then $0.99/min"
+          "includes": "500 minutes",
+          "extra": "then $0.39/min"
         },
         {
           "name": "Multi-Truck",
           "price": "$349/mo",
-          "includes": "500 minutes",
-          "extra": "then $0.99/min"
+          "includes": "1,500 minutes",
+          "extra": "then $0.29/min"
         }
       ]
     },
@@ -326,7 +326,7 @@
       ]
     },
     "futuro-ai": {
-      "basis": "Small business: $200 to $1,000/mo flat, unlimited inbound calls; enterprise $0.10 to $0.30 per call",
+      "basis": "Small business: $200 to $1,000/mo flat, unlimited inbound calls; mid-market and enterprise $0.10 to $0.30 per call",
       "from": "$200/mo",
       "plans": [
         {
@@ -335,7 +335,7 @@
           "includes": "Flat, unlimited inbound calls"
         },
         {
-          "name": "Enterprise",
+          "name": "Mid-market and enterprise",
           "price": "$0.10 to $0.30 per call"
         }
       ]
