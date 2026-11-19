@@ -992,9 +992,9 @@
     "vendorName": "Flip",
     "vendorPublished": false,
     "sourceLabel": "Press",
-    "whatTheyDid": "American Family Care, which runs more than 400 urgent care and walk-in clinics in the US, piloted an AI voice receptionist from Flip at a handful of clinics. As of Sept. 22 it was live at 80 corporate clinics and more than 10 franchise groups. It handles routine calls such as scheduling, hours, directions, services, billing, self-pay pricing, walk-in availability and lab-result status, and is connected to the patient systems. Callers can still ask to speak with staff. AFC is also piloting outbound appointment confirmations.",
+    "whatTheyDid": "American Family Care, which runs more than 400 urgent care and walk-in clinics in the US, piloted an AI voice receptionist from Flip at a handful of clinics. As of Sept. 22 it was live at 80 corporate clinics and more than 10 franchise groups. It handles routine calls such as scheduling, hours, directions, services, billing, self-pay pricing, walk-in availability and lab-result status, and is connected to the patient systems. Callers can still ask to speak with staff. AFC is also piloting outbound appointment confirmations. On November 19, IT Brief reported that AFC had rolled the system out across its corporate and franchise clinics, covering more than 400 walk-in locations, after a three-month pilot.",
     "cost": null,
-    "outcome": "CX Dive reports that the share of inbound calls ending in a scheduled visit rose from 11% to 34%, and call abandonment fell from 40% to 14%. Rebooking of canceled appointments rose from 6% to 10%, and of missed appointments from 7% to 13%. The article does not say who measured these figures or over what period.",
+    "outcome": "CX Dive reports that the share of inbound calls ending in a scheduled visit rose from 11% to 34%, and call abandonment fell from 40% to 14%. Rebooking of canceled appointments rose from 6% to 10%, and of missed appointments from 7% to 13%. The article does not say who measured these figures or over what period. IT Brief (Nov 19) gives the same pilot figures to one decimal (call abandonment 39.7% to 13.5%; canceled appointments rebooked 6.4% to 10.4%; missed appointments rebooked 6.5% to 12.5%) and adds that Flip fully automated 35% of calls and saved clinic teams an estimated 3,935 hours on the phone over the three-month pilot. It says these are figures released by the companies, so they are not independently measured.",
     "catches": [
       {
         "id": "staff-hold-still-applies",
@@ -1016,15 +1016,22 @@
         "title": "How a healthcare clinic chain uses conversational AI to improve patient experience",
         "date": "2026-11-13",
         "publisher": "CX Dive",
-        "archive_url": null
+        "archive_url": "https://web.archive.org/web/20261119195944/https://www.customerexperiencedive.com/news/how-a-healthcare-clinic-chain-uses-conversational-ai-to-improve-patient-exp/874561/"
+      },
+      {
+        "url": "https://itbrief.news/story/american-family-care-rolls-out-flip-ai-phone-system",
+        "title": "American Family Care rolls out Flip AI phone system",
+        "date": "2026-11-19",
+        "publisher": "IT Brief",
+        "archive_url": "https://web.archive.org/web/20261119195800/https://itbrief.news/story/american-family-care-rolls-out-flip-ai-phone-system"
       }
     ],
     "evidence": "independent",
     "source_type": "press",
     "source_publisher": "CX Dive",
-    "told_by": "Reported by CX Dive, with comments from AFC CEO Jeremy Morgan and Flip CEO Brian Schiff",
-    "archive_url": null,
-    "verified_claims": "CX Dive (Matt Vartabedian, Nov. 13, 2026): American Family Care, Flip, 400+ clinics, 80 corporate clinics and 10+ franchise groups as of Sept. 22, scheduled-visit share 11% to 34%, abandonment 40% to 14%, canceled rebooked 6% to 10%, missed rebooked 7% to 13%. No price stated."
+    "told_by": "Reported by CX Dive and IT Brief, with comments from AFC CEO Jeremy Morgan and Flip CEO Brian Schiff; the pilot figures come from the companies",
+    "archive_url": "https://web.archive.org/web/20261119195944/https://www.customerexperiencedive.com/news/how-a-healthcare-clinic-chain-uses-conversational-ai-to-improve-patient-exp/874561/",
+    "verified_claims": "CX Dive (Matt Vartabedian, Nov. 13, 2026): American Family Care, Flip, 400+ clinics, 80 corporate clinics and 10+ franchise groups as of Sept. 22, scheduled-visit share 11% to 34%, abandonment 40% to 14%, canceled rebooked 6% to 10%, missed rebooked 7% to 13%. No price stated. IT Brief (Mara Sugue, Nov. 19, 2026): rollout across corporate and franchise clinics covering 400+ walk-in locations after a three-month pilot; abandonment 39.7% to 13.5%; canceled rebooked 6.4% to 10.4%; missed rebooked 6.5% to 12.5%; 35% of calls fully automated; about 3,935 phone hours saved over the pilot, per figures released by the companies. No price stated."
   },
   {
     "slug": "kings-head-tealby-porchlight-thomas",
@@ -1048,14 +1055,14 @@
         "title": "Lincolnshire’s oldest thatched pub, The King’s Head in Tealby hands its phone to AI",
         "date": "2026-11-13",
         "publisher": "LincolnshireWorld",
-        "archive_url": null
+        "archive_url": "https://web.archive.org/web/20261114060121/https://www.lincolnshireworld.com/news/lincolnshires-oldest-thatched-pub-the-kings-head-in-tealby-hands-its-phone-to-an-ai-9348929"
       }
     ],
     "evidence": "independent",
     "source_type": "press",
     "source_publisher": "LincolnshireWorld",
     "told_by": "Reported by LincolnshireWorld, with quotes from the landlord and from Porchlight’s founder",
-    "archive_url": null,
+    "archive_url": "https://web.archive.org/web/20261114060121/https://www.lincolnshireworld.com/news/lincolnshires-oldest-thatched-pub-the-kings-head-in-tealby-hands-its-phone-to-an-ai-9348929",
     "verified_claims": "LincolnshireWorld (Andy Hubbert, 13 Nov 2026): The King’s Head, Tealby; Porchlight Hospitality AI called Thomas; trial from August, live September 29; 165 phone covers in October worth about £4,125 at £25 a head; 430 covers across channels worth about £10,750; 199 phone covers to date; around £8 a day."
   },
   {
