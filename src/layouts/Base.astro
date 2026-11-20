@@ -46,11 +46,11 @@ const groups = [
     ['/cost/calculator/', 'Cost calculator'],
     ['/overpaying/', 'Am I overpaying?'],
     ['/missed-call-calculator/', 'Missed-call calculator'],
-    ['/cost/', 'How we work out cost'],
+    ['/cost/', 'Pricing and cost'],
   ]],
   ['Learn', [
     ['/stories/', 'Stories'],
-    ['/pricing/', 'Pricing'],
+    ['/pricing/', 'Starting prices'],
     ['/price-index/', 'Price index'],
     ['/price-changes/', 'Price changes'],
     ['/about/', 'How this site works'],
@@ -177,13 +177,13 @@ const groupActive = (items) => items.some(([href]) => path === href || (href !==
           <a href="/overpaying/">Price check</a>
           <a href="/missed-call-calculator/">Missed-call calculator</a>
           {showAuditLinks() && <a href={AUDIT_PATH}>Call coverage check</a>}
-          <a href="/cost/">Cost</a>
+          <a href="/cost/">Pricing and cost</a>
           <a href="/call-recording-consent-by-state/">Call recording consent</a>
         </nav>
         <nav aria-label="Learn">
           <h2>Learn</h2>
           <a href="/stories/">Stories</a>
-          <a href="/pricing/">Pricing</a>
+          <a href="/pricing/">Starting prices</a>
           <a href="/price-index/">Price index</a>
           <a href="/price-changes/">Price changes</a>
           <a href="/about/">How this site works</a>

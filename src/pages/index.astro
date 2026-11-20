@@ -61,7 +61,7 @@ const jsonld = {
 };
 const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
 ---
-<Base title="Compare AI phone answering services, with real prices" description={`Compare ${data.length} AI phone answering services for small businesses. Half start at ${money(market.median)}/mo or less. See real prices for your call volume, or have us set it up.`} jsonld={jsonld}>
+<Base title="Compare AI phone answering services, with real prices" description={`Compare ${data.length} AI phone answering services for small businesses. Half start at ${money(market.median)}/mo or less. AI receptionist pricing and cost by call volume is on the cost page.`} jsonld={jsonld}>
   <section class="hero hero-home">
     <div class="wrap hero-grid">
       <div class="hero-copy">
@@ -76,9 +76,9 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
         </ol>
         <div class="cta">
           <a class="btn btn-primary btn-lg" href="/match/">Find my best match <span class="arrow" aria-hidden="true">→</span></a>
-          <a class="btn btn-secondary btn-lg" href="/cost/calculator/">See what it costs</a>
+          <a class="btn btn-secondary btn-lg" href="/cost/">See pricing and cost</a>
         </div>
-        <p class="tool-line">Free, no sign-up. Already paying for one? <a class="text-link" href="/overpaying/">See if you're overpaying</a>.</p>
+        <p class="tool-line">Free, no sign-up. For AI receptionist pricing and cost, start on the <a class="text-link" href="/cost/">cost page</a>. Already paying for one? <a class="text-link" href="/overpaying/">See if you're overpaying</a>.</p>
       </div>
       <CallSlider />
     </div>

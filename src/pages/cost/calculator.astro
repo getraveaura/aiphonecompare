@@ -7,12 +7,12 @@ import { formatDate } from '../../lib/stories.mjs';
 import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
 import SetupNextStep from '../../components/SetupNextStep.astro';
 const quote = quoteDirectory(vendors, models, DEFAULT_INPUT);
-const description = 'Monthly and first-year AI receptionist estimates from published plans. If a company does not publish a fee, we say so instead of guessing. The link keeps your call count.';
+const description = 'Calculate your monthly and first-year AI receptionist bill from published plans. If a company does not publish a fee, we say so instead of guessing. For AI receptionist pricing and cost, start on the cost page.';
 const pageUrl = new URL('/cost/calculator/', Astro.site).href;
 const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'WebPage', name: 'AI receptionist cost calculator', description, url: pageUrl, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(quote.checked ? { dateModified: quote.checked } : {}) },
+    { '@type': 'WebPage', name: 'Calculate your monthly AI receptionist bill', description, url: pageUrl, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(quote.checked ? { dateModified: quote.checked } : {}) },
     {
       '@type': 'BreadcrumbList',
       itemListElement: [
@@ -24,7 +24,7 @@ const jsonld = {
   ],
 };
 ---
-<Base title="AI receptionist cost calculator" description={description} jsonld={jsonld} ogImage="/og/cost.png">
+<Base title="Calculate your monthly AI receptionist bill" description={description} jsonld={jsonld} ogImage="/og/cost.png">
   <header class="page-intro">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
@@ -34,8 +34,8 @@ const jsonld = {
           <li><span aria-current="page">Calculator</span></li>
         </ol>
       </nav>
-      <h1>AI receptionist cost calculator: see your real monthly price</h1>
-      <p class="lead">See what each AI phone answering service would really cost you per month and for the first year. Start with your industry and how many calls you get. The table below starts at 150 calls a month, 3 minutes each.</p>
+      <h1>Calculate your monthly AI receptionist bill</h1>
+      <p class="lead">Use this calculator to see what each AI phone answering service would really cost you per month and for the first year. Start with your industry and how many calls you get. The table below starts at 150 calls a month, 3 minutes each. For AI receptionist pricing and cost, including what each plan includes and what extra use costs, start on the <a href="/cost/">cost page</a>.</p>
       <ul class="trust-chips"><li>Free, no sign-up</li><li>Real prices from each company</li><li>Rankings not for sale</li></ul>
       <p class="tool-line">Already paying for one? <a id="overpaying-link" href="/overpaying/">Compare what you pay with these plans</a>.</p>
     </div>

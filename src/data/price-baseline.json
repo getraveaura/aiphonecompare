@@ -26,9 +26,9 @@
     {
       "slug": "ruby",
       "name": "Ruby",
-      "starting_price": "$250/mo for 50 minutes",
-      "last_checked": "2026-11-13",
-      "source": "https://justcall.io/blog/best-ai-receptionists-dental.html"
+      "starting_price": "Call Ruby 50 $250/mo with 50 minutes, then $5.40/min; Call Ruby 100 $395/mo with 100 minutes, then $4.50/min; Call Ruby 200 $720/mo with 200 minutes, then $4.40/min; Call Ruby 350 $1,210/mo with 350 minutes, then $4.25/min; Call Ruby 500 $1,725/mo with 500 minutes, then $4.00/min; Call Ruby 750 $2,550/mo with 750 minutes, then $3.85/min; Call Ruby 1,000 $3,350/mo with 1,000 minutes, then $3.65/min; Call Ruby 1,500 $4,945/mo with 1,500 minutes, then $3.50/min; Call Ruby 2,000 $6,400/mo with 2,000 minutes, then $3.40/min; Call Ruby 2,500 $7,875/mo with 2,500 minutes, then $3.30/min",
+      "last_checked": "2026-11-20",
+      "source": "https://rubyhelpcenter.helpjuice.com/billing-plans/am-i-on-the-right-billing-plan"
     },
     {
       "slug": "justcall",
@@ -250,9 +250,9 @@
     {
       "slug": "jobber-ai-receptionist",
       "name": "Jobber AI Receptionist",
-      "starting_price": "Jobber AI Receptionist add-on $29/mo, on top of a Jobber plan",
-      "last_checked": "2026-11-13",
-      "source": "https://www.getjobber.com/pricing/"
+      "starting_price": "Jobber AI Receptionist add-on $99/mo for 100 conversations, then $0.79 each, on Core, Connect, and Grow, on top of a Jobber plan; included on Plus with unlimited conversations",
+      "last_checked": "2026-11-20",
+      "source": "https://help.getjobber.com/en/articles/receptionistpowered-by-jobber-ai/"
     },
     {
       "slug": "housecall-pro-csr-ai",

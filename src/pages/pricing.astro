@@ -9,7 +9,7 @@ import AuditCta from '../components/AuditCta.astro';
 const v = [...data].sort((a, b) => (b.starting_price ? 1 : 0) - (a.starting_price ? 1 : 0) || a.name.localeCompare(b.name));
 const latest = latestChecked(data);
 const latestLabel = latest ? formatDate(latest) : '';
-const title = 'AI receptionist pricing';
+const title = 'AI receptionist starting prices';
 const description = `Published starting prices for ${data.length} AI receptionists, with sources and last-checked dates.`;
 const jsonld = {
   '@context': 'https://schema.org',
@@ -31,8 +31,8 @@ const jsonld = {
           Prices checked <time datetime={latest}>{latestLabel}</time>
         </p>
       )}
-      <p class="lead">Published starting prices only. Blank means the company only gives prices on request, or we couldn't confirm one. A starting price is often not your real bill, so check what you'd pay for your number of calls.</p>
-      <PlainIntro primary={['/cost/calculator/', 'See my monthly cost']} secondary={['/match/', 'Find my best match']} />
+      <p class="lead">Published starting prices only. Blank means the company only gives prices on request, or we couldn't confirm one. A starting price is often not your real bill. For AI receptionist pricing and cost at your call volume, use the <a href="/cost/">cost page</a>.</p>
+      <PlainIntro primary={['/cost/', 'See pricing and cost']} secondary={['/cost/calculator/', 'Open the calculator']} />
       <p class="index-link">Want the full record? The <a href="/price-index/">price index</a> lists each price with where and when we found it.</p>
     </div>
   </header>

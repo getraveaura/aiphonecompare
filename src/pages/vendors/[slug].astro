@@ -127,7 +127,10 @@ const jsonld = {
     {hasAlternativesPage(v.slug) && (
       <p class="vendor-alt"><a class="btn btn-ghost" href={alternativesPath(v.slug)}>Compare {v.name} alternatives <span class="arrow" aria-hidden="true">→</span></a></p>
     )}
-    <p>All published starting prices are on <a href="/pricing/">the pricing page</a>. Phone-recording statutes are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.</p>
+    <p>All published starting prices are on <a href="/pricing/">the starting-price list</a>. For AI receptionist pricing and cost at your call volume, see the <a href="/cost/">cost page</a>. Phone-recording statutes are on <a href="/call-recording-consent-by-state/">call recording consent by state</a>.</p>
+    {v.slug === 'smith-ai' && (
+      <p>Call-volume examples are on <a href="/cost/smith-ai/">Smith.ai pricing</a>.</p>
+    )}
     {guides.length > 0 && (
       <p>
         Related guides:
