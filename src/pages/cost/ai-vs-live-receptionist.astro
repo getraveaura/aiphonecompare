@@ -1,0 +1,79 @@
+---
+// AI receptionist vs live virtual receptionist cost guide. The words live in
+// src/articles/ai-vs-live-receptionist.md; every figure was checked on
+// 20 November 2026 (Pacific Time) against each company's own pricing page.
+import Base from '../../layouts/Base.astro';
+import * as article from '../../articles/ai-vs-live-receptionist.md';
+import { articleNode } from '../../lib/answers.mjs';
+
+const CHECKED = '2026-11-20';
+const checkedLabel = '20 November 2026';
+const h1 = 'AI receptionist vs live virtual receptionist: monthly cost at 50, 150 and 300 calls (2026)';
+const pageTitle = 'How much does a virtual receptionist cost? Live vs AI, with sourced prices (2026)';
+const description = 'What a live virtual receptionist and an AI receptionist cost per month at 50, 150 and 300 calls. Every price is linked to its source and check date. Rankings not for sale.';
+const pageUrl = new URL('/cost/ai-vs-live-receptionist/', Astro.site).href;
+
+// Wide tables scroll sideways on phones; outside sources open without passing ranking credit.
+const html = article.compiledContent()
+  .replace(/<table>/g, '<div class="tablewrap" tabindex="0"><table class="cost-vs">')
+  .replace(/<\/table>/g, '</table></div>')
+  .replace(/<a href="(https?:\/\/[^"]+)"/g, '<a href="$1" rel="nofollow noopener"');
+
+// FAQ structured data comes straight from the "Common questions" section.
+const raw = article.rawContent();
+const plain = (s) => s.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*/g, '').trim();
+const faqBlock = raw.split('## Common questions')[1]?.split('\n## ')[0] || '';
+const faqs = [...faqBlock.matchAll(/\*\*(.+?\?)\*\*\n([^\n]+)/g)].map((m) => ({ q: plain(m[1]), a: plain(m[2]) }));
+const citations = [...new Set([...raw.matchAll(/https:\/\/[^\s)]+/g)].map((m) => m[0]))];
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', name: pageTitle, url: pageUrl, description, dateModified: CHECKED, isPartOf: { '@id': new URL('/#website', Astro.site).href } },
+    articleNode({ url: pageUrl, headline: pageTitle, description, modified: CHECKED, published: CHECKED, citations, site: new URL('/', Astro.site).href }),
+    { '@type': 'FAQPage', url: pageUrl, mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+    { '@type': 'BreadcrumbList', itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: 'Cost', item: new URL('/cost/', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: 'AI vs live receptionist cost', item: pageUrl },
+    ] },
+  ],
+};
+---
+<Base title={pageTitle} description={description} jsonld={jsonld} modified={CHECKED} ogImage="/og/cost.png">
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/cost/">Cost</a></li>
+          <li><span aria-current="page">AI vs live receptionist</span></li>
+        </ol>
+      </nav>
+      <h1 class="vs-title">{h1}</h1>
+      <p class="lead"><em>Prices checked <time datetime={CHECKED}>{checkedLabel}</time> (Pacific Time) from each company's own pricing page. Rankings not for sale.</em></p>
+      <ul class="trust-chips"><li>Every price sourced and dated</li><li>Blanks left blank, never $0</li><li>Rankings not for sale</li></ul>
+    </div>
+  </header>
+  <div class="wrap">
+    <article class="vs-article" set:html={html} />
+  </div>
+</Base>
+<style is:global>
+  .vs-title { max-width: 24ch; }
+  .vs-article { max-width: 72ch; padding-bottom: 32px; }
+  .vs-article h2 { margin: 2.2rem 0 0.5rem; font-size: 1.7rem; scroll-margin-top: 88px; }
+  .vs-article h3 { margin: 1.5rem 0 0.4rem; font-size: 1.3rem; }
+  .vs-article p, .vs-article ul { margin: 0 0 0.85rem; }
+  .vs-article li { margin: 0.35rem 0; }
+  .vs-article blockquote { margin: 0 0 0.85rem; padding: 0.75rem 1rem; border-left: 4px solid var(--pine); background: var(--surface); border-radius: 8px; }
+  .vs-article .tablewrap { margin: 0.5rem 0 1rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .cost-vs { width: 100%; min-width: 44rem; border-collapse: collapse; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  .cost-vs th, .cost-vs td { padding: 0.6rem 0.7rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .cost-vs thead th { background: var(--paper, transparent); font-weight: 600; }
+  .cost-vs tr:last-child td { border-bottom: 0; }
+  .vs-article .tablewrap + p { font-size: 0.95rem; color: var(--ink-soft); }
+  @media (min-width: 1000px) {
+    .vs-article .tablewrap { width: min(70rem, calc(100vw - 4rem)); }
+  }
+</style>

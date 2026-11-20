@@ -56,6 +56,7 @@ const jsonld = {
       <QuickAnswer text={costAnswer(market)} />
       <p class="lead">This is the main AI receptionist pricing and cost page. Type in how many calls you get. We show your estimated monthly bill only where the company's own price page says what it charges for (calls or minutes), how much is included and what extra use costs. A starting price is often not what you'd really pay. For a one-plan-per-vendor table you can share, use the <a href="/cost/calculator/">cost calculator</a>.</p>
       <PlainIntro primary={['#cost-form', 'Enter my calls']} secondary={['/match/', 'Find my best match']} />
+      <p class="tool-line">Comparing with a live receptionist? See <a href="/cost/ai-vs-live-receptionist/">AI vs live receptionist cost at 50, 150 and 300 calls</a>.</p>
       <KeyFindings findings={findings} verified={market.latest} sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }, ...hubSources]} cite={{ title: pageTitle, url: pageUrl, date: market.latest }} note={`Plan math uses prices checked ${checkedLabel}. Not a ranking.`} />
     </div>
   </header>
@@ -100,6 +101,7 @@ const jsonld = {
       </ul>
       <p class="cost-links-title">Also useful</p>
       <ul class="link-chips" role="list">
+        <li><a href="/cost/ai-vs-live-receptionist/">AI vs live receptionist cost</a></li>
         <li><a href="/cost/hidden-fees/">Hidden fees</a></li>
         <li><a href="/cost/calculator/?calls=150&minutes=3">Calculator (one plan per vendor)</a></li>
       </ul>
