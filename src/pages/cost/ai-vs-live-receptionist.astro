@@ -78,6 +78,8 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
           <li><span aria-current="page">AI vs live receptionist</span></li>
         </ol>
       </nav>
+      <div class="vs-hero-grid">
+      <div class="vs-hero-copy">
       <h1>AI vs live receptionist: what you’ll really pay each month</h1>
       <p class="vs-answer">At about 150 calls a month, an <strong>AI receptionist costs $199–$295</strong>. A <strong>live receptionist costs $1,347.75–$1,635</strong>.</p>
       <p class="lead">AI answers your routine calls for far less. A person still earns the extra on some calls, and we show you which.</p>
@@ -86,6 +88,14 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
         <a class={audit ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'} href="/cost/calculator/">See my monthly cost</a>
       </div>
       <ul class="trust-chips"><li>Prices checked <time datetime={CHECKED}>{checkedLabel}</time></li><li>Every price linked to its source</li><li>Rankings not for sale</li></ul>
+      </div>
+      <aside class="vs-hero-card" aria-label="Monthly cost at 150 calls">
+        <p class="vs-hero-card-title">At 150 calls a month</p>
+        <div class="vs-hero-row vs-hero-row-ai"><span>AI receptionist</span><strong>$199–$295<small>/mo</small></strong></div>
+        <div class="vs-hero-row"><span>Live receptionist</span><strong>$1,347.75–$1,635<small>/mo</small></strong></div>
+        <a class="vs-hero-card-link" href="#prices">See all six prices <span aria-hidden="true">↓</span></a>
+      </aside>
+      </div>
     </div>
   </header>
 
@@ -279,6 +289,24 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
   .vs-final h2 { margin: 0 0 0.4rem; font-size: var(--step-3); }
   .vs-final p { margin: 0 auto; max-width: 52ch; color: var(--ink-soft); }
   .vs-final .vs-cta { justify-content: center; margin-bottom: 1rem; }
+  .vs-hero-card { display: none; }
+  @media (min-width: 960px) {
+    .vs-hero-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 3rem; align-items: center; }
+    .vs-hero-card { display: block; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.75rem; box-shadow: var(--shadow-lg); }
+    .vs-hero-card-title { margin: 0 0 0.75rem; font-weight: 600; color: var(--ink-soft); }
+    .vs-hero-row { display: flex; flex-direction: column; gap: 0.15rem; padding: 1rem 0; border-top: 1px solid var(--line); }
+    .vs-hero-row span { color: var(--ink-soft); font-weight: 600; }
+    .vs-hero-row strong { font-size: 2.1rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+    .vs-hero-row-ai strong { color: var(--pine-deep); }
+    .vs-hero-row small { font-size: 0.5em; color: var(--ink-soft); font-weight: 600; }
+    .vs-hero-card-link { display: inline-block; margin-top: 0.75rem; font-weight: 600; }
+    .vs-body > section > .section-title, .vs-body > section > .vs-intro, .vs-body > section > .vs-foot { text-align: center; margin-inline: auto; }
+    .vs-body > section > .vs-intro, .vs-body > section > .vs-foot { max-width: 68ch; }
+    .vs-group { text-align: center; }
+    #prices > .vs-more, .vs-body > section[aria-labelledby="faq-heading"], .vs-body > section#sources-and-method, .vs-body > .audit-cta { max-width: 880px; margin-inline: auto; }
+    .vs-sides { max-width: 1000px; margin-inline: auto; }
+  }
+  @media (min-width: 1100px) { .vs-picks { grid-template-columns: repeat(4, 1fr); } }
   @media (max-width: 640px) {
     .cost-vs { min-width: 0; }
     .cost-vs thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
