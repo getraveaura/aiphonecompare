@@ -1,5 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
+import { demoCallsData } from '../lib/demo-calls.mjs';
+import { formatDate } from '../lib/stories.mjs';
+const demo = demoCallsData();
 const title = 'About & how we rank';
 const description = 'aiphonecompare is the independent, verified price comparison for AI receptionists: every price sourced and dated, sponsored spots labeled, rankings not for sale.';
 const jsonld = {
@@ -31,6 +34,9 @@ const jsonld = {
     <p>Every price comes from the vendor's own website or a cited source, shown on the vendor's page with the date we last checked it. If we can't verify something, we leave it blank. We never guess prices.</p>
     <h2>By industry</h2>
     <p>Dental practices, law firms, plumbers, and medical practices need different things, like booking straight into dental software, patient privacy (HIPAA) paperwork, taking new-client details for a law firm, or sending after-hours emergencies to the right person. Each industry page compares only the tools that serve it, with a short buying guide. Phone-recording statutes are on the <a href="/call-recording-consent-by-state/">call recording consent</a> page.</p>
+    <h2 id="demo-line-tests">How we test demo lines</h2>
+    <p>On <time datetime={demo.method.date}>{formatDate(demo.method.date)}</time>, {demo.method.window}, {demo.method.placedBy} called {demo.calls.length} vendors' public demo lines. Each call checked four things in one conversation: {demo.method.tested.slice(0, -1).join(', ')}, and {demo.method.tested.at(-1)}. We did not test {demo.method.notTested.join('; ')}.</p>
+    <p>{demo.method.note} Write-ups are on each company's page: {demo.calls.map((c, i) => <><a href={`/vendors/${c.slug}/#we-called-them`}>{c.name}</a>{i < demo.calls.length - 1 ? (i === demo.calls.length - 2 ? ' and ' : ', ') : ''}</>)}.</p>
     <h2>Corrections</h2>
     <p>Vendors can ask us to confirm or correct their listing. We update it once we can verify the change against a public source.</p>
     <h2>For vendors</h2>

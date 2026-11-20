@@ -1,0 +1,216 @@
+{
+  "method": {
+    "date": "2026-11-19",
+    "timezoneLabel": "Pacific Time",
+    "window": "between about 6:19 PM and 7:01 PM Pacific Time",
+    "placedBy": "our AI assistant, calling on a recorded line for aiphonecompare.com",
+    "sourceType": "demo_line",
+    "tested": [
+      "booking a visit or a demo",
+      "an urgent issue",
+      "whether the assistant invented prices",
+      "how to reach a person"
+    ],
+    "notTested": [
+      "how the line handles a wrong number or a spam call"
+    ],
+    "note": "These were public vendor demo lines, not a live account set up for a real business. A demo line is a vendor showcase and may behave differently from a configured customer account. Some demos answer as the company's own desk; others act as a sample business. We describe what happened. We do not give a numeric score."
+  },
+  "calls": [
+    {
+      "slug": "upfirst",
+      "name": "Upfirst",
+      "date": "2026-11-19",
+      "window": "about 6:19–6:23 PM Pacific Time",
+      "durationSeconds": 300,
+      "answered": true,
+      "sourceType": "demo_line",
+      "demoMode": "vendor_desk",
+      "persona": "Jessica",
+      "sampleBusiness": "",
+      "modeText": "The demo answered as Upfirst's own receptionist, Jessica, not as a sample plumbing shop.",
+      "checks": [
+        {
+          "id": "booking",
+          "label": "Booking",
+          "text": "It offered weekday afternoon demo slots starting at noon Eastern Time, and said it had no morning demo slots. When we said we get about 20 to 30 calls a month, it recommended their free trial (no card needed) and offered to text a signup link."
+        },
+        {
+          "id": "urgent",
+          "label": "Urgent call",
+          "text": "It treated a ceiling water leak as urgent. It said it collects the caller's name, phone number, and a brief description of the issue, then notifies the team right away by phone or text."
+        },
+        {
+          "id": "pricing",
+          "label": "Pricing honesty",
+          "text": "It did not invent plumbing prices. It said clearly that it did not have plumbing rates and focuses on the answering service itself."
+        },
+        {
+          "id": "human",
+          "label": "Reaching a human",
+          "text": "It offered to text a booking link. When we said our line could not receive texts or callbacks, it pointed us to the live chat bubble on their website (a few minutes' response during business hours) or offered to take a message for a callback within one business day."
+        }
+      ],
+      "quirk": {
+        "label": "Worth knowing",
+        "text": "It heard our site name, aiphonecompare.com, as “afonecompare dot com.”"
+      }
+    },
+    {
+      "slug": "my-ai-front-desk",
+      "name": "My AI Front Desk",
+      "date": "2026-11-19",
+      "window": "about 6:25–6:29 PM Pacific Time",
+      "durationSeconds": 197,
+      "answered": true,
+      "sourceType": "demo_line",
+      "demoMode": "vendor_desk",
+      "persona": "Alex",
+      "sampleBusiness": "",
+      "modeText": "The demo answered as My AI Front Desk's own receptionist, Alex, and explained how the product handles calls rather than acting as a sample plumbing shop.",
+      "checks": [
+        {
+          "id": "booking",
+          "label": "Booking",
+          "text": "It explained that a live setup collects the caller's name, a callback number, the issue, how urgent it is, the location if needed, and a preferred time window, then hands the request to the business's own booking process."
+        },
+        {
+          "id": "urgent",
+          "label": "Urgent call",
+          "text": "It said a ceiling leak is treated as urgent right away. It collects name, number, issue, address, and whether there is active damage, then routes the call to the business's emergency or on-call process."
+        },
+        {
+          "id": "pricing",
+          "label": "Pricing honesty",
+          "text": "It did not invent prices. It said it shares the service or call-out prices the business has entered, and if those are not set, it offers to have the team confirm rather than guessing."
+        },
+        {
+          "id": "human",
+          "label": "Reaching a human",
+          "text": "It asked for a name and the best callback phone number. When we said our line could not take calls or texts, it smoothly asked for an email address instead."
+        }
+      ],
+      "quirk": {
+        "label": "Worth knowing",
+        "text": "On the faucet leak question, it first said, “I think you might have the wrong number,” then recovered right away when we explained this was a demo evaluation and offered a walkthrough. It also used brief thinking words like “Hm.” and “Right.” before a few replies."
+      }
+    },
+    {
+      "slug": "oncrew",
+      "name": "OnCrew",
+      "date": "2026-11-19",
+      "window": "about 6:39–6:42 PM Pacific Time",
+      "durationSeconds": 203,
+      "answered": true,
+      "sourceType": "demo_line",
+      "demoMode": "sample_business",
+      "persona": "Emily",
+      "sampleBusiness": "Summit Plumbing and Heating",
+      "modeText": "The demo answered in character as a sample business: Emily at Summit Plumbing and Heating.",
+      "checks": [
+        {
+          "id": "booking",
+          "label": "Booking",
+          "text": "It switched into character as a plumbing shop receptionist right away. It said honestly that it could not lock in a slot on the demo line, and asked for a name, callback number, and service address."
+        },
+        {
+          "id": "urgent",
+          "label": "Urgent call",
+          "text": "It recognized the ceiling leak as urgent. It gave safe, general advice: turn off the main water shutoff if it is safe, put a bucket under the drip, and move valuables out of the way. It asked whether water was still running, and it did not invent a time for a technician to arrive."
+        },
+        {
+          "id": "pricing",
+          "label": "Pricing honesty",
+          "text": "It did not invent prices. It said it did not have pricing or a call-out fee in front of it, and that the team would confirm on a callback."
+        },
+        {
+          "id": "human",
+          "label": "Reaching a human",
+          "text": "It explained plainly that it could not transfer on the demo line, recapped the urgent ceiling leak for a team callback, and wrapped up with a brief mention of a 14-day free trial."
+        }
+      ],
+      "quirk": {
+        "label": "Worth knowing",
+        "text": "Even after we said we had no callback number to give, it read back a number that appeared to be our outbound caller ID and asked us to confirm it. When we said that number had not been provided, it apologized and moved on."
+      }
+    },
+    {
+      "slug": "dialzara",
+      "name": "Dialzara",
+      "date": "2026-11-19",
+      "window": "about 6:52–6:56 PM Pacific Time",
+      "durationSeconds": 245,
+      "answered": true,
+      "sourceType": "demo_line",
+      "demoMode": "vendor_desk",
+      "persona": "Felix",
+      "sampleBusiness": "",
+      "modeText": "The demo answered as Dialzara's own receptionist, Felix, and used Dialzara's live calendar rather than acting as a sample plumbing shop.",
+      "checks": [
+        {
+          "id": "booking",
+          "label": "Booking",
+          "text": "It checked real calendar slots. It said there were no morning slots the next day, and the next available morning was Monday, 23 November at 8 AM. It would not complete a booking without a full name, phone number, and email."
+        },
+        {
+          "id": "urgent",
+          "label": "Urgent call",
+          "text": "It answered as Dialzara, not as a plumbing shop. For the ceiling leak, it told us to contact a local plumber or emergency service right away."
+        },
+        {
+          "id": "pricing",
+          "label": "Pricing honesty",
+          "text": "It did not invent prices. It directed us to a local provider."
+        },
+        {
+          "id": "human",
+          "label": "Reaching a human",
+          "text": "It said plainly that the live team was offline for the evening, and gave a clear return window: call the same number the next day after 9 AM."
+        }
+      ],
+      "quirk": {
+        "label": "Worth knowing",
+        "text": "It waited patiently when we paused to check on contact details. The speech had a few conversational fillers (“uh”, “um”) and a couple of small name slips (“Valzara”, “Taya”)."
+      }
+    },
+    {
+      "slug": "lexidesk",
+      "name": "Lexidesk",
+      "date": "2026-11-19",
+      "window": "about 6:58–7:01 PM Pacific Time",
+      "durationSeconds": 220,
+      "answered": true,
+      "sourceType": "demo_line",
+      "demoMode": "sample_business",
+      "persona": "Emma",
+      "sampleBusiness": "Thompson Adler",
+      "modeText": "The demo answered in character as a sample law firm: Emma at Thompson Adler.",
+      "checks": [
+        {
+          "id": "booking",
+          "label": "Booking",
+          "text": "It confirmed consultation times in the next few days, explained the format options (a free 30-minute consult by phone, video, or in person), and asked for the practice area so it could match the right attorney."
+        },
+        {
+          "id": "urgent",
+          "label": "Urgent call",
+          "text": "For a recent car accident, it immediately prioritized a same-day or next-day consult with a personal injury attorney. It said clearly that it cannot give legal advice itself. It asked which state the accident happened in, and adapted when we said we could not share location details on the test line."
+        },
+        {
+          "id": "pricing",
+          "label": "Pricing honesty",
+          "text": "It explained that the first 30-minute consult is free, noted that personal injury cases are typically handled on a contingency basis (the firm is usually paid if the case succeeds), and said clearly that it cannot quote or decide fees itself."
+        },
+        {
+          "id": "human",
+          "label": "Reaching a human",
+          "text": "It said transparently that the demo line is automated. It explained that on a real call, a human team member reviews the intake to schedule with an attorney, and it offered the mock firm's main office numbers."
+        }
+      ],
+      "quirk": {
+        "label": "Worth knowing",
+        "text": "The call stayed smooth throughout, including when we could not share the accident location."
+      }
+    }
+  ]
+}

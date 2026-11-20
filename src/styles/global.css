@@ -1507,3 +1507,14 @@ html { scroll-padding-top: 96px; }
 .guide-demo ol, .guide-next ol { margin: 0; padding-left: 1.3rem; }
 .guide-demo li + li, .guide-next li + li { margin-top: 8px; }
 .guide-next li strong { color: var(--ink); }
+
+/* "We called them" public demo-line tests on vendor pages */
+.demo-call > p { max-width: 70ch; }
+.demo-call-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 10px; color: var(--muted); font-size: 0.9rem; }
+.demo-call-kicker .badge { margin-left: 0; }
+.demo-call-checks { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 14px; }
+.demo-call .fact h3 { margin: 0 0 8px; font-family: var(--sans); font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--pine-deep); }
+.demo-call .fact p { margin: 0; font-size: 1rem; line-height: 1.5; }
+.demo-call-quirk { margin-top: 12px; border-left: 4px solid var(--pine); }
+.demo-call .note { margin-top: 12px; font-size: 0.9rem; }
+@media (max-width: 800px) { .demo-call-checks { grid-template-columns: 1fr; } }
