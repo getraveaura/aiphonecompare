@@ -1,30 +1,57 @@
 ---
-// AI receptionist vs live virtual receptionist cost guide. The words live in
-// src/articles/ai-vs-live-receptionist.md; every figure was checked on
-// 20 November 2026 (Pacific Time) against each company's own pricing page.
+// AI receptionist vs live virtual receptionist: short, scannable cost page.
+// Every figure was checked on 20 November 2026 (Pacific Time) against each
+// company's own pricing page. Do not change a price here without re-checking
+// the source; the math for every cell is in the "Sources and method" section.
 import Base from '../../layouts/Base.astro';
-import * as article from '../../articles/ai-vs-live-receptionist.md';
+import AuditCta from '../../components/AuditCta.astro';
 import { articleNode } from '../../lib/answers.mjs';
+import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
+
+const audit = showAuditLinks();
 
 const CHECKED = '2026-11-20';
 const checkedLabel = '20 November 2026';
-const h1 = 'AI receptionist vs live virtual receptionist: monthly cost at 50, 150 and 300 calls (2026)';
 const pageTitle = 'How much does a virtual receptionist cost? Live vs AI, with sourced prices (2026)';
 const description = 'What a live virtual receptionist and an AI receptionist cost per month at 50, 150 and 300 calls. Every price is linked to its source and check date. Rankings not for sale.';
 const pageUrl = new URL('/cost/ai-vs-live-receptionist/', Astro.site).href;
 
-// Wide tables scroll sideways on phones; outside sources open without passing ranking credit.
-const html = article.compiledContent()
-  .replace(/<table>/g, '<div class="tablewrap" tabindex="0"><table class="cost-vs">')
-  .replace(/<\/table>/g, '</table></div>')
-  .replace(/<a href="(https?:\/\/[^"]+)"/g, '<a href="$1" rel="nofollow noopener"');
+// Monthly cost at 3-minute calls. `at150` is the headline; 50 and 300 sit behind a toggle.
+const ai = [
+  { name: 'Dialzara', href: '/vendors/dialzara/', at150: '$199', plan150: 'Business Plus, 500 min', at50: '$72.20', plan50: 'Business Lite $29 for 60 min + 90 × $0.48', at300: '$349', plan300: 'Business Elite, 1,000 min', oneTime: 'No setup fees', source: 'https://dialzara.com/pricing', sourceLabel: 'dialzara.com/pricing' },
+  { name: 'Smith.ai AI receptionist', href: '/cost/smith-ai/', at150: '$270', plan150: 'Pro, 150 calls', at50: '$75', plan50: 'Free, 25 calls + 25 × $3.00', at300: '$500', plan300: '300-call plan', oneTime: 'Setup fee: Not published', source: 'https://smith.ai/pricing/ai-receptionist', sourceLabel: 'smith.ai/pricing/ai-receptionist' },
+  { name: 'AgentZap', href: '/vendors/agentzap/', at150: '$295', plan150: 'Professional, 450 min', at50: '$109', plan50: 'Starter, 150 min', at300: '$632.50', plan300: 'Professional $295 + 450 × $0.75', oneTime: '+ $499 training and setup', source: 'https://agentzap.ai/pricing', sourceLabel: 'agentzap.ai/pricing' },
+];
+const live = [
+  { name: 'Abby Connect', href: '/vendors/abby-connect/', at150: '$1,347.75', plan150: 'Professional $599 for 200 min + 250 × $2.995*', at50: '$492', plan50: 'Starter $164 for 50 + 100 × $3.28*', at300: '$2,484', plan300: 'Growth $1,380 for 500 + 400 × $2.76*', oneTime: 'No setup fee', source: 'https://www.abby.com/pricing/', sourceLabel: 'abby.com/pricing' },
+  { name: 'Smith.ai live agents', href: '/vendors/smith-ai/', at150: '$1,440', plan150: 'Basic $810 for 90 calls + 60 × $10.50', at50: '$530', plan50: 'Starter $300 for 30 calls + 20 × $11.50', at300: '$2,100', plan300: 'Pro, 300 calls', oneTime: 'No setup fees', source: 'https://smith.ai/pricing/receptionists', sourceLabel: 'smith.ai/pricing/receptionists' },
+  { name: 'Ruby', href: '/vendors/ruby/', at150: '$1,635', plan150: 'Call Ruby 350 $1,210 + 100 × $4.25', at50: '$620', plan50: 'Call Ruby 100 $395 + 50 × $4.50', at300: '$3,127.50', plan300: 'Call Ruby 750 $2,550 + 150 × $3.85', oneTime: 'No setup fees', note: 'May cost more: minutes round up and include hold and after-call time.', source: 'https://www.ruby.com/plans-and-pricing/', sourceLabel: 'ruby.com/plans-and-pricing' },
+];
 
-// FAQ structured data comes straight from the "Common questions" section.
-const raw = article.rawContent();
-const plain = (s) => s.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/\*\*/g, '').trim();
-const faqBlock = raw.split('## Common questions')[1]?.split('\n## ')[0] || '';
-const faqs = [...faqBlock.matchAll(/\*\*(.+?\?)\*\*\n([^\n]+)/g)].map((m) => ({ q: plain(m[1]), a: plain(m[2]) }));
-const citations = [...new Set([...raw.matchAll(/https:\/\/[^\s)]+/g)].map((m) => m[0]))];
+const picks = [
+  { title: 'Most calls are questions or bookings', body: 'An AI receptionist handles these well and costs the least.', pick: 'Go AI' },
+  { title: 'You get emergencies or upset callers', body: 'A person is worth it when a wrong answer costs more than the monthly gap.', pick: 'Go live, or AI that sends those calls to you' },
+  { title: 'Many callers would rather talk to a person', body: 'Older or hesitant callers may prefer a person.', pick: 'Go live or mix both' },
+  { title: 'You want the savings and the human touch', body: 'Let AI answer every call and pass some to a person. Cost ≈ AI plan + live minutes for the calls handed over.', pick: 'Mix both' },
+];
+
+const faqs = [
+  { q: 'How much does a live virtual receptionist cost per month?', a: 'Starting plans (checked 20 November 2026): Ruby $250 for 50 minutes, Abby Connect $164 for 50 Abby Minutes, and Smith.ai live agents $300 for 30 calls. At 150 three-minute calls a month, expect $1,347.75 to $1,635.' },
+  { q: 'Is an AI receptionist cheaper than a live virtual receptionist?', a: 'Yes, by a wide margin. At 150 three-minute calls a month, Dialzara, Smith.ai’s AI receptionist and AgentZap run $199 to $295 (checked 20 November 2026). Abby Connect, Smith.ai’s live agents and Ruby run $1,347.75 to $1,635, and Ruby can be higher because its minutes include hold time and after-call work.' },
+  { q: 'What does an AI receptionist cost at 50, 150 and 300 calls a month?', a: 'At 3-minute calls (checked 20 November 2026): 50 calls, $72.20 (Dialzara), $75 (Smith.ai AI) or $109 (AgentZap, plus a $499 setup fee). 150 calls, $199, $270 or $295. 300 calls, $349, $500 or $632.50. Worked from list prices, not quotes. Taxes and unpublished fees not included.' },
+  { q: 'What does a live virtual receptionist cost at 50, 150 and 300 calls?', a: 'At 3-minute calls (checked 20 November 2026): 50 calls, $492 (Abby Connect), $530 (Smith.ai live) or $620 (Ruby). 150 calls, $1,347.75, $1,440 or $1,635. 300 calls, $2,100 (Smith.ai live), $2,484 (Abby Connect) or $3,127.50 (Ruby).' },
+  { q: 'Are there setup fees on either side?', a: 'Of these six, only AgentZap prints one: $499 one-time. Dialzara, Smith.ai’s live agents, Ruby and Abby Connect say they charge none. Smith.ai’s AI pricing page doesn’t say, so we list it as not published.' },
+];
+
+const sources = [
+  ['Dialzara', [['https://dialzara.com/pricing', 'dialzara.com/pricing']]],
+  ['Smith.ai AI receptionist', [['https://smith.ai/pricing/ai-receptionist', 'smith.ai/pricing/ai-receptionist']]],
+  ['AgentZap', [['https://agentzap.ai/pricing', 'agentzap.ai/pricing']]],
+  ['Ruby', [['https://www.ruby.com/plans-and-pricing/', 'plans'], ['https://rubyhelpcenter.helpjuice.com/billing-plans/am-i-on-the-right-billing-plan', 'extra-minute rates (help center, dated 11 December 2025)'], ['https://www.ruby.com/faqs/', 'how minutes are counted']]],
+  ['Smith.ai live agents', [['https://smith.ai/pricing/receptionists', 'smith.ai/pricing/receptionists']]],
+  ['Abby Connect', [['https://www.abby.com/pricing/', 'abby.com/pricing'], ['https://www.abby.com/comparisons/abby-vs-answerconnect/', 'comparison page'], ['https://www.abby.com/blog/cost-comparison-receptionist-service/', 'cost guide']]],
+];
+const citations = sources.flatMap(([, links]) => links.map(([href]) => href));
 
 const jsonld = {
   '@context': 'https://schema.org',
@@ -39,9 +66,10 @@ const jsonld = {
     ] },
   ],
 };
+const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', 'See my cost']] : [['/cost/calculator/', 'See my monthly cost'], ['#prices', 'See prices']];
 ---
-<Base title={pageTitle} description={description} jsonld={jsonld} modified={CHECKED} ogImage="/og/cost.png">
-  <header class="page-intro">
+<Base title={pageTitle} description={description} jsonld={jsonld} modified={CHECKED} ogImage="/og/cost.png" dock={dock}>
+  <header class="page-intro vs-hero">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
         <ol>
@@ -50,30 +78,225 @@ const jsonld = {
           <li><span aria-current="page">AI vs live receptionist</span></li>
         </ol>
       </nav>
-      <h1 class="vs-title">{h1}</h1>
-      <p class="lead"><em>Prices checked <time datetime={CHECKED}>{checkedLabel}</time> (Pacific Time) from each company's own pricing page. Rankings not for sale.</em></p>
-      <ul class="trust-chips"><li>Every price sourced and dated</li><li>Blanks left blank, never $0</li><li>Rankings not for sale</li></ul>
+      <h1>AI vs live receptionist: what you’ll really pay each month</h1>
+      <p class="vs-answer">At about 150 calls a month, an <strong>AI receptionist costs $199–$295</strong>. A <strong>live receptionist costs $1,347.75–$1,635</strong>.</p>
+      <p class="lead">AI answers your routine calls for far less. A person still earns the extra on some calls, and we show you which.</p>
+      <div class="cta vs-cta">
+        {audit && <a class="btn btn-primary btn-lg" href={AUDIT_PATH}>Get my free check <span class="arrow" aria-hidden="true">→</span></a>}
+        <a class={audit ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'} href="/cost/calculator/">See my monthly cost</a>
+      </div>
+      <ul class="trust-chips"><li>Prices checked <time datetime={CHECKED}>{checkedLabel}</time></li><li>Every price linked to its source</li><li>Rankings not for sale</li></ul>
     </div>
   </header>
-  <div class="wrap">
-    <article class="vs-article" set:html={html} />
+
+  <div class="wrap vs-body">
+    <section aria-labelledby="sides-heading">
+      <h2 id="sides-heading" class="section-title">Two ways to answer every call</h2>
+      <div class="vs-sides">
+        <article class="vs-side vs-side-ai">
+          <p class="vs-side-kicker">AI receptionist</p>
+          <p class="vs-side-price">$199–$295<span>/mo</span></p>
+          <p class="vs-side-sub">at 150 calls a month</p>
+          <ul role="list">
+            <li>Routine questions and bookings</li>
+            <li>Tight budgets and growing call volume</li>
+            <li>After-hours calls that now go to voicemail</li>
+          </ul>
+          <a class="btn btn-primary btn-block" href="/cost/calculator/">See my monthly cost</a>
+        </article>
+        <article class="vs-side vs-side-live">
+          <p class="vs-side-kicker">Live receptionist (a real person)</p>
+          <p class="vs-side-price">$1,347.75–$1,635<span>/mo</span></p>
+          <p class="vs-side-sub">at 150 calls a month</p>
+          <ul role="list">
+            <li>Emergencies and upset callers</li>
+            <li>Callers who want to talk to a person</li>
+            <li>Bookings you must get exactly right</li>
+          </ul>
+          {audit ? <a class="btn btn-ghost btn-block" href={AUDIT_PATH}>Get my free check</a> : <a class="btn btn-ghost btn-block" href="#prices">See live prices</a>}
+        </article>
+      </div>
+    </section>
+
+    <section id="prices" aria-labelledby="prices-heading">
+      <h2 id="prices-heading" class="section-title">What each one costs at 150 calls a month</h2>
+      <p class="vs-intro">3-minute calls. Cheapest complete published plan, including extra-use charges. Before tax.</p>
+      <h3 class="vs-group">AI receptionists</h3>
+      <ul class="vs-prices" role="list">
+        {ai.map((v) => (
+          <li class="vs-price">
+            <a class="vs-price-name" href={v.href}>{v.name}</a>
+            <p class="vs-price-num">{v.at150}<span>/mo</span></p>
+            <p class="vs-price-plan">{v.plan150}</p>
+            <p class="vs-price-fee">{v.oneTime}</p>
+          </li>
+        ))}
+      </ul>
+      <h3 class="vs-group">Live receptionists</h3>
+      <ul class="vs-prices" role="list">
+        {live.map((v) => (
+          <li class="vs-price">
+            <a class="vs-price-name" href={v.href}>{v.name}</a>
+            <p class="vs-price-num">{v.at150}<span>/mo</span></p>
+            <p class="vs-price-plan">{v.plan150}</p>
+            <p class="vs-price-fee">{v.oneTime}</p>
+            {v.note && <p class="vs-price-note">{v.note}</p>}
+          </li>
+        ))}
+      </ul>
+      <p class="vs-foot">* Abby Connect doesn’t print its extra-minute rate. We worked it out as plan price ÷ minutes. It is our calculation, not a printed list price.</p>
+      <details class="vs-more">
+        <summary>See costs at 50 and 300 calls a month</summary>
+        <div class="tablewrap" tabindex="0">
+          <table class="cost-vs">
+            <thead><tr><th scope="col">Service</th><th scope="col">50 calls (150 min)</th><th scope="col">300 calls (900 min)</th></tr></thead>
+            <tbody>
+              {[...ai, ...live].map((v) => (
+                <tr>
+                  <th scope="row">{v.name}</th>
+                  <td data-label="50 calls"><strong>{v.at50}</strong> <span class="vs-math">{v.plan50}</span></td>
+                  <td data-label="300 calls"><strong>{v.at300}</strong> <span class="vs-math">{v.plan300}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p class="vs-foot">Want a different number? Enter your own calls in the <a href="/cost/calculator/">cost calculator</a>.</p>
+      </details>
+    </section>
+
+    <section aria-labelledby="pick-heading">
+      <h2 id="pick-heading" class="section-title">Which should you pick?</h2>
+      <ol class="vs-picks" role="list">
+        {picks.map((p) => (
+          <li class="vs-pick">
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+            <p class="vs-pick-answer">{p.pick}</p>
+          </li>
+        ))}
+      </ol>
+      <p class="vs-intro">Real stories: <a href="/stories/blissful-clean-removed-ai/">a cleaning company that went back to a person</a> and <a href="/stories/kent-heating-firm-90-day-test/">a heating firm where AI booked 43 callers in 90 days</a>. More in <a href="/worth-it/">is an AI receptionist worth it?</a></p>
+    </section>
+
+    <AuditCta heading="Not sure which you need? Get a free call coverage check" />
+
+    <section aria-labelledby="faq-heading">
+      <h2 id="faq-heading" class="section-title">Common questions</h2>
+      <div class="faq-list">
+        {faqs.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+
+    <section aria-labelledby="sources-heading" id="sources-and-method">
+      <h2 id="sources-heading" class="section-title">Sources and method</h2>
+      <details class="vs-more">
+        <summary>How we worked out every price</summary>
+        <p>3-minute calls, partial minutes not rounded up in the table math (a call assumed to last exactly 3:00), unpublished prices left blank and not treated as $0. Each figure is the cheapest complete published plan at that volume, using monthly (not annual) prices, before taxes. None of these six services is a sponsored listing on aiphonecompare.</p>
+        <ul class="vs-notes">
+          <li><strong>Ruby may cost more than shown.</strong> Ruby’s FAQ says minutes are billed in 60-second steps, rounded up, and include hold time plus time the receptionist spends finishing your call details after the caller hangs up. We count exactly 3 minutes a call and add nothing for that. Ruby’s extra-minute rates come from a help center article dated 11 December 2025; its plans page doesn’t list them.</li>
+          <li><strong>Abby Connect:</strong> the pricing page says extra use is “billed at your plan’s Abby Minute rate” but doesn’t print that rate. We worked it out as plan price ÷ Abby Minutes. It is our calculation, not a printed list price. Its comparison page and cost guide say it counts ring, talk and transfer time, rounds up to the next 30 seconds, and excludes hold time and after-call work. AI-answered minutes count as half an Abby Minute; these figures are human answering only. Enterprise is not published.</li>
+          <li><strong>Smith.ai AI receptionist:</strong> bills by the call. Setup fee: Not published (the AI pricing page doesn’t say, so we don’t call it free). The 300-call price is $500 for both Pro and Enterprise.</li>
+          <li><strong>Smith.ai live agents:</strong> bill by the call, so call length doesn’t change the figures. Paid per-call extras such as appointment booking ($1.50 a call) are not included. 10% off for a 12-month subscription is not applied. Enterprise is custom.</li>
+          <li><strong>Dialzara:</strong> Business Lite (the 50-call plan) offers blind transfer but not warm transfer; warm transfer starts on Business Pro ($99 a month).</li>
+          <li><strong>AgentZap:</strong> the $499 training and setup fee is printed on each plan and waived on Professional with a 6-month term.</li>
+        </ul>
+        <p>All pages checked {checkedLabel} (Pacific Time):</p>
+        <ul class="vs-notes">
+          {sources.map(([name, links]) => (
+            <li><strong>{name}:</strong> {links.map(([href, label], i) => <>{i > 0 && ' · '}<a href={href} rel="nofollow noopener">{label}</a></>)}</li>
+          ))}
+        </ul>
+        <p>Past price changes are in our <a href="/price-changes/">price-change log</a>. More on extra charges in <a href="/cost/hidden-fees/">hidden fees to check</a>. We also sell a paid <a href="/done-for-you/">done-for-you setup</a>; it doesn’t change any price or ranking here.</p>
+      </details>
+    </section>
+
+    <section class="vs-final" aria-labelledby="final-heading">
+      <h2 id="final-heading">Ready to stop missing calls?</h2>
+      <p>{audit ? 'Get a free call coverage check, then pick the plan that fits.' : 'Enter your calls, then pick the plan that fits.'}</p>
+      <div class="cta vs-cta">
+        {audit && <a class="btn btn-primary btn-lg" href={AUDIT_PATH}>Get my free check <span class="arrow" aria-hidden="true">→</span></a>}
+        <a class={audit ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'} href="/cost/calculator/">See my monthly cost</a>
+      </div>
+      <p class="vs-intro">Or work out what missed calls may cost you with the <a href="/missed-call-calculator/">missed-call calculator</a>.</p>
+    </section>
   </div>
 </Base>
 <style is:global>
-  .vs-title { max-width: 24ch; }
-  .vs-article { max-width: 72ch; padding-bottom: 32px; }
-  .vs-article h2 { margin: 2.2rem 0 0.5rem; font-size: 1.7rem; scroll-margin-top: 88px; }
-  .vs-article h3 { margin: 1.5rem 0 0.4rem; font-size: 1.3rem; }
-  .vs-article p, .vs-article ul { margin: 0 0 0.85rem; }
-  .vs-article li { margin: 0.35rem 0; }
-  .vs-article blockquote { margin: 0 0 0.85rem; padding: 0.75rem 1rem; border-left: 4px solid var(--pine); background: var(--surface); border-radius: 8px; }
-  .vs-article .tablewrap { margin: 0.5rem 0 1rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
-  .cost-vs { width: 100%; min-width: 44rem; border-collapse: collapse; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
-  .cost-vs th, .cost-vs td { padding: 0.6rem 0.7rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
-  .cost-vs thead th { background: var(--paper, transparent); font-weight: 600; }
-  .cost-vs tr:last-child td { border-bottom: 0; }
-  .vs-article .tablewrap + p { font-size: 0.95rem; color: var(--ink-soft); }
-  @media (min-width: 1000px) {
-    .vs-article .tablewrap { width: min(70rem, calc(100vw - 4rem)); }
+  .vs-hero h1 { max-width: 22ch; }
+  .vs-answer { font-size: clamp(1.25rem, 1rem + 1vw, 1.6rem); line-height: 1.35; max-width: 34ch; margin: 0 0 0.75rem; color: var(--ink); }
+  .vs-answer strong { color: var(--pine-deep); }
+  .vs-cta { margin-top: 1.25rem; }
+  .vs-body { padding-bottom: 40px; }
+  .vs-body > section, .vs-body > .audit-cta { margin-top: 2.75rem; }
+  .vs-body .section-title { margin-bottom: 0.9rem; }
+  .vs-intro { color: var(--ink-soft); max-width: 66ch; margin: 0 0 1rem; }
+  .vs-sides { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+  .vs-side { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: var(--shadow-sm); }
+  .vs-side-ai { border-top: 5px solid var(--pine); }
+  .vs-side-live { border-top: 5px solid var(--ink-soft); }
+  .vs-side-kicker { margin: 0; font-weight: 600; color: var(--ink-soft); }
+  .vs-side-price { margin: 0.35rem 0 0; font-size: clamp(2rem, 1.5rem + 1.8vw, 2.6rem); font-weight: 700; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .vs-side-price span, .vs-price-num span { font-size: 0.5em; font-weight: 600; color: var(--ink-soft); }
+  .vs-side-sub { margin: 0.2rem 0 1rem; color: var(--ink-soft); }
+  .vs-side ul { list-style: none; margin: 0 0 1.25rem; padding: 0; flex: 1; }
+  .vs-side li { position: relative; padding-left: 1.5rem; margin: 0.5rem 0; }
+  .vs-side li::before { content: "✓"; position: absolute; left: 0; color: var(--pine); font-weight: 700; }
+  .vs-side .btn { justify-content: center; }
+  .vs-group { margin: 1.25rem 0 0.6rem; font-size: 1.2rem; }
+  .vs-prices { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .vs-price { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.15rem; box-shadow: var(--shadow-sm); }
+  .vs-price p { margin: 0; }
+  .vs-price-name { font-weight: 600; }
+  .vs-price-num { margin-top: 0.3rem !important; font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.15rem); font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .vs-price-plan { color: var(--ink-soft); font-size: 0.92rem; margin-top: 0.25rem !important; }
+  .vs-price-fee { display: inline-block; margin-top: 0.6rem !important; font-size: 0.85rem; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); }
+  .vs-price-note { margin-top: 0.6rem !important; font-size: 0.88rem; color: var(--ink-soft); }
+  .vs-foot { font-size: 0.9rem; color: var(--ink-soft); margin: 0.85rem 0 0; max-width: 70ch; }
+  .vs-more { margin-top: 1rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 0 1.1rem; }
+  .vs-more > summary { cursor: pointer; padding: 0.95rem 0; font-weight: 600; color: var(--pine-deep); }
+  .vs-more[open] { padding-bottom: 1rem; }
+  .vs-more p { max-width: 70ch; }
+  .vs-more .tablewrap { margin: 0.25rem 0 0; }
+  .cost-vs { width: 100%; min-width: 34rem; border-collapse: collapse; font-size: 0.95rem; font-variant-numeric: tabular-nums; }
+  .cost-vs th, .cost-vs td { padding: 0.6rem 0.65rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); }
+  .cost-vs tbody th { font-weight: 600; }
+  .cost-vs tr:last-child > * { border-bottom: 0; }
+  .vs-math { display: block; color: var(--ink-soft); font-size: 0.85rem; }
+  .vs-picks { list-style: none; margin: 0 0 1rem; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .vs-pick { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.15rem; display: flex; flex-direction: column; }
+  .vs-pick h3 { margin: 0 0 0.35rem; font-size: 1.15rem; }
+  .vs-pick p { margin: 0; color: var(--ink-soft); }
+  .vs-pick .vs-pick-answer { margin-top: auto; padding-top: 0.7rem; color: var(--pine-deep); font-weight: 700; }
+  .vs-notes { margin: 0 0 1rem; padding-left: 1.15rem; }
+  .vs-notes li { margin: 0.5rem 0; }
+  .vs-final { text-align: center; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 2rem 1.25rem; box-shadow: var(--shadow-sm); }
+  .vs-final h2 { margin: 0 0 0.4rem; font-size: var(--step-3); }
+  .vs-final p { margin: 0 auto; max-width: 52ch; color: var(--ink-soft); }
+  .vs-final .vs-cta { justify-content: center; margin-bottom: 1rem; }
+  @media (max-width: 640px) {
+    .cost-vs { min-width: 0; }
+    .cost-vs thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    .cost-vs, .cost-vs tbody, .cost-vs tr, .cost-vs th, .cost-vs td { display: block; }
+    .cost-vs tr { padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+    .cost-vs tr:last-child { border-bottom: 0; }
+    .cost-vs th, .cost-vs td { border: 0; padding: 0.2rem 0; }
+    .cost-vs td::before { content: attr(data-label) ": "; font-weight: 600; color: var(--ink-soft); }
+    .cost-vs td .vs-math { display: block; }
+  }
+  @media (max-width: 900px) { .vs-prices { grid-template-columns: 1fr; } }
+  @media (max-width: 720px) {
+    .vs-sides, .vs-picks { grid-template-columns: 1fr; }
+    .vs-cta .btn { flex: 1 1 100%; justify-content: center; }
+    .vs-price { display: grid; grid-template-columns: 1fr auto; column-gap: 0.75rem; align-items: baseline; }
+    .vs-price-name { grid-column: 1; }
+    .vs-price-num { grid-column: 2; grid-row: 1 / span 2; margin-top: 0 !important; text-align: right; }
+    .vs-price-plan, .vs-price-fee, .vs-price-note { grid-column: 1 / -1; }
+    .vs-price-fee { justify-self: start; }
   }
 </style>
