@@ -1260,5 +1260,37 @@
     "told_by": "Reported by Healthcare IT Today from an interview with the practice’s VP of Operations",
     "archive_url": "https://web.archive.org/web/20261117162324/https://www.healthcareittoday.com/2026/11/17/ai-is-taking-the-busywork-out-of-neurology-practice-operations/",
     "verified_claims": "Healthcare IT Today (John Lynn, 17 Nov 2026): Neurology Center of New England; Kate Sciore, VP of Operations; healow Genie AI receptionist from eClinicalWorks handles billing questions, refills and office information; patients largely accepted it within about 30 days. No price or call numbers stated."
+  },
+  {
+    "slug": "crosby-roofing-callrail-labor-day-storm",
+    "title": "A roofing owner says an AI answered all 33 calls during a Labor Day storm while the office was closed",
+    "added": "2026-11-20",
+    "industries": [
+      "roofing"
+    ],
+    "business": "Crosby Roofing",
+    "vendorSlug": null,
+    "vendorName": "CallRail (Voice Assist)",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor-sponsored podcast",
+    "whatTheyDid": "Collen Crosby, who owns Crosby Roofing's branch in Lexington, South Carolina, described on Service Business Mastery how the company uses CallRail as a backup answering service: when no one picks up, the AI answers the missed call and puts it into the company's CRM. The episode description says he replaced his voicemail with an AI answering service. CallRail sponsors the episode, a CallRail marketing manager is the other guest, and the episode promotes a CallRail webinar on December 7 where Crosby walks through his setup.",
+    "cost": null,
+    "outcome": "The episode description says a storm hit Crosby Roofing's area over Labor Day weekend and 33 calls came in while the office was closed. It says every call was answered and the team came back on Tuesday to a calendar that was already booked. It does not say how many of those calls became jobs. These figures come from an episode sponsored by the vendor.",
+    "catches": [],
+    "sources": [
+      {
+        "url": "https://podscan.fm/podcasts/service-business-mastery-for-skilled-trades-hvac-plumbing-amp-electrical-home-service-1/episodes/the-ai-that-replaced-this-roofers-voicemail-collen-crosby-amp-michael-griffin-callrail-2",
+        "title": "The AI That Replaced This Roofer's Voicemail | Collen Crosby & Michael Griffin, CallRail",
+        "date": "2026-11-18",
+        "publisher": "Service Business Mastery (via Podscan)",
+        "archive_url": "https://web.archive.org/web/20261120162204/https://podscan.fm/podcasts/service-business-mastery-for-skilled-trades-hvac-plumbing-amp-electrical-home-service-1/episodes/the-ai-that-replaced-this-roofers-voicemail-collen-crosby-amp-michael-griffin-callrail-2"
+      }
+    ],
+    "evidence": "vendor-told",
+    "source_type": "vendor-sponsored",
+    "source_publisher": "Service Business Mastery",
+    "told_by": "Told with CallRail (the vendor), on a podcast episode CallRail sponsors",
+    "verified_claims": "Episode page dated 18 November 2026 names Collen Crosby, owner of Crosby Roofing, and Michael Griffin of CallRail; description states 33 calls came in over Labor Day weekend while the office was closed, all were answered, and the calendar was booked by Tuesday; CallRail Voice Assist is listed as an episode sponsor; transcript has Crosby saying CallRail picks up missed calls and feeds the CRM and that the office is in Lexington, South Carolina. No price or job count is stated.",
+    "archive_url": "https://web.archive.org/web/20261120162204/https://podscan.fm/podcasts/service-business-mastery-for-skilled-trades-hvac-plumbing-amp-electrical-home-service-1/episodes/the-ai-that-replaced-this-roofers-voicemail-collen-crosby-amp-michael-griffin-callrail-2"
   }
 ]
