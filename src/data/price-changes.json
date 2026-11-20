@@ -115,6 +115,29 @@
           "publisher": "OnCrew"
         }
       ]
+    },
+    {
+      "id": "jobber-ai-receptionist-addon-99",
+      "vendorSlug": "jobber-ai-receptionist",
+      "added": "2026-11-20",
+      "observed": "2026-11-20",
+      "summary": "Jobber's public pricing for the AI Receptionist add-on has changed, and the add-on is now included on Plus with unlimited conversations. The add-on is $99 per month for 100 conversations, then $0.79 each. The day the page changed is not known. This entry compares getjobber.com/pricing as we recorded it on 13 November 2026 with the help center and pricing pages read on 20 November 2026.",
+      "before": "Pricing page checked 13 November 2026: Jobber AI Receptionist add-on $29/mo, on top of a Jobber plan. Our older note about plan inclusion had already been dropped because the page did not confirm it.",
+      "after": "Help center (updated 18 November 2026) and pricing page checked 20 November 2026: Receptionist is included on Plus with unlimited conversations. It is available as an add-on on Core, Connect, and Grow. The add-on costs $99 per month and includes 100 conversations in each billing cycle. Each conversation over 100 costs $0.79. Conversations tagged \"Spam\" or \"No conversation\" don't count. Requires a dedicated Jobber phone number (US, Canada, UK).",
+      "sources": [
+        {
+          "url": "https://help.getjobber.com/en/articles/receptionistpowered-by-jobber-ai/",
+          "title": "help.getjobber.com: Receptionist Powered by Jobber AI",
+          "date": "2026-11-20",
+          "publisher": "Jobber"
+        },
+        {
+          "url": "https://www.getjobber.com/pricing/",
+          "title": "getjobber.com/pricing",
+          "date": "2026-11-20",
+          "publisher": "Jobber"
+        }
+      ]
     }
   ]
 }

@@ -24,8 +24,8 @@ function headPrice(plan) {
   if (plan.publishedLabel.length <= 20) return plan.publishedLabel;
   return '';
 }
-const title = 'What an AI receptionist really costs per month';
-const pageTitle = `AI receptionist cost: what you will pay per month (${models.checked.slice(0, 4)})`;
+const title = 'AI receptionist pricing: what you will really pay per month';
+const pageTitle = `AI receptionist pricing and cost: what you will pay per month (${models.checked.slice(0, 4)})`;
 const summary = costHubSummary(models);
 const hubSources = sourceLinks(models.providers.map((provider) => provider.sources[0]?.href).filter(Boolean), 6);
 const market = marketFindings();
@@ -54,7 +54,7 @@ const jsonld = {
     <div class="wrap">
       <h1>{title}</h1>
       <QuickAnswer text={costAnswer(market)} />
-      <p class="lead">Type in how many calls you get. We show your estimated monthly bill only where the company's own price page says what it charges for (calls or minutes), how much is included and what extra use costs. A starting price is often not what you'd really pay.</p>
+      <p class="lead">This is the main AI receptionist pricing and cost page. Type in how many calls you get. We show your estimated monthly bill only where the company's own price page says what it charges for (calls or minutes), how much is included and what extra use costs. A starting price is often not what you'd really pay. For a one-plan-per-vendor table you can share, use the <a href="/cost/calculator/">cost calculator</a>.</p>
       <PlainIntro primary={['#cost-form', 'Enter my calls']} secondary={['/match/', 'Find my best match']} />
       <KeyFindings findings={findings} verified={market.latest} sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }, ...hubSources]} cite={{ title: pageTitle, url: pageUrl, date: market.latest }} note={`Plan math uses prices checked ${checkedLabel}. Not a ranking.`} />
     </div>

@@ -725,7 +725,7 @@ function missedCallPage({ stories }) {
         heading: 'Work out your own number',
         items: [
           { text: 'Missed-call calculator, using only the four numbers you enter', href: '/missed-call-calculator/' },
-          { text: 'AI receptionist cost calculator, from published plans', href: '/cost/calculator/?calls=150&minutes=3' },
+          { text: 'Calculate your monthly bill, from published plans', href: '/cost/calculator/?calls=150&minutes=3' },
           { text: 'Free call coverage check of your public website and listings', href: AUDIT_PATH },
         ],
       },
@@ -850,8 +850,8 @@ export function buildLandings(data) {
     comparePage({
       models, vendors, pair: 'smith-ai-vs-ruby', slugs: ['smith-ai', 'ruby'],
       h1: 'Smith.ai vs Ruby', phrase: 'smith ai vs ruby',
-      description: 'Smith.ai vs Ruby from sourced starting prices and Smith.ai plans that charge by the call. Ruby stops at its published starting bundle.',
-      scope: 'Smith.ai and Ruby are both in the directory. Ruby’s record is a human receptionist plan with an optional AI front end. Smith.ai’s record is an AI plan with live agents. This page stops at Ruby’s published starting bundle.',
+      description: 'Smith.ai vs Ruby from sourced starting prices and Smith.ai call plans. Ruby lists minute bundles from $250/mo, with published extra-use rates.',
+      scope: 'Smith.ai and Ruby are both in the directory. Ruby’s record is a human receptionist plan with an optional AI front end, and lists Call Ruby minute bundles from $250/mo, with published extra-use rates. Smith.ai’s record is an AI plan with live agents. Smith.ai is in our cost calculator; Ruby is not, so this page does not calculate a Ruby bill at 50, 150, or 300 calls.',
     }),
     comparePage({
       models, vendors, pair: 'bland-ai-vs-elevenlabs', slugs: ['bland-ai', 'elevenlabs-ai-receptionist'],
@@ -868,8 +868,8 @@ export function buildLandings(data) {
     comparePage({
       models, vendors, pair: 'jobber-vs-housecall-pro', slugs: ['jobber-ai-receptionist', 'housecall-pro-csr-ai'],
       h1: 'Jobber vs Housecall Pro AI receptionist cost', phrase: 'jobber vs housecall pro cost',
-      description: 'Jobber vs Housecall Pro AI receptionist cost from the directory. Jobber publishes an add-on price. Housecall’s AI price is not verified.',
-      scope: 'This page compares the AI receptionist line only. It is not a price for the rest of Jobber or Housecall Pro. Housecall Pro’s AI receptionist has no starting price in this directory.',
+      description: 'Jobber vs Housecall Pro AI receptionist cost from the directory. Jobber publishes a $99/mo add-on. Housecall’s AI price is not verified.',
+      scope: 'This page compares the AI receptionist line only. It is not a price for the rest of Jobber or Housecall Pro. Jobber publishes an AI Receptionist add-on at $99/mo for 100 conversations, then $0.79 each, on Core, Connect, and Grow, on top of a Jobber plan; it is included on Plus with unlimited conversations. Housecall Pro’s AI receptionist has no starting price in this directory.',
     }),
     comparePage({
       models, vendors, pair: 'smith-ai-vs-goodcall', slugs: ['smith-ai', 'goodcall'],
@@ -886,8 +886,8 @@ export function buildLandings(data) {
     comparePage({
       models, vendors, pair: 'jobber-vs-servicetitan', slugs: ['jobber-ai-receptionist', 'servicetitan-ai-voice-agent'],
       h1: 'Jobber vs ServiceTitan AI receptionist', phrase: 'jobber vs servicetitan ai receptionist',
-      description: 'Jobber vs ServiceTitan AI receptionist from the directory. Jobber publishes a $29/mo add-on. ServiceTitan’s AI price is not verified.',
-      scope: 'This page compares the AI receptionist line only. It is not a price for the rest of Jobber or ServiceTitan. Jobber publishes an AI Receptionist add-on at $29/mo, on top of a Jobber plan. ServiceTitan’s AI Voice Agent has no starting price in this directory. Neither is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
+      description: 'Jobber vs ServiceTitan AI receptionist from the directory. Jobber publishes a $99/mo add-on. ServiceTitan’s AI price is not verified.',
+      scope: 'This page compares the AI receptionist line only. It is not a price for the rest of Jobber or ServiceTitan. Jobber publishes an AI Receptionist add-on at $99/mo for 100 conversations, then $0.79 each, on Core, Connect, and Grow, on top of a Jobber plan; it is included on Plus with unlimited conversations. ServiceTitan’s AI Voice Agent has no starting price in this directory. Neither is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
     }),
     comparePage({
       models, vendors, pair: 'oncrew-vs-nextphone', slugs: ['oncrew', 'nextphone'],

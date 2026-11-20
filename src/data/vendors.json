@@ -115,7 +115,7 @@
     "slug": "ruby",
     "name": "Ruby",
     "website": "https://www.ruby.com",
-    "starting_price": "$250/mo for 50 minutes",
+    "starting_price": "Call Ruby 50 $250/mo with 50 minutes, then $5.40/min; Call Ruby 100 $395/mo with 100 minutes, then $4.50/min; Call Ruby 200 $720/mo with 200 minutes, then $4.40/min; Call Ruby 350 $1,210/mo with 350 minutes, then $4.25/min; Call Ruby 500 $1,725/mo with 500 minutes, then $4.00/min; Call Ruby 750 $2,550/mo with 750 minutes, then $3.85/min; Call Ruby 1,000 $3,350/mo with 1,000 minutes, then $3.65/min; Call Ruby 1,500 $4,945/mo with 1,500 minutes, then $3.50/min; Call Ruby 2,000 $6,400/mo with 2,000 minutes, then $3.40/min; Call Ruby 2,500 $7,875/mo with 2,500 minutes, then $3.30/min",
     "billing_model": "Per minute",
     "free_trial": "",
     "human_handoff": "Human-first (live receptionists)",
@@ -130,15 +130,16 @@
     "sponsored": false,
     "sources": [
       "https://www.ruby.com/plans-and-pricing/",
+      "https://rubyhelpcenter.helpjuice.com/billing-plans/am-i-on-the-right-billing-plan",
       "https://justcall.io/blog/best-ai-receptionists-dental.html",
       "https://www.technology.org/2026/08/25/best-ai-receptionist-for-law-firms-8-platforms-compared/",
       "https://www.byvoice.io/blog/best-ai-answering-service-for-plumbers"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-20",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-20",
       "result": "confirmed",
-      "note": "Starting price read on the vendor's own page."
+      "note": "Plan names, monthly prices, included minutes and extra-use rates read on rubyhelpcenter.helpjuice.com/billing-plans/am-i-on-the-right-billing-plan (article dated 11 December 2025) on 20 November 2026. The public plans page at ruby.com/plans-and-pricing does not list extra-use rates. The $250/mo starting bundle for 50 minutes is unchanged from our 13 November 2026 check."
     }
   },
   {
@@ -1036,7 +1037,7 @@
     "slug": "jobber-ai-receptionist",
     "name": "Jobber AI Receptionist",
     "website": "https://www.getjobber.com",
-    "starting_price": "Jobber AI Receptionist add-on $29/mo, on top of a Jobber plan",
+    "starting_price": "Jobber AI Receptionist add-on $99/mo for 100 conversations, then $0.79 each, on Core, Connect, and Grow, on top of a Jobber plan; included on Plus with unlimited conversations",
     "billing_model": "Monthly add-on",
     "free_trial": "14-day free trial",
     "human_handoff": "",
@@ -1045,17 +1046,18 @@
     "industries": [
       "plumbing"
     ],
-    "notes": "Built into Jobber.",
+    "notes": "Built into Jobber. Conversations tagged \"Spam\" or \"No conversation\" don't count. Requires a dedicated Jobber phone number (US, Canada, UK).",
     "sponsored": false,
     "sources": [
+      "https://help.getjobber.com/en/articles/receptionistpowered-by-jobber-ai/",
       "https://www.getjobber.com/pricing/",
       "https://www.thedbt.ai/blog/best-plumbing-answering-services/"
     ],
-    "last_checked": "2026-11-13",
+    "last_checked": "2026-11-20",
     "price_check": {
-      "date": "2026-11-13",
+      "date": "2026-11-20",
       "result": "confirmed",
-      "note": "Read on getjobber.com/pricing. Our older note about plan inclusion is dropped because the page did not confirm it."
+      "note": "Read on help.getjobber.com/en/articles/receptionistpowered-by-jobber-ai/ (updated 18 November 2026) and getjobber.com/pricing on 20 November 2026. The AI Receptionist add-on is $99/mo for 100 conversations, then $0.79 each, on Core, Connect, and Grow. It is included on Plus with unlimited conversations. Jobber software plan prices (Core, Connect, Grow, Plus) are not listed on this site."
     }
   },
   {
