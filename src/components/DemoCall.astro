@@ -1,0 +1,29 @@
+---
+// "We called them" write-up of a public demo-line test. Copy comes from
+// src/data/demo-calls.json; this file does not invent scores or prices.
+import { formatDate } from '../lib/stories.mjs';
+import { demoCallFor, demoCallsData } from '../lib/demo-calls.mjs';
+const { slug, name } = Astro.props;
+const call = demoCallFor(slug);
+const method = demoCallsData().method;
+---
+{call && (
+  <section class="demo-call" id="we-called-them" aria-labelledby="we-called-them-heading" data-demo-call={call.slug}>
+    <h2 id="we-called-them-heading" class="section-title">We called them</h2>
+    <p class="demo-call-kicker"><span class="badge">Public demo line</span> Tested <time datetime={call.date}>{formatDate(call.date)}</time>, {method.timezoneLabel}</p>
+    <p>On <time datetime={call.date}>{formatDate(call.date)}</time> ({call.window}), {method.placedBy} called {name}'s public demo line. {call.modeText} A demo line is a vendor showcase and may differ from a live account set up for a real business.</p>
+    <div class="facts demo-call-checks">
+      {call.checks.map((check) => (
+        <section class="fact" data-demo-check={check.id}>
+          <h3>{check.label}</h3>
+          <p>{check.text}</p>
+        </section>
+      ))}
+    </div>
+    <section class="fact demo-call-quirk" data-demo-quirk>
+      <h3>{call.quirk.label}</h3>
+      <p>{call.quirk.text}</p>
+    </section>
+    <p class="note">We tested booking, an urgent call, pricing honesty, and reaching a person in one call. We did not test wrong-number or spam handling, and we do not give a numeric score. <a href="/about/#demo-line-tests">How we test demo lines</a>.</p>
+  </section>
+)}

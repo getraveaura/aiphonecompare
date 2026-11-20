@@ -17,7 +17,12 @@ import { REFERRAL_NOTE } from '../lib/outbound.mjs';
 import { dfyIndustry } from '../lib/dfy-industries.mjs';
 import { getBestGuides } from '../lib/best-guides.mjs';
 import { lowestMonthlyListing } from '../lib/price.mjs';
+import { demoCallsForSlugs } from '../lib/demo-calls.mjs';
+import { formatDate } from '../lib/stories.mjs';
 const { page } = Astro.props;
+const called = demoCallsForSlugs((page.vendors || []).map((v) => v.slug));
+const calledDate = called[0]?.date || '';
+
 const dfy = dfyIndustry(page.dfySlug);
 const label = (page.kicker || industryLabel(page.industryKey)).toLowerCase();
 const otherGuides = getBestGuides().filter((g) => g.path !== page.path).map((g) => ({ href: g.path, label: g.kicker || industryLabel(g.industryKey) }));
@@ -93,6 +98,9 @@ const jsonld = {
       <section>
         <h2 class="section-title">Sourced starting prices</h2>
         <p>Blank means not verified. Open a vendor for sources and the date we checked. Visit links for referral partners are labeled and use <code>rel="sponsored"</code>. They never change the order or a price.</p>
+        {called.length > 0 && calledDate && (
+          <p class="note">We called the public demo {called.length === 1 ? 'line' : 'lines'} for {called.map((c, i) => <><a href={`/vendors/${c.slug}/#we-called-them`}>{c.name}</a>{i < called.length - 1 ? (i === called.length - 2 ? ' and ' : ', ') : ''}</>)} on <time datetime={calledDate}>{formatDate(calledDate)}</time> (Pacific Time). Those tests are on each company's page, labeled as public demo-line tests.</p>
+        )}
         <VendorTable vendors={page.vendors} industry={page.industryKey} />
       </section>
     ) : (

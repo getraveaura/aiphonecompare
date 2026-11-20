@@ -20,8 +20,12 @@ import { hasAlternativesPage, alternativesPath } from '../../lib/alternatives.mj
 import { vendorOffer } from '../../lib/schema.mjs';
 import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
 import { vendorSummary, sourceLinks, articleNode, productNode, breadcrumbNode } from '../../lib/answers.mjs';
+import DemoCall from '../../components/DemoCall.astro';
+import { demoCallFor, pageModified } from '../../lib/demo-calls.mjs';
 export function getStaticPaths(){ return data.map((v) => ({ params: { slug: v.slug }, props: { v } })); }
 const { v } = Astro.props;
+const call = demoCallFor(v.slug);
+const modified = pageModified(v.last_checked, call?.date);
 const shortUrl = (href) => { try { const u = new URL(href); return `${u.hostname.replace(/^www\./, '')}${u.pathname === '/' ? '' : u.pathname.replace(/\/$/, '')}`; } catch { return href; } };
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical', chiropractic: 'Chiropractic', property: 'Property management', auto: 'Auto repair', salon: 'Salons', therapy: 'Therapy', general: 'General' };
 const industryHref = { dental: '/industries/dental/', legal: '/industries/legal/', plumbing: '/industries/plumbing/', medical: '/industries/medical/' };
@@ -65,7 +69,7 @@ const webPage = {
   isPartOf: { '@id': new URL('/#website', Astro.site).href },
   about: vendorOrg,
 };
-if (v.last_checked) webPage.dateModified = v.last_checked;
+if (modified) webPage.dateModified = modified;
 const provider = models.providers.find((p) => p.slug === v.slug);
 const product = productNode({ vendor: v, provider, checked: models.checked, url: pageUrl });
 const pageYear = (v.last_checked || models.checked || '').slice(0, 4);
@@ -74,14 +78,14 @@ const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
     webPage,
-    articleNode({ url: pageUrl, headline: pageTitle, description, modified: v.last_checked, citations: v.sources, site }),
+    articleNode({ url: pageUrl, headline: pageTitle, description, modified, citations: v.sources, site }),
     breadcrumbNode([['Home', site], ['Vendors', new URL('/vendors/', Astro.site).href], [v.name, pageUrl]]),
     ...(product ? [product] : []),
   ],
 };
 
 ---
-<Base title={pageTitle} description={description} jsonld={jsonld} modified={v.last_checked}>
+<Base title={pageTitle} description={description} jsonld={jsonld} modified={modified}>
   <header class="page-intro">
     <div class="wrap">
       <VerifyStrip />
@@ -130,6 +134,7 @@ const jsonld = {
         {guides.map((guide, index) => <>{index ? ', ' : ''}<a href={guide.href}>{guide.label}</a></>)}.
       </p>
     )}
+    <DemoCall slug={v.slug} name={v.name} />
     <section aria-labelledby="price-changes-heading">
       <h2 id="price-changes-heading" class="section-title">Price changes</h2>
       {priceChanges.length ? priceChanges.map((change) => (
