@@ -272,6 +272,8 @@ const GUIDES = [
   {
     slug: 'property-management',
     path: '/best/property-management/',
+    // OnCrew was added to this list on 20 Nov 2026 after we confirmed its own property-management pages. Vendor price-check dates are unchanged.
+    listChecked: '2026-11-20',
     vendorSlugs: ['abby-connect', 'dialzara', 'goodcall', 'marlie-ai', 'my-ai-front-desk', 'nextphone', 'oncrew', 'rosie', 'smith-ai', 'upfirst'],
     accent: 'property',
     phrase: 'best AI receptionist for property management',
@@ -431,7 +433,7 @@ function buildGuide(guide, list) {
   const ordered = selectVendors(guide, list);
   const cost = guide.costPath ? costPage(guide.costPath) : null;
   const extraCost = guide.extraCostPath ? costPage(guide.extraCostPath) : null;
-  const latest = ordered.map((vendor) => vendor.last_checked).filter(Boolean).sort().at(-1) || '';
+  const latest = [guide.listChecked, ...ordered.map((vendor) => vendor.last_checked)].filter(Boolean).sort().at(-1) || '';
   const sentence = priceSentence(ordered);
   const range = cost?.summary?.[0] || '';
   const referrals = ordered.filter((vendor) => outboundLink(vendor)?.isReferral);
@@ -469,7 +471,7 @@ function buildGuide(guide, list) {
     { href: '/best/', label: 'All industry guides' },
     ...(guide.storyLinks || []),
   ];
-  const findings = industryFindings(ordered);
+  const findings = industryFindings(ordered, undefined, undefined, { listChecked: guide.listChecked });
   const audience = guide.audience || (guide.kicker || industryLabel(guide.industryKey)).toLowerCase();
   const ownPages = Boolean(guide.subsetNote && /own pages/.test(guide.subsetNote));
   const answer = industryAnswer(findings, { audience, own: ownPages });

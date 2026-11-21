@@ -116,6 +116,14 @@ test('the newer industry guides list only vendors with their own industry pages'
   assert.match(chiro.scope, /not copied here in full/i);
   const property = pages.find((item) => item.path === '/best/property-management/');
   assert.match(property.scope, /Rent Manager integration page/i);
+  assert.equal(property.listChecked, '2026-11-20');
+  assert.equal(property.date, '2026-11-20');
+  assert.equal(property.findings.listed, 10);
+  assert.equal(property.findings.latest, '2026-11-20');
+  assert.match(property.answer, /^As of 20 November 2026, \*\*10 AI receptionists\*\* have their own page for property managers/);
+  assert.match(property.keyFindings[0], /\*\*10\*\* services have their own page for property managers/);
+  assert.equal(property.cite.date, '2026-11-20');
+  assert.ok(property.vendors.some((vendor) => vendor.slug === 'oncrew'));
   const auto = pages.find((item) => item.path === '/best/auto-repair/');
   assert.match(auto.scope, /add-on to a Shopmonkey plan/i);
 });
