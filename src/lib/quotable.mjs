@@ -47,28 +47,89 @@ export function countedPrices(list = VENDORS, plans = PLANS) {
     .sort((a, b) => a.status.amount - b.status.amount || a.vendor.name.localeCompare(b.vendor.name));
 }
 
-// Cheapest plan per company at a call volume, from companies that publish
-// enough to work out a full monthly bill. Self-build platforms are excluded.
-export function cheapestAt(slugs = null, calls = EXAMPLE_CALLS, models = MODELS) {
-  const wanted = slugs ? new Set(slugs) : null;
+function providerChecked(provider, models) {
+  return provider.checked || models.checked || '';
+}
+
+// Format a set of ISO dates as "6 November 2026", or "6–20 November 2026"
+// when they fall in the same month, otherwise "6 November 2026 to 20 December 2026".
+export function formatCheckedSpan(dates) {
+  const unique = [...new Set((dates || []).filter(Boolean))].sort();
+  if (!unique.length) return '';
+  if (unique[0] === unique.at(-1)) return formatDate(unique[0]);
+  const last = formatDate(unique.at(-1));
+  const [year1, month1] = unique[0].split('-');
+  const [year2, month2] = unique.at(-1).split('-');
+  if (year1 === year2 && month1 === month2) {
+    return `${Number(unique[0].slice(8, 10))}–${last}`;
+  }
+  return `${formatDate(unique[0])} to ${last}`;
+}
+
+function bestPlanRows(providers, calls, models) {
   const out = [];
-  for (const provider of models.providers) {
-    if (SELF_BUILD.has(provider.slug)) continue;
-    if (wanted && !wanted.has(provider.slug)) continue;
+  for (const provider of providers) {
     let best = null;
     for (const plan of provider.plans) {
       const est = estimatePlan({ ...plan, unit: plan.unit || provider.unit }, { calls, durationMinutes: EXAMPLE_MINUTES });
       if (est.status !== 'estimate' || est.scenarioCents == null) continue;
-      if (!best || est.scenarioCents < best.cents) best = { provider: provider.name, slug: provider.slug, plan: plan.name, cents: est.scenarioCents };
+      if (!best || est.scenarioCents < best.cents) {
+        best = {
+          provider: provider.name,
+          slug: provider.slug,
+          plan: plan.name,
+          cents: est.scenarioCents,
+          checked: providerChecked(provider, models),
+          unit: plan.unit || provider.unit,
+          addonOnly: Boolean(provider.addonOnly),
+        };
+      }
     }
     if (best) out.push(best);
   }
   return out.sort((a, b) => a.cents - b.cents);
 }
 
+function providersFor(slugs, models, { addonOnly } = {}) {
+  const wanted = slugs ? new Set(slugs) : null;
+  return models.providers.filter((provider) => {
+    if (SELF_BUILD.has(provider.slug)) return false;
+    if (Boolean(provider.addonOnly) !== Boolean(addonOnly)) return false;
+    if (wanted && !wanted.has(provider.slug)) return false;
+    return true;
+  });
+}
+
+// Cheapest plan per company at a call volume, from companies that publish
+// enough to work out a full monthly bill. Self-build platforms and add-on-only
+// prices (which sit on top of a software plan we cannot price) are excluded.
+export function cheapestAt(slugs = null, calls = EXAMPLE_CALLS, models = MODELS) {
+  return bestPlanRows(providersFor(slugs, models, { addonOnly: false }), calls, models);
+}
+
+// Monthly add-on estimates, kept separate from complete-plan ranges.
+export function addOnAt(slugs = null, calls = EXAMPLE_CALLS, models = MODELS) {
+  return bestPlanRows(providersFor(slugs, models, { addonOnly: true }), calls, models);
+}
+
 function hasFreeStart(vendor) {
   const text = String(vendor.free_trial || '');
   return /free|trial|\b\d+\s*days?\b/i.test(text) && !/^no\b/i.test(text.trim());
+}
+
+function unitWord(row, count) {
+  if (row?.unit === 'conversation') return count === 1 ? 'conversation' : 'conversations';
+  return count === 1 ? 'call' : 'calls';
+}
+
+function addOnFinding(row) {
+  const amount = usdCents(row.cents);
+  const volume = `${EXAMPLE_CALLS} ${unitWord(row, EXAMPLE_CALLS)}`;
+  const checked = row.checked ? ` (checked ${formatDate(row.checked)})` : '';
+  if (row.slug === 'jobber-ai-receptionist') {
+    return `The ${row.provider} add-on is **${amount}** a month at ${volume}. That is the add-on only: a Jobber software plan is not included, and the yearly price and setup are not published${checked}.`;
+  }
+  return `The ${row.provider} add-on is **${amount}** a month at ${volume}. That is the add-on only, and the yearly price and setup are not published${checked}.`;
 }
 
 // Whole-market figures for the homepage, /cost/ and /price-index/.
@@ -78,9 +139,10 @@ export function marketFindings(list = VENDORS, plans = PLANS, models = MODELS, l
   const median = lowerMedian(amounts);
   const under = (cap) => amounts.filter((n) => n <= cap).length;
   const sb = cheapestAt(null, EXAMPLE_CALLS, models);
+  const addons = addOnAt(null, EXAMPLE_CALLS, models);
   return {
     latest: latestChecked(list),
-    modelsChecked: models.checked,
+    modelsChecked: formatCheckedSpan(sb.map((row) => row.checked)),
     listed: list.length,
     counted: counted.length,
     median,
@@ -92,6 +154,7 @@ export function marketFindings(list = VENDORS, plans = PLANS, models = MODELS, l
     sb,
     sbLow: sb[0] || null,
     sbHigh: sb.at(-1) || null,
+    addons,
     changes: (log?.changes || []).length,
     trackingStarted: log?.trackingStarted || '',
   };
@@ -127,17 +190,22 @@ export function marketFindingsList(f = marketFindings()) {
     `**${f.under50}** start at $50/mo or less, and **${f.under100}** at $100/mo or less.`,
   ];
   if (f.sbLow) {
-    out.push(`At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes each), the cheapest complete plan from each ready-made service with fully published pricing is **${sbRangeText(f)}** (${f.sb.map((r) => r.provider).join(', ')}; plan prices checked ${formatDate(f.modelsChecked)}).`);
+    const checked = f.modelsChecked ? `; plan prices checked ${f.modelsChecked}` : '';
+    out.push(`At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes each), the cheapest complete plan from each ready-made service with fully published pricing is **${sbRangeText(f)}** (${f.sb.map((r) => r.provider).join(', ')}${checked}).`);
   }
+  for (const row of f.addons || []) out.push(addOnFinding(row));
   if (f.trackingStarted) out.push(`**${plural(f.changes, 'price change')}** logged since ${formatDate(f.trackingStarted)}.`);
   return out;
 }
 
 // Industry figures for a /best/ guide's vendor list.
-export function industryFindings(vendors, plans = PLANS, models = MODELS) {
+export function industryFindings(vendors, plans = PLANS, models = MODELS, { listChecked } = {}) {
   const counted = countedPrices(vendors, plans);
   const amounts = counted.map((row) => row.status.amount);
-  const sb = cheapestAt(vendors.map((v) => v.slug), EXAMPLE_CALLS, models);
+  const slugs = vendors.map((v) => v.slug);
+  const sb = cheapestAt(slugs, EXAMPLE_CALLS, models);
+  const addons = addOnAt(slugs, EXAMPLE_CALLS, models);
+  const latest = [latestChecked(vendors), listChecked].filter(Boolean).sort().at(-1) || '';
   return {
     listed: vendors.length,
     counted: counted.length,
@@ -149,8 +217,9 @@ export function industryFindings(vendors, plans = PLANS, models = MODELS) {
     handoff: vendors.filter((v) => String(v.human_handoff || '').trim()).length,
     sb,
     sbLow: sb[0] || null,
-    modelsChecked: models.checked,
-    latest: latestChecked(vendors),
+    addons,
+    modelsChecked: formatCheckedSpan(sb.map((row) => row.checked)),
+    latest,
   };
 }
 
@@ -184,7 +253,11 @@ export function industryFindingsList(f, { audience, own = true }) {
   if (f.lowest && f.counted > 1) out.push(`Lowest published starting price: **${f.lowest.status.display}** (${f.lowest.vendor.name}). Highest: **${f.highest.status.display}** (${f.highest.vendor.name}).`);
   if (f.median != null && f.counted > 2) out.push(`The middle starting price is **${money(f.median)}/mo**, and **${f.under100} of ${f.counted}** start at $100/mo or less.`);
   if (f.freeStart.length) out.push(`**${f.freeStart.length} of ${f.listed}** list a free trial, free calls or a free period, so you can test before you pay.`);
-  if (f.sbLow) out.push(`At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes each), the cheapest complete plan we can price is **${usdCents(f.sbLow.cents)}/mo** (${f.sbLow.provider} ${f.sbLow.plan}; plan prices checked ${formatDate(f.modelsChecked)}).`);
+  if (f.sbLow) {
+    const checked = f.modelsChecked ? `; plan prices checked ${f.modelsChecked}` : '';
+    out.push(`At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes each), the cheapest complete plan we can price is **${usdCents(f.sbLow.cents)}/mo** (${f.sbLow.provider} ${f.sbLow.plan}${checked}).`);
+  }
+  for (const row of f.addons || []) out.push(addOnFinding(row));
   return out;
 }
 
@@ -199,6 +272,7 @@ export function findingDollars(f) {
   for (const row of [f.lowest, f.highest]) if (row) out.push(row.status.display);
   if (f.median != null) out.push(`${money(f.median)}/mo`);
   for (const r of f.sb || []) out.push(`${usdCents(r.cents)}/mo`, usdCents(r.cents));
+  for (const r of f.addons || []) out.push(`${usdCents(r.cents)}/mo`, usdCents(r.cents));
   out.push('$50/mo', '$100/mo');
   return out.join(' ');
 }

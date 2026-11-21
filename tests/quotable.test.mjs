@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import test from 'node:test';
 import {
   marketFindings, marketAnswer, costAnswer, costDescription, marketFindingsList,
-  cheapestAt, countedPrices, SELF_BUILD, citeText, lowerMedian,
+  cheapestAt, addOnAt, countedPrices, SELF_BUILD, citeText, lowerMedian, formatCheckedSpan,
 } from '../src/lib/quotable.mjs';
 import { buildBestGuides } from '../src/lib/best-guides.mjs';
 import { SEND_NOW } from '../src/lib/analytics.mjs';
@@ -26,6 +26,39 @@ test('small-business plan examples leave out self-build developer platforms', ()
   assert.ok(rows.length > 0);
   for (const row of rows) assert.ok(!SELF_BUILD.has(row.slug), row.slug);
   for (let i = 1; i < rows.length; i++) assert.ok(rows[i - 1].cents <= rows[i].cents);
+});
+
+test('Jobber add-on is not treated as a complete plan with fully published pricing', () => {
+  const rows = cheapestAt();
+  assert.ok(rows.length > 0);
+  assert.ok(!rows.some((row) => row.slug === 'jobber-ai-receptionist'));
+  const addons = addOnAt();
+  assert.equal(addons.length, 1);
+  assert.equal(addons[0].slug, 'jobber-ai-receptionist');
+  assert.equal(addons[0].cents, 13850);
+  const f = marketFindings();
+  const list = marketFindingsList(f).join('\n');
+  const complete = list.split('\n').find((line) => /fully published pricing/.test(line));
+  assert.ok(complete, list);
+  assert.doesNotMatch(complete, /Jobber|\$138\.50/);
+  assert.match(complete, /\$199 to \$1,635 a month/);
+  assert.match(complete, /Dialzara, AgentZap, Smith\.ai, Ruby/);
+  assert.match(complete, /plan prices checked 6–20 November 2026/);
+  assert.match(list, /The Jobber AI Receptionist add-on is \*\*\$138\.50\*\* a month at 150 conversations/);
+  assert.match(list, /a Jobber software plan is not included/);
+  assert.match(list, /yearly price and setup are not published \(checked 20 November 2026\)/);
+  const cost = costAnswer(f);
+  assert.doesNotMatch(cost, /\$138\.50/);
+  assert.match(cost, /\$199 to \$1,635 a month/);
+  const d = costDescription(f);
+  assert.doesNotMatch(d, /\$138\.50/);
+  assert.ok(d.length <= 160, `${d.length}: ${d}`);
+});
+
+test('formatCheckedSpan uses each provider\'s real check date and does not invent one', () => {
+  assert.equal(formatCheckedSpan(['2026-11-06']), '6 November 2026');
+  assert.equal(formatCheckedSpan(['2026-11-20', '2026-11-06', '2026-11-06']), '6–20 November 2026');
+  assert.equal(formatCheckedSpan(['2026-11-20', '2026-12-02']), '20 November 2026 to 2 December 2026');
 });
 
 test('the /cost/ meta description leads with small-business monthly costs, not a developer-tool range', () => {

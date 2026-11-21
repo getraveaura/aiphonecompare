@@ -345,6 +345,7 @@
       "name": "Jobber AI Receptionist",
       "slug": "jobber-ai-receptionist",
       "unit": "conversation",
+      "addonOnly": true,
       "checked": "2026-11-20",
       "sources": [
         {
