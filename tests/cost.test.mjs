@@ -105,7 +105,7 @@ test('unpublished monthly price is cannot estimate, not a computed package', () 
 
 test('shipped models keep sources, dates, and do not invent yes/no capabilities', () => {
   assert.equal(models.checked, '2026-11-06');
-  assert.equal(models.providers.length, 6);
+  assert.equal(models.providers.length, 8);
   for (const provider of models.providers) {
     assert.ok(provider.sources.length >= 1);
     assert.ok(provider.sources.every((source) => source.href.startsWith('https://')));

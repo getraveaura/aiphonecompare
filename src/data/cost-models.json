@@ -6,7 +6,12 @@
       "name": "AgentZap",
       "slug": "agentzap",
       "unit": "minute",
-      "sources": [{ "href": "https://agentzap.ai/pricing", "label": "agentzap.ai/pricing" }],
+      "sources": [
+        {
+          "href": "https://agentzap.ai/pricing",
+          "label": "agentzap.ai/pricing"
+        }
+      ],
       "booking": "Appointment scheduling is listed on Starter, Professional, and Business.",
       "transfer": "Call transfers and live-agent handoff are listed on every plan. A separate handoff price is not published, so none is added.",
       "caveats": [
@@ -70,8 +75,14 @@
       "slug": "bland-ai",
       "unit": "minute",
       "sources": [
-        { "href": "https://www.bland.ai/pricing", "label": "bland.ai/pricing" },
-        { "href": "https://docs.bland.ai/platform/billing", "label": "docs.bland.ai billing" }
+        {
+          "href": "https://www.bland.ai/pricing",
+          "label": "bland.ai/pricing"
+        },
+        {
+          "href": "https://docs.bland.ai/platform/billing",
+          "label": "docs.bland.ai billing"
+        }
       ],
       "booking": "The pricing comparison lists an appointment scheduling node on Enterprise only. It is not listed on Start or Build.",
       "transfer": "Start lists transfer time at $0.05/min and Build at $0.04/min, separate from talk time. Warm and live transfers are listed on Enterprise only. Transfer minutes are not in this estimate.",
@@ -116,7 +127,12 @@
       "name": "Dialzara",
       "slug": "dialzara",
       "unit": "minute",
-      "sources": [{ "href": "https://dialzara.com/pricing", "label": "dialzara.com/pricing" }],
+      "sources": [
+        {
+          "href": "https://dialzara.com/pricing",
+          "label": "dialzara.com/pricing"
+        }
+      ],
       "booking": "Calendar sync is listed on Pro, Plus, Elite, and Done for You. It is not listed on Lite.",
       "transfer": "Blind transfer is listed on every inbound plan. Warm transfer is listed from Pro upward, not on Lite.",
       "caveats": [
@@ -179,7 +195,12 @@
       "name": "ElevenLabs ElevenAgents",
       "slug": "elevenlabs-ai-receptionist",
       "unit": "minute",
-      "sources": [{ "href": "https://elevenlabs.io/pricing/agents", "label": "elevenlabs.io/pricing/agents" }],
+      "sources": [
+        {
+          "href": "https://elevenlabs.io/pricing/agents",
+          "label": "elevenlabs.io/pricing/agents"
+        }
+      ],
       "booking": "Not verified. The agents pricing page does not say whether a plan books appointments.",
       "transfer": "Not verified. The agents pricing page does not say whether a plan transfers calls.",
       "caveats": [
@@ -263,8 +284,14 @@
       "slug": "goodcall",
       "unit": "customer",
       "sources": [
-        { "href": "https://www.goodcall.com/pricing", "label": "goodcall.com/pricing" },
-        { "href": "https://www.goodcall.com/faq", "label": "goodcall.com/faq" }
+        {
+          "href": "https://www.goodcall.com/pricing",
+          "label": "goodcall.com/pricing"
+        },
+        {
+          "href": "https://www.goodcall.com/faq",
+          "label": "goodcall.com/faq"
+        }
       ],
       "booking": "Not verified. The pricing page describes a booker as a worker you can add. It does not say every plan books appointments.",
       "transfer": "The pricing page says you choose who receives transfers. It does not publish a transfer fee, so none is added.",
@@ -314,11 +341,181 @@
       ]
     },
     {
+      "id": "jobber-ai-receptionist",
+      "name": "Jobber AI Receptionist",
+      "slug": "jobber-ai-receptionist",
+      "unit": "conversation",
+      "checked": "2026-11-20",
+      "sources": [
+        {
+          "href": "https://help.getjobber.com/en/articles/receptionistpowered-by-jobber-ai/",
+          "label": "help.getjobber.com AI Receptionist"
+        },
+        {
+          "href": "https://www.getjobber.com/pricing",
+          "label": "getjobber.com/pricing"
+        }
+      ],
+      "booking": "Not verified. The add-on help article and pricing page used for this estimate do not say whether the add-on books appointments.",
+      "transfer": "Not verified. The add-on help article and pricing page used for this estimate do not say whether the add-on transfers calls.",
+      "caveats": [
+        "This estimate is the AI Receptionist add-on only. It sits on top of a Jobber Core, Connect, or Grow plan. Jobber software plan prices are not listed on this site, so they are not added.",
+        "The add-on is included on Plus with unlimited conversations. Plus itself is not estimated, because the Plus plan price is not listed on this site.",
+        "Jobber bills conversations, not calls. Conversations tagged \"Spam\" or \"No conversation\" do not count. This estimate treats each call you enter as one conversation.",
+        "A dedicated Jobber phone number is required (US, Canada, or UK)."
+      ],
+      "plans": [
+        {
+          "id": "addon",
+          "name": "AI Receptionist add-on",
+          "publishedMonthly": 99,
+          "included": 100,
+          "overage": 0.79,
+          "setupFee": null,
+          "publishedLabel": "$99/month for 100 conversations, then $0.79 each, on Core, Connect, and Grow, on top of a Jobber plan"
+        },
+        {
+          "id": "plus",
+          "name": "Included on Plus",
+          "estimable": false,
+          "publishedMonthly": null,
+          "setupFee": null,
+          "publishedLabel": "Included on Plus with unlimited conversations",
+          "reason": "The add-on is included on Plus, but the Plus plan price is not listed on this site, so a monthly total cannot be estimated."
+        }
+      ]
+    },
+    {
+      "id": "ruby",
+      "name": "Ruby",
+      "slug": "ruby",
+      "unit": "minute",
+      "checked": "2026-11-20",
+      "sources": [
+        {
+          "href": "https://www.ruby.com/plans-and-pricing/",
+          "label": "ruby.com/plans-and-pricing"
+        },
+        {
+          "href": "https://rubyhelpcenter.helpjuice.com/billing-plans/am-i-on-the-right-billing-plan",
+          "label": "Ruby help center, extra-minute rates"
+        },
+        {
+          "href": "https://www.ruby.com/faqs/",
+          "label": "ruby.com/faqs"
+        }
+      ],
+      "booking": "Not verified. The plans page, extra-use help article, and FAQ used for this estimate do not say whether a plan books appointments.",
+      "transfer": "Not verified. The plans page, extra-use help article, and FAQ used for this estimate do not say whether a plan transfers calls.",
+      "caveats": [
+        "These figures are for Call Ruby minute bundles. Ruby is a human receptionist service with an optional AI front end.",
+        "Ruby\u2019s FAQ says minutes are billed in 60-second steps, rounded up, and include hold time plus time the receptionist spends finishing call details after the caller hangs up. This estimate uses the average length you enter and does not round up, so the bill may be higher.",
+        "Ruby says it charges no setup fees. Extra-minute rates come from a help center article dated 11 December 2025; the public plans page does not list them."
+      ],
+      "plans": [
+        {
+          "id": "call-ruby-50",
+          "name": "Call Ruby 50",
+          "publishedMonthly": 250,
+          "included": 50,
+          "overage": 5.4,
+          "setupFee": 0,
+          "publishedLabel": "$250/month for 50 minutes, then $5.40/min"
+        },
+        {
+          "id": "call-ruby-100",
+          "name": "Call Ruby 100",
+          "publishedMonthly": 395,
+          "included": 100,
+          "overage": 4.5,
+          "setupFee": 0,
+          "publishedLabel": "$395/month for 100 minutes, then $4.50/min"
+        },
+        {
+          "id": "call-ruby-200",
+          "name": "Call Ruby 200",
+          "publishedMonthly": 720,
+          "included": 200,
+          "overage": 4.4,
+          "setupFee": 0,
+          "publishedLabel": "$720/month for 200 minutes, then $4.40/min"
+        },
+        {
+          "id": "call-ruby-350",
+          "name": "Call Ruby 350",
+          "publishedMonthly": 1210,
+          "included": 350,
+          "overage": 4.25,
+          "setupFee": 0,
+          "publishedLabel": "$1,210/month for 350 minutes, then $4.25/min"
+        },
+        {
+          "id": "call-ruby-500",
+          "name": "Call Ruby 500",
+          "publishedMonthly": 1725,
+          "included": 500,
+          "overage": 4.0,
+          "setupFee": 0,
+          "publishedLabel": "$1,725/month for 500 minutes, then $4.00/min"
+        },
+        {
+          "id": "call-ruby-750",
+          "name": "Call Ruby 750",
+          "publishedMonthly": 2550,
+          "included": 750,
+          "overage": 3.85,
+          "setupFee": 0,
+          "publishedLabel": "$2,550/month for 750 minutes, then $3.85/min"
+        },
+        {
+          "id": "call-ruby-1000",
+          "name": "Call Ruby 1,000",
+          "publishedMonthly": 3350,
+          "included": 1000,
+          "overage": 3.65,
+          "setupFee": 0,
+          "publishedLabel": "$3,350/month for 1,000 minutes, then $3.65/min"
+        },
+        {
+          "id": "call-ruby-1500",
+          "name": "Call Ruby 1,500",
+          "publishedMonthly": 4945,
+          "included": 1500,
+          "overage": 3.5,
+          "setupFee": 0,
+          "publishedLabel": "$4,945/month for 1,500 minutes, then $3.50/min"
+        },
+        {
+          "id": "call-ruby-2000",
+          "name": "Call Ruby 2,000",
+          "publishedMonthly": 6400,
+          "included": 2000,
+          "overage": 3.4,
+          "setupFee": 0,
+          "publishedLabel": "$6,400/month for 2,000 minutes, then $3.40/min"
+        },
+        {
+          "id": "call-ruby-2500",
+          "name": "Call Ruby 2,500",
+          "publishedMonthly": 7875,
+          "included": 2500,
+          "overage": 3.3,
+          "setupFee": 0,
+          "publishedLabel": "$7,875/month for 2,500 minutes, then $3.30/min"
+        }
+      ]
+    },
+    {
       "id": "smith-ai",
       "name": "Smith.ai",
       "slug": "smith-ai",
       "unit": "call",
-      "sources": [{ "href": "https://smith.ai/pricing/ai-receptionist", "label": "smith.ai/pricing/ai-receptionist" }],
+      "sources": [
+        {
+          "href": "https://smith.ai/pricing/ai-receptionist",
+          "label": "smith.ai/pricing/ai-receptionist"
+        }
+      ],
       "booking": "AI Scheduling (Calendly and more) is listed on the Free plan. Pro and Enterprise include everything in Free.",
       "transfer": "The FAQ says a call can be transferred to a live receptionist. The add-on price for that transfer is not on this pricing page, so it is not added.",
       "caveats": [

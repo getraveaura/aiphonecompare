@@ -29,8 +29,20 @@ test('dental quotes use a complete plan and leave unique-caller and unpublished 
   assert.equal(smith.year, 'Not enough public pricing');
   assert.equal(smith.lowest, false);
   assert.equal(dental.missing.some((row) => row.slug === 'goodcall'), true);
-  assert.equal(dental.missing.some((row) => row.slug === 'ruby'), true);
   assert.match(dental.missing.find((row) => row.slug === 'goodcall').reason, /different caller/);
+  const ruby = dental.priced.find((row) => row.slug === 'ruby');
+  assert.ok(ruby);
+  assert.equal(ruby.planName, 'Call Ruby 350');
+  assert.equal(ruby.monthly, '$1,635.00');
+  assert.equal(ruby.year, '$19,620.00');
+  assert.equal(ruby.checked, '2026-11-20');
+  const plumbing = quoteDirectory(vendors, models, { industry: 'plumbing', calls: 150, minutes: 3, afterHours: null });
+  const jobber = plumbing.priced.find((row) => row.slug === 'jobber-ai-receptionist');
+  assert.ok(jobber);
+  assert.equal(jobber.planName, 'AI Receptionist add-on');
+  assert.equal(jobber.monthly, '$138.50');
+  assert.equal(jobber.year, 'Not enough public pricing');
+  assert.equal(jobber.checked, '2026-11-20');
 });
 
 test('sponsored does not move a dearer vendor ahead of a cheaper one', () => {

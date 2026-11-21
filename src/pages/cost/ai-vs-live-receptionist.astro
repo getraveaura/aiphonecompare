@@ -84,8 +84,8 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
       <p class="vs-answer">At about 150 calls a month, an <strong>AI receptionist costs $199–$295</strong>. A <strong>live receptionist costs $1,347.75–$1,635</strong>.</p>
       <p class="lead">AI answers your routine calls for far less. A person still earns the extra on some calls, and we show you which.</p>
       <div class="cta vs-cta">
-        {audit && <a class="btn btn-primary btn-lg" href={AUDIT_PATH}>Get my free check <span class="arrow" aria-hidden="true">→</span></a>}
-        <a class={audit ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'} href="/cost/calculator/">See my monthly cost</a>
+        {audit && <a class="btn btn-primary btn-lg" href={AUDIT_PATH} data-offer-cta="audit" data-offer-cta-source="ai-vs-live">Get my free check <span class="arrow" aria-hidden="true">→</span></a>}
+        <a class={audit ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'} href="/cost/calculator/" data-offer-cta="calculator" data-offer-cta-source="ai-vs-live">See my monthly cost</a>
       </div>
       <ul class="trust-chips"><li>Prices checked <time datetime={CHECKED}>{checkedLabel}</time></li><li>Every price linked to its source</li><li>Rankings not for sale</li></ul>
       </div>
@@ -112,7 +112,7 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
             <li>Tight budgets and growing call volume</li>
             <li>After-hours calls that now go to voicemail</li>
           </ul>
-          <a class="btn btn-primary btn-block" href="/cost/calculator/">See my monthly cost</a>
+          <a class="btn btn-primary btn-block" href="/cost/calculator/" data-offer-cta="calculator" data-offer-cta-source="ai-vs-live">See my monthly cost</a>
         </article>
         <article class="vs-side vs-side-live">
           <p class="vs-side-kicker">Live receptionist (a real person)</p>
@@ -123,7 +123,7 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
             <li>Callers who want to talk to a person</li>
             <li>Bookings you must get exactly right</li>
           </ul>
-          {audit ? <a class="btn btn-ghost btn-block" href={AUDIT_PATH}>Get my free check</a> : <a class="btn btn-ghost btn-block" href="#prices">See live prices</a>}
+          {audit ? <a class="btn btn-ghost btn-block" href={AUDIT_PATH} data-offer-cta="audit" data-offer-cta-source="ai-vs-live">Get my free check</a> : <a class="btn btn-ghost btn-block" href="#prices" data-offer-cta="prices" data-offer-cta-source="ai-vs-live">See live prices</a>}
         </article>
       </div>
     </section>
@@ -189,7 +189,7 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
       <p class="vs-intro">Real stories: <a href="/stories/blissful-clean-removed-ai/">a cleaning company that went back to a person</a> and <a href="/stories/kent-heating-firm-90-day-test/">a heating firm where AI booked 43 callers in 90 days</a>. More in <a href="/worth-it/">is an AI receptionist worth it?</a></p>
     </section>
 
-    <AuditCta heading="Not sure which you need? Get a free call coverage check" />
+    <AuditCta heading="Not sure which you need? Get a free call coverage check" source="ai-vs-live" />
 
     <section aria-labelledby="faq-heading">
       <h2 id="faq-heading" class="section-title">Common questions</h2>
@@ -230,8 +230,8 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
       <h2 id="final-heading">Ready to stop missing calls?</h2>
       <p>{audit ? 'Get a free call coverage check, then pick the plan that fits.' : 'Enter your calls, then pick the plan that fits.'}</p>
       <div class="cta vs-cta">
-        {audit && <a class="btn btn-primary btn-lg" href={AUDIT_PATH}>Get my free check <span class="arrow" aria-hidden="true">→</span></a>}
-        <a class={audit ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'} href="/cost/calculator/">See my monthly cost</a>
+        {audit && <a class="btn btn-primary btn-lg" href={AUDIT_PATH} data-offer-cta="audit" data-offer-cta-source="ai-vs-live">Get my free check <span class="arrow" aria-hidden="true">→</span></a>}
+        <a class={audit ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'} href="/cost/calculator/" data-offer-cta="calculator" data-offer-cta-source="ai-vs-live">See my monthly cost</a>
       </div>
       <p class="vs-intro">Or work out what missed calls may cost you with the <a href="/missed-call-calculator/">missed-call calculator</a>.</p>
     </section>

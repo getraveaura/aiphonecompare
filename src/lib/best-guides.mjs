@@ -272,7 +272,7 @@ const GUIDES = [
   {
     slug: 'property-management',
     path: '/best/property-management/',
-    vendorSlugs: ['abby-connect', 'dialzara', 'goodcall', 'marlie-ai', 'my-ai-front-desk', 'nextphone', 'rosie', 'smith-ai', 'upfirst'],
+    vendorSlugs: ['abby-connect', 'dialzara', 'goodcall', 'marlie-ai', 'my-ai-front-desk', 'nextphone', 'oncrew', 'rosie', 'smith-ai', 'upfirst'],
     accent: 'property',
     phrase: 'best AI receptionist for property management',
     h1: 'Best AI receptionist for property management',

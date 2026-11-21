@@ -160,7 +160,7 @@ export function quoteDirectory(vendors, models, input) {
     : vendors.filter((vendor) => (vendor.industries || []).includes(input.industry));
   const rows = pool.map((vendor) => {
     const model = (models.providers || []).find((provider) => provider.slug === vendor.slug) || null;
-    return priceVendor(vendor, model, input, models.checked);
+    return priceVendor(vendor, model, input, model?.checked || models.checked);
   });
   const priced = rows.filter((row) => row.included);
   const missing = rows.filter((row) => !row.included).sort((a, b) => a.name.localeCompare(b.name));
@@ -173,13 +173,13 @@ export function quoteDirectory(vendors, models, input) {
   if (priced[0]?.yearCents != null) priced[0].lowest = true;
   const assumptions = [
     `For plans that charge by the minute, we use ${input.minutes} minutes per call. We don't round up partial minutes.`,
-    'Plans that charge by the call ignore call length.',
+    'Plans that charge by the call or by the conversation ignore call length.',
     input.afterHours == null
       ? 'After-hours share is blank. No pricing page in this directory publishes a separate after-hours rate, so none is added.'
       : `After-hours share is ${input.afterHours}% of calls. No pricing page in this directory publishes a separate after-hours rate, so that share is not priced.`,
     'The first-year cost is 12 months plus any published setup fee. A setup fee that is not printed is not treated as zero. Annual discounts that are mentioned but not printed are not applied.',
     'Each company shows its cheapest plan that fits your calls. Paid ads do not change the order.',
-    `Prices were checked ${formatDate(models.checked)}.`,
+    'Each row shows the date that company\'s prices were checked.',
   ];
   return { input, priced, missing, assumptions, checked: models.checked };
 }

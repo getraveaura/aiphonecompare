@@ -111,11 +111,13 @@ export function estimatePlan(plan, input = {}) {
     });
   }
 
-  if (plan.unit === 'call') {
-    const callCount = wholeCount(calls, 'monthly calls');
+  if (plan.unit === 'call' || plan.unit === 'conversation') {
+    const noun = plan.unit === 'conversation' ? 'conversation' : 'call';
+    const nounPlural = plan.unit === 'conversation' ? 'conversations' : 'calls';
+    const callCount = wholeCount(calls, `monthly ${nounPlural}`);
     if (callCount.error) return result({ ...fees, reason: callCount.error });
     const included = plan.included;
-    if (included == null) return result({ ...fees, reason: 'The included calls are not published.' });
+    if (included == null) return result({ ...fees, reason: `The included ${nounPlural} are not published.` });
     const over = Math.max(0, callCount.value - included);
     const feeCents = centsFrom(plan.publishedMonthly);
     if (over === 0) {
@@ -124,7 +126,7 @@ export function estimatePlan(plan, input = {}) {
         status: 'estimate',
         scenarioCents: feeCents,
         overageUnits: 0,
-        formula: `${callCount.value} calls are inside ${included} included calls. Monthly charge is the published plan price ${formatUsd(feeCents)}. Call length is not part of this bill.`,
+        formula: `${callCount.value} ${nounPlural} are inside ${included} included ${nounPlural}. Monthly charge is the published plan price ${formatUsd(feeCents)}. Call length is not part of this bill.`,
       });
     }
     if (plan.overage == null) {
@@ -133,8 +135,8 @@ export function estimatePlan(plan, input = {}) {
         status: 'partial',
         scenarioCents: feeCents,
         overageUnits: over,
-        formula: `${over} calls are over the ${included} included. The extra-call rate is not published. Partial subtotal is the plan price only, ${formatUsd(feeCents)}.`,
-        reason: 'Extra-call rate is not published.',
+        formula: `${over} ${nounPlural} are over the ${included} included. The extra-${noun} rate is not published. Partial subtotal is the plan price only, ${formatUsd(feeCents)}.`,
+        reason: `Extra-${noun} rate is not published.`,
       });
     }
     const overCents = over * centsFrom(plan.overage);
@@ -144,7 +146,7 @@ export function estimatePlan(plan, input = {}) {
       status: 'estimate',
       scenarioCents: total,
       overageUnits: over,
-      formula: `${formatUsd(feeCents)} plan price + ${over} extra calls × ${formatUsd(centsFrom(plan.overage))} = ${formatUsd(total)}. Call length is not part of this bill.`,
+      formula: `${formatUsd(feeCents)} plan price + ${over} extra ${nounPlural} × ${formatUsd(centsFrom(plan.overage))} = ${formatUsd(total)}. Call length is not part of this bill.`,
     });
   }
 
