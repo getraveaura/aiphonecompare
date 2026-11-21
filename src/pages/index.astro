@@ -48,7 +48,7 @@ const lastUpdated = data.map((vendor) => vendor.last_checked).filter(Boolean).so
 const guides = [...getBestGuides(), ...getLandings()];
 const guideGroups = [
   { title: 'Best for your business', items: guides.filter((g) => g.path.startsWith('/best/')), all: { href: '/best/', label: 'All industry guides' } },
-  { title: 'What it really costs', items: guides.filter((g) => !g.path.startsWith('/best/') && !g.path.startsWith('/compare/')), all: { href: '/cost/', label: 'All cost guides' } },
+  { title: 'What it really costs', items: [{ path: '/cost/ai-vs-live-receptionist/', h1: 'AI vs live receptionist cost' }, ...guides.filter((g) => !g.path.startsWith('/best/') && !g.path.startsWith('/compare/'))], all: { href: '/cost/', label: 'All cost guides' } },
   { title: 'Side-by-side comparisons', items: guides.filter((g) => g.path.startsWith('/compare/')), all: { href: '/vendors/', label: 'All services' } },
 ].filter((g) => g.items.length);
 const homeUrl = new URL('/', Astro.site).href;
@@ -78,7 +78,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
           <a class="btn btn-primary btn-lg" href="/match/">Find my best match <span class="arrow" aria-hidden="true">→</span></a>
           <a class="btn btn-secondary btn-lg" href="/cost/">See pricing and cost</a>
         </div>
-        <p class="tool-line">Free, no sign-up. For AI receptionist pricing and cost, start on the <a class="text-link" href="/cost/">cost page</a>. Already paying for one? <a class="text-link" href="/overpaying/">See if you're overpaying</a>.</p>
+        <p class="tool-line">Free, no sign-up. For AI receptionist pricing and cost, start on the <a class="text-link" href="/cost/">cost page</a>. Comparing with a live receptionist? See <a class="text-link" href="/cost/ai-vs-live-receptionist/">AI vs live cost at 50, 150 and 300 calls</a>. Already paying for one? <a class="text-link" href="/overpaying/">See if you're overpaying</a>.</p>
       </div>
       <CallSlider />
     </div>

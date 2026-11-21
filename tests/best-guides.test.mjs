@@ -94,7 +94,7 @@ test('the roofing guide is honest about using the home-services directory', () =
 test('the newer industry guides list only vendors with their own industry pages', () => {
   const expected = {
     '/best/chiropractors/': ['agentzap', 'dialzara', 'my-ai-front-desk', 'rosie', 'smith-ai', 'upfirst'],
-    '/best/property-management/': ['abby-connect', 'dialzara', 'goodcall', 'marlie-ai', 'my-ai-front-desk', 'nextphone', 'rosie', 'smith-ai', 'upfirst'],
+    '/best/property-management/': ['abby-connect', 'dialzara', 'goodcall', 'marlie-ai', 'my-ai-front-desk', 'nextphone', 'oncrew', 'rosie', 'smith-ai', 'upfirst'],
     '/best/auto-repair/': ['agentzap', 'autoleap-air', 'dialzara', 'justcall', 'my-ai-front-desk', 'nextphone', 'rosie', 'shopmonkey-concierge', 'smith-ai', 'upfirst'],
     '/best/salons/': ['agentzap', 'callpad', 'dialzara', 'glossgenius-reception', 'my-ai-front-desk', 'nextphone', 'rosie', 'upfirst'],
   };

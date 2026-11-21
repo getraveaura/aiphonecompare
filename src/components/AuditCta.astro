@@ -6,6 +6,7 @@ const {
   heading = 'Not sure yet? Get a free call coverage check',
   body = 'We review your public website, Google Business Profile and public reviews — we never place a test call — and email you a one-page report within 1 business day. Free, no obligation.',
   label = 'Get my free check',
+  source = 'audit-cta',
 } = Astro.props;
 ---
 {showAuditLinks() && (
@@ -17,6 +18,6 @@ const {
       <h2>{heading}</h2>
       <p>{body}</p>
     </div>
-    <a class="btn btn-primary" href={AUDIT_PATH} data-audit-link>{label} <span class="arrow" aria-hidden="true">→</span></a>
+    <a class="btn btn-primary" href={AUDIT_PATH} data-audit-link data-offer-cta="audit" data-offer-cta-source={source}>{label} <span class="arrow" aria-hidden="true">→</span></a>
   </aside>
 )}

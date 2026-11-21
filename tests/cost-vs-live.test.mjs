@@ -34,8 +34,17 @@ test('AI vs live cost page keeps every source link, title, meta and FAQ data', (
   assert.equal((page.match(/\{ q: '/g) || []).length, 5);
 });
 
-test('/cost/ and the calculator link to the AI vs live cost page', () => {
-  for (const p of ['src/pages/cost.astro', 'src/pages/cost/calculator.astro']) {
+test('/cost/, the calculator and the homepage link to the AI vs live cost page', () => {
+  for (const p of ['src/pages/cost.astro', 'src/pages/cost/calculator.astro', 'src/pages/index.astro']) {
     assert.match(read(p), /href="\/cost\/ai-vs-live-receptionist\/"/, p);
   }
+  assert.match(read('postbuild.mjs'), /cost\/ai-vs-live-receptionist\//);
+});
+
+test('AI vs live cost page tracks calculator and audit CTA clicks', () => {
+  assert.match(page, /data-offer-cta="calculator"/);
+  assert.match(page, /data-offer-cta="audit"/);
+  assert.match(page, /data-offer-cta-source="ai-vs-live"/);
+  assert.ok((page.match(/data-offer-cta="calculator"/g) || []).length >= 3);
+  assert.ok((page.match(/data-offer-cta="audit"/g) || []).length >= 3);
 });

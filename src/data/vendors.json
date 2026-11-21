@@ -755,13 +755,16 @@
     "hipaa_baa": "",
     "integrations": "Google Calendar and Housecall Pro (MAX plan) from the dashboard; Jobber, ServiceTitan and others through a webhook export connected with Zapier. Features page says QuickBooks is not integrated.",
     "industries": [
-      "plumbing"
+      "plumbing",
+      "property"
     ],
-    "notes": "No setup fee. Annual billing is available on request and takes two months off any plan ($490, $1,490 or $3,490 a year). The pricing page also says there is a 30-day money-back guarantee, that answered calls averaged 1.2 minutes (1,600 calls, last 60 days), that the first month you go over included minutes the extra minutes are free, that it alerts you at 80% and 100% of the minutes, and that after that a month never costs more than the plan that would have fit it.",
+    "notes": "No setup fee. Annual billing is available on request and takes two months off any plan ($490, $1,490 or $3,490 a year). The pricing page also says there is a 30-day money-back guarantee, that answered calls averaged 1.2 minutes (1,600 calls, last 60 days), that the first month you go over included minutes the extra minutes are free, that it alerts you at 80% and 100% of the minutes, and that after that a month never costs more than the plan that would have fit it. Has its own answering-service pages for property managers, including after-hours property management.",
     "sponsored": false,
     "sources": [
       "https://oncrew.ai/pricing",
-      "https://oncrew.ai/features"
+      "https://oncrew.ai/features",
+      "https://oncrew.ai/answering/property-management",
+      "https://oncrew.ai/answering/after-hours-property-management"
     ],
     "last_checked": "2026-11-16",
     "price_check": {
@@ -797,7 +800,7 @@
     "site_status": {
       "status": "offline",
       "since": "2026-11-14",
-      "note": "pickupbell.com returned HTTP 503 (\"This Deployment is paused by the owner\") on 13 and 14 Nov 2026. The listing stays up; its price and trial are as last reported and may no longer apply."
+      "note": "pickupbell.com returned HTTP 503 (\"This Deployment is paused by the owner\") on 13 and 14 November 2026, and still returned HTTP 503 with Vercel DEPLOYMENT_PAUSED on 20 November 2026. The listing stays up; its price and trial are as last reported and may no longer apply."
     }
   },
   {
@@ -916,9 +919,9 @@
       "note": "Read on withallo.com/pricing. Same $45 seat price as before, with the add-on now spelled out."
     },
     "trial_check": {
-      "date": "2026-11-14",
+      "date": "2026-11-20",
       "source": "https://www.withallo.com/",
-      "note": "Allo's FAQ: \"There is a 3-day free trial. You leave a card on file and it is only charged on day 3.\" Earlier listing said 7-day trial."
+      "note": "Re-read on withallo.com and withallo.com/pricing on 20 November 2026. Allo's FAQ still says: \"There is a 3-day free trial. You leave a card on file and it is only charged on day 3.\" The pricing page also says Allo includes a 3-day free trial. No 7-day trial wording was found."
     }
   },
   {
