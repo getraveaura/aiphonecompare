@@ -1,5 +1,5 @@
 {
-  "checked": "2026-11-06",
+  "checked": "2026-11-22",
   "providers": [
     {
       "id": "agentzap",
@@ -67,6 +67,61 @@
           "publishedLabel": "Custom",
           "reason": "Enterprise is custom. No public price, included amount or extra-use price is listed, so we can't estimate it."
         }
+      ],
+      "productKind": "ready",
+      "bestFor": "Bills by the minute",
+      "checked": "2026-11-22"
+    },
+    {
+      "id": "autoleap-air",
+      "name": "AutoLeap AIR",
+      "slug": "autoleap-air",
+      "unit": "call",
+      "productKind": "ready",
+      "bestFor": "Bills by the call",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://autoleap.com/air/",
+          "label": "autoleap.com/air"
+        }
+      ],
+      "booking": "The AIR page says appointment requests can be added to an AutoLeap calendar during the call. It does not say every shop software calendar works the same way.",
+      "transfer": "The AIR page lists agent call forwarding to a team member.",
+      "caveats": [
+        "Billed per call. Call length does not change these rows.",
+        "The 500-call card also says \"100 calls free.\" It does not say whether those 100 calls sit on top of the 500, so they are not added.",
+        "The AIR cards do not print a setup fee. A fee that is not printed is not treated as $0.",
+        "Shop-software prices on a different AutoLeap page are not included."
+      ],
+      "plans": [
+        {
+          "id": "flexible",
+          "name": "Flexible Calls",
+          "publishedMonthly": 0,
+          "included": 0,
+          "overage": 1,
+          "setupFee": null,
+          "publishedLabel": "$1 per call, no minimum spend"
+        },
+        {
+          "id": "starter",
+          "name": "Starter",
+          "publishedMonthly": 99,
+          "included": 200,
+          "overage": 0.75,
+          "setupFee": null,
+          "publishedLabel": "$99/month for 200 calls, then $0.75/call"
+        },
+        {
+          "id": "growth",
+          "name": "500 calls",
+          "publishedMonthly": 199,
+          "included": 500,
+          "overage": 0.75,
+          "setupFee": null,
+          "publishedLabel": "$199/month for 500 calls, then $0.75/call"
+        }
       ]
     },
     {
@@ -120,7 +175,10 @@
           "publishedLabel": "Custom",
           "reason": "Enterprise is contracted to volume. No public rate is printed, so this cannot be estimated."
         }
-      ]
+      ],
+      "productKind": "platform",
+      "bestFor": "Platform you build",
+      "checked": "2026-11-22"
     },
     {
       "id": "dialzara",
@@ -188,7 +246,10 @@
           "publishedLabel": "Starting at $1,500/month. Included minutes are inquire-only.",
           "reason": "Done for You publishes a starting price only. Included minutes are not listed, so we can't estimate a monthly total."
         }
-      ]
+      ],
+      "productKind": "ready",
+      "bestFor": "Bills by the minute",
+      "checked": "2026-11-22"
     },
     {
       "id": "elevenlabs",
@@ -276,7 +337,10 @@
           "publishedLabel": "Custom",
           "reason": "Enterprise is custom. No public price or included minutes are listed, so we can't estimate it."
         }
-      ]
+      ],
+      "productKind": "platform",
+      "bestFor": "Platform you build",
+      "checked": "2026-11-22"
     },
     {
       "id": "goodcall",
@@ -338,7 +402,10 @@
           "publishedLabel": "Volume pricing",
           "reason": "Enterprise pricing is not published, so this cannot be estimated."
         }
-      ]
+      ],
+      "productKind": "ready",
+      "bestFor": "Bills by the unique caller",
+      "checked": "2026-11-22"
     },
     {
       "id": "jobber-ai-receptionist",
@@ -346,7 +413,7 @@
       "slug": "jobber-ai-receptionist",
       "unit": "conversation",
       "addonOnly": true,
-      "checked": "2026-11-20",
+      "checked": "2026-11-22",
       "sources": [
         {
           "href": "https://help.getjobber.com/en/articles/receptionistpowered-by-jobber-ai/",
@@ -384,6 +451,303 @@
           "publishedLabel": "Included on Plus with unlimited conversations",
           "reason": "The add-on is included on Plus, but the Plus plan price is not listed on this site, so a monthly total cannot be estimated."
         }
+      ],
+      "productKind": "addon",
+      "bestFor": "Add-on to Jobber software"
+    },
+    {
+      "id": "legalclerk-ai",
+      "name": "LegalClerk.ai",
+      "slug": "legalclerk-ai",
+      "unit": "call",
+      "productKind": "ready",
+      "bestFor": "Unlimited calls, one seat",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://legalclerk.ai/pricing",
+          "label": "legalclerk.ai/pricing"
+        }
+      ],
+      "booking": "The Unlimited Calls plan lists appointment scheduling.",
+      "transfer": "Live-agent escalation is listed on Enterprise, which is a custom quote. It is not listed on the $400 seat plan, so it is not included.",
+      "caveats": [
+        "The printed price is $400 per seat per month. This row is one seat. Extra seats are not added.",
+        "The page says the plan includes unlimited calls and a $0 setup fee.",
+        "Enterprise is a custom quote and is not estimated."
+      ],
+      "plans": [
+        {
+          "id": "unlimited",
+          "name": "Unlimited Calls, one seat",
+          "publishedMonthly": 400,
+          "included": 100000,
+          "overage": 0,
+          "setupFee": 0,
+          "publishedLabel": "$400 per seat/month, unlimited calls, $0 setup fee. This row is one seat."
+        },
+        {
+          "id": "enterprise",
+          "name": "Enterprise",
+          "estimable": false,
+          "publishedMonthly": null,
+          "setupFee": null,
+          "publishedLabel": "Custom quote",
+          "reason": "Enterprise is a custom quote. No public monthly total is printed."
+        }
+      ]
+    },
+    {
+      "id": "marlie-ai",
+      "name": "Marlie AI",
+      "slug": "marlie-ai",
+      "unit": "minute",
+      "productKind": "ready",
+      "bestFor": "Bills by the minute",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://www.marlie.ai/pricing",
+          "label": "marlie.ai/pricing"
+        }
+      ],
+      "booking": "Calendar booking is listed from Standard upward. It is not listed on Basic.",
+      "transfer": "Call transfer is listed from Standard (one number) upward. Basic says no call transfer.",
+      "caveats": [
+        "A setup fee is not printed as a dollar amount. Premium says white-glove onboarding is included. That is not treated as a $0 setup fee on the other plans.",
+        "Partial minutes are not described as rounded up. This estimate does not round them up."
+      ],
+      "plans": [
+        {
+          "id": "basic",
+          "name": "Basic",
+          "publishedMonthly": 49,
+          "included": 250,
+          "overage": 0.35,
+          "setupFee": null,
+          "publishedLabel": "$49/month for 250 minutes, then $0.35/min"
+        },
+        {
+          "id": "standard",
+          "name": "Standard",
+          "publishedMonthly": 99,
+          "included": 500,
+          "overage": 0.35,
+          "setupFee": null,
+          "publishedLabel": "$99/month for 500 minutes, then $0.35/min"
+        },
+        {
+          "id": "pro",
+          "name": "Pro",
+          "publishedMonthly": 199,
+          "included": 1000,
+          "overage": 0.3,
+          "setupFee": null,
+          "publishedLabel": "$199/month for 1,000 minutes, then $0.30/min"
+        },
+        {
+          "id": "premium",
+          "name": "Premium",
+          "publishedMonthly": 399,
+          "included": 2000,
+          "overage": 0.25,
+          "setupFee": null,
+          "publishedLabel": "$399/month for 2,000 minutes, then $0.25/min"
+        }
+      ]
+    },
+    {
+      "id": "my-ai-front-desk",
+      "name": "My AI Front Desk",
+      "slug": "my-ai-front-desk",
+      "unit": "minute",
+      "productKind": "ready",
+      "bestFor": "Bills by the minute",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://www.myaifrontdesk.com/pricing",
+          "label": "myaifrontdesk.com/pricing"
+        }
+      ],
+      "booking": "The pricing page describes booking as part of the product. It does not print a separate booking fee.",
+      "transfer": "Agent actions include transfer. A separate transfer price is not printed, so none is added.",
+      "caveats": [
+        "Business-in-a-Box is $99/month, or $79/month billed annually. This row uses the monthly price. The annual price is not used.",
+        "200 voice minutes are included. After that, each extra minute draws 25 credits ($0.25) from a 1,000-credit pool, about 40 more minutes. Unused pool credits expire monthly. Auto-reload then adds 1,000 credits for $10, which is 40 minutes at the same voice rate. This estimate spends the pool and the reloads on voice only. Texts, chat, and forms also draw credits and are not added, so a business that uses those can pay more.",
+        "A setup fee is not printed. \"Setup in 5 minutes\" is not treated as a $0 fee.",
+        "Partner and Enterprise are custom and are not estimated."
+      ],
+      "plans": [
+        {
+          "id": "business",
+          "name": "Business-in-a-Box",
+          "publishedMonthly": 99,
+          "included": 240,
+          "overage": null,
+          "overagePack": {
+            "units": 40,
+            "price": 10
+          },
+          "setupFee": null,
+          "publishedLabel": "$99/month for 200 voice minutes, then $0.25/min from a 1,000-credit pool, then $10 per 1,000 auto-reloaded credits"
+        }
+      ]
+    },
+    {
+      "id": "nextphone",
+      "name": "NextPhone",
+      "slug": "nextphone",
+      "unit": "call",
+      "productKind": "ready",
+      "bestFor": "Flat monthly price, unlimited inbound calls",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://www.getnextphone.com/pricing",
+          "label": "getnextphone.com/pricing"
+        }
+      ],
+      "booking": "The comparison table lists booking into Google and Outlook on the plans.",
+      "transfer": "The comparison table lists transfers. Pro lists up to 10 people the AI can transfer to.",
+      "caveats": [
+        "Pro is $199/month with unlimited inbound calls. The page says there are no per-minute charges, no overage fees, and no setup fee.",
+        "Annual prices are printed (Pro $1,990/year). This row uses monthly billing.",
+        "Growth and Scale cost more for setup help and extra features. They are not cheaper at these call counts, so the cheapest row is Pro."
+      ],
+      "plans": [
+        {
+          "id": "pro",
+          "name": "Pro",
+          "publishedMonthly": 199,
+          "included": 100000,
+          "overage": 0,
+          "setupFee": 0,
+          "publishedLabel": "$199/month, unlimited inbound calls, no overage, no setup fee"
+        },
+        {
+          "id": "growth",
+          "name": "Growth",
+          "publishedMonthly": 299,
+          "included": 100000,
+          "overage": 0,
+          "setupFee": 0,
+          "publishedLabel": "$299/month, unlimited inbound calls, no setup fee"
+        },
+        {
+          "id": "scale",
+          "name": "Scale",
+          "publishedMonthly": 599,
+          "included": 100000,
+          "overage": 0,
+          "setupFee": 0,
+          "publishedLabel": "$599/month, unlimited inbound calls, no setup fee"
+        }
+      ]
+    },
+    {
+      "id": "oncrew",
+      "name": "OnCrew",
+      "slug": "oncrew",
+      "unit": "minute",
+      "productKind": "ready",
+      "bestFor": "Bills by the minute",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://oncrew.ai/pricing",
+          "label": "oncrew.ai/pricing"
+        }
+      ],
+      "booking": "Not verified from the pricing page alone. The page prices answered minutes and transfers. It does not print a booking fee.",
+      "transfer": "The pricing page lists live transfers that announce the caller before connecting.",
+      "caveats": [
+        "The page says there is no setup fee. The first month can be $1. This row uses the ongoing monthly price, not the $1 first month.",
+        "The page says the first month you go past included minutes, the extra minutes are free, and after that a month is not billed above the plan that would have fit the minutes. This estimate uses the printed plan price plus the printed per-minute rate. It does not apply the first-month waiver.",
+        "Minutes are added in seconds and rounded up once at the end of the month, not per call. This estimate does not add that end-of-month round-up. At a whole number of minutes it does not change the total.",
+        "Alert texts have their own allowance and a $0.05 extra-text rate. Texts are not included in this call estimate.",
+        "Annual totals of $490, $1,490, and $3,490 are printed. This row uses monthly billing."
+      ],
+      "plans": [
+        {
+          "id": "starter",
+          "name": "Starter",
+          "publishedMonthly": 49,
+          "included": 250,
+          "overage": 0.49,
+          "setupFee": 0,
+          "publishedLabel": "$49/month for 250 minutes, then $0.49/min"
+        },
+        {
+          "id": "pro",
+          "name": "Pro",
+          "publishedMonthly": 149,
+          "included": 500,
+          "overage": 0.39,
+          "setupFee": 0,
+          "publishedLabel": "$149/month for 500 minutes, then $0.39/min"
+        },
+        {
+          "id": "business",
+          "name": "Business",
+          "publishedMonthly": 349,
+          "included": 1500,
+          "overage": 0.29,
+          "setupFee": 0,
+          "publishedLabel": "$349/month for 1,500 minutes, then $0.29/min"
+        }
+      ]
+    },
+    {
+      "id": "rosie",
+      "name": "Rosie",
+      "slug": "rosie",
+      "unit": "minute",
+      "productKind": "ready",
+      "bestFor": "Bills by the minute",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://heyrosie.com/pricing",
+          "label": "heyrosie.com/pricing"
+        }
+      ],
+      "booking": "Direct calendar booking is listed on Scale ($149/month) and Growth. Professional lists appointment links by text, not live booking.",
+      "transfer": "Warm transfers and live transfers are listed on Scale and Growth. They are not listed on Professional.",
+      "caveats": [
+        "These three call volumes fit inside a printed minute allowance, so an extra-minute rate is not needed. The overage FAQ is on the page, and its answer was not in the page text we could read, so it is not used. Past the allowance, the row is not estimated.",
+        "A setup fee is not printed as a dollar amount. Growth includes white-glove onboarding. That is not treated as $0 on the other plans.",
+        "Annual billing is described as two months free. Annual dollar totals are not printed, so they are not used.",
+        "Website texting is a $50/month add-on and is not included. Website chat is described as free."
+      ],
+      "plans": [
+        {
+          "id": "professional",
+          "name": "Professional",
+          "publishedMonthly": 49,
+          "included": 250,
+          "overage": null,
+          "setupFee": null,
+          "publishedLabel": "$49/month for 250 minutes. The extra-minute rate was not in the page text we could read."
+        },
+        {
+          "id": "scale",
+          "name": "Scale",
+          "publishedMonthly": 149,
+          "included": 1000,
+          "overage": null,
+          "setupFee": null,
+          "publishedLabel": "$149/month for 1,000 minutes. The extra-minute rate was not in the page text we could read."
+        },
+        {
+          "id": "growth",
+          "name": "Growth",
+          "publishedMonthly": 299,
+          "included": 2000,
+          "overage": null,
+          "setupFee": null,
+          "publishedLabel": "$299/month for 2,000 minutes. The extra-minute rate was not in the page text we could read."
+        }
       ]
     },
     {
@@ -410,7 +774,7 @@
       "transfer": "Not verified. The plans page, extra-use help article, and FAQ used for this estimate do not say whether a plan transfers calls.",
       "caveats": [
         "These figures are for Call Ruby minute bundles. Ruby is a human receptionist service with an optional AI front end.",
-        "Ruby\u2019s FAQ says minutes are billed in 60-second steps, rounded up, and include hold time plus time the receptionist spends finishing call details after the caller hangs up. This estimate uses the average length you enter and does not round up, so the bill may be higher.",
+        "Ruby’s FAQ says minutes are billed in 60-second steps, rounded up, and include hold time plus time the receptionist spends finishing call details after the caller hangs up. This estimate uses the average length you enter and does not round up, so the bill may be higher.",
         "Ruby says it charges no setup fees. Extra-minute rates come from a help center article dated 11 December 2025; the public plans page does not list them."
       ],
       "plans": [
@@ -455,7 +819,7 @@
           "name": "Call Ruby 500",
           "publishedMonthly": 1725,
           "included": 500,
-          "overage": 4.0,
+          "overage": 4,
           "setupFee": 0,
           "publishedLabel": "$1,725/month for 500 minutes, then $4.00/min"
         },
@@ -504,6 +868,73 @@
           "setupFee": 0,
           "publishedLabel": "$7,875/month for 2,500 minutes, then $3.30/min"
         }
+      ],
+      "productKind": "live",
+      "bestFor": "Live receptionists"
+    },
+    {
+      "id": "serviceagent",
+      "name": "ServiceAgent",
+      "slug": "serviceagent",
+      "unit": "minute",
+      "productKind": "ready",
+      "bestFor": "Bills by credits, 15 per AI minute",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://serviceagent.ai/pricing",
+          "label": "serviceagent.ai/pricing"
+        }
+      ],
+      "booking": "The plans include a booking widget and calendar sync. A separate booking fee is not printed.",
+      "transfer": "Not verified. The pricing page used for this estimate does not say whether a call is transferred to a person.",
+      "caveats": [
+        "AI voice is 15 credits a minute, and the page says minutes round up. This estimate rounds each call up to the next minute. At a whole 3 minutes, that adds nothing.",
+        "Month-to-month prices are used: Growth $119 for 6,000 credits, Franchise $349 for 20,000 credits. Yearly prices are lower and are not used.",
+        "Top-up packs are printed as a range, from 500 credits for $20 to 100,000 for $1,999. Pay-as-you-go credit cost is printed as $0.02 to $0.04. A range is not used as a single extra-minute rate. Past the included credits, the row is not estimated.",
+        "Texts, ads, and other credit uses are not added. A setup fee is not printed and is not treated as $0.",
+        "Launch is $0 with no monthly credits. Its pay-as-you-go rate is only a range, so it is not estimated."
+      ],
+      "plans": [
+        {
+          "id": "launch",
+          "name": "Launch",
+          "estimable": false,
+          "publishedMonthly": 0,
+          "setupFee": null,
+          "publishedLabel": "$0/month with no monthly credits. Pay-as-you-go credit cost is a $0.02 to $0.04 range.",
+          "reason": "The pay-as-you-go credit price is a range, not a single rate, so a monthly total cannot be estimated."
+        },
+        {
+          "id": "core",
+          "name": "Core",
+          "publishedMonthly": 49,
+          "included": 133,
+          "overage": null,
+          "roundUpMinutes": true,
+          "setupFee": null,
+          "publishedLabel": "$49/month month to month for 2,000 credits. AI voice is 15 credits a minute, and minutes round up."
+        },
+        {
+          "id": "growth",
+          "name": "Growth",
+          "publishedMonthly": 119,
+          "included": 400,
+          "overage": null,
+          "roundUpMinutes": true,
+          "setupFee": null,
+          "publishedLabel": "$119/month month to month for 6,000 credits. AI voice is 15 credits a minute, and minutes round up."
+        },
+        {
+          "id": "franchise",
+          "name": "Franchise",
+          "publishedMonthly": 349,
+          "included": 1333,
+          "overage": null,
+          "roundUpMinutes": true,
+          "setupFee": null,
+          "publishedLabel": "$349/month month to month for 20,000 credits. AI voice is 15 credits a minute, and minutes round up."
+        }
       ]
     },
     {
@@ -522,7 +953,7 @@
       "caveats": [
         "Billed per call, not per minute. The length you enter does not change these rows.",
         "Known spam numbers are filtered before answer and do not count. You can also remove up to 10% of calls as spam. This estimate does not subtract spam.",
-        "The 150-call and 300-call Pro bands, and the 500-call Enterprise band, print a per-call rate but not a monthly package total. Those bands are not estimated.",
+        "The Pro card prints monthly totals of $150 for 75 calls, $270 for 150 calls, and $500 for 300 calls. Extra-call rates are printed beside those bands. A total that adds extra calls is our calculation from those printed rates.",
         "Cancelling needs 30 days' notice. The plan is month to month.",
         "A setup fee is not printed on this pricing page. It is not treated as $0."
       ],
@@ -548,11 +979,20 @@
         {
           "id": "pro-150",
           "name": "Pro, 150 calls",
-          "estimable": false,
-          "publishedMonthly": null,
+          "publishedMonthly": 270,
+          "included": 150,
+          "overage": 2.3,
           "setupFee": null,
-          "publishedLabel": "$1.80 per real call, extra calls $2.30. A monthly package total is not printed.",
-          "reason": "The 150-call band prints a per-call rate, not a monthly total, so a bill cannot be estimated without assuming a package price."
+          "publishedLabel": "$270/month for 150 calls, then $2.30 per extra call"
+        },
+        {
+          "id": "pro-300",
+          "name": "Pro, 300 calls",
+          "publishedMonthly": 500,
+          "included": 300,
+          "overage": 2.17,
+          "setupFee": null,
+          "publishedLabel": "$500/month for 300 calls, then $2.17 per extra call"
         },
         {
           "id": "enterprise-300",
@@ -562,6 +1002,246 @@
           "overage": 2.17,
           "setupFee": null,
           "publishedLabel": "$500/month for 300 calls, then $2.17 per extra call"
+        }
+      ],
+      "productKind": "ready",
+      "bestFor": "Bills by the call",
+      "checked": "2026-11-22"
+    },
+    {
+      "id": "turnkey-dispatch",
+      "name": "Turnkey Dispatch",
+      "slug": "turnkey-dispatch",
+      "unit": "minute",
+      "productKind": "ready",
+      "bestFor": "Bills by the minute",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://turnkeydispatch.com/",
+          "label": "turnkeydispatch.com"
+        }
+      ],
+      "booking": "Front Desk and Growth Desk capture an appointment request and text it. The page says you confirm it. A separate booking fee is not printed.",
+      "transfer": "Not verified as a live handoff. The page says the AI texts you and you call back. If the AI fails, the call can forward to your cell.",
+      "caveats": [
+        "The first 30 days are free. The card is collected and not charged for 30 days. This row uses the monthly price after that, not $0.",
+        "A setup fee is not printed as a dollar amount. It is not treated as $0.",
+        "Website Build ($299 one-time plus hosting) and Local SEO ($99/month) are separate and are not included.",
+        "Spam and hangups under 15 seconds are not billed. This estimate does not subtract them.",
+        "Partial minutes are not described as rounded up. This estimate does not round them up."
+      ],
+      "plans": [
+        {
+          "id": "capture",
+          "name": "Call Capture",
+          "publishedMonthly": 299,
+          "included": 300,
+          "overage": 1,
+          "setupFee": null,
+          "publishedLabel": "$299/month for 300 AI answering minutes, then $1/min"
+        },
+        {
+          "id": "front-desk",
+          "name": "Front Desk",
+          "publishedMonthly": 499,
+          "included": 1000,
+          "overage": 0.75,
+          "setupFee": null,
+          "publishedLabel": "$499/month for 1,000 minutes, then $0.75/min"
+        },
+        {
+          "id": "growth",
+          "name": "Growth Desk",
+          "publishedMonthly": 999,
+          "included": 2000,
+          "overage": 0.5,
+          "setupFee": null,
+          "publishedLabel": "$999/month for 2,000 minutes, then $0.50/min"
+        }
+      ]
+    },
+    {
+      "id": "upfirst",
+      "name": "Upfirst",
+      "slug": "upfirst",
+      "unit": "call",
+      "productKind": "ready",
+      "bestFor": "Bills by the call",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://upfirst.ai/pricing",
+          "label": "upfirst.ai/pricing"
+        }
+      ],
+      "booking": "Appointment scheduling is listed on every plan.",
+      "transfer": "Warm transfers are listed on every plan.",
+      "caveats": [
+        "Billed per call, not per minute. Spam, calls under 15 seconds, and calls where the caller never speaks are not counted. This estimate does not subtract them.",
+        "Monthly prices are used. Annual prices are 20% lower and are not used.",
+        "An extra agent is $9.95/month. This row is one agent.",
+        "A setup fee is not printed as a dollar amount. A free 30-minute onboarding call is listed. That is not treated as a $0 setup fee.",
+        "Enterprise is custom and is not estimated."
+      ],
+      "plans": [
+        {
+          "id": "starter",
+          "name": "Starter",
+          "publishedMonthly": 24.95,
+          "included": 30,
+          "overage": 1.5,
+          "setupFee": null,
+          "publishedLabel": "$24.95/month for 30 calls, then $1.50 per extra call"
+        },
+        {
+          "id": "premium",
+          "name": "Premium",
+          "publishedMonthly": 59.95,
+          "included": 90,
+          "overage": 1,
+          "setupFee": null,
+          "publishedLabel": "$59.95/month for 90 calls, then $1 per extra call"
+        },
+        {
+          "id": "pro",
+          "name": "Pro",
+          "publishedMonthly": 159.95,
+          "included": 300,
+          "overage": 0.75,
+          "setupFee": null,
+          "publishedLabel": "$159.95/month for 300 calls, then $0.75 per extra call"
+        },
+        {
+          "id": "scale",
+          "name": "Scale",
+          "publishedMonthly": 299,
+          "included": 600,
+          "overage": 0.7,
+          "setupFee": null,
+          "publishedLabel": "$299/month for 600 calls, then $0.70 per extra call"
+        }
+      ]
+    },
+    {
+      "id": "viva-ai",
+      "name": "Viva AI",
+      "slug": "viva-ai",
+      "unit": "minute",
+      "productKind": "ready",
+      "bestFor": "Credits, or unlimited for one provider",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://www.getviva.ai/",
+          "label": "getviva.ai"
+        }
+      ],
+      "booking": "The page says Viva books into the practice management system. A separate booking fee is not printed.",
+      "transfer": "The page says a complex case or a request for a person can be transferred to staff. A separate transfer fee is not printed.",
+      "caveats": [
+        "AI-answered calls use 10 credits a minute. Gold is $349 for 4,000 credits, then $0.10 a credit. Platinum is $899 for 7,000 credits, then $0.09. Diamond is $1,199 for 12,000 credits, then $0.08.",
+        "The unlimited plan is $350/month for the first provider, with no credit overage. Each added provider is $150/month and is not included. Full-platform bundles that add outreach are separate prices and are not used.",
+        "Staff calls, texting, reminders, forms, and campaigns are described as unlimited and free. They are not added.",
+        "A setup fee is not printed. Setup is described as about one week and included. That is not a separate dollar fee on the cards."
+      ],
+      "plans": [
+        {
+          "id": "gold",
+          "name": "Gold",
+          "publishedMonthly": 349,
+          "included": 400,
+          "overage": 1,
+          "setupFee": null,
+          "publishedLabel": "$349/month for 4,000 credits (10 credits per AI minute), then $0.10 per credit"
+        },
+        {
+          "id": "platinum",
+          "name": "Platinum",
+          "publishedMonthly": 899,
+          "included": 700,
+          "overage": 0.9,
+          "setupFee": null,
+          "publishedLabel": "$899/month for 7,000 credits, then $0.09 per credit"
+        },
+        {
+          "id": "diamond",
+          "name": "Diamond",
+          "publishedMonthly": 1199,
+          "included": 1200,
+          "overage": 0.8,
+          "setupFee": null,
+          "publishedLabel": "$1,199/month for 12,000 credits, then $0.08 per credit"
+        },
+        {
+          "id": "unlimited",
+          "name": "Unlimited, one provider",
+          "publishedMonthly": 350,
+          "included": 100000,
+          "overage": 0,
+          "setupFee": null,
+          "publishedLabel": "$350/month for the first provider, unlimited AI credits. Added providers are $150/month and are not included."
+        }
+      ]
+    },
+    {
+      "id": "zinng-ai",
+      "name": "Zinng.ai",
+      "slug": "zinng-ai",
+      "unit": "minute",
+      "productKind": "ready",
+      "bestFor": "Bills by the minute",
+      "checked": "2026-11-22",
+      "sources": [
+        {
+          "href": "https://zinng.ai",
+          "label": "zinng.ai"
+        }
+      ],
+      "booking": "Essentials sends an SMS booking link. Pro lists live booking on the call.",
+      "transfer": "Essentials transfers to one number. Pro transfers to more than one number.",
+      "caveats": [
+        "The named plans say done-for-you setup is included, so the setup fee on those plans is treated as included, not as an unpublished fee.",
+        "Extra minutes are sold as prepaid buckets: 150 minutes for $25, 300 for $50, 600 for $100, 1,200 for $200. There is no per-minute overage rate. These three call volumes fit inside a plan, so a bucket is not needed. Past the allowance, the row is not estimated.",
+        "An extra agent is $20/month and is not included.",
+        "Custom is $349+ with a custom minute package and is not estimated."
+      ],
+      "plans": [
+        {
+          "id": "essentials",
+          "name": "Essentials",
+          "publishedMonthly": 49,
+          "included": 300,
+          "overage": null,
+          "setupFee": 0,
+          "publishedLabel": "$49/month for 300 minutes. Done-for-you setup included. Extra minutes are prepaid buckets, not a per-minute rate."
+        },
+        {
+          "id": "pro",
+          "name": "Pro",
+          "publishedMonthly": 99,
+          "included": 700,
+          "overage": null,
+          "setupFee": 0,
+          "publishedLabel": "$99/month for 700 minutes. Done-for-you setup included."
+        },
+        {
+          "id": "growth",
+          "name": "Growth",
+          "publishedMonthly": 149,
+          "included": 1000,
+          "overage": null,
+          "setupFee": 0,
+          "publishedLabel": "$149/month for 1,000 minutes. Done-for-you setup included."
+        },
+        {
+          "id": "scale",
+          "name": "Scale",
+          "publishedMonthly": 249,
+          "included": 2000,
+          "overage": null,
+          "setupFee": 0,
+          "publishedLabel": "$249/month for 2,000 minutes. Done-for-you setup included."
         }
       ]
     }

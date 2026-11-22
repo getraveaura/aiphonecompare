@@ -1,0 +1,186 @@
+---
+import Base from '../../layouts/Base.astro';
+import QuickAnswer from '../../components/QuickAnswer.astro';
+import KeyFindings from '../../components/KeyFindings.astro';
+import vendors from '../../data/vendors.json';
+import models from '../../data/cost-models.json';
+import { bestFaqs } from '../../lib/best-faqs.mjs';
+import { billsByKind } from '../../lib/cost-table.mjs';
+import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
+import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
+import { formatDate } from '../../lib/stories.mjs';
+
+const bySlug = Object.fromEntries(vendors.map((vendor) => [vendor.slug, vendor]));
+const ready = Object.fromEntries(billsByKind(models, 'ready').map((row) => [row.slug, row]));
+const title = 'Best AI phone receptionist for small business (2026)';
+const h1 = 'Best AI phone receptionists for small businesses (2026)';
+const description = 'An independent shortlist of AI phone receptionists. We start with the tools we already track, show sourced starting prices, and say when a fee is not published.';
+const pageUrl = new URL('/best/ai-phone-receptionists/', Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const checked = '2026-11-22';
+const checkedLabel = formatDate(checked);
+const faqs = bestFaqs();
+const author = 'AI Phone Compare research desk';
+
+const picks = [
+  { slug: 'upfirst', kind: 'Ready-made AI', bestFor: 'Bills by the call', bills: 'Call', handoff: 'Warm transfers are listed on every plan' },
+  { slug: 'dialzara', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Blind transfer on the entry plan; warm transfer from Pro' },
+  { slug: 'oncrew', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Live transfers that announce the caller' },
+  { slug: 'rosie', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Live transfers on the $149 plan' },
+  { slug: 'zinng-ai', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Transfer to one number on Essentials; more on Pro' },
+  { slug: 'marlie-ai', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Transfer from the $99 plan' },
+  { slug: 'goodcall', kind: 'Ready-made AI', bestFor: 'Bills by the unique caller', bills: 'Unique caller', handoff: 'You choose who receives transfers' },
+  { slug: 'my-ai-front-desk', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'The homepage says a call can be warm-transferred' },
+  { slug: 'agentzap', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Live-agent handoff is listed on every plan' },
+  { slug: 'smith-ai', kind: 'Hybrid', bestFor: 'Bills by the call, with live agents', bills: 'Call', handoff: 'Can transfer to a live receptionist' },
+  { slug: 'nextphone', kind: 'Ready-made AI', bestFor: 'Flat monthly price', bills: 'Call', handoff: 'Transfers to a person you choose' },
+  { slug: 'abby-connect', kind: 'Hybrid', bestFor: 'People and AI on one plan', bills: 'Abby Minute', handoff: 'Human, AI, or both' },
+  { slug: 'jobber-ai-receptionist', kind: 'Add-on', bestFor: 'Add-on if you already use Jobber', bills: 'Add-on', handoff: 'Not verified' },
+  { slug: 'allo', kind: 'Add-on', bestFor: 'Priced per seat', bills: 'Seat', handoff: 'Not verified' },
+  { slug: 'justcall', kind: 'Platform', bestFor: 'Phone system plus an AI voice agent', bills: 'User, then usage', handoff: 'Transfers to a human are listed' },
+  { slug: 'ruby', kind: 'Live', bestFor: 'Human receptionists, optional AI front end', bills: 'Minute', handoff: 'Human-first' },
+  { slug: 'bland-ai', kind: 'Platform', bestFor: 'You build the agent', bills: 'Platform', handoff: 'Not the same as a ready-made receptionist' },
+  { slug: 'elevenlabs-ai-receptionist', kind: 'Platform', bestFor: 'You build the agent', bills: 'Platform', handoff: 'Not the same as a ready-made receptionist' },
+].map((pick) => {
+  const vendor = bySlug[pick.slug];
+  const bill = ready[pick.slug];
+  return {
+    ...pick,
+    name: vendor.name,
+    start: vendor.starting_price || 'pricing not public',
+    trial: vendor.free_trial || 'not published',
+    source: vendor.sources?.[0] || '',
+    checked: vendor.last_checked || '',
+    checkedLabel: vendor.last_checked ? formatDate(vendor.last_checked) : '',
+    at150: bill ? bill.cells[150] : 'not published',
+  };
+}).sort((a, b) => a.name.localeCompare(b.name));
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    articleNode({ url: pageUrl, headline: h1, description, modified: checked, site }),
+    breadcrumbNode([['Home', site], ['Best', new URL('/best/', site).href], [h1, pageUrl]]),
+    { '@type': 'FAQPage', url: pageUrl, mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+    {
+      '@type': 'ItemList',
+      name: 'AI phone receptionists compared by situation',
+      itemListElement: picks.map((pick, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: pick.name,
+        url: new URL(`/vendors/${pick.slug}/`, site).href,
+        description: pick.start,
+      })),
+    },
+  ],
+};
+const quick = `The best AI phone receptionist for a small business depends on how you are billed and what has to happen on the call. **aiphonecompare does not sell a number-one rank.** We compare tools we already track, using each company's published prices.`;
+---
+<Base title={title} description={description} jsonld={jsonld} modified={checked}>
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/best/">Best</a></li>
+          <li><span aria-current="page">AI phone receptionists</span></li>
+        </ol>
+      </nav>
+      <h1>{h1}</h1>
+      <p class="byline">By the {author}. Updated <time datetime={checked}>{checkedLabel}</time>. Rankings are not for sale. <a href="/about/">How this site works</a>.</p>
+      <QuickAnswer text={quick} label="The short answer" />
+      <p class="lead">If your calls are short and few, start with the lowest published prices on the <a href="/best/under-50/">under-$50</a> and <a href="/best/under-100/">under-$100</a> lists, then confirm the real bill on the <a href="/cost/">cost page</a>. If the same customers call back, look at a unique-caller plan. If a person must be able to take over, look at Smith.ai, Abby Connect, or Ruby, and compare them on the <a href="/cost/ai-vs-live-receptionist/">live-versus-AI page</a>.</p>
+      <p class="lead">aiphonecompare is an independent site that compares AI phone receptionists, also called AI answering services. It is not a receptionist you can buy. Starting prices are not a quote.</p>
+    </div>
+  </header>
+  <div class="wrap stack">
+    {faqs.map((item) => (
+      <section aria-labelledby={item.id}>
+        <h2 id={item.id}>{item.q}</h2>
+        <p>{item.a}</p>
+        {item.id === 'how-we-chose' && (
+          <ul>
+            <li>This is not a scored ranking. Within each group below, names are in alphabetical order, or by the published starting price when the group is about price.</li>
+            <li>Referral links are marked on the vendor page. They do not change prices or this order.</li>
+            <li>"Best for" comes from the billing unit, included use, or a human handoff the vendor publishes. If two tools fit, both are listed.</li>
+          </ul>
+        )}
+        {item.id === 'cost' && <p>Open the <a href="/cost/">cost guide</a> and the <a href="/cost/calculator/">calculator</a>. This page does not repeat the full 50, 150, and 300 call table.</p>}
+        {item.id === 'lowest-price' && <p>Those lists: <a href="/best/under-50/">under $50</a> and <a href="/best/under-100/">under $100</a>.</p>}
+        {item.id === 'human' && <p>See <a href="/cost/ai-vs-live-receptionist/">AI versus a live receptionist</a> and <a href="/compare/smith-ai-vs-ruby/">Smith.ai versus Ruby</a>.</p>}
+        {item.id === 'industry' && (
+          <ul class="link-chips" role="list">
+            <li><a href="/best/dentists/">Dentists</a></li>
+            <li><a href="/best/law-firms/">Law firms</a></li>
+            <li><a href="/best/hvac-plumbing/">HVAC and plumbing</a></li>
+            <li><a href="/best/med-spas/">Med spas</a></li>
+            <li><a href="/best/roofing/">Roofing</a></li>
+            <li><a href="/best/veterinarians/">Veterinarians</a></li>
+            <li><a href="/best/">All industry guides</a></li>
+          </ul>
+        )}
+      </section>
+    ))}
+    <h2 id="short-list">The short list, compared</h2>
+    <p>Prices below are published starting prices, not a predicted bill. The 150-call column is filled only when the cost calculator can finish it. Alphabetical. Not a ranking.</p>
+    <div class="tablewrap" tabindex="0">
+      <table class="compare bills">
+        <caption>Alphabetical, not a ranking. Starting prices are the listing text, with that listing's check date. The 150-call cell is our calculation from printed rates when the cost model can finish it, otherwise "not published." Cost-model prices were re-read {checkedLabel}.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Service</th>
+            <th scope="col">Best for</th>
+            <th scope="col">Kind</th>
+            <th scope="col">Starting published price</th>
+            <th scope="col">How it bills</th>
+            <th scope="col">Human handoff</th>
+            <th scope="col">Trial or free plan</th>
+            <th scope="col">150 calls</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          {picks.map((pick) => (
+            <tr>
+              <th scope="row" data-label="Service"><a href={`/vendors/${pick.slug}/`}>{pick.name}</a></th>
+              <td data-label="Best for">{pick.bestFor}</td>
+              <td data-label="Kind">{pick.kind}</td>
+              <td data-label="Starting published price">{pick.start}</td>
+              <td data-label="How it bills">{pick.bills}</td>
+              <td data-label="Human handoff">{pick.handoff}</td>
+              <td data-label="Trial or free plan">{pick.trial}</td>
+              <td data-label="150 calls">{pick.at150}</td>
+              <td data-label="Source">{pick.source ? <a href={pick.source} rel="nofollow noopener">Pricing source</a> : 'not published'}{pick.checkedLabel ? <> · <time datetime={pick.checked}>{pick.checkedLabel}</time></> : ''} · <a href={`/vendors/${pick.slug}/`}>Details</a></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>The full directory is on <a href="/vendors/">all vendors</a>. Owner stories, including businesses that turned AI off, are on <a href="/stories/">stories</a>.</p>
+    <h2 id="situations">Best for these situations</h2>
+    <h3>Lowest published starting price</h3>
+    <p>Upfirst's Starter is $24.95 a month for 30 calls, then $1.50 a call, on <a href="https://upfirst.ai/pricing" rel="nofollow noopener">upfirst.ai/pricing</a>, checked {checkedLabel}. Dialzara's Business Lite is $29 a month for 60 minutes, on <a href="https://dialzara.com/pricing" rel="nofollow noopener">dialzara.com/pricing</a>. Several others print $49 a month, including OnCrew, Rosie, and Zinng.ai. A starting price is not the bill at 150 calls. Use the <a href="/cost/">cost page</a> before you decide.</p>
+    <h3>Repeat callers</h3>
+    <p>Goodcall is the unique-caller plan in this directory. Starter is $79 a month for 100 unique customers, then 79 cents, and the page says that is about 150 calls. We do not convert that example into a call count. <a href="https://www.goodcall.com/pricing" rel="nofollow noopener">goodcall.com/pricing</a>, checked {checkedLabel}.</p>
+    <h3>You want a person who can take over</h3>
+    <p>Smith.ai lists a transfer to a live receptionist. Abby Connect sells human minutes and AI minutes on the same plans, and AI time counts as half an Abby Minute. Ruby's plans are live receptionists, with optional AI at no extra cost on the plans page. None of these is labeled the winner.</p>
+    <h3>You already use a trade or clinic platform</h3>
+    <p>Jobber's AI Receptionist is $99 a month for 100 conversations, then 79 cents, on Core, Connect, and Grow, on top of a Jobber plan. The software plan is not included, so this is not a standalone receptionist price. Housecall Pro's CSR AI price is not published. Dental, legal, and home-service tools are in the industry guides linked above.</p>
+    <h3>You will build or tune the agent yourself</h3>
+    <p>Bland AI and ElevenLabs publish minute rates for agents you build. They are not in the ready-made $99 to $449 range. Carrier and model charges that are not rolled into one printed rate are not added. See their vendor pages before you compare them with a done-for-you receptionist.</p>
+    <h2 id="checked">How we checked, and how we make money</h2>
+    <p>The {author} used the prices re-read on {checkedLabel} for the cost table, and the listing text for fields this page does not re-estimate. A number that is not on the company's page is written "not published." We do not sell placement in this list. If a vendor page shows a referral link, it is marked there and does not change this order. Read the method on <a href="/about/">about</a>.</p>
+    {showAuditLinks() && <p>A free <a href={AUDIT_PATH}>call coverage check</a> looks at your public website and listings. It does not rank these tools.</p>}
+    <KeyFindings
+      findings={[
+        'This page does not pick a number one, and it does not use a 1 to 10 score.',
+        'Ready-made AI plans we can fully price at 150 calls run from $99 to $449 a month. Ruby is not in that range.',
+        'A starting price is not a bill. Worked totals are on the cost page.',
+      ]}
+      verified={checked}
+      sources={[{ href: '/cost/', label: 'cost guide' }, { href: '/about/', label: 'how we rank' }]}
+      cite={{ title: h1, url: pageUrl, date: checked }}
+    />
+  </div>
+</Base>

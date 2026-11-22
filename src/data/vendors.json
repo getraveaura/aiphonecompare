@@ -748,7 +748,7 @@
     "name": "OnCrew",
     "website": "https://oncrew.ai",
     "referral_url": "https://oncrew.ai/ref/aiphonecompare",
-    "starting_price": "Starter $49/mo with 250 minutes of answered calls, then $0.49/min; Pro $149/mo with 500 minutes, then $0.39/min; Multi-Truck $349/mo with 1,500 minutes, then $0.29/min",
+    "starting_price": "Starter $49/mo with 250 minutes of answered calls, then $0.49/min; Pro $149/mo with 500 minutes, then $0.39/min; Business $349/mo with 1,500 minutes, then $0.29/min",
     "billing_model": "Per answered minute, after the minutes included each month",
     "free_trial": "14-day free trial, no card required",
     "human_handoff": "Pricing page lists live transfers that announce the caller before connecting (Starter includes 4 destinations).",
@@ -770,7 +770,7 @@
     "price_check": {
       "date": "2026-11-16",
       "result": "changed",
-      "note": "Read on oncrew.ai/pricing. Included minutes and Pro/Multi-Truck overage rates changed since the 12 November 2026 check; see the price change log."
+      "note": "Read on oncrew.ai/pricing on 22 November 2026. The $349 plan is named Business. Prices and included minutes match the 16 November 2026 check."
     }
   },
   {

@@ -4,6 +4,7 @@ import Base from '../layouts/Base.astro';
 import models from '../data/cost-models.json';
 import { formatUsd } from '../lib/cost.mjs';
 import { costFaqs } from '../lib/cost-faq.mjs';
+import { billsByKind, readyRange, TABLE_MINUTES } from '../lib/cost-table.mjs';
 import QuickAnswer from '../components/QuickAnswer.astro';
 import KeyFindings from '../components/KeyFindings.astro';
 import { marketFindings, costAnswer, costDescription, marketFindingsList } from '../lib/quotable.mjs';
@@ -24,43 +25,148 @@ function headPrice(plan) {
   if (plan.publishedLabel.length <= 20) return plan.publishedLabel;
   return '';
 }
-const title = 'AI receptionist pricing: what you will really pay per month';
-const pageTitle = `AI receptionist pricing and cost: what you will pay per month (${models.checked.slice(0, 4)})`;
+const title = 'AI receptionist pricing: what you will really pay per month (2026)';
+const pageTitle = 'How much does an AI receptionist cost? Published prices compared';
 const summary = costHubSummary(models);
 const hubSources = sourceLinks(models.providers.map((provider) => provider.sources[0]?.href).filter(Boolean), 6);
 const market = marketFindings();
-// Lead with what a small business pays, from our own data (not a developer-tool range).
-const description = costDescription(market);
+const description = costDescription();
 const marketList = marketFindingsList(market);
 const findings = [
   marketList[1],
   marketList[2],
   ...(market.sbLow ? [marketList[3]] : []),
-  `**${models.providers.length} companies** publish enough (what each plan includes and what extra use costs) to work out a full monthly bill on this page.`,
+  'Live receptionist plans, including Ruby, are not in that range. They are compared on the live-versus-AI page.',
 ];
 const pageUrl = new URL('/cost/', Astro.site).href;
-const faqs = costFaqs(checkedLabel);
+const faqs = costFaqs(models, market);
+const readyRows = billsByKind(models, 'ready');
+const platformRows = billsByKind(models, 'platform');
+const addonRows = billsByKind(models, 'addon');
+const range150 = readyRange(models, 150);
+const author = 'AI Phone Compare research desk';
 const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
     { '@type': 'WebPage', name: title, url: pageUrl, description, dateModified: models.checked, isPartOf: { '@id': new URL('/#website', Astro.site).href } },
     articleNode({ url: pageUrl, headline: pageTitle, description, modified: models.checked, citations: models.providers.flatMap((provider) => provider.sources.map((source) => source.href)), site: new URL('/', Astro.site).href }),
     { '@type': 'FAQPage', url: pageUrl, mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+    {
+      '@type': 'ItemList',
+      name: 'Ready-made AI receptionist plans at 50, 150, and 300 calls',
+      itemListElement: readyRows.map((row, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: row.name,
+        url: new URL(`/vendors/${row.slug}/`, Astro.site).href,
+        description: row.starting,
+      })),
+    },
   ],
 };
+const billHeads = ['Service', 'Best for', 'How it bills', 'Starting published price', '50 calls (150 min)', '150 calls (450 min)', '300 calls (900 min)', 'Setup fee', 'Source and date'];
 ---
 <Base title={pageTitle} description={description} jsonld={jsonld} modified={models.checked} ogImage="/og/cost.png">
   <header class="page-intro">
     <div class="wrap">
       <h1>{title}</h1>
+      <p class="byline">By the {author}. Prices in the table checked <time datetime={models.checked}>{checkedLabel}</time> from each company's own pricing page. <a href="/about/">How this site works</a>. Rankings are not for sale.</p>
       <QuickAnswer text={costAnswer(market)} />
-      <p class="lead">This is the main AI receptionist pricing and cost page. Type in how many calls you get. We show your estimated monthly bill only where the company's own price page says what it charges for (calls or minutes), how much is included and what extra use costs. A starting price is often not what you'd really pay. For a one-plan-per-vendor table you can share, use the <a href="/cost/calculator/">cost calculator</a>.</p>
+      <p class="lead">At 150 calls a month, three minutes each, the cheapest complete published plan from each ready-made AI service runs from {range150.lowText} to {range150.highText}. {range150.lowNames.join(', ')} are at the low end. {range150.highName} is at the high end. These are list prices, before tax, and they are not a quote. Where the calls do not fit inside the printed allowance, the total is our calculation from the printed plan price, included use, and printed extra-use rate.</p>
+      <p class="lead">Live receptionist plans cost more and are compared separately. Ruby is a human receptionist service with an optional AI front end, and it is not in the AI range. See <a href="/cost/ai-vs-live-receptionist/">AI versus a live receptionist</a>. For your own call volume, use the <a href="/cost/calculator/">calculator</a>.</p>
       <PlainIntro primary={['#cost-form', 'Enter my calls']} secondary={['/match/', 'Find my best match']} />
       <p class="tool-line">Comparing with a live receptionist? See <a href="/cost/ai-vs-live-receptionist/">AI vs live receptionist cost at 50, 150 and 300 calls</a>.</p>
       <KeyFindings findings={findings} verified={market.latest} sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }, ...hubSources]} cite={{ title: pageTitle, url: pageUrl, date: market.latest }} note={`Plan math uses prices checked ${checkedLabel}. Not a ranking.`} />
     </div>
   </header>
   <div class="wrap stack">
+    <section aria-labelledby="monthly-cost">
+      <h2 id="monthly-cost">{faqs[0].q}</h2>
+      <p>{faqs[0].a}</p>
+    </section>
+    <section aria-labelledby="call-volumes">
+      <h2 id="call-volumes">{faqs.find((item) => item.id === 'call-volumes').q}</h2>
+      <p>{faqs.find((item) => item.id === 'call-volumes').a}</p>
+      <p>Assumptions: {TABLE_MINUTES}-minute calls, the cheapest complete published plan, monthly billing, before tax. Partial minutes are not rounded up unless that company's page says they are. A fee that is not printed is not treated as zero.</p>
+      <h3>Ready-made AI plans</h3>
+      <div class="tablewrap" tabindex="0">
+        <table class="compare bills">
+          <caption>Cheapest complete published plan at {TABLE_MINUTES} minutes a call, monthly billing, before tax. Where a cell says "our calculation," it adds the printed extra-use rate to the printed plan price. Prices re-checked {checkedLabel}.</caption>
+          <thead>
+            <tr>{billHeads.map((head) => <th scope="col">{head}</th>)}</tr>
+          </thead>
+          <tbody>
+            {readyRows.map((row) => (
+              <tr>
+                <th scope="row" data-label="Service"><a href={`/vendors/${row.slug}/`}>{row.name}</a></th>
+                <td data-label="Best for">{row.bestFor}</td>
+                <td data-label="How it bills">{row.unit}</td>
+                <td data-label="Starting published price">{row.starting}</td>
+                <td data-label="50 calls (150 min)">{row.cells[50]}{row.planNames[50] ? ` · ${row.planNames[50]}` : ''}</td>
+                <td data-label="150 calls (450 min)">{row.cells[150]}{row.planNames[150] ? ` · ${row.planNames[150]}` : ''}</td>
+                <td data-label="300 calls (900 min)">{row.cells[300]}{row.planNames[300] ? ` · ${row.planNames[300]}` : ''}</td>
+                <td data-label="Setup fee">{row.setup}</td>
+                <td data-label="Source and date"><a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}</a> · <time datetime={row.checked}>{row.checkedLabel}</time></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p>Goodcall bills unique callers, not calls. Its pricing page, checked {checkedLabel}, lists Starter at $79 a month for 100 unique customers and says that is about 150 calls. We do not turn calls into customers, so Goodcall is not in the columns above. The cells for 50, 150, and 300 calls are not published. <a href="https://www.goodcall.com/pricing" rel="nofollow noopener">goodcall.com/pricing</a>.</p>
+      <p>Alphabetical order. This is not a ranking, and no company can pay to move up. The <a href="/best/ai-phone-receptionists/">best AI phone receptionists</a> page sorts the same tools by situation.</p>
+      <h3>Add-ons and build-it-yourself platforms</h3>
+      <p>These rows are not in the ready-made range. Jobber is an add-on: the Jobber software plan is not included. Bland AI and ElevenLabs are platforms you build and run yourself. Their minute math leaves out carrier or model charges the pricing page does not roll into one rate.</p>
+      <div class="tablewrap" tabindex="0">
+        <table class="compare bills">
+          <caption>Add-on and platform rows, same 3-minute assumption. Not part of the ready-made AI range. Checked {checkedLabel}.</caption>
+          <thead>
+            <tr>{billHeads.map((head) => <th scope="col">{head}</th>)}</tr>
+          </thead>
+          <tbody>
+            {[...addonRows, ...platformRows].map((row) => (
+              <tr>
+                <th scope="row" data-label="Service"><a href={`/vendors/${row.slug}/`}>{row.name}</a></th>
+                <td data-label="Best for">{row.bestFor}</td>
+                <td data-label="How it bills">{row.unit === 'Conversation' ? 'Add-on' : 'Platform'}</td>
+                <td data-label="Starting published price">{row.starting}</td>
+                <td data-label="50 calls (150 min)">{row.cells[50]}</td>
+                <td data-label="150 calls (450 min)">{row.cells[150]}</td>
+                <td data-label="300 calls (900 min)">{row.cells[300]}</td>
+                <td data-label="Setup fee">{row.setup}</td>
+                <td data-label="Source and date"><a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}</a> · <time datetime={row.checked}>{row.checkedLabel}</time></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <h3>Live receptionists</h3>
+      <p>Ruby is a human receptionist service with an optional AI front end. Its minute-bundle dollars are not in the AI table. Sourced live and AI totals at 50, 150, and 300 calls are on the <a href="/cost/ai-vs-live-receptionist/">AI versus live receptionist</a> page. Abby Connect is a hybrid of people and AI. On 22 November 2026 its page printed Starter at $164 a month for 50 Abby Minutes, $329 for 100, $599 for 200, and Growth at $1,380 for 500, and it said there is no setup fee. One AI minute counts as half an Abby Minute. If every minute is AI, 50, 150, and 300 calls of 3 minutes are 75, 225, and 450 Abby Minutes, which fit the $329, $1,380, and $1,380 plans. That is our calculation from those printed rates, and only for all-AI minutes. The overage dollar rate is not printed, so a mixed or all-human bill at 300 calls is not published. <a href="https://www.abby.com/pricing/" rel="nofollow noopener">abby.com/pricing</a>.</p>
+      <h3>By the minute</h3>
+      <p>Dialzara sells minute bundles. Business Lite is $29 a month for 60 minutes, then $0.48 a minute. At 150 minutes that is our calculation of $72.20. At 450 minutes, Business Plus is the printed $199 a month for 500 minutes. Checked {checkedLabel} on <a href="https://dialzara.com/pricing" rel="nofollow noopener">dialzara.com/pricing</a>.</p>
+      <h3>By the call</h3>
+      <p>Smith.ai bills per call. The Pro card prints $150 a month for 75 calls, $270 for 150 calls, and $500 for 300 calls. At 150 calls the cell is the printed $270 plan, not the 75-call plan plus extra calls. Checked {checkedLabel} on <a href="https://smith.ai/pricing/ai-receptionist" rel="nofollow noopener">smith.ai/pricing/ai-receptionist</a>.</p>
+      <h3>By unique caller</h3>
+      <p>Goodcall charges per different caller. Repeat calls from the same number count once. The page's "about 150 calls" line is their example. We do not convert it into a 150-call bill.</p>
+    </section>
+    {faqs.filter((item) => !['monthly-cost', 'call-volumes'].includes(item.id)).map((item) => (
+      <section aria-labelledby={`${item.id}-body`}>
+        <h2 id={`${item.id}-body`}>{item.q}</h2>
+        <p>{item.a}</p>
+        {item.id === 'setup-cost' && <p>More on what the pricing pages do and do not print: <a href="/cost/hidden-fees/">hidden fees</a>.</p>}
+        {item.id === 'small-business' && <p>See <a href="/small-business/">AI receptionist for small business</a> and plans <a href="/best/under-100/">under $100 a month</a>.</p>}
+        {item.id === 'vs-live' && <p>Open <a href="/cost/ai-vs-live-receptionist/">AI versus a live receptionist</a>. It already has the sourced totals. This page does not add a new live range.</p>}
+        {item.id === 'missing-fees' && <p>The price index and the change log are at <a href="/price-index/">price index</a> and <a href="/price-changes/">price changes</a>.</p>}
+      </section>
+    ))}
+    <section aria-labelledby="how-we-checked">
+      <h2 id="how-we-checked">How we checked these prices</h2>
+      <p>The {author} re-read each pricing page on {checkedLabel}. We assumed {TABLE_MINUTES}-minute calls. We did not round partial minutes up unless the company's page says it does. Unpublished fees were left blank. We used monthly prices, not an annual discount, unless the only printed price was annual, and none of the ready-made rows rely on an unpublished annual discount. No tax is added. aiphonecompare is an independent comparison site for AI receptionists and AI phone answering services. It is not itself a receptionist. Method: <a href="/about/">about this site</a>. Every recorded starting price: <a href="/price-index/">price index</a>.</p>
+      <ul>
+        {models.providers.map((provider) => (
+          <li><a href={`/vendors/${provider.slug}/`}>{provider.name}</a>: <a href={provider.sources[0].href} rel="nofollow noopener">{provider.sources[0].label}</a>, checked <time datetime={provider.checked || models.checked}>{new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${(provider.checked || models.checked)}T00:00:00Z`))}</time>{provider.productKind === 'live' ? '. Live receptionist, not in the AI range. The public plans page did not print the minute-bundle dollars in the view we could read on 22 November 2026, so this row keeps the 20 November 2026 record.' : ''}</li>
+        ))}
+      </ul>
+    </section>
     <form id="cost-form" class="calc-form cost-form">
       <div>
         <label for="calls">Calls per month</label>
@@ -117,11 +223,12 @@ const jsonld = {
         <div><dt>Not verified</dt><dd>The company doesn't publish it, so we leave it blank instead of guessing.</dd></div>
       </dl>
     </details>
+    <h2 id="plan-details">Plan details, company by company</h2>
     <div class="cost-list">
       {models.providers.map((provider) => (
         <article class="cost-provider" aria-labelledby={`${provider.id}-heading`}>
-          <h2 id={`${provider.id}-heading`}><a href={`/vendors/${provider.slug}/`}>{provider.name}</a></h2>
-          <p class="cost-provider-meta">Checked <time datetime={models.checked}>{checkedLabel}</time> · Sources: {provider.sources.map((source, index) => <><a href={source.href} rel="nofollow noopener">{source.label}</a>{index < provider.sources.length - 1 ? ', ' : ''}</>)}</p>
+          <h3 id={`${provider.id}-heading`}><a href={`/vendors/${provider.slug}/`}>{provider.name}</a></h3>
+          <p class="cost-provider-meta">Checked <time datetime={provider.checked || models.checked}>{new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${(provider.checked || models.checked)}T00:00:00Z`))}</time> · Sources: {provider.sources.map((source, index) => <><a href={source.href} rel="nofollow noopener">{source.label}</a>{index < provider.sources.length - 1 ? ', ' : ''}</>)}</p>
           <ul class="cost-provider-facts" role="list">
             <li><strong>Booking.</strong> {provider.booking}</li>
             <li><strong>Transfer.</strong> {provider.transfer}</li>

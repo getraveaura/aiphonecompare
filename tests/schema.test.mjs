@@ -44,19 +44,16 @@ test('price-change lead uses only the record and stays short', () => {
   }
 });
 
-test('cost FAQ answers repeat visible /cost/ copy and carry no dollar amounts', () => {
+test('cost FAQ answers are the visible question copy and leave Ruby out of the AI range', () => {
   const source = fs.readFileSync(new URL('../src/pages/cost.astro', import.meta.url), 'utf8');
-  const markup = source.slice(source.lastIndexOf('<Base'));
-  const visible = markup
-    .replace(/<time[^>]*>\{checkedLabel\}<\/time>/g, '6 November 2026')
-    .replace(/<[^>]+>/g, '')
-    .replace(/\s+/g, ' ');
-  for (const item of costFaqs('6 November 2026')) {
-    assert.doesNotMatch(item.a, /\$\d/);
-    for (const sentence of item.a.split(/(?<=\.)\s+/)) {
-      // The FAQ drops "below" so the answer stands alone.
-      const probe = sentence.replace('The rows turn', 'The rows below turn');
-      assert.ok(visible.includes(probe), `not visible on /cost/: ${sentence}`);
-    }
+  const models = JSON.parse(fs.readFileSync(new URL('../src/data/cost-models.json', import.meta.url), 'utf8'));
+  const faqs = costFaqs(models);
+  assert.match(source, /\{faqs\[0\]\.a\}/);
+  assert.match(source, /\{item\.q\}/);
+  assert.match(source, /\{item\.a\}/);
+  for (const item of faqs) {
+    assert.ok(item.words >= 40 && item.words <= 60, `${item.id} ${item.words}`);
+    assert.doesNotMatch(item.a, /\$1,635/);
+    if (item.id !== 'vs-live') assert.doesNotMatch(item.a, /Ruby/);
   }
 });

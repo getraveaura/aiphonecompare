@@ -35,7 +35,7 @@ const jsonld = {
         </ol>
       </nav>
       <h1>Calculate your monthly AI receptionist bill</h1>
-      <p class="lead">Use this calculator to see what each AI phone answering service would really cost you per month and for the first year. Start with your industry and how many calls you get. The table below starts at 150 calls a month, 3 minutes each. For AI receptionist pricing and cost, including what each plan includes and what extra use costs, start on the <a href="/cost/">cost page</a>.</p>
+      <p class="lead">Use this calculator to see a monthly and first-year bill from published plans. The table starts at 150 calls a month, 3 minutes each. For the AI receptionist pricing guide, start on the <a href="/cost/">cost page</a>. Ruby's row is a live receptionist plan, not an AI plan. Bland AI and ElevenLabs are platforms you build. Jobber is an add-on.</p>
       <ul class="trust-chips"><li>Free, no sign-up</li><li>Real prices from each company</li><li>Rankings not for sale</li></ul>
       <p class="tool-line">Already paying for one? <a id="overpaying-link" href="/overpaying/">Compare what you pay with these plans</a>.</p>
       <p class="tool-line">Thinking about a live receptionist instead? See <a href="/cost/ai-vs-live-receptionist/">what live and AI cost at 50, 150 and 300 calls</a>.</p>
@@ -80,7 +80,7 @@ const jsonld = {
     </ul>
     <div class="tablewrap" tabindex="0">
       <table class="compare">
-        <caption>Vendors with a complete monthly estimate. The highlighted row is the lowest first-year total among plans that also publish a setup fee. Checked <time datetime={quote.checked}>{formatDate(quote.checked)}</time>.</caption>
+        <caption>Vendors with a complete monthly estimate. Where the calls do not fit inside a printed plan, the monthly figure is our calculation from the printed plan price, included use, and printed extra-use rate. The highlighted row is the lowest first-year total among plans that also publish a setup fee. Checked <time datetime={quote.checked}>{formatDate(quote.checked)}</time>.</caption>
         <thead>
           <tr>
             <th scope="col">Vendor</th>
@@ -97,6 +97,7 @@ const jsonld = {
             <tr class:list={{ 'is-lowest': row.lowest }}>
               <th scope="row" data-label="Vendor">
                 <a href={`/vendors/${row.slug}/`}>{row.name}</a>
+                {row.kindLabel && <span class="badge">{row.kindLabel}</span>}
                 {row.lowest && <span class="lowest-flag"> Lowest first-year total</span>}
                 {row.sponsored && <span class="badge">Sponsored</span>}
                 {outboundLink(vendors.find((v) => v.slug === row.slug))?.isReferral && (
@@ -224,6 +225,12 @@ const jsonld = {
     link.href = `/vendors/${row.slug}/`;
     link.textContent = row.name;
     cell.append(link);
+    if (row.kindLabel) {
+      const kind = document.createElement('span');
+      kind.className = 'badge';
+      kind.textContent = row.kindLabel;
+      cell.append(kind);
+    }
     if (row.lowest) {
       const flag = document.createElement('span');
       flag.className = 'lowest-flag';

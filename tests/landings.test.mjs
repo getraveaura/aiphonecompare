@@ -22,7 +22,7 @@ test('landing pages have distinct paths, titles, and search phrases', () => {
   }
 });
 
-test('Smith.ai at 50 calls matches the cost engine and does not price the unpublished 150-call band', () => {
+test('Smith.ai at 50 calls matches the cost engine and uses the printed 150-call total', () => {
   const smith = models.providers.find((provider) => provider.slug === 'smith-ai');
   const free = smith.plans.find((plan) => plan.id === 'free');
   const band = smith.plans.find((plan) => plan.id === 'pro-150');
@@ -31,7 +31,7 @@ test('Smith.ai at 50 calls matches the cost engine and does not price the unpubl
   const table = page.blocks.find((block) => block.type === 'table');
   const row = table.rows.find((cells) => cells[1].text === 'Free');
   assert.equal(row[2].text, formatUsd(estimate.scenarioCents));
-  assert.match(table.rows.find((cells) => cells[1].text === band.name)[3].text, /Not estimated/);
+  assert.equal(table.rows.find((cells) => cells[1].text === band.name)[3].text, '$270.00');
 });
 
 test('Goodcall is not converted from call count, and Housecall has no invented price', () => {
@@ -83,7 +83,8 @@ test('new compare pages stay inside sourced records and do not invent a ServiceT
     assert.match(page.answer.join(' '), /directory|cost model|cost calculator/i);
   }
   assert.match(smith.answer.join(' '), /different caller/i);
-  assert.match(rosie.answer.join(' '), /does not calculate a bill/i);
+  assert.match(rosie.answer.join(' '), /cost calculator/);
+  assert.doesNotMatch(rosie.answer.join(' '), /does not calculate a bill/i);
   assert.match(jobber.answer.join(' '), /no starting price/i);
   assert.doesNotMatch(jobber.answer.join(' '), /ServiceTitan AI Voice Agent: \$\d/);
   assert.match(oncrew.answer.join(' '), /\$199\/mo/);
