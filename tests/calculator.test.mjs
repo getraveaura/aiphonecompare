@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import fs from 'node:fs';
 import test from 'node:test';
 import { calculatorPath, parseCalculatorQuery, quoteDirectory } from '../src/lib/calculator.mjs';
 import models from '../src/data/cost-models.json' with { type: 'json' };
@@ -73,4 +74,22 @@ test('the share path round-trips the inputs', () => {
   const input = { industry: 'plumbing', calls: 80, minutes: 3, afterHours: 25 };
   const params = Object.fromEntries(new URLSearchParams(calculatorPath(input).split('?')[1]));
   assert.deepEqual(parseCalculatorQuery(params), input);
+});
+
+test('the priced results table links to the full AI vs live receptionist cost breakdown', () => {
+  const page = fs.readFileSync(new URL('../src/pages/cost/calculator.astro', import.meta.url), 'utf8');
+  const pricedAt = page.indexOf('Vendors with a complete monthly estimate');
+  const missingAt = page.indexOf('<h2 class="section-title">Not enough public pricing</h2>');
+  assert.ok(pricedAt >= 0, 'priced results table');
+  assert.ok(missingAt > pricedAt, 'missing-pricing heading follows the priced table');
+  const between = page.slice(pricedAt, missingAt);
+  assert.match(
+    between,
+    /<p class="tool-line">Comparing with a live receptionist\? <a href="\/cost\/ai-vs-live-receptionist\/">See the full AI vs live receptionist cost breakdown<\/a>\.<\/p>/,
+  );
+  const intro = page.slice(0, pricedAt);
+  assert.match(
+    intro,
+    /<p class="tool-line">Thinking about a live receptionist instead\? See <a href="\/cost\/ai-vs-live-receptionist\/">what live and AI cost at 50, 150 and 300 calls<\/a>\.<\/p>/,
+  );
 });
