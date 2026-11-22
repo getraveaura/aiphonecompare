@@ -338,6 +338,18 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 .byline { margin: 0; color: var(--ink-soft); font-size: 0.98rem; line-height: 1.5; }
 .lead { color: var(--ink-soft); font-size: 1.15rem; max-width: 66ch; }
 .stack.guide-copy > * + * { margin-top: 3.25rem; }
+.stack.guide-copy > h2 + p,
+.stack.guide-copy > h2 + h3,
+.stack.guide-copy > h2 + .tablewrap { margin-top: 0.85rem; }
+.guide-copy > section:not(.key-findings) > ul:not(.link-chips),
+.guide-copy > ul:not(.link-chips),
+.guide-copy > section:not(.key-findings) > .link-chips {
+  width: min(100%, 42rem);
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+}
 .page-intro.guide-read + .wrap.stack { padding-top: 2.5rem; }
 .guide-copy h2 { margin: 0 0 0.7rem; max-width: 42rem; }
 .guide-copy h3 { margin: 1.35rem 0 0.55rem; }
@@ -430,16 +442,35 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
 }
 .th-main { display: block; }
 .th-sub { display: block; margin-top: 0.15rem; color: var(--muted); font-size: 0.78rem; font-weight: 550; }
-.row-details { display: block; margin-top: 0.2rem; font-family: var(--sans); font-size: 0.78rem; font-weight: 600; letter-spacing: 0; }
+.row-details { display: block; margin-top: 0.28rem; font-family: var(--sans); font-size: 0.92rem; font-weight: 650; letter-spacing: 0; line-height: 1.3; }
 .src-compact {
   display: inline-flex;
-  gap: 0.4rem;
-  align-items: baseline;
-  white-space: nowrap;
-  font-size: 0.82rem;
-  line-height: 1.3;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
+  max-width: 100%;
+  font-size: 0.88rem;
+  line-height: 1.35;
 }
+.src-compact span,
+.src-compact time { white-space: nowrap; }
 .src-compact time { color: var(--muted); }
+.compare caption.prose-caption {
+  width: min(100%, 42rem);
+  max-width: 42rem;
+  margin: 0.15rem auto 1rem;
+  color: var(--ink-soft);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+.vendor-name { display: block; }
+.visit-line {
+  display: inline;
+  margin-left: 0.4rem;
+  font-size: 0.82rem;
+  font-weight: 650;
+  white-space: nowrap;
+}
 .compare.calc-results { width: 100%; min-width: 0; }
 @media (min-width: 881px) {
   .compare.calc-results { table-layout: fixed; }
@@ -565,7 +596,8 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
   .compare tr :last-child { border-bottom: 0; }
   .compare.shortlist { min-width: 0; }
   .compare.shortlist th[scope="row"] { position: static; box-shadow: none; background: transparent; }
-  .src-compact { white-space: normal; }
+  .src-compact span,
+  .src-compact time { white-space: nowrap; }
   .compare tbody th { font-size: 1.25rem; padding-top: 12px; }
   .compare td::before {
     content: attr(data-label);

@@ -11,6 +11,7 @@ import { marketFindings, costAnswer, costDescription, marketFindingsList } from 
 import { costHubSummary } from '../lib/landings.mjs';
 import { articleNode, sourceLinks } from '../lib/answers.mjs';
 import SetupNextStep from '../components/SetupNextStep.astro';
+import { hostLabel, shortDay } from '../lib/source-label.mjs';
 
 const checkedLabel = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${models.checked}T00:00:00Z`));
 function oneTime(plan) {
@@ -116,7 +117,7 @@ const billHeads = [
                 <td data-label="150 calls (450 min)">{row.cells[150]}{row.planNames[150] ? ` · ${row.planNames[150]}` : ''}</td>
                 <td data-label="300 calls (900 min)">{row.cells[300]}{row.planNames[300] ? ` · ${row.planNames[300]}` : ''}</td>
                 <td data-label="Setup fee">{row.setup}</td>
-                <td data-label="Source and date"><a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}</a> · <time datetime={row.checked}>{row.checkedLabel}</time></td>
+                <td class="src-cell" data-label="Source and date">{row.sourceHref ? <a class="src-compact" href={row.sourceHref} rel="nofollow noopener"><span>{hostLabel(row.sourceHref)}</span><time datetime={row.checked}>{shortDay(row.checked)}</time></a> : row.sourceLabel}</td>
               </tr>
             ))}
           </tbody>
@@ -143,7 +144,7 @@ const billHeads = [
                 <td data-label="150 calls (450 min)">{row.cells[150]}</td>
                 <td data-label="300 calls (900 min)">{row.cells[300]}</td>
                 <td data-label="Setup fee">{row.setup}</td>
-                <td data-label="Source and date"><a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}</a> · <time datetime={row.checked}>{row.checkedLabel}</time></td>
+                <td class="src-cell" data-label="Source and date">{row.sourceHref ? <a class="src-compact" href={row.sourceHref} rel="nofollow noopener"><span>{hostLabel(row.sourceHref)}</span><time datetime={row.checked}>{shortDay(row.checked)}</time></a> : row.sourceLabel}</td>
               </tr>
             ))}
           </tbody>
