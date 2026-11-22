@@ -67,19 +67,19 @@ const jsonld = {
 const billHeads = ['Service', 'Best for', 'How it bills', 'Starting published price', '50 calls (150 min)', '150 calls (450 min)', '300 calls (900 min)', 'Setup fee', 'Source and date'];
 ---
 <Base title={pageTitle} description={description} jsonld={jsonld} modified={models.checked} ogImage="/og/cost.png">
-  <header class="page-intro">
+  <header class="page-intro guide-read">
     <div class="wrap">
       <h1>{title}</h1>
-      <p class="byline">By the {author}. Prices in the table checked <time datetime={models.checked}>{checkedLabel}</time> from each company's own pricing page. <a href="/about/">How this site works</a>. Rankings are not for sale.</p>
+      <p class="byline">By the {author}. Ready-made bills in the table were checked <time datetime={models.checked}>{checkedLabel}</time>. Each source column shows that row's own date. <a href="/about/">How this site works</a>. Rankings are not for sale.</p>
       <QuickAnswer text={costAnswer(market)} />
       <p class="lead">At 150 calls a month, three minutes each, the cheapest complete published plan from each ready-made AI service runs from {range150.lowText} to {range150.highText}. {range150.lowNames.join(', ')} are at the low end. {range150.highName} is at the high end. These are list prices, before tax, and they are not a quote. Where the calls do not fit inside the printed allowance, the total is our calculation from the printed plan price, included use, and printed extra-use rate.</p>
       <p class="lead">Live receptionist plans cost more and are compared separately. Ruby is a human receptionist service with an optional AI front end, and it is not in the AI range. See <a href="/cost/ai-vs-live-receptionist/">AI versus a live receptionist</a>. For your own call volume, use the <a href="/cost/calculator/">calculator</a>.</p>
       <PlainIntro primary={['#cost-form', 'Enter my calls']} secondary={['/match/', 'Find my best match']} />
       <p class="tool-line">Comparing with a live receptionist? See <a href="/cost/ai-vs-live-receptionist/">AI vs live receptionist cost at 50, 150 and 300 calls</a>.</p>
-      <KeyFindings findings={findings} verified={market.latest} sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }, ...hubSources]} cite={{ title: pageTitle, url: pageUrl, date: market.latest }} note={`Plan math uses prices checked ${checkedLabel}. Not a ranking.`} />
+      <KeyFindings findings={findings} verified={models.checked} sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }, ...hubSources]} cite={{ title: pageTitle, url: pageUrl, date: models.checked }} note={`Plan math uses prices checked ${checkedLabel}. A row with another date says so beside its source. Not a ranking.`} />
     </div>
   </header>
-  <div class="wrap stack">
+  <div class="wrap stack guide-copy">
     <section aria-labelledby="monthly-cost">
       <h2 id="monthly-cost">{faqs[0].q}</h2>
       <p>{faqs[0].a}</p>
@@ -91,7 +91,7 @@ const billHeads = ['Service', 'Best for', 'How it bills', 'Starting published pr
       <h3>Ready-made AI plans</h3>
       <div class="tablewrap" tabindex="0">
         <table class="compare bills">
-          <caption>Cheapest complete published plan at {TABLE_MINUTES} minutes a call, monthly billing, before tax. Where a cell says "our calculation," it adds the printed extra-use rate to the printed plan price. Prices re-checked {checkedLabel}.</caption>
+          <caption>Cheapest complete published plan at {TABLE_MINUTES} minutes a call, monthly billing, before tax. Where a cell says "our calculation," it adds the printed extra-use rate to the printed plan price. The source column is the day that row was checked.</caption>
           <thead>
             <tr>{billHeads.map((head) => <th scope="col">{head}</th>)}</tr>
           </thead>
@@ -160,7 +160,7 @@ const billHeads = ['Service', 'Best for', 'How it bills', 'Starting published pr
     ))}
     <section aria-labelledby="how-we-checked">
       <h2 id="how-we-checked">How we checked these prices</h2>
-      <p>The {author} re-read each pricing page on {checkedLabel}. We assumed {TABLE_MINUTES}-minute calls. We did not round partial minutes up unless the company's page says it does. Unpublished fees were left blank. We used monthly prices, not an annual discount, unless the only printed price was annual, and none of the ready-made rows rely on an unpublished annual discount. No tax is added. aiphonecompare is an independent comparison site for AI receptionists and AI phone answering services. It is not itself a receptionist. Method: <a href="/about/">about this site</a>. Every recorded starting price: <a href="/price-index/">price index</a>.</p>
+      <p>The {author} re-read the ready-made, add-on, and platform pricing pages on {checkedLabel}. Ruby's minute-bundle dollars stay on the 20 November 2026 record, listed with that date below. We assumed {TABLE_MINUTES}-minute calls. We did not round partial minutes up unless the company's page says it does. Unpublished fees were left blank. We used monthly prices, not an annual discount, unless the only printed price was annual, and none of the ready-made rows rely on an unpublished annual discount. No tax is added. aiphonecompare is an independent comparison site for AI receptionists and AI phone answering services. It is not itself a receptionist. Method: <a href="/about/">about this site</a>. Every recorded starting price: <a href="/price-index/">price index</a>.</p>
       <ul>
         {models.providers.map((provider) => (
           <li><a href={`/vendors/${provider.slug}/`}>{provider.name}</a>: <a href={provider.sources[0].href} rel="nofollow noopener">{provider.sources[0].label}</a>, checked <time datetime={provider.checked || models.checked}>{new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${(provider.checked || models.checked)}T00:00:00Z`))}</time>{provider.productKind === 'live' ? '. Live receptionist, not in the AI range. The public plans page did not print the minute-bundle dollars in the view we could read on 22 November 2026, so this row keeps the 20 November 2026 record.' : ''}</li>

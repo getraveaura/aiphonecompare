@@ -21,6 +21,12 @@ const checked = '2026-11-22';
 const checkedLabel = formatDate(checked);
 const faqs = bestFaqs();
 const author = 'AI Phone Compare research desk';
+const hostLabel = (url) => {
+  try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return 'Source'; }
+};
+const shortDay = (iso) => (iso
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`))
+  : '');
 
 const picks = [
   { slug: 'upfirst', kind: 'Ready-made AI', bestFor: 'Bills by the call', bills: 'Call', handoff: 'Warm transfers are listed on every plan' },
@@ -78,7 +84,7 @@ const jsonld = {
 const quick = `The best AI phone receptionist for a small business depends on how you are billed and what has to happen on the call. **aiphonecompare does not sell a number-one rank.** We compare tools we already track, using each company's published prices.`;
 ---
 <Base title={title} description={description} jsonld={jsonld} modified={checked}>
-  <header class="page-intro">
+  <header class="page-intro guide-read">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
         <ol>
@@ -88,13 +94,13 @@ const quick = `The best AI phone receptionist for a small business depends on ho
         </ol>
       </nav>
       <h1>{h1}</h1>
-      <p class="byline">By the {author}. Updated <time datetime={checked}>{checkedLabel}</time>. Rankings are not for sale. <a href="/about/">How this site works</a>.</p>
+      <p class="byline">By the {author}. Page updated <time datetime={checked}>{checkedLabel}</time>. Each starting price keeps the date on its row. Worked 150-call bills were re-read {checkedLabel}. Rankings are not for sale. <a href="/about/">How this site works</a>.</p>
       <QuickAnswer text={quick} label="The short answer" />
       <p class="lead">If your calls are short and few, start with the lowest published prices on the <a href="/best/under-50/">under-$50</a> and <a href="/best/under-100/">under-$100</a> lists, then confirm the real bill on the <a href="/cost/">cost page</a>. If the same customers call back, look at a unique-caller plan. If a person must be able to take over, look at Smith.ai, Abby Connect, or Ruby, and compare them on the <a href="/cost/ai-vs-live-receptionist/">live-versus-AI page</a>.</p>
       <p class="lead">aiphonecompare is an independent site that compares AI phone receptionists, also called AI answering services. It is not a receptionist you can buy. Starting prices are not a quote.</p>
     </div>
   </header>
-  <div class="wrap stack">
+  <div class="wrap stack guide-copy">
     {faqs.map((item) => (
       <section aria-labelledby={item.id}>
         <h2 id={item.id}>{item.q}</h2>
@@ -125,8 +131,8 @@ const quick = `The best AI phone receptionist for a small business depends on ho
     <h2 id="short-list">The short list, compared</h2>
     <p>Prices below are published starting prices, not a predicted bill. The 150-call column is filled only when the cost calculator can finish it. Alphabetical. Not a ranking.</p>
     <div class="tablewrap" tabindex="0">
-      <table class="compare bills">
-        <caption>Alphabetical, not a ranking. Starting prices are the listing text, with that listing's check date. The 150-call cell is our calculation from printed rates when the cost model can finish it, otherwise "not published." Cost-model prices were re-read {checkedLabel}.</caption>
+      <table class="compare shortlist">
+        <caption>Starting prices are the listing text, with that listing's check date. The 150-call cell is our calculation from printed rates when the cost model can finish it, otherwise "not published." Those worked bills were re-read {checkedLabel}.</caption>
         <thead>
           <tr>
             <th scope="col">Service</th>
@@ -143,15 +149,18 @@ const quick = `The best AI phone receptionist for a small business depends on ho
         <tbody>
           {picks.map((pick) => (
             <tr>
-              <th scope="row" data-label="Service"><a href={`/vendors/${pick.slug}/`}>{pick.name}</a></th>
+              <th scope="row" data-label="Service">
+                <a href={`/vendors/${pick.slug}/`}>{pick.name}</a>
+                <a class="row-details" href={`/vendors/${pick.slug}/`}>Details</a>
+              </th>
               <td data-label="Best for">{pick.bestFor}</td>
               <td data-label="Kind">{pick.kind}</td>
-              <td data-label="Starting published price">{pick.start}</td>
+              <td class="start-price" data-label="Starting published price">{pick.start}</td>
               <td data-label="How it bills">{pick.bills}</td>
               <td data-label="Human handoff">{pick.handoff}</td>
               <td data-label="Trial or free plan">{pick.trial}</td>
               <td data-label="150 calls">{pick.at150}</td>
-              <td data-label="Source">{pick.source ? <a href={pick.source} rel="nofollow noopener">Pricing source</a> : 'not published'}{pick.checkedLabel ? <> · <time datetime={pick.checked}>{pick.checkedLabel}</time></> : ''} · <a href={`/vendors/${pick.slug}/`}>Details</a></td>
+              <td class="src-cell" data-label="Source">{pick.source ? <a class="src-compact" href={pick.source} rel="nofollow noopener"><span>{hostLabel(pick.source)}</span>{pick.checked ? <time datetime={pick.checked}>{shortDay(pick.checked)}</time> : null}</a> : 'not published'}</td>
             </tr>
           ))}
         </tbody>

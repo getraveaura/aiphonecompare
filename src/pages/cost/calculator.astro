@@ -25,7 +25,7 @@ const jsonld = {
 };
 ---
 <Base title="Calculate your monthly AI receptionist bill" description={description} jsonld={jsonld} ogImage="/og/cost.png">
-  <header class="page-intro">
+  <header class="page-intro guide-read">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
         <ol>
@@ -79,8 +79,8 @@ const jsonld = {
       {quote.assumptions.map((item) => <li>{item}</li>)}
     </ul>
     <div class="tablewrap" tabindex="0">
-      <table class="compare">
-        <caption>Vendors with a complete monthly estimate. Where the calls do not fit inside a printed plan, the monthly figure is our calculation from the printed plan price, included use, and printed extra-use rate. The highlighted row is the lowest first-year total among plans that also publish a setup fee. Checked <time datetime={quote.checked}>{formatDate(quote.checked)}</time>.</caption>
+      <table class="compare calc-results">
+        <caption>Vendors with a complete monthly estimate. Where the calls do not fit inside a printed plan, the monthly figure is our calculation from the printed plan price, included use, and printed extra-use rate. The highlighted row is the lowest first-year total among plans that also publish a setup fee. Each source shows that row's check date.</caption>
         <thead>
           <tr>
             <th scope="col">Vendor</th>
@@ -88,7 +88,7 @@ const jsonld = {
             <th scope="col">Monthly</th>
             <th scope="col">First year</th>
             <th scope="col">Setup</th>
-            <th scope="col">Unknowns</th>
+            <th scope="col">Notes</th>
             <th scope="col">Source</th>
           </tr>
         </thead>
@@ -108,11 +108,14 @@ const jsonld = {
               <td data-label="Monthly">{row.monthly}</td>
               <td data-label="First year">{row.year}</td>
               <td data-label="Setup">{row.setup}</td>
-              <td data-label="Unknowns">
-                {row.unknowns.length
-                  ? <ul>{row.unknowns.map((item) => <li>{item}</li>)}</ul>
-                  : 'None stated on the pricing page'}
-                {row.reason && <p>{row.reason}</p>}
+              <td data-label="Notes">
+                {row.unknowns.length || row.reason ? (
+                  <details class="row-notes">
+                    <summary><span class="note-summary">{row.unknowns[0] || row.reason}</span>{row.unknowns.length > 1 ? <span class="note-more"> +{row.unknowns.length - 1}</span> : null}</summary>
+                    {row.unknowns.length > 0 && <ul>{row.unknowns.map((item) => <li>{item}</li>)}</ul>}
+                    {row.reason && <p>{row.reason}</p>}
+                  </details>
+                ) : 'None stated on the pricing page'}
               </td>
               <td data-label="Source">
                 {row.sourceHref
@@ -278,22 +281,39 @@ const jsonld = {
         textCell('td', 'Setup', row.setup),
       );
       const unknowns = document.createElement('td');
-      unknowns.setAttribute('data-label', 'Unknowns');
-      if (row.unknowns.length) {
-        const list = document.createElement('ul');
-        for (const item of row.unknowns) {
-          const li = document.createElement('li');
-          li.textContent = item;
-          list.append(li);
+      unknowns.setAttribute('data-label', 'Notes');
+      if (row.unknowns.length || row.reason) {
+        const details = document.createElement('details');
+        details.className = 'row-notes';
+        const summaryEl = document.createElement('summary');
+        const preview = document.createElement('span');
+        preview.className = 'note-summary';
+        preview.textContent = row.unknowns[0] || row.reason;
+        summaryEl.append(preview);
+        if (row.unknowns.length > 1) {
+          const more = document.createElement('span');
+          more.className = 'note-more';
+          more.textContent = ` +${row.unknowns.length - 1}`;
+          summaryEl.append(more);
         }
-        unknowns.append(list);
+        details.append(summaryEl);
+        if (row.unknowns.length) {
+          const list = document.createElement('ul');
+          for (const item of row.unknowns) {
+            const li = document.createElement('li');
+            li.textContent = item;
+            list.append(li);
+          }
+          details.append(list);
+        }
+        if (row.reason) {
+          const note = document.createElement('p');
+          note.textContent = row.reason;
+          details.append(note);
+        }
+        unknowns.append(details);
       } else {
         unknowns.textContent = 'None stated on the pricing page';
-      }
-      if (row.reason) {
-        const note = document.createElement('p');
-        note.textContent = row.reason;
-        unknowns.append(note);
       }
       tr.append(unknowns, sourceCell(row));
       pricedBody.append(tr);

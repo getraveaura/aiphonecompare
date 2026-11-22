@@ -176,9 +176,12 @@ export function marketAnswer(f = marketFindings()) {
 }
 
 export function costAnswer(f = marketFindings()) {
-  const date = formatDate(f.latest);
+  const date = f.modelsChecked || formatDate(f.latest);
   const range = sbRangeText(f);
-  return `As of ${date}, **half start at ${money(f.median)}/mo or less** and **${f.under50} start at $50/mo or less**, counting the ${f.counted} services that publish a standard monthly price.${range ? ` At ${EXAMPLE_CALLS} calls a month, ready-made AI plans with a complete published price come to **${range}**. Live receptionist plans are not in that range.` : ''}`;
+  const bills = range
+    ? `ready-made AI plans with a complete published price come to **${range}** at ${EXAMPLE_CALLS} calls a month. Live receptionist plans are not in that range. `
+    : '';
+  return `As of ${date}, ${bills}Half of the ${f.counted} services with a standard monthly price start at **${money(f.median)}/mo or less**, and **${f.under50} start at $50/mo or less**.`;
 }
 
 // Plainer of the two meta options in the 22 November 2026 brief, trimmed to 160 characters.
