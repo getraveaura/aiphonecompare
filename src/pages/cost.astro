@@ -64,7 +64,17 @@ const jsonld = {
     },
   ],
 };
-const billHeads = ['Service', 'Best for', 'How it bills', 'Starting published price', '50 calls (150 min)', '150 calls (450 min)', '300 calls (900 min)', 'Setup fee', 'Source and date'];
+const billHeads = [
+  { label: 'Service' },
+  { label: 'Best for' },
+  { label: 'How it bills' },
+  { label: 'Starting published price' },
+  { label: '50 calls', sub: '150 min' },
+  { label: '150 calls', sub: '450 min' },
+  { label: '300 calls', sub: '900 min' },
+  { label: 'Setup fee' },
+  { label: 'Source and date' },
+];
 ---
 <Base title={pageTitle} description={description} jsonld={jsonld} modified={models.checked} ogImage="/og/cost.png">
   <header class="page-intro guide-read">
@@ -93,7 +103,7 @@ const billHeads = ['Service', 'Best for', 'How it bills', 'Starting published pr
         <table class="compare bills">
           <caption>Cheapest complete published plan at {TABLE_MINUTES} minutes a call, monthly billing, before tax. Where a cell says "our calculation," it adds the printed extra-use rate to the printed plan price. The source column is the day that row was checked.</caption>
           <thead>
-            <tr>{billHeads.map((head) => <th scope="col">{head}</th>)}</tr>
+            <tr>{billHeads.map((head) => <th scope="col"><span class="th-main">{head.label}</span>{head.sub && <span class="th-sub">{head.sub}</span>}</th>)}</tr>
           </thead>
           <tbody>
             {readyRows.map((row) => (
@@ -120,7 +130,7 @@ const billHeads = ['Service', 'Best for', 'How it bills', 'Starting published pr
         <table class="compare bills">
           <caption>Add-on and platform rows, same 3-minute assumption. Not part of the ready-made AI range. Checked {checkedLabel}.</caption>
           <thead>
-            <tr>{billHeads.map((head) => <th scope="col">{head}</th>)}</tr>
+            <tr>{billHeads.map((head) => <th scope="col"><span class="th-main">{head.label}</span>{head.sub && <span class="th-sub">{head.sub}</span>}</th>)}</tr>
           </thead>
           <tbody>
             {[...addonRows, ...platformRows].map((row) => (

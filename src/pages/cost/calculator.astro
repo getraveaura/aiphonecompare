@@ -97,7 +97,7 @@ const jsonld = {
             <tr class:list={{ 'is-lowest': row.lowest }}>
               <th scope="row" data-label="Vendor">
                 <a href={`/vendors/${row.slug}/`}>{row.name}</a>
-                {row.kindLabel && <span class="badge">{row.kindLabel}</span>}
+                {row.kindLabel && <span class="kind-pill" title={row.kindLabel}>{row.kindLabel}</span>}
                 {row.lowest && <span class="lowest-flag"> Lowest first-year total</span>}
                 {row.sponsored && <span class="badge">Sponsored</span>}
                 {outboundLink(vendors.find((v) => v.slug === row.slug))?.isReferral && (
@@ -107,11 +107,14 @@ const jsonld = {
               <td data-label="Plan">{row.planName}</td>
               <td data-label="Monthly">{row.monthly}</td>
               <td data-label="First year">{row.year}</td>
-              <td data-label="Setup">{row.setup}</td>
+              <td data-label="Setup">{row.setup === 'No setup fee on the pricing page' ? <span title="No setup fee on the pricing page">None listed</span> : row.setup}</td>
               <td data-label="Notes">
                 {row.unknowns.length || row.reason ? (
                   <details class="row-notes">
-                    <summary><span class="note-summary">{row.unknowns[0] || row.reason}</span>{row.unknowns.length > 1 ? <span class="note-more"> +{row.unknowns.length - 1}</span> : null}</summary>
+                    <summary>
+                      <span class="note-summary">{row.unknowns[0] || row.reason}</span>
+                      <span class="note-toggle">Details</span>
+                    </summary>
                     {row.unknowns.length > 0 && <ul>{row.unknowns.map((item) => <li>{item}</li>)}</ul>}
                     {row.reason && <p>{row.reason}</p>}
                   </details>
@@ -191,6 +194,20 @@ const jsonld = {
     });
   }
 
+  function setupCell(row) {
+    const cell = document.createElement('td');
+    cell.setAttribute('data-label', 'Setup');
+    if (row.setup === 'No setup fee on the pricing page') {
+      const short = document.createElement('span');
+      short.title = row.setup;
+      short.textContent = 'None listed';
+      cell.append(short);
+    } else {
+      cell.textContent = row.setup;
+    }
+    return cell;
+  }
+
   function textCell(tag, label, text) {
     const cell = document.createElement(tag);
     cell.setAttribute('data-label', label);
@@ -230,7 +247,8 @@ const jsonld = {
     cell.append(link);
     if (row.kindLabel) {
       const kind = document.createElement('span');
-      kind.className = 'badge';
+      kind.className = 'kind-pill';
+      kind.title = row.kindLabel;
       kind.textContent = row.kindLabel;
       cell.append(kind);
     }
@@ -278,7 +296,7 @@ const jsonld = {
         textCell('td', 'Plan', row.planName),
         textCell('td', 'Monthly', row.monthly),
         textCell('td', 'First year', row.year),
-        textCell('td', 'Setup', row.setup),
+        setupCell(row),
       );
       const unknowns = document.createElement('td');
       unknowns.setAttribute('data-label', 'Notes');
@@ -289,13 +307,10 @@ const jsonld = {
         const preview = document.createElement('span');
         preview.className = 'note-summary';
         preview.textContent = row.unknowns[0] || row.reason;
-        summaryEl.append(preview);
-        if (row.unknowns.length > 1) {
-          const more = document.createElement('span');
-          more.className = 'note-more';
-          more.textContent = ` +${row.unknowns.length - 1}`;
-          summaryEl.append(more);
-        }
+        const toggle = document.createElement('span');
+        toggle.className = 'note-toggle';
+        toggle.textContent = 'Details';
+        summaryEl.append(preview, toggle);
         details.append(summaryEl);
         if (row.unknowns.length) {
           const list = document.createElement('ul');
