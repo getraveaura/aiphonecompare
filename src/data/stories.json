@@ -1292,5 +1292,64 @@
     "told_by": "Told with CallRail (the vendor), on a podcast episode CallRail sponsors",
     "verified_claims": "Episode page dated 18 November 2026 names Collen Crosby, owner of Crosby Roofing, and Michael Griffin of CallRail; description states 33 calls came in over Labor Day weekend while the office was closed, all were answered, and the calendar was booked by Tuesday; CallRail Voice Assist is listed as an episode sponsor; transcript has Crosby saying CallRail picks up missed calls and feeds the CRM and that the office is in Lexington, South Carolina. No price or job count is stated.",
     "archive_url": "https://web.archive.org/web/20261120162204/https://podscan.fm/podcasts/service-business-mastery-for-skilled-trades-hvac-plumbing-amp-electrical-home-service-1/episodes/the-ai-that-replaced-this-roofers-voicemail-collen-crosby-amp-michael-griffin-callrail-2"
+  },
+  {
+    "slug": "findlay-automotive-flai-service-calls",
+    "title": "A 34-dealership auto group says an AI receptionist now books most service calls, after an early free-ride mix-up",
+    "added": "2026-11-23",
+    "industries": [
+      "other"
+    ],
+    "business": "Findlay Automotive Group",
+    "vendorSlug": null,
+    "vendorName": "Flai",
+    "vendorPublished": true,
+    "sourceLabel": "Vendor-sponsored podcast",
+    "whatTheyDid": "Tommy Rayl, operations director at Findlay Automotive Group, told the Car Dealership Guy podcast that the group tested AI phone answering from three providers, starting with a pilot at two stores in July or August 2025. In March 2026 he took the pilot data to the general managers, let them choose between the providers, and he said they all picked Flai. The episode says Flai now answers service calls across 34 dealerships. Rayl said the assistant introduces itself as a digital assistant that can book, reschedule, cancel or transfer, and that calls it cannot finish are queued for staff to handle the next morning. Flai sponsors the episode and its CEO, Ari Polakof, is the other guest.",
+    "cost": null,
+    "outcome": "Rayl said that in the pilot, 60 to 80% of bookable appointments were handled entirely by the AI, without changes to the setup. The episode notes say some stores now book more than 85% of appointments without a person picking up. Rayl said customer-pay repair orders across the group had been falling year over year every month, and that from June through October they were up 5.7% year over year. The episode does not say how much of that rise came from the AI alone. These figures come from an episode sponsored by the vendor.",
+    "catches": [
+      {
+        "id": "ai-offered-perk-to-every-caller",
+        "label": "The AI offered a perk to every caller until limits were set",
+        "summary": "Rayl said one store’s AI offered an Uber ride to every customer who called, and the group only noticed when its Uber bill went up. Flai added guardrails and the bill came back down.",
+        "sources": [
+          {
+            "url": "https://www.dealershipguy.com/its-terrifying-call-your-service-department-at-10-pm-heres-what-your-customers-hear-industr/",
+            "title": "“It’s Terrifying!” Call Your Service Department at 10 PM. Here’s What Your Customers Hear. | Industry Spotlight",
+            "date": "2026-11-21",
+            "publisher": "Car Dealership Guy"
+          }
+        ]
+      },
+      {
+        "id": "transfer-goes-unanswered",
+        "label": "Transfers to staff can go unanswered",
+        "summary": "Rayl said that when callers asked for a service advisor, the AI sometimes transferred them and nobody picked up, so the call came back and the caller had to ask again. He also said some callers complained that they wanted to talk to a person, which he said Flai sorted out; he did not say how.",
+        "sources": [
+          {
+            "url": "https://www.dealershipguy.com/its-terrifying-call-your-service-department-at-10-pm-heres-what-your-customers-hear-industr/",
+            "title": "“It’s Terrifying!” Call Your Service Department at 10 PM. Here’s What Your Customers Hear. | Industry Spotlight",
+            "date": "2026-11-21",
+            "publisher": "Car Dealership Guy"
+          }
+        ]
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://www.dealershipguy.com/its-terrifying-call-your-service-department-at-10-pm-heres-what-your-customers-hear-industr/",
+        "title": "“It’s Terrifying!” Call Your Service Department at 10 PM. Here’s What Your Customers Hear. | Industry Spotlight",
+        "date": "2026-11-21",
+        "publisher": "Car Dealership Guy",
+        "archive_url": null
+      }
+    ],
+    "evidence": "vendor-told",
+    "source_type": "vendor-sponsored",
+    "source_publisher": "Car Dealership Guy",
+    "told_by": "Told with Flai (the vendor), on a podcast episode Flai sponsors",
+    "verified_claims": "Episode page and podcast feed dated 21 November 2026 name Tommy Rayl, operations director at Findlay Automotive Group, and Ari Polakof, CEO of Flai; notes say Flai sponsors the episode, the AI receptionist covers 34 dealerships, customer-pay visits are up 5.7% year over year, and some stores book more than 85% of appointments without a person; in the episode audio Rayl describes the two-store pilot from July or August 2025, the March 2026 rollout decision, 60 to 80% of bookable appointments handled by AI in the pilot, the Uber-ride guardrail, and unanswered transfers. No price is stated.",
+    "archive_url": null
   }
 ]
