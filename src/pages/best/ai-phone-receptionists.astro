@@ -1,0 +1,208 @@
+---
+import Base from '../../layouts/Base.astro';
+import QuickAnswer from '../../components/QuickAnswer.astro';
+import KeyFindings from '../../components/KeyFindings.astro';
+import vendors from '../../data/vendors.json';
+import models from '../../data/cost-models.json';
+import { bestFaqs } from '../../lib/best-faqs.mjs';
+import { billsByKind } from '../../lib/cost-table.mjs';
+import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
+import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
+import { formatDate } from '../../lib/stories.mjs';
+import { hostLabel, shortDay } from '../../lib/source-label.mjs';
+
+const bySlug = Object.fromEntries(vendors.map((vendor) => [vendor.slug, vendor]));
+const ready = Object.fromEntries(billsByKind(models, 'ready').map((row) => [row.slug, row]));
+const title = 'Best AI phone receptionist for small business (2026)';
+const h1 = 'Best AI phone receptionists for small businesses (2026)';
+const description = 'An independent shortlist of AI phone receptionists. We start with the tools we already track, show prices from each company, and say when a fee is not listed.';
+const pageUrl = new URL('/best/ai-phone-receptionists/', Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const checked = '2026-11-22';
+const checkedLabel = formatDate(checked);
+const faqs = bestFaqs();
+const author = 'AI Phone Compare research desk';
+const rubyTiers = (bySlug.ruby?.starting_price || '').split(';').map((part) => part.trim()).filter(Boolean);
+const rubyPrice = rubyTiers[0]?.match(/\$[\d,]+/)?.[0] || '';
+const rubyPlan = rubyTiers[0]?.split('$')[0].trim() || '';
+const friendly = (value) => (!value || /^(not published|pricing not public)$/i.test(value) ? 'Not listed' : value);
+
+const picks = [
+  { slug: 'upfirst', kind: 'Ready-made AI', bestFor: 'Bills by the call', bills: 'Call', handoff: 'Warm transfers are listed on every plan' },
+  { slug: 'dialzara', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Blind transfer on the entry plan; warm transfer from Pro' },
+  { slug: 'oncrew', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Live transfers that announce the caller' },
+  { slug: 'rosie', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Live transfers on the $149 plan' },
+  { slug: 'zinng-ai', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Transfer to one number on Essentials; more on Pro' },
+  { slug: 'marlie-ai', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Transfer from the $99 plan' },
+  { slug: 'goodcall', kind: 'Ready-made AI', bestFor: 'Bills by the unique caller', bills: 'Unique caller', handoff: 'You choose who receives transfers' },
+  { slug: 'my-ai-front-desk', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'The homepage says a call can be warm-transferred' },
+  { slug: 'agentzap', kind: 'Ready-made AI', bestFor: 'Bills by the minute', bills: 'Minute', handoff: 'Live-agent handoff is listed on every plan' },
+  { slug: 'smith-ai', kind: 'Hybrid', bestFor: 'Bills by the call, with live agents', bills: 'Call', handoff: 'Can transfer to a live receptionist' },
+  { slug: 'nextphone', kind: 'Ready-made AI', bestFor: 'Flat monthly price', bills: 'Call', handoff: 'Transfers to a person you choose' },
+  { slug: 'abby-connect', kind: 'Hybrid', bestFor: 'People and AI on one plan', bills: 'Abby Minute', handoff: 'Human, AI, or both' },
+  { slug: 'jobber-ai-receptionist', kind: 'Add-on', bestFor: 'Add-on if you already use Jobber', bills: 'Add-on', handoff: 'Not verified' },
+  { slug: 'allo', kind: 'Add-on', bestFor: 'Priced per seat', bills: 'Seat', handoff: 'Not verified' },
+  { slug: 'justcall', kind: 'Platform', bestFor: 'Phone system plus an AI voice agent', bills: 'User, then usage', handoff: 'Transfers to a human are listed' },
+  { slug: 'ruby', kind: 'Live', bestFor: 'Human receptionists, optional AI front end', bills: 'Minute', handoff: 'Human-first' },
+  { slug: 'bland-ai', kind: 'Platform', bestFor: 'You build the agent', bills: 'Platform', handoff: 'Not the same as a ready-made receptionist' },
+  { slug: 'elevenlabs-ai-receptionist', kind: 'Platform', bestFor: 'You build the agent', bills: 'Platform', handoff: 'Not the same as a ready-made receptionist' },
+].map((pick) => {
+  const vendor = bySlug[pick.slug];
+  const bill = ready[pick.slug];
+  return {
+    ...pick,
+    name: vendor.name,
+    start: vendor.starting_price || 'Not listed',
+    trial: vendor.free_trial || 'Not listed',
+    source: vendor.sources?.[0] || '',
+    checked: vendor.last_checked || '',
+    checkedLabel: vendor.last_checked ? formatDate(vendor.last_checked) : '',
+    at150: bill ? (bill.cells[150] === 'not published' ? 'Not listed' : bill.cells[150]) : 'Not listed',
+  };
+}).sort((a, b) => a.name.localeCompare(b.name));
+
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    articleNode({ url: pageUrl, headline: h1, description, modified: checked, site }),
+    breadcrumbNode([['Home', site], ['Best', new URL('/best/', site).href], [h1, pageUrl]]),
+    { '@type': 'FAQPage', url: pageUrl, mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+    {
+      '@type': 'ItemList',
+      name: 'AI phone receptionists compared by situation',
+      itemListElement: picks.map((pick, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: pick.name,
+        url: new URL(`/vendors/${pick.slug}/`, site).href,
+        description: pick.start,
+      })),
+    },
+  ],
+};
+const quick = `The best AI phone receptionist for a small business depends on how you are billed and what has to happen on the call. Prices come straight from each company's pricing page. We compare tools we already track.`;
+const earlyIds = new Set(['small-business', 'how-we-chose', 'cost']);
+const situationIds = new Set(['lowest-price', 'repeat-callers', 'human', 'industry']);
+---
+<Base title={title} description={description} jsonld={jsonld} modified={checked}>
+  <header class="page-intro guide-read">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><a href="/best/">Best</a></li>
+          <li><span aria-current="page">AI phone receptionists</span></li>
+        </ol>
+      </nav>
+      <h1>{h1}</h1>
+      <p class="byline">By the {author}. Page updated <time datetime={checked}>{checkedLabel}</time>. Each starting price keeps the date on its row. Worked 150-call bills were re-read {checkedLabel}. No one pays for placement. <a href="/about/">How this site works</a>.</p>
+      <QuickAnswer text={quick} label="The short answer" />
+      <p class="lead">If your calls are short and few, start with the lowest prices on the <a href="/best/under-50/">under-$50</a> and <a href="/best/under-100/">under-$100</a> lists, then confirm the real bill on the <a href="/cost/">cost page</a>. If the same customers call back, look at a unique-caller plan. If a person must be able to take over, look at Smith.ai, Abby Connect, or Ruby, and compare them on the <a href="/cost/ai-vs-live-receptionist/">live-versus-AI page</a>.</p>
+      <p class="lead">aiphonecompare is an independent site that compares AI phone receptionists, also called AI answering services. It is not a receptionist you can buy. Prices come straight from each company's pricing page. A starting price is not a quote.</p>
+    </div>
+  </header>
+  <div class="wrap stack guide-copy">
+    {faqs.filter((item) => earlyIds.has(item.id)).map((item) => (
+      <section aria-labelledby={item.id}>
+        <h2 id={item.id}>{item.q}</h2>
+        <p>{item.a}</p>
+        {item.id === 'how-we-chose' && (
+          <ul>
+            <li>The short list below is A to Z. The under-$50 and under-$100 lists are sorted from the cheapest start.</li>
+            <li>Referral links are marked on the vendor page. They do not change prices or this order.</li>
+            <li>"Best for" comes from how the company bills, what's included, or a human handoff they list. If two tools fit, both are listed.</li>
+          </ul>
+        )}
+        {item.id === 'cost' && <p>Open the <a href="/cost/">cost guide</a> and the <a href="/cost/calculator/">calculator</a> for the full 50, 150, and 300 call table.</p>}
+      </section>
+    ))}
+    <h2 id="short-list">The short list, compared</h2>
+    <div class="tablewrap" tabindex="0">
+      <table class="compare shortlist">
+        <caption class="prose-caption">A to Z. Prices come straight from each company's pricing page, with that row's check date. A starting price is the listed price, not your bill. The 150-call cell is our calculation from the company's printed rates when we can finish it, otherwise "Not listed." Those worked bills were re-read {checkedLabel}.</caption>
+        <thead>
+          <tr>
+            <th scope="col">Service</th>
+            <th scope="col">Best for</th>
+            <th scope="col">Kind</th>
+            <th scope="col">Starting published price</th>
+            <th scope="col">How it bills</th>
+            <th scope="col">Human handoff</th>
+            <th scope="col">Trial or free plan</th>
+            <th scope="col">150 calls</th>
+            <th scope="col">Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          {picks.map((pick) => (
+            <tr>
+              <th scope="row" data-label="Service">
+                <a href={`/vendors/${pick.slug}/`}>{pick.name}</a>
+                <a class="row-details" href={`/vendors/${pick.slug}/`}>Details</a>
+              </th>
+              <td data-label="Best for">{pick.bestFor}</td>
+              <td data-label="Kind">{pick.kind}</td>
+              <td class="start-price" data-label="Starting published price">
+                {pick.slug === 'ruby' && rubyTiers.length > 1 ? (
+                  <details class="row-notes">
+                    <summary>
+                      <span class="note-summary">{rubyPlan}, from {rubyPrice}/mo, {rubyTiers.length} tiers</span>
+                      <span class="note-toggle">Details</span>
+                    </summary>
+                    <ul>{rubyTiers.map((tier) => <li>{tier}</li>)}</ul>
+                  </details>
+                ) : friendly(pick.start)}
+              </td>
+              <td data-label="How it bills">{pick.bills}</td>
+              <td data-label="Human handoff">{friendly(pick.handoff)}</td>
+              <td data-label="Trial or free plan">{friendly(pick.trial)}</td>
+              <td data-label="150 calls">{friendly(pick.at150)}</td>
+              <td class="src-cell" data-label="Source">{pick.source ? <a class="src-compact" href={pick.source} rel="nofollow noopener"><span>{hostLabel(pick.source)}</span>{pick.checked ? <time datetime={pick.checked}>{shortDay(pick.checked)}</time> : null}</a> : 'Not listed'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p>The full directory is on <a href="/vendors/">all vendors</a>. Owner stories, including businesses that turned AI off, are on <a href="/stories/">stories</a>.</p>
+    {faqs.filter((item) => situationIds.has(item.id)).map((item) => (
+      <section aria-labelledby={item.id}>
+        <h2 id={item.id}>{item.q}</h2>
+        <p>{item.a}</p>
+        {item.id === 'lowest-price' && <p>Those lists: <a href="/best/under-50/">under $50</a> and <a href="/best/under-100/">under $100</a>.</p>}
+        {item.id === 'human' && <p>See <a href="/cost/ai-vs-live-receptionist/">AI versus a live receptionist</a> and <a href="/compare/smith-ai-vs-ruby/">Smith.ai versus Ruby</a>.</p>}
+        {item.id === 'industry' && (
+          <ul class="link-chips" role="list">
+            <li><a href="/best/dentists/">Dentists</a></li>
+            <li><a href="/best/law-firms/">Law firms</a></li>
+            <li><a href="/best/hvac-plumbing/">HVAC and plumbing</a></li>
+            <li><a href="/best/med-spas/">Med spas</a></li>
+            <li><a href="/best/roofing/">Roofing</a></li>
+            <li><a href="/best/veterinarians/">Veterinarians</a></li>
+            <li><a href="/best/">All industry guides</a></li>
+          </ul>
+        )}
+      </section>
+    ))}
+    {faqs.filter((item) => item.id === 'answering-service').map((item) => (
+      <section aria-labelledby={item.id}>
+        <h2 id={item.id}>{item.q}</h2>
+        <p>{item.a}</p>
+      </section>
+    ))}
+    <h2 id="build-it">You will build or tune the agent yourself</h2>
+    <p>Bland AI and ElevenLabs list minute rates for agents you build. They sit outside the ready-made range. Phone-line and AI usage fees that aren't in the listed rate are extra. See their vendor pages before you compare them with a done-for-you receptionist.</p>
+    <h2 id="checked">How we checked, and how we make money</h2>
+    <p>The {author} used the prices re-read on {checkedLabel} for the cost table, and the listing text for the other fields. If a number is not on the company's page, we mark it Not listed. A referral link, when a vendor page has one, is marked there and does not change this order. Read the method on <a href="/about/">about</a>.</p>
+    {showAuditLinks() && <p>A free <a href={AUDIT_PATH}>call coverage check</a> looks at your public website and listings. It does not rank these tools.</p>}
+    <KeyFindings
+      findings={[
+        'There is no number-one pick and no 1 to 10 score.',
+        'Ready-made AI plans with full public pricing at 150 calls run from $99 to $449 a month. Ruby is a live receptionist, so it sits outside that range.',
+        'A starting price is the price on the company\'s page. The cost page shows the bill at your call volume.',
+      ]}
+      verified={checked}
+      sources={[{ href: '/cost/', label: 'cost guide' }, { href: '/about/', label: 'how we rank' }]}
+      cite={{ title: h1, url: pageUrl, date: checked }}
+    />
+  </div>
+</Base>

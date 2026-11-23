@@ -70,6 +70,14 @@ function sourceOf(model, vendor) {
   };
 }
 
+function kindLabel(model) {
+  if (model?.productKind === 'live') return 'Live receptionist';
+  if (model?.productKind === 'platform') return 'Platform you build';
+  if (model?.productKind === 'addon' || model?.addonOnly) return 'Add-on, not a standalone plan';
+  if (model) return 'Ready-made AI';
+  return '';
+}
+
 function excludedRow(vendor, reason, model, checked) {
   const source = sourceOf(model, vendor);
   const checkedOn = model ? checked : (vendor.last_checked || '');
@@ -91,6 +99,8 @@ function excludedRow(vendor, reason, model, checked) {
     sourceLabel: source.label,
     checked: checkedOn,
     checkedLabel: checkedOn ? formatDate(checkedOn) : '',
+    productKind: model?.productKind || '',
+    kindLabel: kindLabel(model),
     lowest: false,
   };
 }
@@ -150,6 +160,8 @@ function priceVendor(vendor, model, input, checked) {
     sourceLabel: source?.label || 'Pricing page',
     checked,
     checkedLabel: formatDate(checked),
+    productKind: model.productKind || '',
+    kindLabel: kindLabel(model),
     lowest: false,
   };
 }
@@ -180,6 +192,8 @@ export function quoteDirectory(vendors, models, input) {
     'The first-year cost is 12 months plus any published setup fee. A setup fee that is not printed is not treated as zero. Annual discounts that are mentioned but not printed are not applied.',
     'Each company shows its cheapest plan that fits your calls. Paid ads do not change the order.',
     'Each row shows the date that company\'s prices were checked.',
+    'Where the calls fit inside a printed plan, the monthly figure is that printed plan price. Where they do not, it is our calculation from the printed plan price, included use, and printed extra-use rate. A fee that is not printed is not treated as zero.',
+    'Ruby is a live receptionist plan, not a ready-made AI plan. Bland AI and ElevenLabs are platforms you build. Jobber is an add-on. Those rows are labeled and are not part of the ready-made AI price range.',
   ];
   return { input, priced, missing, assumptions, checked: models.checked };
 }

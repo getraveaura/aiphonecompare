@@ -104,8 +104,10 @@ test('unpublished monthly price is cannot estimate, not a computed package', () 
 });
 
 test('shipped models keep sources, dates, and do not invent yes/no capabilities', () => {
-  assert.equal(models.checked, '2026-11-06');
-  assert.equal(models.providers.length, 8);
+  assert.equal(models.checked, '2026-11-22');
+  assert.equal(models.providers.length, 20);
+  assert.equal(models.providers.find((item) => item.slug === 'ruby').productKind, 'live');
+  assert.ok(!models.providers.some((item) => item.productKind === 'ready' && item.slug === 'ruby'));
   for (const provider of models.providers) {
     assert.ok(provider.sources.length >= 1);
     assert.ok(provider.sources.every((source) => source.href.startsWith('https://')));
@@ -114,7 +116,7 @@ test('shipped models keep sources, dates, and do not invent yes/no capabilities'
     assert.notEqual(provider.transfer.toLowerCase(), 'yes');
     assert.notEqual(provider.transfer.toLowerCase(), 'no');
     for (const plan of provider.plans) {
-      if (plan.overage == null && plan.publishedMonthly != null && plan.included != null) {
+      if (plan.overage == null && plan.overagePack == null && plan.publishedMonthly != null && plan.included != null) {
         const over = estimatePlan({ ...plan, unit: provider.unit }, { calls: 10000, durationMinutes: 10, uniqueCallers: 10000 });
         assert.notEqual(over.status, 'estimate');
         if (over.status === 'partial') assert.equal(over.scenarioCents, Math.round(plan.publishedMonthly * 100));
@@ -135,7 +137,11 @@ test('shipped official scenarios match the pricing pages', () => {
   assert.equal(bland.scenarioCents, 29900 + Math.round(100 * 12));
   const smith = estimatePlan(find('smith-ai', 'pro-75'), { calls: 80, durationMinutes: 12 });
   assert.equal(smith.scenarioCents, 15000 + 5 * 250);
-  const unpublished = estimatePlan(find('smith-ai', 'pro-150'), { calls: 150 });
-  assert.equal(unpublished.status, 'cannot');
-  assert.equal(unpublished.scenarioCents, null);
+  const printed = estimatePlan(find('smith-ai', 'pro-150'), { calls: 150 });
+  assert.equal(printed.status, 'estimate');
+  assert.equal(printed.scenarioCents, 27000);
+  const upfirst = estimatePlan(find('upfirst', 'premium'), { calls: 150 });
+  assert.equal(upfirst.scenarioCents, 11995);
+  const frontDesk = estimatePlan(find('my-ai-front-desk', 'business'), { calls: 150, durationMinutes: 3 });
+  assert.equal(frontDesk.scenarioCents, 15900);
 });

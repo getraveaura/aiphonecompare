@@ -78,7 +78,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
           <a class="btn btn-primary btn-lg" href="/match/">Find my best match <span class="arrow" aria-hidden="true">→</span></a>
           <a class="btn btn-secondary btn-lg" href="/cost/">See pricing and cost</a>
         </div>
-        <p class="tool-line">Free, no sign-up. For AI receptionist pricing and cost, start on the <a class="text-link" href="/cost/">cost page</a>. Comparing with a live receptionist? See <a class="text-link" href="/cost/ai-vs-live-receptionist/">AI vs live cost at 50, 150 and 300 calls</a>. Already paying for one? <a class="text-link" href="/overpaying/">See if you're overpaying</a>.</p>
+        <p class="tool-line">Free, no sign-up. For what an AI receptionist costs, start on the <a class="text-link" href="/cost/">cost page</a>. For which tool fits, see <a class="text-link" href="/best/ai-phone-receptionists/">best AI phone receptionists</a>. Comparing with a live receptionist? See <a class="text-link" href="/cost/ai-vs-live-receptionist/">AI vs live cost</a>.</p>
       </div>
       <CallSlider />
     </div>
@@ -109,7 +109,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
     <div class="wrap">
       <KeyFindings
         heading={`Key findings, ${new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${market.latest}T00:00:00Z`))}`}
-        findings={marketFindingsList(market)}
+        findings={[...marketFindingsList(market, { includeBills: false }), 'Worked monthly bills at 50, 150, and 300 calls are on the cost page.']}
         verified={market.latest}
         sources={[{ href: '/price-index/', label: 'aiphonecompare price index' }, { href: '/cost/', label: 'monthly cost guide' }]}
         cite={{ title: 'Compare AI phone answering services, with real prices', url: 'https://aiphonecompare.com/', date: market.latest }}

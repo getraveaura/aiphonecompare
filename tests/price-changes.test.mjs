@@ -11,7 +11,7 @@ import { renderPriceFeed } from '../src/lib/feed.mjs';
 const log = JSON.parse(fs.readFileSync('src/data/price-changes.json', 'utf8'));
 
 test('headlines are the first sentence of each logged summary, nothing added', () => {
-  assert.equal(log.changes.length, 6);
+  assert.equal(log.changes.length, 8);
   for (const change of log.changes) {
     const headline = priceChangeHeadline(change);
     assert.equal(headline, firstSentence(change.summary));
@@ -33,6 +33,8 @@ test('logged changes are grouped by week, with the first four in 9–15 November
   assert.equal(weeks[0].monday, '2026-11-16');
   assert.equal(weeks[0].isThisWeek, false);
   assert.deepEqual(weeks[0].changes.map((c) => c.id), [
+    'smith-ai-pro-monthly-totals-printed',
+    'oncrew-business-plan-name',
     'jobber-ai-receptionist-addon-99',
     'oncrew-minutes-and-overage-rates',
   ]);

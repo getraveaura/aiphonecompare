@@ -2,6 +2,40 @@
   "trackingStarted": "2026-11-09",
   "changes": [
     {
+      "id": "smith-ai-pro-monthly-totals-printed",
+      "vendorSlug": "smith-ai",
+      "added": "2026-11-22",
+      "observed": "2026-11-22",
+      "summary": "Smith.ai's Pro card now prints a monthly total for the 150-call and 300-call bands. On 22 November 2026 those bands showed $270 and $500, with the 75-call plan still at $150.",
+      "before": "Cost model checked 6 November 2026: the 150-call Pro band printed $1.80 per call and an extra-call rate, but not a monthly package total, so that band was not estimated.",
+      "after": "Pricing page checked 22 November 2026: Pro prints $270/month for 150 calls, then $2.30 per extra call, and $500/month for 300 calls, then $2.17 per extra call. The 75-call plan remains $150/month, then $2.50.",
+      "sources": [
+        {
+          "url": "https://smith.ai/pricing/ai-receptionist",
+          "title": "smith.ai/pricing/ai-receptionist",
+          "date": "2026-11-22",
+          "publisher": "Smith.ai"
+        }
+      ]
+    },
+    {
+      "id": "oncrew-business-plan-name",
+      "vendorSlug": "oncrew",
+      "added": "2026-11-22",
+      "observed": "2026-11-22",
+      "summary": "OnCrew renamed its top plan to Business. The monthly price, included minutes, and extra-minute rate are unchanged from the 16 November 2026 check.",
+      "before": "Pricing page checked 16 November 2026: the $349 plan was recorded as Multi-Truck, with 1,500 minutes, then $0.29 per extra minute.",
+      "after": "Pricing page checked 22 November 2026: the same $349 plan is named Business, with 1,500 minutes, then $0.29 per extra minute. Starter remains $49 for 250 minutes and Pro remains $149 for 500 minutes.",
+      "sources": [
+        {
+          "url": "https://oncrew.ai/pricing",
+          "title": "oncrew.ai/pricing",
+          "date": "2026-11-22",
+          "publisher": "OnCrew"
+        }
+      ]
+    },
+    {
       "id": "agentzap-per-call-to-per-minute",
       "vendorSlug": "agentzap",
       "added": "2026-11-09",

@@ -40,18 +40,22 @@ test('Jobber add-on is not treated as a complete plan with fully published prici
   const list = marketFindingsList(f).join('\n');
   const complete = list.split('\n').find((line) => /fully published pricing/.test(line));
   assert.ok(complete, list);
-  assert.doesNotMatch(complete, /Jobber|\$138\.50/);
-  assert.match(complete, /\$199 to \$1,635 a month/);
-  assert.match(complete, /Dialzara, AgentZap, Smith\.ai, Ruby/);
-  assert.match(complete, /plan prices checked 6–20 November 2026/);
+  assert.doesNotMatch(complete, /Jobber|\$138\.50|Ruby|\$1,635/);
+  assert.match(complete, /\$99 to \$449 a month/);
+  assert.match(complete, /Live receptionist plans are not in that range/);
+  assert.match(complete, /plan prices checked 22 November 2026/);
   assert.match(list, /The Jobber AI Receptionist add-on is \*\*\$138\.50\*\* a month at 150 conversations/);
   assert.match(list, /a Jobber software plan is not included/);
-  assert.match(list, /yearly price and setup are not published \(checked 20 November 2026\)/);
+  assert.match(list, /yearly price and setup are not published \(checked 22 November 2026\)/);
   const cost = costAnswer(f);
-  assert.doesNotMatch(cost, /\$138\.50/);
-  assert.match(cost, /\$199 to \$1,635 a month/);
-  const d = costDescription(f);
-  assert.doesNotMatch(d, /\$138\.50/);
+  assert.doesNotMatch(cost, /\$138\.50|\$1,635|Ruby/);
+  assert.match(cost, /\$99 to \$449 a month/);
+  assert.match(cost, /150 calls of 3 minutes/);
+  const costPage = read('src/pages/cost.astro');
+  assert.match(costPage, /Ruby is a live receptionist/);
+  assert.match(costPage, /href="\/cost\/ai-vs-live-receptionist\/"/);
+  const d = costDescription();
+  assert.doesNotMatch(d, /\$138\.50|\$1,635/);
   assert.ok(d.length <= 160, `${d.length}: ${d}`);
 });
 
@@ -64,10 +68,10 @@ test('formatCheckedSpan uses each provider\'s real check date and does not inven
 test('the /cost/ meta description leads with small-business monthly costs, not a developer-tool range', () => {
   const d = costDescription();
   assert.ok(d.length <= 160, `${d.length}: ${d}`);
-  assert.match(d, /^Half of \d+ AI receptionists/);
+  assert.match(d, /^What an AI receptionist costs per month/);
   assert.doesNotMatch(d, /ElevenLabs|Bland|\$34\.80|\$990/);
   const cost = read('src/pages/cost.astro');
-  assert.match(cost, /const description = costDescription\(market\)/);
+  assert.match(cost, /const description = costDescription\(\)/);
   assert.match(cost, /<QuickAnswer text=\{costAnswer\(market\)\} \/>/);
   assert.match(cost, /<KeyFindings /);
 });

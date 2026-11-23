@@ -120,7 +120,7 @@ function rangeSentence(rows, calls) {
 function scenarioTable(rows, caption) {
   return {
     type: 'table',
-    caption,
+    caption: `${caption} Where the calls do not fit inside a printed plan, the cell is our calculation from the printed plan price, included use, and printed extra-use rate.`,
     headers: ['Provider', 'Plan', '50 calls', '150 calls', '300 calls', 'One-time', 'Published price'],
     rows: rows.map((row) => [
       cell(row.provider, { href: `/vendors/${row.slug}/`, visit: visitFor(vendorsBySlug()[row.slug]) }),
@@ -194,7 +194,7 @@ function industryPage({ models, vendors, key, path, h1, phrase, description, led
   const starters = vendors.filter((vendor) => vendor.industries?.includes(key) && vendor.starting_price).sort((a, b) => a.name.localeCompare(b.name));
   const answer = [
     lede,
-    `The monthly figures below use prices checked ${formatDate(models.checked)}. For plans that charge by the minute, we assume calls average ${ASSUMED_MINUTES} minutes (our guess, not the company's). Plans that charge by the call ignore length. One-time fees are shown separately.`,
+    `${providers.some((provider) => provider.slug === 'ruby' && provider.checked && provider.checked !== models.checked) ? `The monthly figures below use prices checked ${formatDate(models.checked)}, except Ruby, whose minute-bundle prices stay on the ${formatDate(providers.find((provider) => provider.slug === 'ruby').checked)} record. The public plans page did not print those dollar amounts in the view we could read on ${formatDate(models.checked)}.` : `The monthly figures below use prices checked ${formatDate(models.checked)}.`} For plans that charge by the minute, we assume calls average ${ASSUMED_MINUTES} minutes (our guess, not the company's). Plans that charge by the call ignore length. One-time fees are shown separately.`,
     `Providers with enough published math in this industry: ${names}.`,
     customer.length ? `${customer.join(' and ')} charges per different caller (not per call), so those rows are listed but not estimated from call count.` : '',
     ...exclusionSentences(providers),
@@ -808,28 +808,28 @@ export function buildLandings(data) {
       models, vendors, key: 'dental', path: '/cost/dental/',
       h1: 'AI receptionist cost for a dental office',
       phrase: 'ai receptionist for dental office',
-      description: 'AI receptionist cost for a dental office at 50, 150, and 300 calls, from published Dialzara, Goodcall, Ruby, and Smith.ai plans.',
+      description: 'AI receptionist cost for a dental office at 50, 150, and 300 calls, from published plans. A starting price is not a bill at those volumes.',
       lede: 'For a dental office, this page prices only the plans whose own price pages say how much is included and what extra use costs. Everyone else stays in the starting-price table.',
     }),
     industryPage({
       models, vendors, key: 'legal', path: '/cost/legal/',
       h1: 'AI answering service cost for lawyers',
       phrase: 'ai answering service for lawyers',
-      description: 'AI answering service cost for lawyers at 50, 150, and 300 calls, plus every legal starting price in the directory.',
-      lede: 'For a law firm, the plans that publish how much is included are Dialzara, Goodcall, Ruby, and Smith.ai. The starting-price table below is the legal directory, which is a different list.',
+      description: 'AI answering service cost for lawyers at 50, 150, and 300 calls, from published plans, plus every legal starting price in the directory.',
+      lede: 'For a law firm, this page prices only the plans whose own price pages say how much is included and what extra use costs. The starting-price table below is the legal directory, which is a different list.',
     }),
     industryPage({
       models, vendors, key: 'plumbing', path: '/cost/home-services/',
       h1: 'AI receptionist cost for home services',
       phrase: 'ai receptionist for home services',
-      description: 'AI receptionist cost for home services at 50, 150, and 300 calls, from published Bland, Dialzara, Goodcall, Jobber, Ruby, and Smith.ai plans.',
+      description: 'AI receptionist cost for home services at 50, 150, and 300 calls, from published plans. Add-ons and build-it-yourself platforms are labeled in the notes.',
       lede: 'Home services on this site are the plumbing listings, including HVAC and roofing tools filed there. The monthly figures use only plans that publish how much is included and what extra use costs.',
     }),
     industryPage({
       models, vendors, key: 'medical', path: '/cost/medical/',
       h1: 'AI receptionist cost for a medical office',
       phrase: 'ai receptionist for medical office',
-      description: 'AI receptionist cost for a medical office at 50, 150, and 300 calls, from published Bland, ElevenLabs, and Goodcall plans.',
+      description: 'AI receptionist cost for a medical office at 50, 150, and 300 calls, from published plans. A HIPAA line on a vendor page is not a price.',
       lede: 'For a medical office, this page prices only the plans whose own price pages say how much is included and what extra use costs. A HIPAA line on the vendor page is not a price.',
     }),
     industryPage({
@@ -863,7 +863,7 @@ export function buildLandings(data) {
       models, vendors, pair: 'goodcall-vs-rosie', slugs: ['goodcall', 'rosie'],
       h1: 'Goodcall vs Rosie', phrase: 'goodcall vs rosie',
       description: 'Goodcall vs Rosie from sourced starting prices. Goodcall charges per different caller, so a call count alone does not give a bill.',
-      scope: 'Goodcall charges per different caller. Rosie publishes minute bundles. A call count is not turned into Goodcall customers, and Rosie is not in our cost calculator, so neither side gets a calculated 150-call bill.',
+      scope: 'Goodcall charges per different caller, so a call count is not turned into customers and Goodcall does not get a 150-call bill. Rosie publishes minute bundles and is in the cost calculator, so Rosie can be priced at 50, 150, and 300 calls from those printed bundles.',
     }),
     comparePage({
       models, vendors, pair: 'jobber-vs-housecall-pro', slugs: ['jobber-ai-receptionist', 'housecall-pro-csr-ai'],
@@ -880,8 +880,8 @@ export function buildLandings(data) {
     comparePage({
       models, vendors, pair: 'rosie-vs-my-ai-front-desk', slugs: ['rosie', 'my-ai-front-desk'],
       h1: 'Rosie vs My AI Front Desk', phrase: 'rosie vs my ai front desk',
-      description: 'Rosie vs My AI Front Desk from sourced starting prices. Neither is in our cost calculator, so no 150-call bill is calculated.',
-      scope: 'Rosie and My AI Front Desk are both in the directory. Rosie publishes minute bundles, from $49/mo for 250 minutes, with booking and transfers from $149/mo. My AI Front Desk’s pricing page prints $99/mo, or $79/mo billed annually, including 200 voice minutes, and the medical page also prints $109/mo. Neither vendor is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
+      description: 'Rosie vs My AI Front Desk from sourced starting prices and published minute plans at 50, 150, and 300 calls.',
+      scope: 'Rosie and My AI Front Desk are both in the directory and in the cost calculator. Rosie publishes minute bundles, from $49/mo for 250 minutes, with booking and transfers from $149/mo. My AI Front Desk’s pricing page prints $99/mo, or $79/mo billed annually, including 200 voice minutes, then a printed credit pool. Where a monthly total adds that extra use, it is our calculation from the printed rates.',
     }),
     comparePage({
       models, vendors, pair: 'jobber-vs-servicetitan', slugs: ['jobber-ai-receptionist', 'servicetitan-ai-voice-agent'],
@@ -892,8 +892,8 @@ export function buildLandings(data) {
     comparePage({
       models, vendors, pair: 'oncrew-vs-nextphone', slugs: ['oncrew', 'nextphone'],
       h1: 'OnCrew vs NextPhone', phrase: 'oncrew vs nextphone',
-      description: 'OnCrew vs NextPhone from sourced starting prices. Neither is in our cost calculator, so no 150-call bill is calculated.',
-      scope: 'OnCrew and NextPhone are both in the home-services (plumbing) directory. OnCrew charges by the answered minute, with minutes included each month, starting at $49/mo with 250 minutes, then $0.49/min. NextPhone publishes a flat monthly starting price of $199/mo for unlimited inbound calls. Neither is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
+      description: 'OnCrew vs NextPhone from sourced starting prices and published plans at 50, 150, and 300 calls.',
+      scope: 'OnCrew and NextPhone are both in the home-services (plumbing) directory and in the cost calculator. OnCrew charges by the answered minute, starting at $49/mo with 250 minutes, then $0.49/min. The top plan is now named Business, at $349/mo for 1,500 minutes. NextPhone publishes a flat monthly price of $199/mo for unlimited inbound calls. A total that adds printed extra minutes is our calculation from those rates.',
     }),
     hiddenFeesPage({ models, stories }),
     worthPage({ stories }),

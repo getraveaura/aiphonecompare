@@ -290,7 +290,7 @@
       ]
     },
     "oncrew": {
-      "basis": "Starter $49/mo with 250 minutes of answered calls, then $0.49/min; Pro $149/mo with 500 minutes, then $0.39/min; Multi-Truck $349/mo with 1,500 minutes, then $0.29/min",
+      "basis": "Starter $49/mo with 250 minutes of answered calls, then $0.49/min; Pro $149/mo with 500 minutes, then $0.39/min; Business $349/mo with 1,500 minutes, then $0.29/min",
       "from": "$49/mo",
       "plans": [
         {
@@ -306,7 +306,7 @@
           "extra": "then $0.39/min"
         },
         {
-          "name": "Multi-Truck",
+          "name": "Business",
           "price": "$349/mo",
           "includes": "1,500 minutes",
           "extra": "then $0.29/min"

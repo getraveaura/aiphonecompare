@@ -5,6 +5,7 @@ import vendors from '../../data/vendors.json';
 import { DEFAULT_INPUT, INDUSTRY_OPTIONS, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
 import { formatDate } from '../../lib/stories.mjs';
 import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
+import { hostLabel, shortDay } from '../../lib/source-label.mjs';
 import SetupNextStep from '../../components/SetupNextStep.astro';
 const quote = quoteDirectory(vendors, models, DEFAULT_INPUT);
 const description = 'Calculate your monthly and first-year AI receptionist bill from published plans. If a company does not publish a fee, we say so instead of guessing. For AI receptionist pricing and cost, start on the cost page.';
@@ -25,7 +26,7 @@ const jsonld = {
 };
 ---
 <Base title="Calculate your monthly AI receptionist bill" description={description} jsonld={jsonld} ogImage="/og/cost.png">
-  <header class="page-intro">
+  <header class="page-intro guide-read">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
         <ol>
@@ -35,7 +36,7 @@ const jsonld = {
         </ol>
       </nav>
       <h1>Calculate your monthly AI receptionist bill</h1>
-      <p class="lead">Use this calculator to see what each AI phone answering service would really cost you per month and for the first year. Start with your industry and how many calls you get. The table below starts at 150 calls a month, 3 minutes each. For AI receptionist pricing and cost, including what each plan includes and what extra use costs, start on the <a href="/cost/">cost page</a>.</p>
+      <p class="lead">Use this calculator to see a monthly and first-year bill from published plans. The table starts at 150 calls a month, 3 minutes each. For the AI receptionist pricing guide, start on the <a href="/cost/">cost page</a>. Ruby's row is a live receptionist plan, not an AI plan. Bland AI and ElevenLabs are platforms you build. Jobber is an add-on.</p>
       <ul class="trust-chips"><li>Free, no sign-up</li><li>Real prices from each company</li><li>Rankings not for sale</li></ul>
       <p class="tool-line">Already paying for one? <a id="overpaying-link" href="/overpaying/">Compare what you pay with these plans</a>.</p>
       <p class="tool-line">Thinking about a live receptionist instead? See <a href="/cost/ai-vs-live-receptionist/">what live and AI cost at 50, 150 and 300 calls</a>.</p>
@@ -73,14 +74,14 @@ const jsonld = {
       <p>JavaScript is off, so this table stays on the default: all industries, 150 calls, 3 minutes. The buttons do not change it.</p>
     </noscript>
     <p id="calc-summary">{quoteSummary(quote)}</p>
-    <p class="note referral-note">{REFERRAL_NOTE} Visit links appear next to OnCrew, NextPhone and Rosie when those vendors are in the table.</p>
+    <p class="note referral-note">{REFERRAL_NOTE} A Visit link sits on the same line as OnCrew, NextPhone, or Rosie when that vendor is in the table.</p>
     <h2 class="section-title">Assumptions</h2>
     <ul id="assumptions">
       {quote.assumptions.map((item) => <li>{item}</li>)}
     </ul>
     <div class="tablewrap" tabindex="0">
-      <table class="compare">
-        <caption>Vendors with a complete monthly estimate. The highlighted row is the lowest first-year total among plans that also publish a setup fee. Checked <time datetime={quote.checked}>{formatDate(quote.checked)}</time>.</caption>
+      <table class="compare calc-results">
+        <caption>Vendors with a complete monthly estimate. Where the calls do not fit inside a printed plan, the monthly figure is our calculation from the printed plan price, included use, and printed extra-use rate. The highlighted row is the lowest first-year total among plans that also publish a setup fee. Each source shows that row's check date.</caption>
         <thead>
           <tr>
             <th scope="col">Vendor</th>
@@ -88,7 +89,7 @@ const jsonld = {
             <th scope="col">Monthly</th>
             <th scope="col">First year</th>
             <th scope="col">Setup</th>
-            <th scope="col">Unknowns</th>
+            <th scope="col">Notes</th>
             <th scope="col">Source</th>
           </tr>
         </thead>
@@ -96,28 +97,31 @@ const jsonld = {
           {quote.priced.map((row) => (
             <tr class:list={{ 'is-lowest': row.lowest }}>
               <th scope="row" data-label="Vendor">
-                <a href={`/vendors/${row.slug}/`}>{row.name}</a>
+                <span class="vendor-name"><a href={`/vendors/${row.slug}/`}>{row.name}</a>{outboundLink(vendors.find((v) => v.slug === row.slug))?.isReferral && <a class="visit-line" href={outboundLink(vendors.find((v) => v.slug === row.slug)).href} rel={outboundLink(vendors.find((v) => v.slug === row.slug)).rel} data-vendor-slug={row.slug} data-vendor-referral="1" title={`Visit ${row.name}. ${REFERRAL_NOTE}`}>Visit</a>}</span>
+                {row.kindLabel && <span class="kind-pill" title={row.kindLabel}>{row.kindLabel}</span>}
                 {row.lowest && <span class="lowest-flag"> Lowest first-year total</span>}
                 {row.sponsored && <span class="badge">Sponsored</span>}
-                {outboundLink(vendors.find((v) => v.slug === row.slug))?.isReferral && (
-                  <span class="visit-line"> <a href={outboundLink(vendors.find((v) => v.slug === row.slug)).href} rel={outboundLink(vendors.find((v) => v.slug === row.slug)).rel} data-vendor-slug={row.slug} data-vendor-referral="1">Visit {row.name}</a></span>
-                )}
               </th>
               <td data-label="Plan">{row.planName}</td>
-              <td data-label="Monthly">{row.monthly}</td>
-              <td data-label="First year">{row.year}</td>
-              <td data-label="Setup">{row.setup}</td>
-              <td data-label="Unknowns">
-                {row.unknowns.length
-                  ? <ul>{row.unknowns.map((item) => <li>{item}</li>)}</ul>
-                  : 'None stated on the pricing page'}
-                {row.reason && <p>{row.reason}</p>}
+              <td data-label="Monthly">{row.monthly === 'Not enough public pricing' ? <span title="Not enough public pricing">Not public</span> : row.monthly}</td>
+              <td data-label="First year">{row.year === 'Not enough public pricing' ? <span title="Not enough public pricing">Not public</span> : row.year}</td>
+              <td data-label="Setup">{row.setup === 'No setup fee on the pricing page' ? <span title="No setup fee on the pricing page">None listed</span> : row.setup}</td>
+              <td data-label="Notes">
+                {row.unknowns.length || row.reason ? (
+                  <details class="row-notes">
+                    <summary>
+                      <span class="note-summary">{row.unknowns[0] || row.reason}</span>
+                      <span class="note-toggle">Details</span>
+                    </summary>
+                    {row.unknowns.length > 0 && <ul>{row.unknowns.map((item) => <li>{item}</li>)}</ul>}
+                    {row.reason && <p>{row.reason}</p>}
+                  </details>
+                ) : 'None stated on the pricing page'}
               </td>
-              <td data-label="Source">
+              <td class="src-cell" data-label="Source">
                 {row.sourceHref
-                  ? <a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}</a>
+                  ? <a class="src-compact" href={row.sourceHref} rel="nofollow noopener"><span>{hostLabel(row.sourceHref)}</span>{row.checked && <time datetime={row.checked}>{shortDay(row.checked)}</time>}</a>
                   : row.sourceLabel}
-                {row.checked && <> · <time datetime={row.checked}>{row.checkedLabel}</time></>}
               </td>
             </tr>
           ))}
@@ -140,18 +144,14 @@ const jsonld = {
           {quote.missing.map((row) => (
             <tr>
               <th scope="row" data-label="Vendor">
-                <a href={`/vendors/${row.slug}/`}>{row.name}</a>
+                <span class="vendor-name"><a href={`/vendors/${row.slug}/`}>{row.name}</a>{outboundLink(vendors.find((v) => v.slug === row.slug))?.isReferral && <a class="visit-line" href={outboundLink(vendors.find((v) => v.slug === row.slug)).href} rel={outboundLink(vendors.find((v) => v.slug === row.slug)).rel} data-vendor-slug={row.slug} data-vendor-referral="1" title={`Visit ${row.name}. ${REFERRAL_NOTE}`}>Visit</a>}</span>
                 {row.sponsored && <span class="badge">Sponsored</span>}
-                {outboundLink(vendors.find((v) => v.slug === row.slug))?.isReferral && (
-                  <span class="visit-line"> <a href={outboundLink(vendors.find((v) => v.slug === row.slug)).href} rel={outboundLink(vendors.find((v) => v.slug === row.slug)).rel} data-vendor-slug={row.slug} data-vendor-referral="1">Visit {row.name}</a></span>
-                )}
               </th>
               <td data-label="Why">{row.reason}</td>
-              <td data-label="Source">
+              <td class="src-cell" data-label="Source">
                 {row.sourceHref
-                  ? <a href={row.sourceHref} rel="nofollow noopener">{row.sourceLabel}</a>
+                  ? <a class="src-compact" href={row.sourceHref} rel="nofollow noopener"><span>{hostLabel(row.sourceHref)}</span>{row.checked && <time datetime={row.checked}>{shortDay(row.checked)}</time>}</a>
                   : 'No source URL'}
-                {row.checked && <> · <time datetime={row.checked}>{row.checkedLabel}</time></>}
               </td>
             </tr>
           ))}
@@ -169,7 +169,8 @@ const jsonld = {
   import { calculatorPath, parseCalculatorQuery, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
   import { overpayingPath } from '../../lib/overpaying.mjs';
   import { track } from '../../lib/analytics.mjs';
-  import { outboundLink } from '../../lib/outbound.mjs';
+  import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
+  import { hostLabel, shortDay } from '../../lib/source-label.mjs';
 
   const form = document.getElementById('calc-form');
   const summary = document.getElementById('calc-summary');
@@ -187,31 +188,55 @@ const jsonld = {
     });
   }
 
+  function setupCell(row) {
+    const cell = document.createElement('td');
+    cell.setAttribute('data-label', 'Setup');
+    if (row.setup === 'No setup fee on the pricing page') {
+      const short = document.createElement('span');
+      short.title = row.setup;
+      short.textContent = 'None listed';
+      cell.append(short);
+    } else {
+      cell.textContent = row.setup;
+    }
+    return cell;
+  }
+
   function textCell(tag, label, text) {
     const cell = document.createElement(tag);
     cell.setAttribute('data-label', label);
-    cell.textContent = text;
+    if (text === 'Not enough public pricing') {
+      const short = document.createElement('span');
+      short.title = text;
+      short.textContent = 'Not public';
+      cell.append(short);
+    } else {
+      cell.textContent = text;
+    }
     return cell;
   }
 
   function sourceCell(row) {
     const cell = document.createElement('td');
+    cell.className = 'src-cell';
     cell.setAttribute('data-label', 'Source');
     if (row.sourceHref) {
       const link = document.createElement('a');
+      link.className = 'src-compact';
       link.href = row.sourceHref;
       link.rel = 'nofollow noopener';
-      link.textContent = row.sourceLabel;
+      const host = document.createElement('span');
+      host.textContent = hostLabel(row.sourceHref);
+      link.append(host);
+      if (row.checked) {
+        const time = document.createElement('time');
+        time.dateTime = row.checked;
+        time.textContent = shortDay(row.checked);
+        link.append(time);
+      }
       cell.append(link);
     } else {
-      cell.append(document.createTextNode(row.sourceLabel || 'No source URL'));
-    }
-    if (row.checked) {
-      cell.append(document.createTextNode(' · '));
-      const time = document.createElement('time');
-      time.dateTime = row.checked;
-      time.textContent = row.checkedLabel;
-      cell.append(time);
+      cell.textContent = row.sourceLabel || 'No source URL';
     }
     return cell;
   }
@@ -220,10 +245,33 @@ const jsonld = {
     const cell = document.createElement('th');
     cell.scope = 'row';
     cell.setAttribute('data-label', 'Vendor');
+    const nameLine = document.createElement('span');
+    nameLine.className = 'vendor-name';
     const link = document.createElement('a');
     link.href = `/vendors/${row.slug}/`;
     link.textContent = row.name;
-    cell.append(link);
+    nameLine.append(link);
+    const vendor = vendors.find((item) => item.slug === row.slug);
+    const visit = outboundLink(vendor);
+    if (visit?.isReferral) {
+      const go = document.createElement('a');
+      go.className = 'visit-line';
+      go.href = visit.href;
+      go.rel = visit.rel;
+      go.dataset.vendorSlug = row.slug;
+      go.dataset.vendorReferral = '1';
+      go.title = `Visit ${row.name}. ${REFERRAL_NOTE}`;
+      go.textContent = 'Visit';
+      nameLine.append(go);
+    }
+    cell.append(nameLine);
+    if (row.kindLabel) {
+      const kind = document.createElement('span');
+      kind.className = 'kind-pill';
+      kind.title = row.kindLabel;
+      kind.textContent = row.kindLabel;
+      cell.append(kind);
+    }
     if (row.lowest) {
       const flag = document.createElement('span');
       flag.className = 'lowest-flag';
@@ -235,18 +283,6 @@ const jsonld = {
       badge.className = 'badge';
       badge.textContent = 'Sponsored';
       cell.append(badge);
-    }
-    const vendor = vendors.find((item) => item.slug === row.slug);
-    const visit = outboundLink(vendor);
-    if (visit?.isReferral) {
-      cell.append(document.createTextNode(' '));
-      const go = document.createElement('a');
-      go.href = visit.href;
-      go.rel = visit.rel;
-      go.dataset.vendorSlug = row.slug;
-      go.dataset.vendorReferral = '1';
-      go.textContent = `Visit ${row.name}`;
-      cell.append(go);
     }
     return cell;
   }
@@ -268,25 +304,39 @@ const jsonld = {
         textCell('td', 'Plan', row.planName),
         textCell('td', 'Monthly', row.monthly),
         textCell('td', 'First year', row.year),
-        textCell('td', 'Setup', row.setup),
+        setupCell(row),
       );
       const unknowns = document.createElement('td');
-      unknowns.setAttribute('data-label', 'Unknowns');
-      if (row.unknowns.length) {
-        const list = document.createElement('ul');
-        for (const item of row.unknowns) {
-          const li = document.createElement('li');
-          li.textContent = item;
-          list.append(li);
+      unknowns.setAttribute('data-label', 'Notes');
+      if (row.unknowns.length || row.reason) {
+        const details = document.createElement('details');
+        details.className = 'row-notes';
+        const summaryEl = document.createElement('summary');
+        const preview = document.createElement('span');
+        preview.className = 'note-summary';
+        preview.textContent = row.unknowns[0] || row.reason;
+        const toggle = document.createElement('span');
+        toggle.className = 'note-toggle';
+        toggle.textContent = 'Details';
+        summaryEl.append(preview, toggle);
+        details.append(summaryEl);
+        if (row.unknowns.length) {
+          const list = document.createElement('ul');
+          for (const item of row.unknowns) {
+            const li = document.createElement('li');
+            li.textContent = item;
+            list.append(li);
+          }
+          details.append(list);
         }
-        unknowns.append(list);
+        if (row.reason) {
+          const note = document.createElement('p');
+          note.textContent = row.reason;
+          details.append(note);
+        }
+        unknowns.append(details);
       } else {
         unknowns.textContent = 'None stated on the pricing page';
-      }
-      if (row.reason) {
-        const note = document.createElement('p');
-        note.textContent = row.reason;
-        unknowns.append(note);
       }
       tr.append(unknowns, sourceCell(row));
       pricedBody.append(tr);

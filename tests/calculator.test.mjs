@@ -25,7 +25,10 @@ test('dental quotes use a complete plan and leave unique-caller and unpublished 
   assert.ok(dialzara);
   assert.equal(dialzara.monthly, '$199.00');
   assert.equal(dialzara.year, '$2,388.00');
-  assert.equal(dialzara.lowest, true);
+  const zinng = dental.priced.find((row) => row.slug === 'zinng-ai');
+  assert.equal(zinng.monthly, '$99.00');
+  assert.equal(zinng.lowest, true);
+  assert.equal(dialzara.lowest, false);
   const smith = dental.priced.find((row) => row.slug === 'smith-ai');
   assert.equal(smith.year, 'Not enough public pricing');
   assert.equal(smith.lowest, false);
@@ -37,13 +40,15 @@ test('dental quotes use a complete plan and leave unique-caller and unpublished 
   assert.equal(ruby.monthly, '$1,635.00');
   assert.equal(ruby.year, '$19,620.00');
   assert.equal(ruby.checked, '2026-11-20');
+  assert.equal(ruby.kindLabel, 'Live receptionist');
+  assert.equal(ruby.productKind, 'live');
   const plumbing = quoteDirectory(vendors, models, { industry: 'plumbing', calls: 150, minutes: 3, afterHours: null });
   const jobber = plumbing.priced.find((row) => row.slug === 'jobber-ai-receptionist');
   assert.ok(jobber);
   assert.equal(jobber.planName, 'AI Receptionist add-on');
   assert.equal(jobber.monthly, '$138.50');
   assert.equal(jobber.year, 'Not enough public pricing');
-  assert.equal(jobber.checked, '2026-11-20');
+  assert.equal(jobber.checked, '2026-11-22');
 });
 
 test('sponsored does not move a dearer vendor ahead of a cheaper one', () => {

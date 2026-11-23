@@ -71,7 +71,9 @@ export function estimatePlan(plan, input = {}) {
     if (duration.state === 'invalid') {
       return result({ ...fees, reason: 'Average call length must be zero or greater.' });
     }
-    const minutes = callCount.value * duration.value;
+    const length = plan.roundUpMinutes ? Math.ceil(duration.value - 1e-9) : duration.value;
+    const minutes = callCount.value * length;
+    const roundNote = plan.roundUpMinutes ? ' The pricing page says minutes round up, so each call length is rounded up before it is multiplied.' : ' Minutes are not rounded up.';
     const included = plan.included;
     if (included == null) {
       return result({ ...fees, minutes, reason: 'The included minutes are not published.' });
@@ -85,7 +87,20 @@ export function estimatePlan(plan, input = {}) {
         scenarioCents: feeCents,
         minutes,
         overageUnits: 0,
-        formula: `${callCount.value} calls × ${duration.value} min = ${minutes} min, inside ${included} included. Monthly charge is the published plan price ${formatUsd(feeCents)}. Minutes are not rounded up.`,
+        formula: `${callCount.value} calls × ${length} min = ${minutes} min, inside ${included} included. Monthly charge is the published plan price ${formatUsd(feeCents)}.${roundNote}`,
+      });
+    }
+    if (plan.overagePack?.units > 0 && plan.overagePack.price != null) {
+      const packs = Math.ceil(over / plan.overagePack.units);
+      const packCents = packs * centsFrom(plan.overagePack.price);
+      const total = feeCents + packCents;
+      return result({
+        ...fees,
+        status: 'estimate',
+        scenarioCents: total,
+        minutes,
+        overageUnits: over,
+        formula: `${callCount.value} calls × ${length} min = ${minutes} min. ${formatUsd(feeCents)} plan price + ${packs} blocks of ${plan.overagePack.units} min at ${formatUsd(centsFrom(plan.overagePack.price))} = ${formatUsd(total)}. Our calculation from the printed block price.${roundNote}`,
       });
     }
     if (plan.overage == null) {
@@ -107,7 +122,7 @@ export function estimatePlan(plan, input = {}) {
       scenarioCents: total,
       minutes,
       overageUnits: over,
-      formula: `${callCount.value} calls × ${duration.value} min = ${minutes} min. ${formatUsd(feeCents)} plan price + ${over} min × ${formatUsd(centsFrom(plan.overage))} = ${formatUsd(total)}. Minutes are not rounded up.`,
+      formula: `${callCount.value} calls × ${length} min = ${minutes} min. ${formatUsd(feeCents)} plan price + ${over} min × ${formatUsd(centsFrom(plan.overage))} = ${formatUsd(total)}. Our calculation from the printed plan price and extra-minute rate.${roundNote}`,
     });
   }
 
@@ -146,7 +161,7 @@ export function estimatePlan(plan, input = {}) {
       status: 'estimate',
       scenarioCents: total,
       overageUnits: over,
-      formula: `${formatUsd(feeCents)} plan price + ${over} extra ${nounPlural} × ${formatUsd(centsFrom(plan.overage))} = ${formatUsd(total)}. Call length is not part of this bill.`,
+      formula: `${formatUsd(feeCents)} plan price + ${over} extra ${nounPlural} × ${formatUsd(centsFrom(plan.overage))} = ${formatUsd(total)}. Our calculation from the printed plan price and extra-${noun} rate. Call length is not part of this bill.`,
     });
   }
 

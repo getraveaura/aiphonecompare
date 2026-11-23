@@ -93,8 +93,11 @@ function bestPlanRows(providers, calls, models) {
 function providersFor(slugs, models, { addonOnly } = {}) {
   const wanted = slugs ? new Set(slugs) : null;
   return models.providers.filter((provider) => {
-    if (SELF_BUILD.has(provider.slug)) return false;
-    if (Boolean(provider.addonOnly) !== Boolean(addonOnly)) return false;
+    if (SELF_BUILD.has(provider.slug) || provider.productKind === 'platform') return false;
+    if (provider.productKind === 'live') return false;
+    if (Boolean(provider.addonOnly) || provider.productKind === 'addon') {
+      if (!addonOnly) return false;
+    } else if (addonOnly) return false;
     if (wanted && !wanted.has(provider.slug)) return false;
     return true;
   });
@@ -173,25 +176,37 @@ export function marketAnswer(f = marketFindings()) {
 }
 
 export function costAnswer(f = marketFindings()) {
-  const date = formatDate(f.latest);
+  const date = f.modelsChecked || formatDate(f.latest);
   const range = sbRangeText(f);
-  return `As of ${date}, a small business can start an AI receptionist for **${money(f.median)}/mo or less** with half of the ${f.counted} services that publish a standard monthly price.${range ? ` At ${EXAMPLE_CALLS} calls a month, the cheapest complete plan from each ready-made service with fully published pricing comes to **${range}**.` : ''}`;
+  const bills = range
+    ? `ready-made AI plans with full public pricing run **${range}** at ${EXAMPLE_CALLS} calls of ${EXAMPLE_MINUTES} minutes. `
+    : '';
+  return `As of ${date}, ${bills}Half of the ${f.counted} priced services start at **${money(f.median)}/mo or less**, and **${f.under50} start at $50/mo or less**.`;
 }
 
-export function costDescription(f = marketFindings()) {
-  const range = f.sbLow && f.sb.length > 1 ? `${usdCents(f.sbLow.cents)} to ${usdCents(f.sbHigh.cents)}` : '';
-  return `Half of ${f.counted} AI receptionists with a monthly plan start at ${money(f.median)}/mo or less.${range ? ` At ${EXAMPLE_CALLS} calls a month, ready-made plans run ${range}.` : ''} See your own bill.`;
+// Plainer of the two meta options in the 22 November 2026 brief, trimmed to 160 characters.
+export function costDescription() {
+  return 'What an AI receptionist costs per month, with setup and extra-use charges. Every figure is from the company\'s pricing page, with the date we checked it.';
 }
 
-export function marketFindingsList(f = marketFindings()) {
+export function costLlmsBlurb(f = marketFindings()) {
+  const range = sbRangeText(f);
+  return `AI receptionist cost: half of the ${f.counted} services with a standard monthly price start at ${money(f.median)}/mo or less. At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes), ready-made AI plans with a complete published price run ${range}. Live receptionist plans, including Ruby, are not in that range. A total that adds printed extra use is our calculation from those printed rates.`;
+}
+
+export function bestLlmsBlurb() {
+  return 'Best AI phone receptionists: an independent shortlist by situation (budget, repeat callers, a person who can take over, your industry, or a platform you build). Published starting prices, no paid rank, and no numbered score.';
+}
+
+export function marketFindingsList(f = marketFindings(), { includeBills = true } = {}) {
   const out = [
     `**${f.counted} of ${f.listed}** services we track publish a standard monthly plan price on their own website.`,
     `The middle starting price is **${money(f.median)}/mo**: half start at or below it.`,
     `**${f.under50}** start at $50/mo or less, and **${f.under100}** at $100/mo or less.`,
   ];
-  if (f.sbLow) {
+  if (includeBills && f.sbLow) {
     const checked = f.modelsChecked ? `; plan prices checked ${f.modelsChecked}` : '';
-    out.push(`At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes each), the cheapest complete plan from each ready-made service with fully published pricing is **${sbRangeText(f)}** (${f.sb.map((r) => r.provider).join(', ')}${checked}).`);
+    out.push(`At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes each), the cheapest complete plan from each ready-made AI service with fully published pricing is **${sbRangeText(f)}** (${f.sb.map((r) => r.provider).join(', ')}${checked}). Live receptionist plans are not in that range.`);
   }
   for (const row of f.addons || []) out.push(addOnFinding(row));
   if (f.trackingStarted) out.push(`**${plural(f.changes, 'price change')}** logged since ${formatDate(f.trackingStarted)}.`);
