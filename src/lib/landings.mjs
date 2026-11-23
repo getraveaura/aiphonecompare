@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { estimatePlan, formatUsd } from './cost.mjs';
 import { formatDate, industryLabel, sourceDate } from './stories.mjs';
+import { formatCheckedSpan } from './quotable.mjs';
 import { compareSummary, vendorCostSummary, sourceLinks } from './answers.mjs';
 import { outboundLink } from './outbound.mjs';
 import { AUDIT_PATH, showAuditLinks } from './audit.mjs';
@@ -96,6 +97,35 @@ function planRows(providers) {
     }
   }
   return rows;
+}
+
+function cheapestRows(rows, calls) {
+  const best = new Map();
+  for (const row of rows) {
+    const est = row.estimates[calls];
+    if (est.status !== 'estimate' || est.scenarioCents == null) continue;
+    const prev = best.get(row.slug);
+    if (!prev || est.scenarioCents < prev.estimates[calls].scenarioCents) best.set(row.slug, row);
+  }
+  return [...best.values()];
+}
+
+// One cheapest plan per company at this call count, the same rule as the cost
+// calculator. The full plan table stays underneath.
+function likeForLikeSentence(rows, calls) {
+  const chosen = cheapestRows(rows, calls);
+  const label = `${calls} calls a month`;
+  if (!chosen.length) {
+    return `At ${label}, none of these published plans can be turned into a complete monthly figure from call count alone.`;
+  }
+  const sorted = [...chosen].sort((a, b) => a.estimates[calls].scenarioCents - b.estimates[calls].scenarioCents || a.provider.localeCompare(b.provider));
+  const bits = sorted.map((row) => `${row.estimates[calls].text} for ${row.provider} ${row.plan}`);
+  const list = bits.length === 1
+    ? bits[0]
+    : bits.length === 2
+      ? `${bits[0]} and ${bits[1]}`
+      : `${bits.slice(0, -1).join(', ')}, and ${bits.at(-1)}`;
+  return `At ${label}, the cheapest plan that fits is ${list}. The table lists every published plan.`;
 }
 
 function rangeSentence(rows, calls) {
@@ -331,18 +361,29 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
     .sort((a, b) => a.name.localeCompare(b.name));
   const rows = providers.length ? planRows(providers) : [];
   const [left, right] = selected;
+  const checkDates = [
+    ...selected.map((vendor) => vendor.last_checked),
+    ...providers.map((provider) => provider.checked),
+  ].filter(Boolean);
+  const checkedSpan = formatCheckedSpan(checkDates);
+  const checkedLine = checkedSpan ? `Prices checked ${checkedSpan}; each row shows its own date.` : '';
+  const planChecked = providers
+    .map((provider) => `${provider.name} plans checked ${formatDate(provider.checked || models.checked)}`)
+    .join('. ');
   const answer = [
     scope,
     `${left.name}'s recorded starting price is ${blank(left.starting_price)}. Billing: ${blank(left.billing_model)}. Price checked ${left.last_checked ? formatDate(left.last_checked) : 'date not verified'}.`,
     `${right.name}'s recorded starting price is ${blank(right.starting_price)}. Billing: ${blank(right.billing_model)}. Price checked ${right.last_checked ? formatDate(right.last_checked) : 'date not verified'}.`,
     providers.length
       ? [
-          `Cost estimates use prices checked ${formatDate(models.checked)}, at 50, 150, and 300 calls.`,
+          checkedLine,
+          'Cost estimates use 50, 150, and 300 calls.',
           providers.some((provider) => provider.unit === 'minute') ? `Minute plans use a ${ASSUMED_MINUTES}-minute average call.` : '',
           'A company that does not publish enough prices has no estimate row.',
+          planChecked ? `${planChecked}.` : '',
         ].filter(Boolean).join(' ')
       : 'Neither vendor is in our cost calculator, so this page does not calculate a bill at 50, 150, or 300 calls.',
-    rows.length ? rangeSentence(rows, 150) : '',
+    rows.length ? likeForLikeSentence(rows, 150) : '',
   ].filter(Boolean);
   const fields = [
     ['Starting price', (vendor) => blank(vendor.starting_price)],
@@ -370,20 +411,20 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
   const blocks = [
     {
       type: 'table',
-      caption: `${left.name} and ${right.name} from the directory records. Empty fields stay "Not verified".`,
+      caption: `${left.name} and ${right.name} from the directory records. Empty fields stay "Not verified".${checkedLine ? ` ${checkedLine}` : ''}`,
       headers: ['Field', ...selected.map((vendor) => vendor.name)],
       rows: attributeRows,
     },
   ];
   if (rows.length) {
-    blocks.push(scenarioTable(rows, `Plans we can run at 50, 150, and 300 calls. Checked ${formatDate(models.checked)}.`));
+    blocks.push(scenarioTable(rows, `Plans we can run at 50, 150, and 300 calls. ${planChecked}.`));
     blocks.push(caveatBlock(providers));
   }
   const summary = compareSummary({
     left,
     right,
     providers,
-    rangeAt: rows.length ? (calls) => rangeSentence(rows, calls) : null,
+    rangeAt: rows.length ? (calls) => likeForLikeSentence(rows, calls) : null,
   });
   return {
     summary,
@@ -406,7 +447,7 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
       },
       {
         q: 'Can both be priced at 150 calls a month?',
-        a: rows.length ? rangeSentence(rows, 150) : 'No. Neither company publishes how much is included and what extra use costs, so no 150-call bill is calculated.',
+        a: rows.length ? likeForLikeSentence(rows, 150) : 'No. Neither company publishes how much is included and what extra use costs, so no 150-call bill is calculated.',
       },
       {
         q: 'Do the listings say a person can take the call?',

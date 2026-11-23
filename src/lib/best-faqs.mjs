@@ -1,7 +1,11 @@
 // Question answers for /best/ai-phone-receptionists/. No scores.
+import models from '../data/cost-models.json' with { type: 'json' };
 import { wordCount } from './cost-faq.mjs';
+import { readyRange } from './cost-table.mjs';
+import { formatDate } from './stories.mjs';
 
-const date = '22 November 2026';
+const date = formatDate(models.checked);
+const range = readyRange(models, 150);
 
 export function bestFaqs() {
   return [
@@ -18,7 +22,7 @@ export function bestFaqs() {
     {
       id: 'cost',
       q: 'How much do the best AI phone receptionists cost?',
-      a: `Prices come straight from each company's pricing page. A starting price is not your bill. At 150 calls of 3 minutes, ready-made plans with full public pricing run from $99 to $449 a month, checked ${date}. That range leaves out live receptionists, software add-ons, and platforms you build. The cost page has the full table.`,
+      a: `Prices come straight from each company's pricing page. A starting price is not your bill. At 150 calls of 3 minutes, ready-made plans with full public pricing run from ${range.prose} a month, checked ${date}. That range leaves out live receptionists, software add-ons, and platforms you build. The cost page has the full table.`,
     },
     {
       id: 'lowest-price',

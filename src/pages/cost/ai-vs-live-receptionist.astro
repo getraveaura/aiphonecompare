@@ -1,17 +1,21 @@
 ---
 // AI receptionist vs live virtual receptionist: short, scannable cost page.
-// Every figure was checked on 20 November 2026 (Pacific Time) against each
-// company's own pricing page. Do not change a price here without re-checking
-// the source; the math for every cell is in the "Sources and method" section.
+// The ready-made AI range is the same figure as /cost/, from the cost model.
+// Live example prices stay as checked. Do not change a price here without
+// re-checking the source; the math for every cell is in "Sources and method".
 import Base from '../../layouts/Base.astro';
 import AuditCta from '../../components/AuditCta.astro';
+import models from '../../data/cost-models.json';
 import { articleNode } from '../../lib/answers.mjs';
 import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
+import { readyRange } from '../../lib/cost-table.mjs';
+import { formatDate } from '../../lib/stories.mjs';
 
 const audit = showAuditLinks();
 
-const CHECKED = '2026-11-20';
-const checkedLabel = '20 November 2026';
+const CHECKED = models.checked;
+const checkedLabel = formatDate(CHECKED);
+const aiRange = readyRange(models, 150);
 const pageTitle = 'How much does a virtual receptionist cost? Live vs AI, with sourced prices (2026)';
 const description = 'What a live virtual receptionist and an AI receptionist cost per month at 50, 150 and 300 calls. Every price is linked to its source and check date. Rankings not for sale.';
 const pageUrl = new URL('/cost/ai-vs-live-receptionist/', Astro.site).href;
@@ -35,12 +39,13 @@ const picks = [
   { title: 'You want the savings and the human touch', body: 'Let AI answer every call and pass some to a person. Cost ≈ AI plan + live minutes for the calls handed over.', pick: 'Mix both' },
 ];
 
+const addsExtra = (plan) => /×|\+ \d/.test(String(plan));
 const faqs = [
-  { q: 'How much does a live virtual receptionist cost per month?', a: 'Starting plans (checked 20 November 2026): Ruby $250 for 50 minutes, Abby Connect $164 for 50 Abby Minutes, and Smith.ai live agents $300 for 30 calls. At 150 three-minute calls a month, expect $1,347.75 to $1,635.' },
-  { q: 'Is an AI receptionist cheaper than a live virtual receptionist?', a: 'Yes, by a wide margin. At 150 three-minute calls a month, Dialzara, Smith.ai’s AI receptionist and AgentZap run $199 to $295 (checked 20 November 2026). Abby Connect, Smith.ai’s live agents and Ruby run $1,347.75 to $1,635, and Ruby can be higher because its minutes include hold time and after-call work.' },
-  { q: 'What does an AI receptionist cost at 50, 150 and 300 calls a month?', a: 'At 3-minute calls (checked 20 November 2026): 50 calls, $72.20 (Dialzara), $75 (Smith.ai AI) or $109 (AgentZap, plus a $499 setup fee). 150 calls, $199, $270 or $295. 300 calls, $349, $500 or $632.50. Worked from list prices, not quotes. Taxes and unpublished fees not included.' },
-  { q: 'What does a live virtual receptionist cost at 50, 150 and 300 calls?', a: 'At 3-minute calls (checked 20 November 2026): 50 calls, $492 (Abby Connect), $530 (Smith.ai live) or $620 (Ruby). 150 calls, $1,347.75, $1,440 or $1,635. 300 calls, $2,100 (Smith.ai live), $2,484 (Abby Connect) or $3,127.50 (Ruby).' },
-  { q: 'Are there setup fees on either side?', a: 'Of these six, only AgentZap prints one: $499 one-time. Dialzara, Smith.ai’s live agents, Ruby and Abby Connect say they charge none. Smith.ai’s AI pricing page doesn’t say, so we list it as not published.' },
+  { q: 'How much does a live virtual receptionist cost per month?', a: 'Starting plans on this page: Ruby $250 for 50 minutes, Abby Connect $164 for 50 Abby Minutes, and Smith.ai live agents $300 for 30 calls. At 150 three-minute calls a month, those three run $1,347.75 to $1,635.' },
+  { q: 'Is an AI receptionist cheaper than a live virtual receptionist?', a: `Yes, by a wide margin. At 150 three-minute calls a month, ready-made AI plans with full public pricing run ${aiRange.prose} (checked ${checkedLabel}, the same range as the cost page, ${aiRange.count} services). Abby Connect, Smith.ai’s live agents and Ruby run $1,347.75 to $1,635, and Ruby can be higher because its minutes include hold time and after-call work. Ruby is a live receptionist and is not in the AI range.` },
+  { q: 'What does an AI receptionist cost at 50, 150 and 300 calls a month?', a: `The ready-made range is the one on the cost page, checked ${checkedLabel}. At 150 calls of 3 minutes it is ${aiRange.prose}, from ${aiRange.count} services. The examples further down show Dialzara, Smith.ai’s AI receptionist and AgentZap. A cell marked our calculation adds the company’s printed extra-use rate. Taxes and unpublished fees are not included.` },
+  { q: 'What does a live virtual receptionist cost at 50, 150 and 300 calls?', a: 'At 3-minute calls, the live examples on this page are: 50 calls, $492 (Abby Connect), $530 (Smith.ai live) or $620 (Ruby). 150 calls, $1,347.75, $1,440 or $1,635. 300 calls, $2,100 (Smith.ai live), $2,484 (Abby Connect) or $3,127.50 (Ruby). A cell marked our calculation adds the company’s printed extra-use rate.' },
+  { q: 'Are there setup fees on either side?', a: 'Of these six examples, only AgentZap prints one: $499 one-time. Dialzara, Smith.ai’s live agents, Ruby and Abby Connect say they charge none. Smith.ai’s AI pricing page doesn’t say, so we list it as not published.' },
 ];
 
 const sources = [
@@ -81,18 +86,18 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
       <div class="vs-hero-grid">
       <div class="vs-hero-copy">
       <h1>AI vs live receptionist: what you’ll really pay each month</h1>
-      <p class="vs-answer">At about 150 calls a month, an <strong>AI receptionist costs $199–$295</strong>. A <strong>live receptionist costs $1,347.75–$1,635</strong>.</p>
-      <p class="vs-intro">Those totals are our calculation from each company's printed plan price, included use, and printed extra-use rate, checked 20 November 2026. They are not a second price printed as a package. Ruby is a live receptionist plan and is not part of the AI range on the <a href="/cost/">cost page</a>.</p>
+      <p class="vs-answer">At about 150 calls a month, an <strong>AI receptionist costs {aiRange.dash}</strong>. A <strong>live receptionist costs $1,347.75–$1,635</strong>.</p>
+      <p class="vs-intro">The AI range is the cheapest plan that fits for each of the {aiRange.count} ready-made services with full public pricing, the same range as the <a href="/cost/">cost page</a>. Ready-made prices were checked <time datetime={CHECKED}>{checkedLabel}</time>. Ruby is a live receptionist and is not in that range. The live range is Abby Connect, Smith.ai’s live agents, and Ruby.</p>
       <p class="lead">AI answers your routine calls for far less. A person still earns the extra on some calls, and we show you which.</p>
       <div class="cta vs-cta">
         {audit && <a class="btn btn-primary btn-lg" href={AUDIT_PATH} data-offer-cta="audit" data-offer-cta-source="ai-vs-live">Get my free check <span class="arrow" aria-hidden="true">→</span></a>}
         <a class={audit ? 'btn btn-secondary btn-lg' : 'btn btn-primary btn-lg'} href="/cost/calculator/" data-offer-cta="calculator" data-offer-cta-source="ai-vs-live">See my monthly cost</a>
       </div>
-      <ul class="trust-chips"><li>Prices checked <time datetime={CHECKED}>{checkedLabel}</time></li><li>Every price linked to its source</li><li>Rankings not for sale</li></ul>
+      <ul class="trust-chips"><li>Ready-made prices checked <time datetime={CHECKED}>{checkedLabel}</time></li><li>Every price linked to its source</li><li>Rankings not for sale</li></ul>
       </div>
       <aside class="vs-hero-card" aria-label="Monthly cost at 150 calls">
         <p class="vs-hero-card-title">At 150 calls a month</p>
-        <div class="vs-hero-row vs-hero-row-ai"><span>AI receptionist</span><strong>$199–$295<small>/mo</small></strong></div>
+        <div class="vs-hero-row vs-hero-row-ai"><span>AI receptionist</span><strong>{aiRange.dash}<small>/mo</small></strong></div>
         <div class="vs-hero-row"><span>Live receptionist</span><strong>$1,347.75–$1,635<small>/mo</small></strong></div>
         <a class="vs-hero-card-link" href="#prices">See all six prices <span aria-hidden="true">↓</span></a>
       </aside>
@@ -106,8 +111,8 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
       <div class="vs-sides">
         <article class="vs-side vs-side-ai">
           <p class="vs-side-kicker">AI receptionist</p>
-          <p class="vs-side-price">$199–$295<span>/mo</span></p>
-          <p class="vs-side-sub">at 150 calls a month</p>
+          <p class="vs-side-price">{aiRange.dash}<span>/mo</span></p>
+          <p class="vs-side-sub">at 150 calls a month, {aiRange.count} ready-made services</p>
           <ul role="list">
             <li>Routine questions and bookings</li>
             <li>Tight budgets and growing call volume</li>
@@ -133,11 +138,12 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
       <h2 id="prices-heading" class="section-title">What each one costs at 150 calls a month</h2>
       <p class="vs-intro">3-minute calls. Cheapest complete published plan, including extra-use charges. Before tax.</p>
       <h3 class="vs-group">AI receptionists</h3>
+      <p class="vs-intro">Three examples. The range above covers every ready-made service with full public pricing.</p>
       <ul class="vs-prices" role="list">
         {ai.map((v) => (
           <li class="vs-price">
             <a class="vs-price-name" href={v.href}>{v.name}</a>
-            <p class="vs-price-num">{v.at150}<span>/mo</span></p>
+            <p class="vs-price-num">{v.at150}<span>/mo</span>{addsExtra(v.plan150) && <span class="vs-calc">(our calculation)</span>}</p>
             <p class="vs-price-plan">{v.plan150}</p>
             <p class="vs-price-fee">{v.oneTime}</p>
           </li>
@@ -148,7 +154,7 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
         {live.map((v) => (
           <li class="vs-price">
             <a class="vs-price-name" href={v.href}>{v.name}</a>
-            <p class="vs-price-num">{v.at150}<span>/mo</span></p>
+            <p class="vs-price-num">{v.at150}<span>/mo</span>{addsExtra(v.plan150) && <span class="vs-calc">(our calculation)</span>}</p>
             <p class="vs-price-plan">{v.plan150}</p>
             <p class="vs-price-fee">{v.oneTime}</p>
             {v.note && <p class="vs-price-note">{v.note}</p>}
@@ -165,8 +171,8 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
               {[...ai, ...live].map((v) => (
                 <tr>
                   <th scope="row">{v.name}</th>
-                  <td data-label="50 calls"><strong>{v.at50}</strong> <span class="vs-math">{v.plan50}</span></td>
-                  <td data-label="300 calls"><strong>{v.at300}</strong> <span class="vs-math">{v.plan300}</span></td>
+                  <td data-label="50 calls"><strong>{v.at50}{addsExtra(v.plan50) ? ' (our calculation)' : ''}</strong> <span class="vs-math">{v.plan50}</span></td>
+                  <td data-label="300 calls"><strong>{v.at300}{addsExtra(v.plan300) ? ' (our calculation)' : ''}</strong> <span class="vs-math">{v.plan300}</span></td>
                 </tr>
               ))}
             </tbody>
@@ -217,7 +223,7 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
           <li><strong>Dialzara:</strong> Business Lite (the 50-call plan) offers blind transfer but not warm transfer; warm transfer starts on Business Pro ($99 a month).</li>
           <li><strong>AgentZap:</strong> the $499 training and setup fee is printed on each plan and waived on Professional with a 6-month term.</li>
         </ul>
-        <p>All pages checked {checkedLabel} (Pacific Time):</p>
+        <p>Ready-made prices were re-read {checkedLabel}. Each live example below keeps the price and source already listed on this page:</p>
         <ul class="vs-notes">
           {sources.map(([name, links]) => (
             <li><strong>{name}:</strong> {links.map(([href, label], i) => <>{i > 0 && ' · '}<a href={href} rel="nofollow noopener">{label}</a></>)}</li>
@@ -265,6 +271,7 @@ const dock = audit ? [[AUDIT_PATH, 'Get my free check'], ['/cost/calculator/', '
   .vs-price p { margin: 0; }
   .vs-price-name { font-weight: 600; }
   .vs-price-num { margin-top: 0.3rem !important; font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.15rem); font-weight: 700; line-height: 1.15; font-variant-numeric: tabular-nums; }
+  .vs-calc { display: block; margin-top: 0.15rem; font-size: 0.75rem; font-weight: 600; line-height: 1.3; color: var(--ink-soft); }
   .vs-price-plan { color: var(--ink-soft); font-size: 0.92rem; margin-top: 0.25rem !important; }
   .vs-price-fee { display: inline-block; margin-top: 0.6rem !important; font-size: 0.85rem; padding: 0.15rem 0.55rem; border-radius: 999px; background: var(--paper); border: 1px solid var(--line); }
   .vs-price-note { margin-top: 0.6rem !important; font-size: 0.88rem; color: var(--ink-soft); }
