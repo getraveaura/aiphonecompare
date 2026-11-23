@@ -180,7 +180,7 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
   <section class="band" id="industries">
     <div class="wrap">
       <h2 class="section-title">Browse by industry</h2>
-      <div class="industries">
+      <div class="industries home-industries">
         <a class="industry reveal" data-industry="dental" href="/industries/dental/">
           <IndustryIcon name="dental" />
           <h3>Dental</h3>
@@ -203,6 +203,12 @@ const shortDate = (iso) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', mo
           <IndustryIcon name="medical" />
           <h3>Medical</h3>
           <p>{c('medical')} services · books appointments, patient privacy (HIPAA)</p>
+          <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </a>
+        <a class="industry reveal" data-industry="property" href="/industries/property-management/">
+          <IndustryIcon name="property" />
+          <h3>Property management</h3>
+          <p>{c('property')} services · after-hours maintenance and leasing calls</p>
           <span class="go">Compare <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         </a>
         <a class="industry" href="/pricing/">

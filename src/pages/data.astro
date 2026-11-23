@@ -23,6 +23,7 @@ const jsonld = {
     latest,
     trackingStarted: log.trackingStarted,
   }),
+  creditText: `Source: aiphonecompare.com, checked ${latestLabel || latest || 'date not recorded'}`,
 };
 ---
 <Base title="Open vendor dataset" description={description} jsonld={jsonld}>
@@ -35,6 +36,7 @@ const jsonld = {
   <div class="wrap stack prose">
     <p>{latestLabel ? <>Last updated {latestLabel}. That is the latest last-checked date in the vendor file.</> : 'Last-checked dates are on each vendor row.'}</p>
     <p>License: <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International (CC BY 4.0)</a>.</p>
+    <p>Source: aiphonecompare.com, checked {latestLabel || latest}.</p>
     <p>If you use the data, attribute aiphonecompare and link to <a href="https://aiphonecompare.com/data/">https://aiphonecompare.com/data/</a>.</p>
     <ul>
       <li><a href="/data/vendors.csv">vendors.csv</a> ({data.length} rows, plus a header)</li>

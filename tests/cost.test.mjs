@@ -1,7 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { estimatePlan, parseAmount } from '../src/lib/cost.mjs';
+import { quoteDirectory } from '../src/lib/calculator.mjs';
 import models from '../src/data/cost-models.json' with { type: 'json' };
+import vendors from '../src/data/vendors.json' with { type: 'json' };
 
 const minutePlan = {
   unit: 'minute',
@@ -144,4 +146,31 @@ test('shipped official scenarios match the pricing pages', () => {
   assert.equal(upfirst.scenarioCents, 11995);
   const frontDesk = estimatePlan(find('my-ai-front-desk', 'business'), { calls: 150, durationMinutes: 3 });
   assert.equal(frontDesk.scenarioCents, 15900);
+});
+
+test('reconfirmed plans still produce the 23 November 2026 monthly totals', () => {
+  const expected = {
+    'my-ai-front-desk': [99, 159, 269],
+    'marlie-ai': [49, 99, 199],
+    'zinng-ai': [49, 99, 149],
+    upfirst: [54.95, 119.95, 159.95],
+    rosie: [49, 149, 149],
+    oncrew: [49, 147, 305],
+    nextphone: [199, 199, 199],
+    'legalclerk-ai': [400, 400, 400],
+    serviceagent: [119, 349, 349],
+    'viva-ai': [349, 350, 350],
+  };
+  for (const [slug, totals] of Object.entries(expected)) {
+    const provider = models.providers.find((item) => item.slug === slug);
+    assert.equal(provider.checked, '2026-11-23', slug);
+    for (const [index, calls] of [50, 150, 300].entries()) {
+      const quote = quoteDirectory(vendors, models, { industry: 'all', calls, minutes: 3, afterHours: null });
+      const row = quote.priced.find((item) => item.slug === slug);
+      assert.ok(row, slug);
+      assert.equal(row.monthlyCents, Math.round(totals[index] * 100), `${slug} at ${calls} calls`);
+    }
+  }
+  assert.equal(models.providers.find((item) => item.slug === 'autoleap-air').checked, '2026-11-22');
+  assert.equal(models.providers.find((item) => item.slug === 'turnkey-dispatch').checked, '2026-11-22');
 });

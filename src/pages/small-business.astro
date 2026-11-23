@@ -22,7 +22,7 @@ const faqs = [
   { q: 'What can a small business compare here?', a: 'The published starting price, whether the listing names a human handoff, and the source on the vendor page. If a field is blank, we have not verified it.' },
   { q: 'What is the lowest published monthly price in this directory?', a: priceAnswer },
   { q: 'Are these tools ranked for small businesses?', a: 'No. The table sorts by the lowest monthly dollar amount written in each listing. That is not a quality score. Sponsored listings are labeled, and payment does not change the price text.' },
-  { q: 'Which small-business industries are covered?', a: 'Dental practices, law firms, plumbing companies, and medical practices. Each industry has its own page listing only the tools that name that industry.' },
+  { q: 'Which small-business industries are covered?', a: 'Dental practices, law firms, plumbing companies, medical practices, and property managers. Each industry has its own page listing only the tools that name that industry. After-hours coverage and the choice between a person and software are on their own pages.' },
 ];
 const latest = latestChecked(data);
 const latestLabel = latest ? formatDate(latest) : '';
@@ -48,7 +48,7 @@ const caption = 'Sorted by the lowest monthly dollar amount written in each list
           Prices checked <time datetime={latest}>{latestLabel}</time>
         </p>
       )}
-      <p class="lead">Start with the starting price each vendor publishes, then open the listing for the source and the date we checked it. This directory covers tools listed for dental practices, law firms, plumbing companies, and medical practices.</p>
+      <p class="lead">Start with the starting price each vendor publishes, then open the listing for the source and the date we checked it. This directory covers tools listed for dental practices, law firms, plumbing companies, medical practices, and property managers. For nights and weekends, see <a href="/after-hours/">after hours answering</a>. To choose between a person and software, see <a href="/ai-vs-virtual-receptionist/">virtual receptionist vs AI</a>.</p>
       <NextSteps
         cards={[
           { href: '/match/', title: 'Find my best match', text: 'Pick your industry, call volume and must-haves' },
@@ -57,7 +57,7 @@ const caption = 'Sorted by the lowest monthly dollar amount written in each list
           { href: '/best/ai-phone-receptionists/', title: 'Best for your situation', text: 'A shortlist with no paid rank' },
         ]}
         othersLabel="By industry"
-        others={[{ href: '/industries/dental/', label: 'Dental' }, { href: '/industries/legal/', label: 'Legal' }, { href: '/industries/plumbing/', label: 'Plumbing' }, { href: '/industries/medical/', label: 'Medical' }]}
+        others={[{ href: '/industries/dental/', label: 'Dental' }, { href: '/industries/legal/', label: 'Legal' }, { href: '/industries/plumbing/', label: 'Plumbing' }, { href: '/industries/medical/', label: 'Medical' }, { href: '/industries/property-management/', label: 'Property management' }, { href: '/after-hours/', label: 'After hours' }, { href: '/ai-vs-virtual-receptionist/', label: 'Virtual receptionist' }]}
       />
     </div>
   </header>

@@ -26,6 +26,7 @@ const jsonld = {
           <option value="medical">Medical</option>
           <option value="legal">Legal</option>
           <option value="plumbing">Plumbing</option>
+          <option value="property">Property management</option>
         </select>
       </div>
       <fieldset>
@@ -80,7 +81,7 @@ const jsonld = {
   const sponsoredBody = document.getElementById('match-sponsored-body');
   const params = new URLSearchParams(window.location.search);
   const industry = params.get('industry');
-  const allowed = ['dental', 'medical', 'legal', 'plumbing'];
+  const allowed = ['dental', 'medical', 'legal', 'plumbing', 'property'];
   if (industry && allowed.includes(industry)) form.elements.industry.value = industry;
 
   function line(label, value) {

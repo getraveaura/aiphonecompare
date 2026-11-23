@@ -7,8 +7,8 @@ import { formatDate } from './stories.mjs';
 const trimEnd = (text) => String(text ?? '').trim().replace(/[.;,\s]+$/, '');
 const has = (text) => trimEnd(text).length > 0;
 const notStated = (text) => !has(text) || /^not stated\b/i.test(String(text).trim());
-const INDUSTRY_WORDS = { dental: 'dental practices', legal: 'law firms', plumbing: 'plumbing and home-service businesses', medical: 'medical practices' };
-const INDUSTRY_LABEL = { dental: 'dental', legal: 'legal', plumbing: 'plumbing', medical: 'medical' };
+const INDUSTRY_WORDS = { dental: 'dental practices', legal: 'law firms', plumbing: 'plumbing and home-service businesses', medical: 'medical practices', property: 'property management' };
+const INDUSTRY_LABEL = { dental: 'dental', legal: 'legal', plumbing: 'plumbing', medical: 'medical', property: 'property management' };
 
 function list(items) {
   if (items.length <= 1) return items.join('');

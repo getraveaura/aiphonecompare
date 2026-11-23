@@ -21,7 +21,8 @@ import { lowestMonthly, lowestMonthlyListing } from '../lib/price.mjs';
 import { orderForIndustry } from '../lib/spotlight.mjs';
 import { dfyForIndustryPage, dfyIndustryPath } from '../lib/dfy-industries.mjs';
 import { DFY_OFFERS, usd } from '../lib/offers.mjs';
-const { key, title, guide, faqs = [], guideTitle = 'What to check before you buy', note = '' } = Astro.props;
+import { outboundLink, REFERRAL_NOTE } from '../lib/outbound.mjs';
+const { key, title, guide, faqs = [], guideTitle = 'What to check before you buy', note = '', intro = '', metaTail = '', showRange = false, showChecked = false } = Astro.props;
 const vendors = orderForIndustry(data, key);
 const money = (n) => (Number.isInteger(n) ? `$${n}` : `$${n}`);
 const low = lowestMonthlyListing(vendors);
@@ -36,6 +37,17 @@ const latestLabel = latest
 const priceSentence = lowAmount == null
   ? 'None of these listings has a monthly dollar amount in the starting price.'
   : `The lowest monthly amount written in these listings is ${money(lowAmount)}/mo, for ${low.name}${lowChecked ? `, checked ${lowChecked}` : ''}.`;
+const checkedLabel = (iso) => iso
+  ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`))
+  : '';
+const monthly = vendors
+  .map((vendor) => ({ vendor, amount: lowestMonthly(vendor.starting_price) }))
+  .filter((row) => row.amount != null)
+  .sort((a, b) => a.amount - b.amount || a.vendor.name.localeCompare(b.vendor.name));
+const high = monthly.length > 1 ? monthly.at(-1) : null;
+const rangeSentence = high
+  ? `Published monthly amounts written in these listings run from ${money(monthly[0].amount)}/mo (${monthly[0].vendor.name}${monthly[0].vendor.last_checked ? `, checked ${checkedLabel(monthly[0].vendor.last_checked)}` : ''}) to ${money(high.amount)}/mo (${high.vendor.name}${high.vendor.last_checked ? `, checked ${checkedLabel(high.vendor.last_checked)}` : ''}).`
+  : '';
 const allFaqs = [
   { q: 'What is the lowest published monthly price on this page?', a: `${priceSentence} Per-minute rates are not turned into a monthly price. Not verified means no monthly amount was published.` },
   { q: 'Are these tools ranked?', a: 'No. Rows are alphabetical. A sponsored listing is labeled and can appear first only on the one industry page it paid for. Payment does not change a price or the order of the other rows.' },
@@ -50,14 +62,18 @@ const industries = [
   ['legal', 'Legal', '/industries/legal/'],
   ['plumbing', 'Plumbing', '/industries/plumbing/'],
   ['medical', 'Medical', '/industries/medical/'],
+  ['property', 'Property management', '/industries/property-management/'],
 ].filter(([id]) => id !== key);
 const dfy = dfyForIndustryPage(key);
 const summary = industrySummary({ key, vendors, priceSentence });
+if (showRange && rangeSentence) summary.unshift(rangeSentence);
+const hasReferral = vendors.some((vendor) => outboundLink(vendor)?.isReferral);
+const introText = intro || `Compare AI phone answering services for ${industryLabel(key).toLowerCase()} side by side: real starting prices, patient or client privacy, and whether a real person can take over the call.`;
 const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
 const site = new URL('/', Astro.site).href;
 const pageTitle = `${title}: pricing compared${latest ? ` (${latest.slice(0, 4)})` : ''}`;
 const summarySources = [{ href: '/price-index/', label: 'aiphonecompare price index' }, ...(low ? sourceLinks(low.sources, 1).map((s) => ({ ...s, label: `${low.name}: ${s.label}` })) : [])];
-const metaDescription = `${summary[0]} Patient privacy (HIPAA), handing calls to a person and the software each works with are compared with sources.`;
+const metaDescription = `${summary[0]} ${metaTail || 'Patient privacy (HIPAA), handing calls to a person and the software each works with are compared with sources.'}`;
 const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -75,7 +91,13 @@ const jsonld = {
       <VerifyStrip />
       <p class="industry-kicker"><IndustryIcon name={key} />{industryLabel(key)}</p>
       <h1>{title}</h1>
-      <PlainIntro text={`Compare AI phone answering services for ${industryLabel(key).toLowerCase()} side by side: real starting prices, patient or client privacy, and whether a real person can take over the call.`} />
+      {showChecked && latest && (
+        <p class="checked">
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Prices checked <time datetime={latest}>{latestLabel}</time>
+        </p>
+      )}
+      <PlainIntro text={introText} primary={[`/match/?industry=${key}`, 'Find my best match']} secondary={[`/cost/calculator/?industry=${key}&calls=150&minutes=3`, 'See my monthly cost']} />
       <AnswerSummary sentences={summary} verified={latest} sources={summarySources} />
       <NextSteps
         cards={[
@@ -96,6 +118,7 @@ const jsonld = {
     </section>
     <section>
       <h2 class="section-title">Comparison table</h2>
+      {hasReferral && <p class="note referral-note">{REFERRAL_NOTE} A Visit link is that referral link.</p>}
       <VendorTable vendors={vendors} industry={key}/>
     </section>
     {relatedStories.length > 0 && (
