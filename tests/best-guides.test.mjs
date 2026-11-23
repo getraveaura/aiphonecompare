@@ -101,13 +101,18 @@ test('the newer industry guides list only vendors with their own industry pages'
   for (const [path, slugs] of Object.entries(expected)) {
     const page = pages.find((item) => item.path === path);
     assert.ok(page, path);
-    assert.match(page.scope, /does not keep a separate .+ directory/i);
+    if (path === '/best/property-management/') {
+      assert.match(page.scope, /property-management directory/i);
+      assert.equal(page.industryPath, '/industries/property-management/');
+    } else {
+      assert.match(page.scope, /does not keep a separate .+ directory/i);
+      assert.ok(!page.industryPath);
+    }
     assert.match(page.lede, /not a ranked list/i);
     assert.deepEqual(page.vendors.map((vendor) => vendor.slug), slugs);
     assert.ok(page.vendors.length > 0);
     assert.equal(page.dfyPath, '/done-for-you/');
     assert.ok(page.related.some((link) => link.href === '/done-for-you/'));
-    assert.ok(!page.industryPath);
   }
   const salon = pages.find((item) => item.path === '/best/salons/');
   assert.match(salon.scope, /med spas are covered on a separate guide/i);

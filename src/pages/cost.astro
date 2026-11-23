@@ -28,8 +28,8 @@ function headPrice(plan) {
   if (plan.publishedLabel.length <= 20) return plan.publishedLabel;
   return '';
 }
-const title = 'AI receptionist pricing: what you will really pay per month (2026)';
-const pageTitle = 'How much does an AI receptionist cost? Published prices compared';
+const title = 'AI receptionist cost';
+const pageTitle = 'How much does an AI receptionist cost?';
 const summary = costHubSummary(models);
 const hubSources = sourceLinks(models.providers.map((provider) => provider.sources[0]?.href).filter(Boolean), 6);
 const market = marketFindings();
@@ -93,8 +93,8 @@ const billHeads = [
   <header class="page-intro guide-read">
     <div class="wrap">
       <h1>{title}</h1>
-      <p class="byline">By the {author}. Ready-made bills in the table were checked <time datetime={models.checked}>{checkedLabel}</time>. Each source column shows that row's own date. <a href="/about/">How this site works</a>. No one pays for placement.</p>
       <QuickAnswer text={costAnswer(market)} />
+      <p class="byline">By the {author}. Ready-made bills in the table were checked <time datetime={models.checked}>{checkedLabel}</time>. Each source column shows that row's own date. AI receptionist pricing at your own call volume is in the table below. <a href="/about/">How this site works</a>. No one pays for placement.</p>
       <p class="lead">These totals use 150 calls a month, three minutes each. Where the calls don't fit inside the plan, the total is our math: the plan price plus the company's listed rate for extra minutes or calls. List prices are before tax, and they are not a quote. For your own call volume, use the <a href="/cost/calculator/">calculator</a>.</p>
       <PlainIntro primary={['#cost-form', 'Enter my calls']} secondary={['/match/', 'Find my best match']} />
       <p class="tool-line">Comparing with a live receptionist? See <a href="/cost/ai-vs-live-receptionist/">AI vs live receptionist cost at 50, 150 and 300 calls</a>.</p>

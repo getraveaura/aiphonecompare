@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import PlainIntro from '../components/PlainIntro.astro';
+import { outboundLink, REFERRAL_NOTE } from '../lib/outbound.mjs';
+import { articleNode, breadcrumbNode } from '../lib/answers.mjs';
+import { coverageRows } from '../lib/after-hours.mjs';
+import { formatDate } from '../lib/stories.mjs';
+import vendors from '../data/vendors.json';
+
+const rows = coverageRows(vendors);
+const latest = rows.map((row) => row.checked).filter(Boolean).sort().at(-1) || '';
+const latestLabel = latest ? formatDate(latest) : '';
+const names = rows.map((row) => row.name);
+const nameList = names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names.at(-1)}` : names.join('');
+const title = 'After hours answering service';
+const description = 'After hours answering service: which AI receptionists say they cover nights and weekends, with each published starting price and the date we checked it.';
+const pageUrl = new URL('/after-hours/', Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const faqs = [
+  { q: 'What is an after-hours answering service?', a: 'It picks up calls when your office is closed. An AI version uses software for that first answer. It can take a message, and on some products it can book or transfer the call. A person is not on the line unless the product says it hands the call over.' },
+  { q: 'Which services on this site say they answer after hours or 24/7?', a: `Only the ones whose own page, or the directory note, says so: ${nameList}. If a listing does not say it, it is not in the table.` },
+  { q: 'Do night calls cost more?', a: 'OnCrew\'s property-management page says a call at 9 PM costs the same as one at 9 AM. The other pricing pages used for the cost calculator do not print a separate after-hours rate, so the calculator does not add one.' },
+  { q: 'Where do the prices come from?', a: `Each starting price is the text in our vendor file, with that row\'s check date. The newest of those dates is ${latestLabel}. The coverage line was read on the source linked in the row.` },
+  { q: 'What should I test before I rely on it?', a: 'Place a real after-hours call. See whether it takes a message, books something, or reaches the person on call, and whether that person gets the context. Then run your own call count in the calculator.' },
+];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', name: title, url: pageUrl, description, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(latest ? { dateModified: latest } : {}) },
+    articleNode({ url: pageUrl, headline: title, description, modified: latest, citations: rows.map((row) => row.source), site }),
+    breadcrumbNode([['Home', site], [title, pageUrl]]),
+    { '@type': 'FAQPage', mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
+};
+const hasReferral = rows.some((row) => outboundLink(vendors.find((vendor) => vendor.slug === row.slug))?.isReferral);
+---
+<Base title={title} description={description} jsonld={jsonld} modified={latest}>
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><span aria-current="page">After hours</span></li>
+        </ol>
+      </nav>
+      <h1>{title}</h1>
+      {latest && (
+        <p class="checked">
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Prices checked <time datetime={latest}>{latestLabel}</time>
+        </p>
+      )}
+      <p class="lead">An after-hours answering service picks up the phone when you are closed. {rows.length} listings here say they cover after hours or answer 24/7. The price in the table is the starting price already recorded for that company, not a new estimate.</p>
+      <PlainIntro text="See what those plans cost at your call volume, then pick one to try." primary={['/cost/calculator/?calls=150&minutes=3', 'See my monthly cost']} secondary={['/match/', 'Find my best match']} />
+    </div>
+  </header>
+  <div class="wrap stack">
+    <section aria-labelledby="what-heading">
+      <h2 id="what-heading" class="section-title">What it does</h2>
+      <ul>
+        <li>Answers when the office is closed, including nights and weekends if the company says so.</li>
+        <li>Takes the caller\'s name, the problem, and a way to reach them.</li>
+        <li>On some products, books a visit or texts the person on call. Test that with your own rules.</li>
+      </ul>
+      <p>Search volume for the phrase after hours answering service is about 880 US searches a month, in Google Keyword Planner figures compiled by <a href="https://damaruka.com/research/ai-receptionist-search-demand">Damaruka</a> (pulled 2026-10-17). That is their estimate, not a count from this site.</p>
+    </section>
+    <section aria-labelledby="who-heading">
+      <h2 id="who-heading" class="section-title">Who says they cover it</h2>
+      <p>A company is listed only when its own page, or the note in our vendor file, says after hours or 24/7. The other {vendors.length - rows.length} listings do not say that, so they are left off. This is not a ranking.</p>
+      {hasReferral && <p class="note referral-note">{REFERRAL_NOTE}</p>}
+      <div class="tablewrap" tabindex="0">
+        <table class="compare">
+          <caption>Starting prices are copied from the vendor file. Each row has its own price-check date. The coverage line is what we read at the source.</caption>
+          <thead>
+            <tr>
+              <th scope="col">Service</th>
+              <th scope="col">What they say</th>
+              <th scope="col">Starting price</th>
+              <th scope="col">Price checked</th>
+              <th scope="col">Where we read it</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr>
+                <th scope="row" data-label="Service"><a href={`/vendors/${row.slug}/`}>{row.name}</a></th>
+                <td data-label="What they say">{row.says}</td>
+                <td data-label="Starting price">{row.price || 'Not verified'}</td>
+                <td data-label="Price checked">{row.checked ? <time datetime={row.checked}>{formatDate(row.checked)}</time> : 'Not verified'}</td>
+                <td data-label="Where we read it"><a href={row.source} rel="nofollow noopener">{row.sourceLabel}</a>{row.readOn ? <>, read <time datetime={row.readOn}>{formatDate(row.readOn)}</time></> : null}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <p class="good-to-know"><strong>Good to know:</strong> property managers can compare the same companies on the <a href="/industries/property-management/">property management answering service</a> page. The worked bills at 50, 150, and 300 calls are on the <a href="/cost/">cost page</a>.</p>
+    </section>
+    <Faq items={faqs} />
+  </div>
+</Base>

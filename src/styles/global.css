@@ -1607,6 +1607,9 @@ html { scroll-padding-top: 96px; }
 @media (max-width: 900px) { .guide-groups { grid-template-columns: 1fr; } }
 
 /* Home industries: no orphan card at 2 columns; the "All pricing" card spans the row */
+@media (min-width: 1100px) {
+  .industries.home-industries { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
 @media (max-width: 1099px) and (min-width: 641px) {
   .industries:not(.dfy-industry-cards) { grid-template-columns: 1fr 1fr; }
   .industries:not(.dfy-industry-cards) > :last-child:nth-child(odd) { grid-column: 1 / -1; min-height: 0; }

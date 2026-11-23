@@ -10,6 +10,7 @@ import { billsByKind, readyRange } from '../../lib/cost-table.mjs';
 import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
 import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
 import { formatDate } from '../../lib/stories.mjs';
+import { latestVerifiedDate } from '../../lib/quotable.mjs';
 import { hostLabel, shortDay } from '../../lib/source-label.mjs';
 
 const bySlug = Object.fromEntries(vendors.map((vendor) => [vendor.slug, vendor]));
@@ -20,7 +21,7 @@ const h1 = 'Best AI phone receptionists for small businesses (2026)';
 const description = 'An independent shortlist of AI phone receptionists. We start with the tools we already track, show prices from each company, and say when a fee is not listed.';
 const pageUrl = new URL('/best/ai-phone-receptionists/', Astro.site).href;
 const site = new URL('/', Astro.site).href;
-const checked = '2026-11-22';
+const checked = latestVerifiedDate(vendors, models);
 const checkedLabel = formatDate(checked);
 const faqs = bestFaqs();
 const author = 'AI Phone Compare research desk';
@@ -122,7 +123,7 @@ const situationIds = new Set(['lowest-price', 'repeat-callers', 'human', 'indust
     <h2 id="short-list">The short list, compared</h2>
     <div class="tablewrap" tabindex="0">
       <table class="compare shortlist">
-        <caption class="prose-caption">A to Z. Prices come straight from each company's pricing page, with that row's check date. A starting price is the listed price, not your bill. The 150-call cell is our calculation from the company's printed rates when we can finish it, otherwise "Not listed." Those worked bills were re-read {checkedLabel}.</caption>
+        <caption class="prose-caption">A to Z. Prices come straight from each company's pricing page, with that row's check date. A starting price is the listed price, not your bill. The 150-call cell is our calculation from the company's printed rates when we can finish it, otherwise "Not listed." Each worked bill uses that row's check date. The newest of those dates is {checkedLabel}.</caption>
         <thead>
           <tr>
             <th scope="col">Service</th>
@@ -195,7 +196,7 @@ const situationIds = new Set(['lowest-price', 'repeat-callers', 'human', 'indust
     <h2 id="build-it">You will build or tune the agent yourself</h2>
     <p>Bland AI and ElevenLabs list minute rates for agents you build. They sit outside the ready-made range. Phone-line and AI usage fees that aren't in the listed rate are extra. See their vendor pages before you compare them with a done-for-you receptionist.</p>
     <h2 id="checked">How we checked, and how we make money</h2>
-    <p>The {author} used the prices re-read on {checkedLabel} for the cost table, and the listing text for the other fields. If a number is not on the company's page, we mark it Not listed. A referral link, when a vendor page has one, is marked there and does not change this order. Read the method on <a href="/about/">about</a>.</p>
+    <p>The {author} used each row's check date for the cost table, and the listing text for the other fields. The newest check date on this page is {checkedLabel}. If a number is not on the company's page, we mark it Not listed. A referral link, when a vendor page has one, is marked there and does not change this order. Read the method on <a href="/about/">about</a>.</p>
     {showAuditLinks() && <p>A free <a href={AUDIT_PATH}>call coverage check</a> looks at your public website and listings. It does not rank these tools.</p>}
     <KeyFindings
       findings={[

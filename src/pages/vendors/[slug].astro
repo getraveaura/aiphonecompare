@@ -28,7 +28,7 @@ const call = demoCallFor(v.slug);
 const modified = pageModified(v.last_checked, call?.date);
 const shortUrl = (href) => { try { const u = new URL(href); return `${u.hostname.replace(/^www\./, '')}${u.pathname === '/' ? '' : u.pathname.replace(/\/$/, '')}`; } catch { return href; } };
 const industryLabel = { dental: 'Dental', legal: 'Legal', plumbing: 'Plumbing', medical: 'Medical', chiropractic: 'Chiropractic', property: 'Property management', auto: 'Auto repair', salon: 'Salons', therapy: 'Therapy', general: 'General' };
-const industryHref = { dental: '/industries/dental/', legal: '/industries/legal/', plumbing: '/industries/plumbing/', medical: '/industries/medical/' };
+const industryHref = { dental: '/industries/dental/', legal: '/industries/legal/', plumbing: '/industries/plumbing/', medical: '/industries/medical/', property: '/industries/property-management/' };
 const formatCheck = (d) => new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${d}T00:00:00Z`));
 const checkedLabel = v.last_checked
   ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${v.last_checked}T00:00:00Z`))

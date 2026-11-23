@@ -1,0 +1,27 @@
+---
+import Industry from '../../components/Industry.astro';
+const faqs = [
+  { q: 'What should a property manager test in a demo?', a: 'Place a 2 a.m. burst-pipe call and see who is texted or called, and in what order. Ask the agent to tell a current resident from someone asking about a vacancy. Ask whether a maintenance request lands in your property software or only as a message. Confirm the recording notice matches the caller\'s state.' },
+  { q: 'Does a night call cost more than a daytime call?', a: 'OnCrew\'s property-management page says a call at 9 PM costs the same as one at 9 AM, and that nights and weekends are included. A separate night rate is not written in the other listings on this page. The cost calculator does not add an after-hours fee.' },
+  { q: 'What does OnCrew\'s own property page say?', a: 'Read on 23 November 2026, oncrew.ai/answering/property-management says the service answers the business line 24/7. The plans printed there match this listing: Starter $49/mo for 250 minutes, then $0.49/min; Pro $149/mo for 500 minutes, then $0.39/min; Business $349/mo for 1,500 minutes, then $0.29/min. The after-hours page says it answers in the company\'s name when the office is closed, and that your after-hours notes decide what counts as an emergency.' },
+];
+---
+<Industry
+  key="property"
+  title="Property management answering service"
+  guideTitle="What to test in a demo"
+  showRange={true}
+  showChecked={true}
+  intro="Compare AI answering services for property managers: the published starting price, after-hours maintenance calls, and whether a person can take over."
+  metaTail="After-hours maintenance, handing calls to a person, and the software each listing names are compared with sources."
+  faqs={faqs}
+  guide={[
+    '<strong>After-hours maintenance:</strong> place a burst-pipe call and see who is texted or called, and in what order.',
+    '<strong>Resident or applicant:</strong> confirm the agent can tell a current resident from someone asking about a vacancy.',
+    '<strong>Work orders:</strong> Marlie AI\'s listing says its property-management page names Buildium, DoorLoop, Rent Manager, and LeadSimple. For every service, test that a request lands in your software, not only in a message.',
+    '<strong>OnCrew, from its own pages (read 23 November 2026):</strong> the <a href="https://oncrew.ai/answering/property-management" rel="nofollow noopener">property-management page</a> says it answers the business line 24/7, that nights and weekends are included, and that a call at 9 PM costs the same as one at 9 AM. The plans there match the listing: Starter $49/mo for 250 minutes, then $0.49/min; Pro $149/mo for 500 minutes, then $0.39/min; Business $349/mo for 1,500 minutes, then $0.29/min. The <a href="https://oncrew.ai/answering/after-hours-property-management" rel="nofollow noopener">after-hours page</a> says it answers in the company\'s name when the office is closed. The Visit link on OnCrew is a referral link.',
+    '<strong>Recording notice:</strong> if the tool records or transcribes, match the announcement to the caller\'s state on the <a href="/call-recording-consent-by-state/">call recording consent</a> page.',
+    '<strong>Same list as the buying guide:</strong> this directory and the <a href="/best/property-management/">best AI receptionist for property management</a> page use the same vendors. Rows are alphabetical. Payment does not change a price.',
+  ]}
+  note="Search volume for the phrase property management answering service is about 880 US searches a month, and about 1,600 in September 2026, in Google Keyword Planner figures compiled by <a href='https://damaruka.com/research/ai-receptionist-search-demand'>Damaruka</a> (pulled 2026-10-17). That is their estimate, not a count from this site."
+/>

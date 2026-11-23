@@ -3,6 +3,7 @@ export const INDUSTRIES = [
   ['medical', 'Medical', '/industries/medical/'],
   ['legal', 'Legal', '/industries/legal/'],
   ['plumbing', 'Plumbing', '/industries/plumbing/'],
+  ['property', 'Property management', '/industries/property-management/'],
   ['hvac', 'HVAC', ''],
   ['roofing', 'Roofing', ''],
   ['other', 'Other', ''],

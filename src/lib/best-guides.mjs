@@ -272,6 +272,8 @@ const GUIDES = [
   {
     slug: 'property-management',
     path: '/best/property-management/',
+    industryKey: 'property',
+    industryPath: '/industries/property-management/',
     // OnCrew was added to this list on 20 Nov 2026 after we confirmed its own property-management pages. Vendor price-check dates are unchanged.
     listChecked: '2026-11-20',
     vendorSlugs: ['abby-connect', 'dialzara', 'goodcall', 'marlie-ai', 'my-ai-front-desk', 'nextphone', 'oncrew', 'rosie', 'smith-ai', 'upfirst'],
@@ -281,8 +283,8 @@ const GUIDES = [
     kicker: 'Property management',
     description: 'Best AI receptionist for property management: sourced starting prices from vendors with their own property-management pages, and no paid ranking. Open the calculator, the free call coverage check, or done-for-you setup.',
     lede: 'This page is for property-management companies comparing AI receptionists or answering services. It is not a ranked list. Rows are alphabetical, sponsored listings are labeled, and payment does not change a price.',
-    scope: 'This site does not keep a separate property-management vendor directory. The table lists vendors whose own pages name property managers. Every starting price is the text recorded from the vendor pricing page, with the date it was checked. Goodcall is included because its own Rent Manager integration page is written for property managers, not because a standalone Goodcall property-management industry page was found.',
-    subsetNote: 'This site does not keep a separate property-management vendor directory. The table lists vendors whose own pages name property managers.',
+    scope: 'The property-management directory and this guide list vendors whose own pages name property managers. Every starting price is the text recorded from the vendor pricing page, with the date it was checked. Goodcall is included because its own Rent Manager integration page is written for property managers, not because a standalone Goodcall property-management industry page was found.',
+    subsetNote: 'The property-management directory uses this same list: vendors whose own pages name property managers.',
     audience: 'property managers',
     pageWord: 'property-management',
     searchName: 'property management',
@@ -306,7 +308,7 @@ const GUIDES = [
       { h: 'Recording notice', p: "If calls are recorded, check the caller's state on the call recording consent page." },
     ],
     faqs: [
-      { q: 'Do you have a property-management vendor directory?', a: 'This site does not keep a separate property-management directory. The table is the vendors whose own pages name property managers, with starting prices recorded from each vendor pricing page. Goodcall is listed from its Rent Manager integration page.' },
+      { q: 'Do you have a property-management vendor directory?', a: 'Yes. The property-management directory lists these vendors, and this guide uses the same list. Starting prices are recorded from each vendor pricing page. Goodcall is listed from its Rent Manager integration page.' },
       { q: 'Which AI receptionist is best for a property manager?', a: 'This site does not pick a winner. Compare the sourced starting prices, use the checks on this page, and run your own call volume on the calculator.' },
       { q: 'Are these tools ranked?', a: 'No. Rows are alphabetical. A sponsored listing, if one appears, is labeled. Payment does not change a price.' },
     ],

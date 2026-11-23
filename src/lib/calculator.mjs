@@ -10,6 +10,7 @@ export const INDUSTRY_OPTIONS = [
   ['legal', 'Legal'],
   ['plumbing', 'Home services'],
   ['medical', 'Medical'],
+  ['property', 'Property management'],
 ];
 
 export const DEFAULT_INPUT = {

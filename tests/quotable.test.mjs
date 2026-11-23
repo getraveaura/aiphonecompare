@@ -43,7 +43,7 @@ test('Jobber add-on is not treated as a complete plan with fully published prici
   assert.doesNotMatch(complete, /Jobber|\$138\.50|Ruby|\$1,635/);
   assert.match(complete, /\$99 to \$449 a month/);
   assert.match(complete, /Live receptionist plans are not in that range/);
-  assert.match(complete, /plan prices checked 22 November 2026/);
+  assert.match(complete, /plan prices checked 22–23 November 2026/);
   assert.match(list, /The Jobber AI Receptionist add-on is \*\*\$138\.50\*\* a month at 150 conversations/);
   assert.match(list, /a Jobber software plan is not included/);
   assert.match(list, /yearly price and setup are not published \(checked 22 November 2026\)/);
@@ -78,7 +78,7 @@ test('the /cost/ meta description leads with small-business monthly costs, not a
 
 test('dated answers open with "As of" and carry a number', () => {
   for (const text of [marketAnswer(), costAnswer()]) {
-    assert.match(text, /^As of \d{1,2} \w+ 20\d\d, /);
+    assert.match(text, /^As of \d{1,2}(?:–\d{1,2})? \w+ 20\d\d, /);
     assert.ok(dollars(text).length > 0);
   }
   assert.ok(marketFindingsList().length >= 4);

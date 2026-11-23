@@ -51,7 +51,7 @@ test('the unpriced count is computed once and reused', () => {
 });
 
 test('llms.txt last verified follows the newest cost-model check', () => {
-  assert.equal(latestVerifiedDate(vendors, models), '2026-11-22');
+  assert.equal(latestVerifiedDate(vendors, models), '2026-11-23');
   assert.equal(latestVerifiedDate(vendors, models) >= '2026-11-20', true);
   const postbuild = read('postbuild.mjs');
   assert.match(postbuild, /latestVerifiedDate\(vendors, costModels\)/);

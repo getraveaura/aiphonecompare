@@ -42,9 +42,9 @@ All figures are **estimates**. Google reports them in buckets. Damaruka also fla
 | ai phone answering service | 720 usual; 9,900 Sep | D | Hub above (secondary) | wk 2 |
 | medical answering service | 5,400 every month (steadiest in category) | D | /industries/medical/ | Built week of Nov 9, 2026 |
 | legal answering service | 480 → 1,300 Sep | D | /industries/legal/ | Built; retitle to include the term |
-| property management answering service | 880; 1,600 Sep | D | /industries/property-management/ | Build wk 5 |
-| after hours answering service | 880 | D | /after-hours/ | Build wk 6 |
-| virtual receptionist | 2,400 usual | D | /ai-vs-virtual-receptionist/ | Build wk 6 |
+| property management answering service | 880; 1,600 Sep | D | /industries/property-management/ | Built Nov 23, 2026 |
+| after hours answering service | 880 | D | /after-hours/ | Built Nov 23, 2026 |
+| virtual receptionist | 2,400 usual | D | /ai-vs-virtual-receptionist/ | Built Nov 23, 2026 |
 | answering service cost | 170 | D | /pricing/ plus the report | Built; add the term |
 | best ai receptionist | 390 | D | Home and /pricing/ (with "best for" filters, no paid ranks) | wk 4 |
 | one party consent states / two party consent states | 4,400 / 3,600 | D | /call-recording-consent-by-state/ (AI-receptionist angle, cited to state law) | Built week of Nov 9, 2026 |
@@ -73,7 +73,7 @@ All figures are **estimates**. Google reports them in buckets. Damaruka also fla
 ## 2. Chatbot / AI-answer visibility (GEO)
 
 1. **Bing Webmaster Tools + IndexNow.** Bing's index feeds ChatGPT search, Copilot, and many AI answer engines. Week 1.
-2. **llms.txt** is live. Add **/llms-full.txt** with a full pricing table in plain markdown, and a machine-readable **/data/vendors.json** and **/data/vendors.csv** under a CC BY license with an attribution line. Answer engines and bloggers cite data they can download.
+2. **llms.txt** is live. **/llms-full.txt**, **/data/vendors.json**, and **/data/vendors.csv** are built (Nov 23, 2026). The full pricing table is plain markdown. The downloads are generated from the vendor file on each build, under CC BY 4.0, with the attribution line "Source: aiphonecompare.com, checked <date>" on /data/. Answer engines and bloggers cite data they can download.
 3. **Answer-first copy:** each industry page opens with one plain sentence answering the question, e.g. "Dental AI receptionists we verified start at $X–$Y/month (checked Nov 2026)." The numbers come from the data, never invented.
 4. **Structured data:** ItemList and SoftwareApplication already exist. Add `offers` (price, priceCurrency, validFrom = last_checked), FAQPage, Dataset (for the report and CSV), and Organization with `sameAs` links.
 5. **robots.txt:** explicitly allow GPTBot, OAI-SearchBot, PerplexityBot, ClaudeBot and Google-Extended. This is a deliberate choice: we want to be cited.
@@ -235,7 +235,7 @@ Log each submission (date, URL, status) in `growth/submissions.csv`.
 
 **Weeks 5–8:**
 - Vendor-claimed profiles.
-- Property management and after-hours pages.
+- Property management, after-hours, and AI vs virtual receptionist pages shipped in the week of Nov 23, 2026. See the week 4 log.
 - "Alternatives" pages for the top 5 searched vendors.
 - Second outreach wave (follow-ups only to vendors who replied).
 
@@ -285,6 +285,32 @@ Testing:
 - Secondary: do visitors from these pages click through to `/match/`, `/cost/`, or `/done-for-you/` (PostHog)?
 
 Nov 9–15 numbers (PostHog, PT): 111 pageviews, 38 on the homepage; 8 visits from Google, 3 from Bing, 0 from AI assistants. The top referred pages were `/`, `/get-featured/`, `/industries/plumbing/`, `/match/`, and `/cost/calculator/`. `direct_homepage_pageviews` is blank because the homepage count includes referred visits.
+
+---
+
+## Week 4 log (Nov 23–29, 2026)
+
+Shipped in this pass (Nov 23, 2026):
+
+- `/industries/property-management/`, the same shape as the medical directory, using the 10 vendors already tagged property. Opening sentence is the monthly range written in those listings, with check dates. OnCrew's property and after-hours pages were opened on Nov 23 and cited only for sentences printed there. The Visit link stays the existing referral label. Cross-linked with `/best/property-management/`.
+- `/after-hours/`: plain explanation, a table of listings whose own page or directory note says after hours or 24/7, prices copied from the vendor file with each check date, and FAQ.
+- `/ai-vs-virtual-receptionist/`: which to pick, with per-minute, per-call, and flat examples taken from the vendor file. The 50/150/300 worked totals stay on `/cost/ai-vs-live-receptionist/`.
+- `llms-full.txt` and the data downloads are generated on build. `/data/` shows "Source: aiphonecompare.com, checked <date>" and Dataset JSON-LD. `llms.txt` links the new pages and the downloads. `sitemap.xml` and `sitemap-0.xml` both list the new URLs.
+- Cost models re-read on Nov 23. Ten plans still printed the same facts, so those rows are dated 2026-11-23: My AI Front Desk, Marlie AI, Zinng.ai, Upfirst, Rosie, OnCrew, NextPhone, LegalClerk.ai, ServiceAgent, Viva AI. AutoLeap AIR still prints the same call prices, and also now prints "$100 Set Up Fee May Apply", so that model was left on 2026-11-22. Turnkey Dispatch returned a bot check and was not re-read, so it stays on 2026-11-22. No new numbers were added. The priced and unpriced counts stay whatever the calculator computes from that file.
+- Cost page title and H1 lead with "How much does an AI receptionist cost?" and "AI receptionist cost". The pricing page title and H1 lead with "AI receptionist pricing". No price was changed.
+
+Goals this week:
+
+- Get the three new pages indexed.
+- See whether the data downloads are cited.
+- Keep the cost-page titles aligned with the queries that already show impressions.
+
+Testing:
+
+- Do the three new pages, and the title and meta of the cost pages, get impressions for "property management answering service", "after hours answering service", and "virtual receptionist" within 2–3 weeks (Search Console, by page)?
+- Do the data downloads get cited by AI assistants?
+
+Nov 16–22 numbers, Pacific Time. PostHog: 63 pageviews, 63 visitors. Referrers: direct 51, aiphonecompare.com (internal) 8, bing.com 3, www.google.com 1, AI assistants 0. Top pages: `/vendors/oncrew/` 11, `/vendors/futuro-ai/` 10, `/` 9, `/about/` 6. Search Console Nov 16–22: 0 clicks, 51 impressions, average position 70.8. Top queries: "ai receptionist pricing" 19 impressions (position 73), "ai receptionist cost" 14 (position 78), "how much does an ai receptionist cost" 6 (position 84). Stripe: no charges visible in the connected account. The aiphonecompare Stripe account is not visible to the connector, so revenue is unverified. `direct_homepage_pageviews` is blank because 51 is every direct visit, not only the homepage.
 
 ---
 

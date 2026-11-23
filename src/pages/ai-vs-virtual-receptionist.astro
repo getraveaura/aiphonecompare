@@ -1,0 +1,127 @@
+---
+import Base from '../layouts/Base.astro';
+import Faq from '../components/Faq.astro';
+import PlainIntro from '../components/PlainIntro.astro';
+import { articleNode, breadcrumbNode } from '../lib/answers.mjs';
+import { formatDate } from '../lib/stories.mjs';
+import vendors from '../data/vendors.json';
+
+const bySlug = Object.fromEntries(vendors.map((vendor) => [vendor.slug, vendor]));
+const pick = (slug) => bySlug[slug];
+const groups = [
+  {
+    title: 'Per minute',
+    text: 'You pay for minutes, often a bundle, then a rate for extra minutes.',
+    slugs: ['ruby', 'oncrew', 'marlie-ai'],
+  },
+  {
+    title: 'Per call',
+    text: 'You pay for each call, or for a set number of calls. Call length does not change that bill.',
+    slugs: ['smith-ai', 'upfirst'],
+  },
+  {
+    title: 'Flat monthly',
+    text: 'One monthly price. The listing says what is included, such as unlimited inbound calls.',
+    slugs: ['nextphone'],
+  },
+  {
+    title: 'Minute bundles, people and AI',
+    text: 'Abby Connect sells minute bundles. Its listing says AI-answered minutes count at half.',
+    slugs: ['abby-connect'],
+  },
+];
+const shown = groups.flatMap((group) => group.slugs.map(pick)).filter(Boolean);
+const latest = shown.map((vendor) => vendor.last_checked).filter(Boolean).sort().at(-1) || '';
+const latestLabel = latest ? formatDate(latest) : '';
+const title = 'Virtual receptionist vs AI receptionist';
+const description = 'Virtual receptionist or AI receptionist: how a live service and an AI service charge, using only published starting prices, plus a short checklist.';
+const pageUrl = new URL('/ai-vs-virtual-receptionist/', Astro.site).href;
+const site = new URL('/', Astro.site).href;
+const checks = [
+  { h: 'Most calls are simple', p: 'Questions, messages, and booking requests are what an AI receptionist is built for. Start with the published AI prices, then run your call count in the calculator.' },
+  { h: 'A wrong answer is expensive', p: 'Upset callers and emergencies are where a person earns the higher price. Pick a live service, or an AI plan that says it can hand the call to someone.' },
+  { h: 'You want one monthly price', p: 'Read NextPhone for a flat AI plan, and Ruby for a live minute bundle. The starting price is not the bill at a busy month.' },
+  { h: 'You want both', p: 'Let software answer first and pass some calls to a person. Read the human-handoff line on the vendor page before you count on it.' },
+];
+const faqs = [
+  { q: 'What is a virtual receptionist?', a: 'On this page it means a person who answers your calls for you. Ruby, Smith.ai\'s live agents, and Abby Connect are the live services in this directory. An AI receptionist is software that answers first.' },
+  { q: 'How does a live receptionist service charge?', a: `Ruby\'s recorded billing is ${pick('ruby').billing_model}. Smith.ai\'s recorded billing is ${pick('smith-ai').billing_model}. Abby Connect\'s recorded billing is ${pick('abby-connect').billing_model}. The starting price text for each is in the table, with the date we checked it.` },
+  { q: 'How does an AI receptionist charge?', a: 'Some charge by the minute, some by the call, and some charge one flat monthly price. The table shows one example of each from the vendor file. A starting price is not your bill once you pass the included minutes or calls.' },
+  { q: 'Which should a small business pick?', a: 'Pick AI when most calls are routine and you want the lower published price. Pick a person when a bad call costs more than the monthly gap. Use the checklist on this page, then the calculator with your own call count. This site does not pick a winner.' },
+  { q: 'Where is the cost at 50, 150, and 300 calls?', a: 'On the AI vs live receptionist cost page. That page has the worked monthly totals. This page does not repeat them.' },
+];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'WebPage', name: title, url: pageUrl, description, isPartOf: { '@id': new URL('/#website', Astro.site).href }, ...(latest ? { dateModified: latest } : {}) },
+    articleNode({ url: pageUrl, headline: title, description, modified: latest, citations: shown.flatMap((vendor) => (vendor.sources || []).slice(0, 1)), site }),
+    breadcrumbNode([['Home', site], [title, pageUrl]]),
+    { '@type': 'FAQPage', mainEntity: faqs.map((item) => ({ '@type': 'Question', name: item.q, acceptedAnswer: { '@type': 'Answer', text: item.a } })) },
+  ],
+};
+---
+<Base title={title} description={description} jsonld={jsonld} modified={latest}>
+  <header class="page-intro">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="/">Home</a></li>
+          <li><span aria-current="page">Virtual receptionist</span></li>
+        </ol>
+      </nav>
+      <h1>{title}</h1>
+      {latest && (
+        <p class="checked">
+          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true"><rect width="22" height="22" rx="11" fill="#1f5f4a"/><path d="M6.2 11.2 9.3 14.3 15.8 7.8" fill="none" stroke="#f3efe6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Prices checked <time datetime={latest}>{latestLabel}</time>
+        </p>
+      )}
+      <p class="lead">A virtual receptionist is a person who answers your calls. An AI receptionist is software. Use this page to choose. The monthly totals at 50, 150, and 300 calls are on the <a href="/cost/ai-vs-live-receptionist/">AI vs live receptionist cost</a> page, and they are not repeated here.</p>
+      <PlainIntro text="Run your own call count before you pick." primary={['/cost/calculator/?calls=150&minutes=3', 'See my monthly cost']} secondary={['/match/', 'Find my best match']} />
+    </div>
+  </header>
+  <div class="wrap stack">
+    <section aria-labelledby="how-heading">
+      <h2 id="how-heading" class="section-title">How each one charges</h2>
+      <p>Every price below is the starting price text in the vendor file. Each row shows the date that text was checked. This is not a ranking.</p>
+      {groups.map((group) => (
+        <section aria-labelledby={group.title}>
+          <h3 id={group.title}>{group.title}</h3>
+          <p>{group.text}</p>
+          <div class="tablewrap" tabindex="0">
+            <table class="compare">
+              <caption>{group.title}. Starting price as recorded. Not a full monthly bill.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Service</th>
+                  <th scope="col">How it bills</th>
+                  <th scope="col">Starting price</th>
+                  <th scope="col">Price checked</th>
+                </tr>
+              </thead>
+              <tbody>
+                {group.slugs.map((slug) => pick(slug)).filter(Boolean).map((vendor) => (
+                  <tr>
+                    <th scope="row" data-label="Service"><a href={`/vendors/${vendor.slug}/`}>{vendor.name}</a></th>
+                    <td data-label="How it bills">{vendor.billing_model || 'Not verified'}</td>
+                    <td data-label="Starting price">{vendor.starting_price || 'Not verified'}</td>
+                    <td data-label="Price checked">{vendor.last_checked ? <time datetime={vendor.last_checked}>{formatDate(vendor.last_checked)}</time> : 'Not verified'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      ))}
+      <p class="good-to-know"><strong>Next:</strong> <a href="/cost/ai-vs-live-receptionist/">AI vs live receptionist cost at 50, 150 and 300 calls</a>. For nights and weekends, see <a href="/after-hours/">after hours answering service</a>.</p>
+    </section>
+    <section aria-labelledby="pick-heading">
+      <h2 id="pick-heading" class="section-title">Which should I pick?</h2>
+      <ul>
+        {checks.map((item) => <li><strong>{item.h}.</strong> {item.p}</li>)}
+      </ul>
+      <p>Search volume for the phrase virtual receptionist is about 2,400 US searches a month, in Google Keyword Planner figures compiled by <a href="https://damaruka.com/research/ai-receptionist-search-demand">Damaruka</a> (pulled 2026-10-17). That is their estimate, not a count from this site.</p>
+    </section>
+    <Faq items={faqs} />
+  </div>
+</Base>
