@@ -75,13 +75,19 @@ export function readyRange(models, calls = 150) {
   const low = rows[0];
   const high = rows[rows.length - 1];
   const lows = rows.filter((row) => row.cents === low.cents).map((row) => row.name);
+  const tidy = (text) => text.replace(/\.00$/, '');
+  const lowText = formatUsd(low.cents);
+  const highText = formatUsd(high.cents);
   return {
     lowCents: low.cents,
     highCents: high.cents,
-    lowText: formatUsd(low.cents),
-    highText: formatUsd(high.cents),
+    lowText,
+    highText,
     lowNames: lows,
     highName: high.name,
-    text: `${formatUsd(low.cents)} to ${formatUsd(high.cents)}`,
+    count: rows.length,
+    text: `${lowText} to ${highText}`,
+    dash: `${tidy(lowText)}–${tidy(highText)}`,
+    prose: `${tidy(lowText)} to ${tidy(highText)}`,
   };
 }

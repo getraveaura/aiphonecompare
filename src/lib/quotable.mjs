@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { priceStatus, money, latestChecked } from './starting-price.mjs';
 import { estimatePlan } from './cost.mjs';
 import { formatDate } from './stories.mjs';
+import { servicesWithoutFullBill, unpricedBillSentence } from './calculator.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const read = (file) => JSON.parse(fs.readFileSync(path.join(root, 'src/data', file), 'utf8'));
@@ -191,7 +192,17 @@ export function costDescription() {
 
 export function costLlmsBlurb(f = marketFindings()) {
   const range = sbRangeText(f);
-  return `AI receptionist cost: half of the ${f.counted} services with a standard monthly price start at ${money(f.median)}/mo or less. At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes), ready-made AI plans with a complete published price run ${range}. Live receptionist plans, including Ruby, are not in that range. A total that adds printed extra use is our calculation from those printed rates.`;
+  const gap = unpricedBillSentence(servicesWithoutFullBill(VENDORS, MODELS));
+  return `AI receptionist cost: half of the ${f.counted} services with a standard monthly price start at ${money(f.median)}/mo or less. At ${EXAMPLE_CALLS} calls a month (${EXAMPLE_MINUTES} minutes), ready-made AI plans with a complete published price run ${range}. Live receptionist plans, including Ruby, are not in that range. A total that adds printed extra use is our calculation from those printed rates. ${gap}`;
+}
+
+// Newest date in the directory or the cost model. llms.txt uses this so the
+// header follows a recheck of plan prices, not only a vendor listing date.
+export function latestVerifiedDate(list = VENDORS, models = MODELS) {
+  return [latestChecked(list), models?.checked, ...(models?.providers || []).map((provider) => provider.checked)]
+    .filter(Boolean)
+    .sort()
+    .at(-1) || '';
 }
 
 export function bestLlmsBlurb() {

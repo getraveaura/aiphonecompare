@@ -2,6 +2,8 @@
 import PlainIntro from '../components/PlainIntro.astro';
 import Base from '../layouts/Base.astro';
 import models from '../data/cost-models.json';
+import vendors from '../data/vendors.json';
+import { servicesWithoutFullBill, unpricedBillSentence } from '../lib/calculator.mjs';
 import { formatUsd } from '../lib/cost.mjs';
 import { costFaqs } from '../lib/cost-faq.mjs';
 import { billsByKind } from '../lib/cost-table.mjs';
@@ -55,6 +57,7 @@ const readyRows = billsByKind(models, 'ready');
 const platformRows = billsByKind(models, 'platform');
 const addonRows = billsByKind(models, 'addon');
 const author = 'AI Phone Compare research desk';
+const gapSentence = unpricedBillSentence(servicesWithoutFullBill(vendors, models));
 const jsonld = {
   '@context': 'https://schema.org',
   '@graph': [
@@ -203,7 +206,7 @@ const billHeads = [
       <button class="btn btn-primary" type="submit">Update estimates</button>
     </form>
     <p id="cost-status" class="note" aria-live="polite">Enter your calls and average call length to see estimates.</p>
-    <p>These companies publish enough prices to do this math. We checked them on <time datetime={models.checked}>{checkedLabel}</time>. The others are in the <a href="/pricing/">starting-price list</a>. The table is in A to Z order. Taxes and add-ons that aren't listed are left out.</p>
+    <p>These companies publish enough prices to do this math. We checked them on <time datetime={models.checked}>{checkedLabel}</time>. {gapSentence} The others are in the <a href="/pricing/">starting-price list</a>. The table is in A to Z order. Taxes and add-ons that aren't listed are left out.</p>
     <nav class="cost-links" aria-label="More cost guides">
       <p class="cost-links-title">Examples at 50, 150 and 300 calls</p>
       <ul class="link-chips" role="list">

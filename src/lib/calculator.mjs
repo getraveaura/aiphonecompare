@@ -101,6 +101,7 @@ function excludedRow(vendor, reason, model, checked) {
     checkedLabel: checkedOn ? formatDate(checkedOn) : '',
     productKind: model?.productKind || '',
     kindLabel: kindLabel(model),
+    worked: false,
     lowest: false,
   };
 }
@@ -162,8 +163,33 @@ function priceVendor(vendor, model, input, checked) {
     checkedLabel: formatDate(checked),
     productKind: model.productKind || '',
     kindLabel: kindLabel(model),
+    worked: (chosen.estimate.overageUnits || 0) > 0,
     lowest: false,
   };
+}
+
+// The monthly cell on /cost/ marks a total that adds a printed extra-use rate.
+export function shownBill(amount, worked) {
+  if (!worked || amount == null || amount === 'Not enough public pricing') return amount;
+  return `${amount} (our calculation)`;
+}
+
+// Services with no complete public monthly bill at a call count. Computed from
+// the directory and the cost model, so the cost page, calculator, best-of page
+// and llms.txt stay on the same number.
+export function servicesWithoutFullBill(vendors, models, input = DEFAULT_INPUT) {
+  const quote = quoteDirectory(vendors, models, input);
+  return {
+    count: quote.missing.length,
+    calls: quote.input.calls,
+    minutes: quote.input.minutes,
+  };
+}
+
+export function unpricedBillSentence(info) {
+  const n = info.count;
+  const services = n === 1 ? 'service does' : 'services do';
+  return `${n} ${services} not publish enough to finish a monthly bill at ${info.calls} calls of ${info.minutes} minutes.`;
 }
 
 export function quoteDirectory(vendors, models, input) {
@@ -201,5 +227,10 @@ export function quoteDirectory(vendors, models, input) {
 export function quoteSummary(quote) {
   const withYear = quote.priced.filter((row) => row.yearCents != null).length;
   const monthlyOnly = quote.priced.length - withYear;
-  return `${withYear} ${withYear === 1 ? 'vendor has' : 'vendors have'} a monthly estimate and a published setup fee. ${monthlyOnly} ${monthlyOnly === 1 ? 'has' : 'have'} a monthly estimate, and the setup fee is not published. ${quote.missing.length} say not enough public pricing.`;
+  const gap = unpricedBillSentence({
+    count: quote.missing.length,
+    calls: quote.input.calls,
+    minutes: quote.input.minutes,
+  });
+  return `${withYear} ${withYear === 1 ? 'vendor has' : 'vendors have'} a monthly estimate and a published setup fee. ${monthlyOnly} ${monthlyOnly === 1 ? 'has' : 'have'} a monthly estimate, and the setup fee is not published. ${gap}`;
 }

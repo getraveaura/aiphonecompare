@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import models from '../../data/cost-models.json';
 import vendors from '../../data/vendors.json';
-import { DEFAULT_INPUT, INDUSTRY_OPTIONS, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
+import { DEFAULT_INPUT, INDUSTRY_OPTIONS, quoteDirectory, quoteSummary, shownBill } from '../../lib/calculator.mjs';
 import { formatDate } from '../../lib/stories.mjs';
 import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
 import { hostLabel, shortDay } from '../../lib/source-label.mjs';
@@ -103,7 +103,7 @@ const jsonld = {
                 {row.sponsored && <span class="badge">Sponsored</span>}
               </th>
               <td data-label="Plan">{row.planName}</td>
-              <td data-label="Monthly">{row.monthly === 'Not enough public pricing' ? <span title="Not enough public pricing">Not public</span> : row.monthly}</td>
+              <td data-label="Monthly">{row.monthly === 'Not enough public pricing' ? <span title="Not enough public pricing">Not public</span> : shownBill(row.monthly, row.worked)}</td>
               <td data-label="First year">{row.year === 'Not enough public pricing' ? <span title="Not enough public pricing">Not public</span> : row.year}</td>
               <td data-label="Setup">{row.setup === 'No setup fee on the pricing page' ? <span title="No setup fee on the pricing page">None listed</span> : row.setup}</td>
               <td data-label="Notes">
@@ -166,7 +166,7 @@ const jsonld = {
 <script>
   import models from '../../data/cost-models.json';
   import vendors from '../../data/vendors.json';
-  import { calculatorPath, parseCalculatorQuery, quoteDirectory, quoteSummary } from '../../lib/calculator.mjs';
+  import { calculatorPath, parseCalculatorQuery, quoteDirectory, quoteSummary, shownBill } from '../../lib/calculator.mjs';
   import { overpayingPath } from '../../lib/overpaying.mjs';
   import { track } from '../../lib/analytics.mjs';
   import { outboundLink, REFERRAL_NOTE } from '../../lib/outbound.mjs';
@@ -302,7 +302,7 @@ const jsonld = {
       tr.append(
         vendorCell(row),
         textCell('td', 'Plan', row.planName),
-        textCell('td', 'Monthly', row.monthly),
+        textCell('td', 'Monthly', shownBill(row.monthly, row.worked)),
         textCell('td', 'First year', row.year),
         setupCell(row),
       );

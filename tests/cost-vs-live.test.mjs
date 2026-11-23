@@ -9,7 +9,10 @@ const page = read('src/pages/cost/ai-vs-live-receptionist.astro');
 test('AI vs live cost page keeps its sourced figures, blanks and labels', () => {
   for (const figure of ['$199', '$270', '$295', '$1,347.75', '$1,440', '$1,635']) assert.ok(page.includes(`at150: '${figure}'`), figure);
   for (const figure of ['$72.20', '$75', '$109', '$349', '$500', '$632.50', '$492', '$530', '$620', '$2,100', '$2,484', '$3,127.50']) assert.ok(page.includes(`'${figure}'`), figure);
-  assert.match(page, /\$199–\$295/);
+  assert.match(page, /readyRange\(models, 150\)/);
+  assert.doesNotMatch(page, /\$199–\$295/);
+  assert.match(page, /const CHECKED = models\.checked/);
+  assert.match(page, /modified=\{CHECKED\}/);
   assert.match(page, /\$1,347\.75–\$1,635/);
   assert.match(page, /Setup fee: Not published/);
   assert.match(page, /It is our calculation, not a printed list price/);

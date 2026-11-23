@@ -4,8 +4,9 @@ import QuickAnswer from '../../components/QuickAnswer.astro';
 import KeyFindings from '../../components/KeyFindings.astro';
 import vendors from '../../data/vendors.json';
 import models from '../../data/cost-models.json';
+import { servicesWithoutFullBill, unpricedBillSentence } from '../../lib/calculator.mjs';
 import { bestFaqs } from '../../lib/best-faqs.mjs';
-import { billsByKind } from '../../lib/cost-table.mjs';
+import { billsByKind, readyRange } from '../../lib/cost-table.mjs';
 import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
 import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
 import { formatDate } from '../../lib/stories.mjs';
@@ -13,6 +14,7 @@ import { hostLabel, shortDay } from '../../lib/source-label.mjs';
 
 const bySlug = Object.fromEntries(vendors.map((vendor) => [vendor.slug, vendor]));
 const ready = Object.fromEntries(billsByKind(models, 'ready').map((row) => [row.slug, row]));
+const aiRange = readyRange(models, 150);
 const title = 'Best AI phone receptionist for small business (2026)';
 const h1 = 'Best AI phone receptionists for small businesses (2026)';
 const description = 'An independent shortlist of AI phone receptionists. We start with the tools we already track, show prices from each company, and say when a fee is not listed.';
@@ -82,6 +84,7 @@ const jsonld = {
 };
 const quick = `The best AI phone receptionist for a small business depends on how you are billed and what has to happen on the call. Prices come straight from each company's pricing page. We compare tools we already track.`;
 const earlyIds = new Set(['small-business', 'how-we-chose', 'cost']);
+const gapSentence = unpricedBillSentence(servicesWithoutFullBill(vendors, models));
 const situationIds = new Set(['lowest-price', 'repeat-callers', 'human', 'industry']);
 ---
 <Base title={title} description={description} jsonld={jsonld} modified={checked}>
@@ -95,7 +98,7 @@ const situationIds = new Set(['lowest-price', 'repeat-callers', 'human', 'indust
         </ol>
       </nav>
       <h1>{h1}</h1>
-      <p class="byline">By the {author}. Page updated <time datetime={checked}>{checkedLabel}</time>. Each starting price keeps the date on its row. Worked 150-call bills were re-read {checkedLabel}. No one pays for placement. <a href="/about/">How this site works</a>.</p>
+      <p class="byline">By the {author}. Page updated <time datetime={checked}>{checkedLabel}</time>. Each row shows the date its price was checked. No one pays for placement. <a href="/about/">How this site works</a>.</p>
       <QuickAnswer text={quick} label="The short answer" />
       <p class="lead">If your calls are short and few, start with the lowest prices on the <a href="/best/under-50/">under-$50</a> and <a href="/best/under-100/">under-$100</a> lists, then confirm the real bill on the <a href="/cost/">cost page</a>. If the same customers call back, look at a unique-caller plan. If a person must be able to take over, look at Smith.ai, Abby Connect, or Ruby, and compare them on the <a href="/cost/ai-vs-live-receptionist/">live-versus-AI page</a>.</p>
       <p class="lead">aiphonecompare is an independent site that compares AI phone receptionists, also called AI answering services. It is not a receptionist you can buy. Prices come straight from each company's pricing page. A starting price is not a quote.</p>
@@ -113,7 +116,7 @@ const situationIds = new Set(['lowest-price', 'repeat-callers', 'human', 'indust
             <li>"Best for" comes from how the company bills, what's included, or a human handoff they list. If two tools fit, both are listed.</li>
           </ul>
         )}
-        {item.id === 'cost' && <p>Open the <a href="/cost/">cost guide</a> and the <a href="/cost/calculator/">calculator</a> for the full 50, 150, and 300 call table.</p>}
+        {item.id === 'cost' && <p>Open the <a href="/cost/">cost guide</a> and the <a href="/cost/calculator/">calculator</a> for the full 50, 150, and 300 call table. {gapSentence}</p>}
       </section>
     ))}
     <h2 id="short-list">The short list, compared</h2>
@@ -197,7 +200,7 @@ const situationIds = new Set(['lowest-price', 'repeat-callers', 'human', 'indust
     <KeyFindings
       findings={[
         'There is no number-one pick and no 1 to 10 score.',
-        'Ready-made AI plans with full public pricing at 150 calls run from $99 to $449 a month. Ruby is a live receptionist, so it sits outside that range.',
+        `Ready-made AI plans with full public pricing at 150 calls run from ${aiRange.prose} a month. Ruby is a live receptionist, so it sits outside that range.`,
         'A starting price is the price on the company\'s page. The cost page shows the bill at your call volume.',
       ]}
       verified={checked}
