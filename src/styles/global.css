@@ -692,9 +692,25 @@ button.btn { border: 1px solid transparent; cursor: pointer; font: 600 1rem/1 va
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
-  padding: 1.25rem 1.25rem 1.1rem;
+  padding: 1rem 1.25rem;
   box-shadow: var(--shadow);
 }
+.cost-provider > summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.2rem 1.25rem;
+  align-items: baseline;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+.cost-provider-sum {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+.cost-provider[open] > summary { margin-bottom: 0.85rem; }
 .cost-provider h2 { margin: 0 0 0.4rem; font-size: 1.7rem; }
 .cost-provider p { margin: 0 0 0.65rem; }
 .cost-provider .tablewrap { margin-top: 0.35rem; }

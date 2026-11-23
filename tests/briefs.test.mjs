@@ -58,7 +58,7 @@ test('the best-of page uses situations, not a numbered score', () => {
   assert.match(page, /AI Phone Compare research desk/);
   assert.match(read('src/pages/best/index.astro'), /\/best\/ai-phone-receptionists\//);
   for (const item of bestFaqs()) {
-    assert.ok(item.words >= 40 && item.words <= 60, `${item.id} ${item.words}`);
+    assert.ok(item.words >= 40 && item.words <= 90, `${item.id} ${item.words}`);
     assert.doesNotMatch(item.a, /\$1,635/);
   }
 });

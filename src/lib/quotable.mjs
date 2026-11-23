@@ -179,9 +179,9 @@ export function costAnswer(f = marketFindings()) {
   const date = f.modelsChecked || formatDate(f.latest);
   const range = sbRangeText(f);
   const bills = range
-    ? `ready-made AI plans with a complete published price come to **${range}** at ${EXAMPLE_CALLS} calls a month. Live receptionist plans are not in that range. `
+    ? `ready-made AI plans with full public pricing run **${range}** at ${EXAMPLE_CALLS} calls of ${EXAMPLE_MINUTES} minutes. `
     : '';
-  return `As of ${date}, ${bills}Half of the ${f.counted} services with a standard monthly price start at **${money(f.median)}/mo or less**, and **${f.under50} start at $50/mo or less**.`;
+  return `As of ${date}, ${bills}Half of the ${f.counted} priced services start at **${money(f.median)}/mo or less**, and **${f.under50} start at $50/mo or less**.`;
 }
 
 // Plainer of the two meta options in the 22 November 2026 brief, trimmed to 160 characters.

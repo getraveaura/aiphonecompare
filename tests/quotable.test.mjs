@@ -50,7 +50,10 @@ test('Jobber add-on is not treated as a complete plan with fully published prici
   const cost = costAnswer(f);
   assert.doesNotMatch(cost, /\$138\.50|\$1,635|Ruby/);
   assert.match(cost, /\$99 to \$449 a month/);
-  assert.match(cost, /Live receptionist plans are not in that range/);
+  assert.match(cost, /150 calls of 3 minutes/);
+  const costPage = read('src/pages/cost.astro');
+  assert.match(costPage, /Ruby is a live receptionist/);
+  assert.match(costPage, /href="\/cost\/ai-vs-live-receptionist\/"/);
   const d = costDescription();
   assert.doesNotMatch(d, /\$138\.50|\$1,635/);
   assert.ok(d.length <= 160, `${d.length}: ${d}`);
