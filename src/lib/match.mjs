@@ -25,7 +25,14 @@ export function baaState(text) {
 
 export function spanishState(vendor) {
   const text = [vendor.notes, vendor.integrations, vendor.starting_price].filter(Boolean).join(' ');
-  return /\bSpanish\b/i.test(text) ? 'yes' : 'unknown';
+  const sentences = text.split(/(?<=\.)\s+/);
+  let yes = false;
+  for (const sentence of sentences) {
+    if (!/\bSpanish\b/i.test(sentence)) continue;
+    if (/\bnot yet\b|\bnot available\b|\bisn['’]t available\b|\bdoes not\b|\bdoesn't\b|\bno Spanish\b/i.test(sentence)) return 'no';
+    yes = true;
+  }
+  return yes ? 'yes' : 'unknown';
 }
 
 export function alwaysOnState(vendor) {

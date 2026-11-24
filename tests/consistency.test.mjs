@@ -16,13 +16,13 @@ test('the AI vs live range is the same ready-made range as /cost/', () => {
   const rows = cheapestAt(null, 150, models);
   assert.ok(range);
   assert.equal(range.count, rows.length);
-  assert.equal(range.count, 15);
+  assert.equal(range.count, 16);
   assert.equal(range.lowCents, rows[0].cents);
   assert.equal(range.highCents, rows.at(-1).cents);
   assert.equal(range.lowCents, 9900);
-  assert.equal(range.highCents, 44900);
-  assert.equal(range.dash, '$99–$449');
-  assert.equal(range.prose, '$99 to $449');
+  assert.equal(range.highCents, 52300);
+  assert.equal(range.dash, '$99–$523');
+  assert.equal(range.prose, '$99 to $523');
   assert.ok(!rows.some((row) => row.slug === 'ruby'));
   assert.match(vsPage, /readyRange\(models, 150\)/);
   assert.match(vsPage, /\{aiRange\.dash\}/);
@@ -51,7 +51,7 @@ test('the unpriced count is computed once and reused', () => {
 });
 
 test('llms.txt last verified follows the newest cost-model check', () => {
-  assert.equal(latestVerifiedDate(vendors, models), '2026-11-23');
+  assert.equal(latestVerifiedDate(vendors, models), '2026-11-24');
   assert.equal(latestVerifiedDate(vendors, models) >= '2026-11-20', true);
   const postbuild = read('postbuild.mjs');
   assert.match(postbuild, /latestVerifiedDate\(vendors, costModels\)/);

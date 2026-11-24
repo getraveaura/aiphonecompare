@@ -107,7 +107,7 @@ test('unpublished monthly price is cannot estimate, not a computed package', () 
 
 test('shipped models keep sources, dates, and do not invent yes/no capabilities', () => {
   assert.equal(models.checked, '2026-11-22');
-  assert.equal(models.providers.length, 20);
+  assert.equal(models.providers.length, 21);
   assert.equal(models.providers.find((item) => item.slug === 'ruby').productKind, 'live');
   assert.ok(!models.providers.some((item) => item.productKind === 'ready' && item.slug === 'ruby'));
   for (const provider of models.providers) {
@@ -173,4 +173,25 @@ test('reconfirmed plans still produce the 23 November 2026 monthly totals', () =
   }
   assert.equal(models.providers.find((item) => item.slug === 'autoleap-air').checked, '2026-11-22');
   assert.equal(models.providers.find((item) => item.slug === 'turnkey-dispatch').checked, '2026-11-22');
+});
+
+test('Avec Peanut at 150 three-minute calls is the printed monthly price, with setup separate', () => {
+  const provider = models.providers.find((item) => item.slug === 'avec-peanut');
+  const plan = { ...provider.plans[0], unit: provider.unit };
+  const row = estimatePlan(plan, { calls: 150, durationMinutes: 3 });
+  assert.equal(row.status, 'estimate');
+  assert.equal(row.scenarioCents, 52300);
+  assert.equal(row.oneTimeCents, 38500);
+  assert.equal(row.oneTimeKnown, true);
+  assert.equal(row.overageUnits, 0);
+  assert.doesNotMatch(row.formula, /our calculation/i);
+  const over = estimatePlan(plan, { calls: 1001 });
+  assert.equal(over.status, 'partial');
+  assert.equal(over.scenarioCents, 52300);
+  const quote = quoteDirectory(vendors, models, { industry: 'plumbing', calls: 150, minutes: 3, afterHours: null });
+  const listed = quote.priced.find((item) => item.slug === 'avec-peanut');
+  assert.equal(listed.monthly, '$523.00');
+  assert.equal(listed.year, '$6,661.00');
+  assert.equal(listed.setup, '$385.00 one time');
+  assert.equal(listed.worked, false);
 });
