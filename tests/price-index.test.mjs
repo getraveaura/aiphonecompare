@@ -2,7 +2,8 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import { classifySource, indexRows, indexSummary, introSentences, hostOf, SOURCE_TYPES } from '../src/lib/price-index.mjs';
-import { AI_BOTS, renderRobots, pickLastmod, toDay } from '../src/lib/seo-files.mjs';
+import { AI_BOTS, renderRobots, pickLastmod, sitemapLastmod, toDay } from '../src/lib/seo-files.mjs';
+import path from 'node:path';
 
 const vendors = JSON.parse(fs.readFileSync('src/data/vendors.json', 'utf8'));
 const log = JSON.parse(fs.readFileSync('src/data/price-changes.json', 'utf8'));
@@ -56,4 +57,32 @@ test('lastmod: meta first, then newest JSON-LD dateModified, then fallback', () 
   assert.equal(pickLastmod(ld('2026-11-12'), '2026-11-01'), '2026-11-12');
   assert.equal(pickLastmod('<p>none</p>', '2026-11-01'), '2026-11-01');
   assert.equal(toDay('2026-02-30'), '');
+});
+
+test('sitemap lastmod uses the page date or the llms verified date, not a missing index', () => {
+  assert.equal(sitemapLastmod({ html: '<meta property="article:modified_time" content="2026-11-22">', fallback: '2026-11-20' }), '2026-11-22');
+  assert.equal(sitemapLastmod({ explicit: '2026-11-23', fallback: '2026-11-20' }), '2026-11-23');
+  assert.equal(sitemapLastmod({ fallback: '2026-11-20' }), '2026-11-20');
+  const postbuild = fs.readFileSync('postbuild.mjs', 'utf8');
+  assert.match(postbuild, /\[`\$\{SITE\}\/llms\.txt`\]:verified/);
+  assert.match(postbuild, /sitemapLastmod\(/);
+  assert.doesNotMatch(postbuild, /sitemap-index\.xml/);
+  assert.doesNotMatch(renderRobots(AI_BOTS, 'https://aiphonecompare.com'), /sitemap-index/);
+  const root = path.resolve('src');
+  const files = [];
+  const walk = (dir) => {
+    for (const name of fs.readdirSync(dir)) {
+      const p = path.join(dir, name);
+      if (fs.statSync(p).isDirectory()) walk(p);
+      else if (/\.(astro|mjs|js|txt|xml|html|md)$/.test(name)) files.push(p);
+    }
+  };
+  walk(root);
+  for (const file of ['public', 'postbuild.mjs']) {
+    if (fs.existsSync(file) && fs.statSync(file).isDirectory()) walk(file);
+    else if (fs.existsSync(file)) files.push(file);
+  }
+  for (const file of files) {
+    assert.doesNotMatch(fs.readFileSync(file, 'utf8'), /sitemap-index\.xml/, file);
+  }
 });

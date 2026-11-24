@@ -1,18 +1,35 @@
 // Question answers for /best/ai-phone-receptionists/. No scores.
 import models from '../data/cost-models.json' with { type: 'json' };
+import vendors from '../data/vendors.json' with { type: 'json' };
 import { wordCount } from './cost-faq.mjs';
 import { readyRange } from './cost-table.mjs';
+import { formatCheckedSpan } from './quotable.mjs';
 import { formatDate } from './stories.mjs';
 
 const date = formatDate(models.checked);
 const range = readyRange(models, 150);
+
+// Same services as the shortlist table on the page. The FAQ date range is
+// computed from these rows, not from the cost-model file date.
+export const BEST_SHORTLIST_SLUGS = [
+  'upfirst', 'dialzara', 'oncrew', 'rosie', 'zinng-ai', 'marlie-ai', 'goodcall',
+  'my-ai-front-desk', 'agentzap', 'smith-ai', 'nextphone', 'abby-connect',
+  'jobber-ai-receptionist', 'allo', 'justcall', 'ruby', 'bland-ai', 'elevenlabs-ai-receptionist',
+];
+
+export function bestRowCheckedSpan(list = vendors, slugs = BEST_SHORTLIST_SLUGS) {
+  const bySlug = Object.fromEntries(list.map((vendor) => [vendor.slug, vendor.last_checked || '']));
+  return formatCheckedSpan(slugs.map((slug) => bySlug[slug]));
+}
+
+const rowChecked = bestRowCheckedSpan();
 
 export function bestFaqs() {
   return [
     {
       id: 'small-business',
       q: 'What is the best AI phone receptionist for a small business?',
-      a: `There is no single winner. A shop with a few short calls, a practice whose customers call back, and a firm that needs a person on the line will want different plans. Pick the situation that matches the call, then confirm the bill on the cost page. Prices were checked ${date}.`,
+      a: `There is no single winner. A shop with a few short calls, a practice whose customers call back, and a firm that needs a person on the line will want different plans. Pick the situation that matches the call, then confirm the bill on the cost page. Each row shows the date its price was checked (${rowChecked}).`,
     },
     {
       id: 'how-we-chose',

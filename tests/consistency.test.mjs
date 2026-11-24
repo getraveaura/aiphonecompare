@@ -75,16 +75,33 @@ test('worked calculator totals carry an inline calculation label', () => {
 
 test('Smith.ai vs Ruby uses each row date and the cheapest plan that fits', () => {
   const page = buildLandings().find((item) => item.path === '/compare/smith-ai-vs-ruby/');
-  const text = `${page.answer.join(' ')} ${page.blocks.map((block) => block.caption || '').join(' ')}`;
+  const text = `${page.dateNote} ${page.answer.join(' ')} ${page.blocks.map((block) => block.caption || '').join(' ')}`;
+  const sentence = 'Prices checked 14–22 November 2026; each row shows its own date.';
+  assert.equal(page.dateNote, sentence);
+  assert.equal(page.modified, '2026-11-22');
   assert.match(text, /Prices checked 14–22 November 2026; each row shows its own date\./);
   assert.match(text, /Smith\.ai plans checked 22 November 2026/);
   assert.match(text, /Ruby plans checked 20 November 2026/);
   assert.doesNotMatch(text, /Cost estimates use prices checked 22 November 2026/);
+  assert.doesNotMatch(text, /Price checked 14 November 2026/);
+  assert.doesNotMatch(text, /Last checked Smith\.ai, 14 November 2026/);
   assert.match(page.answer.join(' '), /the cheapest plan that fits is \$270\.00 for Smith\.ai Pro, 150 calls and \$1,635\.00 for Ruby Call Ruby 350/);
   assert.doesNotMatch(page.answer.join(' '), /\$7,875\.00 for Ruby/);
   const plans = page.blocks.find((block) => /50, 150, and 300 calls/.test(block.caption || ''));
   assert.match(JSON.stringify(plans.rows), /\$7,875/);
   const checked = page.blocks[0].rows.find((row) => row[0].text === 'Price checked');
-  assert.equal(checked[1].text, '14 November 2026');
+  assert.equal(checked[1].text, '14–22 November 2026');
+  assert.equal(checked[1].datetime, '2026-11-22');
   assert.equal(checked[2].text, '20 November 2026');
+  assert.equal(checked[2].datetime, '2026-11-20');
+  const pro150 = plans.rows.find((row) => row[1].text === 'Pro, 150 calls');
+  const ruby350 = plans.rows.find((row) => row[1].text === 'Call Ruby 350');
+  const ruby2500 = plans.rows.find((row) => row[1].text === 'Call Ruby 2,500');
+  assert.equal(pro150[3].text, '$270.00');
+  assert.equal(ruby350[3].text, '$1,635.00 (our calculation)');
+  assert.equal(ruby350[2].text, '$1,210.00');
+  assert.equal(ruby2500[4].text, '$7,875.00');
+  assert.match(read('src/components/Landing.astro'), /page\.modified/);
+  assert.match(read('src/components/Landing.astro'), /dateLine=\{dateLine\}/);
+  assert.match(read('src/layouts/Base.astro'), /article:modified_time/);
 });

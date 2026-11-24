@@ -52,7 +52,8 @@ for (const block of page.blocks) {
 const summaryText = (page.summary || []).join(' ');
 const notes = page.answer.filter((p) => !summaryText.includes(p.replace(' That is the math on the published cards, not a ranking.', '')) && !(page.kind === 'compare' && /'s recorded starting price is /.test(p)));
 const verifiedDates = (Array.isArray(page.verified) ? page.verified.map((d) => d.date) : [page.verified]).filter(Boolean).sort();
-const modified = verifiedDates.at(-1) || page.date || '';
+const modified = page.modified || verifiedDates.at(-1) || page.date || '';
+const dateLine = page.dateNote || '';
 graph.push(articleNode({
   url,
   headline: page.title,
@@ -79,7 +80,7 @@ graph.push(articleNode({
       </nav>
       <h1>{page.h1}</h1>
       <PlainIntro {...(page.path.startsWith('/cost/') ? { primary: ['/cost/calculator/', 'See my monthly cost'], secondary: ['/match/', 'Find my best match'] } : {})} text={page.path.startsWith('/compare/') ? 'See how these two compare on price and features, side by side, using each company’s own published prices.' : page.path.startsWith('/cost/') ? 'See what you would really pay per month, using each company’s own price list. No guessing: if a fee is not published, we say so.' : ''} />
-      <AnswerSummary sentences={page.summary} verified={page.verified} sources={page.sources} />
+      <AnswerSummary sentences={page.summary} verified={dateLine ? [] : page.verified} sources={page.sources} dateLine={dateLine} />
       <div class="landing-notes">
         {notes.slice(0, 1).map((paragraph) => <p>{paragraph}</p>)}
         {notes.length > 1 && (

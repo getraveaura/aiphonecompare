@@ -4,7 +4,7 @@
 // sentences in src/lib/answers.mjs etc. (src/lib/summary-points.mjs).
 import { formatDate } from '../lib/stories.mjs';
 import { summaryPoints, boldParts } from '../lib/summary-points.mjs';
-const { sentences = [], verified = '', verifiedLabel = 'Last checked', sources = [], note = '' } = Astro.props;
+const { sentences = [], verified = '', verifiedLabel = 'Last checked', sources = [], note = '', dateLine = '' } = Astro.props;
 const dates = Array.isArray(verified) ? verified.filter((d) => d && d.date) : (verified ? [{ date: verified }] : []);
 const { points, note: autoNote } = summaryPoints(sentences);
 const notes = [note, autoNote].filter(Boolean);
@@ -15,11 +15,13 @@ const notes = [note, autoNote].filter(Boolean);
     <ul class="answer-points">
       {points.map((p) => <li>{boldParts(p).map((part) => part.bold ? <strong>{part.text}</strong> : part.text)}</li>)}
     </ul>
-    {(dates.length > 0 || sources.length > 0 || notes.length > 0) && (
+    {(dateLine || dates.length > 0 || sources.length > 0 || notes.length > 0) && (
       <p class="answer-meta">
-        {dates.length > 0 && <span>{verifiedLabel}{' '}{dates.map((d, i) => <>{i ? '; ' : ''}{d.name ? `${d.name}, ` : ''}<time datetime={d.date}>{formatDate(d.date)}</time></>)}</span>}
-        {sources.length > 0 && <span>{dates.length > 0 && ' · '}Sources: {sources.map((s, i) => <>{i ? ', ' : ''}<a href={s.href} rel="nofollow noopener">{s.label}</a></>)}</span>}
-        {notes.map((n, i) => <span class="answer-note">{(i || dates.length || sources.length) ? ' · ' : ''}{n}</span>)}
+        {dateLine
+          ? <span>{dateLine}</span>
+          : dates.length > 0 && <span>{verifiedLabel}{' '}{dates.map((d, i) => <>{i ? '; ' : ''}{d.name ? `${d.name}, ` : ''}<time datetime={d.date}>{formatDate(d.date)}</time></>)}</span>}
+        {sources.length > 0 && <span>{(dateLine || dates.length > 0) && ' · '}Sources: {sources.map((s, i) => <>{i ? ', ' : ''}<a href={s.href} rel="nofollow noopener">{s.label}</a></>)}</span>}
+        {notes.map((n, i) => <span class="answer-note">{(i || dateLine || dates.length || sources.length) ? ' · ' : ''}{n}</span>)}
       </p>
     )}
   </div>
