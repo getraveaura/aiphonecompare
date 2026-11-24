@@ -74,6 +74,11 @@ function scenarioText(provider, estimate) {
   return `Not estimated. ${estimate.reason || 'The pricing page does not publish enough to calculate this.'}`;
 }
 
+function estimateCell(estimate) {
+  const worked = estimate.status === 'estimate' && estimate.overageUnits > 0;
+  return cell(worked ? `${estimate.text} (our calculation)` : estimate.text);
+}
+
 function planRows(providers) {
   const rows = [];
   for (const provider of providers) {
@@ -155,9 +160,9 @@ function scenarioTable(rows, caption) {
     rows: rows.map((row) => [
       cell(row.provider, { href: `/vendors/${row.slug}/`, visit: visitFor(vendorsBySlug()[row.slug]) }),
       cell(row.plan),
-      cell(row.estimates[50].text),
-      cell(row.estimates[150].text),
-      cell(row.estimates[300].text),
+      estimateCell(row.estimates[50]),
+      estimateCell(row.estimates[150]),
+      estimateCell(row.estimates[300]),
       cell(row.oneTime),
       cell(row.published),
     ]),
@@ -361,19 +366,28 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
     .sort((a, b) => a.name.localeCompare(b.name));
   const rows = providers.length ? planRows(providers) : [];
   const [left, right] = selected;
-  const checkDates = [
-    ...selected.map((vendor) => vendor.last_checked),
-    ...providers.map((provider) => provider.checked),
-  ].filter(Boolean);
+  const providerFor = (vendor) => providers.find((provider) => provider.slug === vendor.slug);
+  const vendorDates = (vendor) => [vendor.last_checked, providerFor(vendor)?.checked].filter(Boolean);
+  const vendorCheckedClause = (vendor) => {
+    const dates = vendorDates(vendor);
+    const span = formatCheckedSpan(dates);
+    if (!span) return 'Price checked date not verified.';
+    if (new Set(dates).size > 1) return `Prices checked ${span}; each row shows its own date.`;
+    return `Price checked ${span}.`;
+  };
+  const checkDates = selected.flatMap((vendor) => vendorDates(vendor));
   const checkedSpan = formatCheckedSpan(checkDates);
-  const checkedLine = checkedSpan ? `Prices checked ${checkedSpan}; each row shows its own date.` : '';
+  const datesDiffer = new Set(checkDates).size > 1;
+  const checkedLine = checkedSpan
+    ? (datesDiffer ? `Prices checked ${checkedSpan}; each row shows its own date.` : `Prices checked ${checkedSpan}.`)
+    : '';
   const planChecked = providers
     .map((provider) => `${provider.name} plans checked ${formatDate(provider.checked || models.checked)}`)
     .join('. ');
   const answer = [
     scope,
-    `${left.name}'s recorded starting price is ${blank(left.starting_price)}. Billing: ${blank(left.billing_model)}. Price checked ${left.last_checked ? formatDate(left.last_checked) : 'date not verified'}.`,
-    `${right.name}'s recorded starting price is ${blank(right.starting_price)}. Billing: ${blank(right.billing_model)}. Price checked ${right.last_checked ? formatDate(right.last_checked) : 'date not verified'}.`,
+    `${left.name}'s recorded starting price is ${blank(left.starting_price)}. Billing: ${blank(left.billing_model)}. ${vendorCheckedClause(left)}`,
+    `${right.name}'s recorded starting price is ${blank(right.starting_price)}. Billing: ${blank(right.billing_model)}. ${vendorCheckedClause(right)}`,
     providers.length
       ? [
           checkedLine,
@@ -393,11 +407,14 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
     ['HIPAA privacy agreement (BAA)', (vendor) => blank(vendor.hipaa_baa)],
     ['Industries', (vendor) => (vendor.industries || []).map((id) => industryLabel(id)).join(', ') || 'Not verified'],
     ['Notes', (vendor) => blank(vendor.notes)],
-    ['Price checked', (vendor) => (vendor.last_checked ? formatDate(vendor.last_checked) : 'Not verified')],
+    ['Price checked', (vendor) => formatCheckedSpan(vendorDates(vendor)) || 'Not verified'],
   ];
   const attributeRows = fields.map(([label, readField]) => [
     cell(label),
-    ...selected.map((vendor) => cell(readField(vendor), label === 'Price checked' && vendor.last_checked ? { datetime: vendor.last_checked } : label === 'Starting price' ? { price: priceVendor(vendor) } : {})),
+    ...selected.map((vendor) => {
+      const latest = [...vendorDates(vendor)].sort().at(-1) || '';
+      return cell(readField(vendor), label === 'Price checked' && latest ? { datetime: latest } : label === 'Starting price' ? { price: priceVendor(vendor) } : {});
+    }),
   ]);
   attributeRows.push([
     cell('Visit'),
@@ -482,6 +499,8 @@ function comparePage({ models, vendors, pair, slugs, h1, phrase, description, sc
     vendorSlugs: slugs,
     referrals: referralNames(selected),
     industries: [...new Set(selected.flatMap((vendor) => vendor.industries || []))],
+    modified: [...checkDates].sort().at(-1) || '',
+    dateNote: datesDiffer ? checkedLine : '',
     dollars: `${moneyFacts(rows)} ${selected.map((vendor) => [vendor.starting_price, vendor.free_trial, vendor.hipaa_baa, vendor.integrations, vendor.human_handoff].filter(Boolean).join(' ')).join(' ')} ${answer.join(' ')}`,
     crumbs: [
       { name: 'Home', href: '/' },

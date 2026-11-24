@@ -5,7 +5,7 @@ import KeyFindings from '../../components/KeyFindings.astro';
 import vendors from '../../data/vendors.json';
 import models from '../../data/cost-models.json';
 import { servicesWithoutFullBill, unpricedBillSentence } from '../../lib/calculator.mjs';
-import { bestFaqs } from '../../lib/best-faqs.mjs';
+import { BEST_SHORTLIST_SLUGS, bestFaqs } from '../../lib/best-faqs.mjs';
 import { billsByKind, readyRange } from '../../lib/cost-table.mjs';
 import { articleNode, breadcrumbNode } from '../../lib/answers.mjs';
 import { AUDIT_PATH, showAuditLinks } from '../../lib/audit.mjs';
@@ -63,6 +63,11 @@ const picks = [
     at150: bill ? (bill.cells[150] === 'not published' ? 'Not listed' : bill.cells[150]) : 'Not listed',
   };
 }).sort((a, b) => a.name.localeCompare(b.name));
+const listedSlugs = picks.map((pick) => pick.slug).sort().join('|');
+const expectedSlugs = [...BEST_SHORTLIST_SLUGS].sort().join('|');
+if (listedSlugs !== expectedSlugs) {
+  throw new Error('Best shortlist slugs drifted from BEST_SHORTLIST_SLUGS');
+}
 
 const jsonld = {
   '@context': 'https://schema.org',

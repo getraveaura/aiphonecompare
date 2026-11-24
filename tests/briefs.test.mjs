@@ -3,7 +3,7 @@ import fs from 'node:fs';
 import test from 'node:test';
 import { cheapestAt, costLlmsBlurb, bestLlmsBlurb, costDescription } from '../src/lib/quotable.mjs';
 import { quoteDirectory } from '../src/lib/calculator.mjs';
-import { bestFaqs } from '../src/lib/best-faqs.mjs';
+import { BEST_SHORTLIST_SLUGS, bestFaqs, bestRowCheckedSpan } from '../src/lib/best-faqs.mjs';
 import models from '../src/data/cost-models.json' with { type: 'json' };
 import vendors from '../src/data/vendors.json' with { type: 'json' };
 
@@ -61,4 +61,10 @@ test('the best-of page uses situations, not a numbered score', () => {
     assert.ok(item.words >= 40 && item.words <= 90, `${item.id} ${item.words}`);
     assert.doesNotMatch(item.a, /\$1,635/);
   }
+  const small = bestFaqs().find((item) => item.id === 'small-business');
+  assert.equal(bestRowCheckedSpan(), '13–20 November 2026');
+  assert.match(small.a, /Each row shows the date its price was checked \(13–20 November 2026\)\./);
+  assert.doesNotMatch(small.a, /Prices were checked/);
+  assert.match(page, /BEST_SHORTLIST_SLUGS/);
+  assert.equal(BEST_SHORTLIST_SLUGS.length, 18);
 });

@@ -57,3 +57,11 @@ function jsonldModified(html) {
 export function pickLastmod(html, fallback) {
   return metaModified(html) || jsonldModified(html) || toDay(fallback) || fallback;
 }
+
+// Sitemap lastmod. HTML uses the page's own modified meta. A generated file
+// such as llms.txt passes the date already printed in that file, so the
+// sitemap cannot stay on an older directory check.
+export function sitemapLastmod({ html = '', explicit = '', fallback = '' } = {}) {
+  if (html) return pickLastmod(html, explicit || fallback);
+  return toDay(explicit) || toDay(fallback) || explicit || fallback;
+}

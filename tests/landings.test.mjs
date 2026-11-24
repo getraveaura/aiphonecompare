@@ -30,7 +30,9 @@ test('Smith.ai at 50 calls matches the cost engine and uses the printed 150-call
   const page = pages.find((item) => item.path === '/cost/smith-ai/');
   const table = page.blocks.find((block) => block.type === 'table');
   const row = table.rows.find((cells) => cells[1].text === 'Free');
-  assert.equal(row[2].text, formatUsd(estimate.scenarioCents));
+  const money = formatUsd(estimate.scenarioCents);
+  assert.ok(estimate.overageUnits > 0);
+  assert.equal(row[2].text, `${money} (our calculation)`);
   assert.equal(table.rows.find((cells) => cells[1].text === band.name)[3].text, '$270.00');
 });
 

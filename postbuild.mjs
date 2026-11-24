@@ -10,7 +10,7 @@ import { getAlternatives, getBudgets, ALTERNATIVES_INDEX } from './src/lib/alter
 import { money } from './src/lib/starting-price.mjs';
 import { costLlmsBlurb, bestLlmsBlurb, latestVerifiedDate } from './src/lib/quotable.mjs';
 import { indexRows } from './src/lib/price-index.mjs';
-import { AI_BOTS, renderRobots, pickLastmod } from './src/lib/seo-files.mjs';
+import { AI_BOTS, renderRobots, sitemapLastmod } from './src/lib/seo-files.mjs';
 const SITE='https://aiphonecompare.com';
 const vendors=JSON.parse(fs.readFileSync('src/data/vendors.json','utf8'));
 const urls=[];
@@ -79,7 +79,10 @@ fs.writeFileSync('dist/llms-full.txt',`# aiphonecompare pricing table\n\n> Indep
 for(const p of [ALTERNATIVES_INDEX,...altPages.map(x=>x.path),...budgetPages.map(x=>x.path),'/industries/property-management/','/after-hours/','/ai-vs-virtual-receptionist/']){
  if(!urls.includes(SITE+p))throw new Error(`${p} is missing from the sitemap / IndexNow list`);}
 urls.push(SITE+'/data/vendors.csv',SITE+'/data/vendors.json',SITE+'/llms.txt',SITE+'/llms-full.txt',SITE+'/feed.xml',SITE+'/price-changes/feed.xml');
-const sitemapXml=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.sort().map(u=>`<url><loc>${u}</loc><lastmod>${htmlFor[u]?pickLastmod(fs.readFileSync(htmlFor[u],'utf8'),latest):latest}</lastmod></url>`).join('\n')}\n</urlset>\n`;
+// llms files print latestVerifiedDate. Their lastmod follows that date, not the
+// newest vendor listing date, which can be older than the file's own header.
+const datedFiles={[`${SITE}/llms.txt`]:verified,[`${SITE}/llms-full.txt`]:verified};
+const sitemapXml=`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.sort().map(u=>`<url><loc>${u}</loc><lastmod>${sitemapLastmod({html:htmlFor[u]?fs.readFileSync(htmlFor[u],'utf8'):'',explicit:datedFiles[u]||'',fallback:latest})}</lastmod></url>`).join('\n')}\n</urlset>\n`;
 fs.writeFileSync('dist/sitemap.xml',sitemapXml);
 fs.writeFileSync('dist/sitemap-0.xml',sitemapXml);
 fs.writeFileSync('dist/robots.txt',renderRobots(AI_BOTS,SITE));
