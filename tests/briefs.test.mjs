@@ -16,7 +16,7 @@ test('the ready-made AI range does not include Ruby or a platform', () => {
   assert.ok(!rows.some((row) => row.slug === 'bland-ai' || row.slug === 'elevenlabs-ai-receptionist'));
   assert.ok(!rows.some((row) => row.slug === 'jobber-ai-receptionist'));
   assert.equal(rows[0].cents, 9900);
-  assert.equal(rows.at(-1).cents, 44900);
+  assert.equal(rows.at(-1).cents, 52300);
 });
 
 test('worked totals are labeled and Ruby is marked as a live plan', () => {
@@ -37,7 +37,7 @@ test('llms copy drops the old AI range and names the new pages', () => {
   const cost = costLlmsBlurb();
   const best = bestLlmsBlurb();
   assert.doesNotMatch(cost, /\$1,635|\$199 to \$1,635/);
-  assert.match(cost, /\$99 to \$449/);
+  assert.match(cost, /\$99 to \$523/);
   assert.match(cost, /Ruby/);
   assert.match(best, /no paid rank/i);
   assert.doesNotMatch(best, /AggregateRating|#1/);

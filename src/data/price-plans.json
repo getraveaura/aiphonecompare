@@ -624,6 +624,23 @@
           "extra": "$314/mo with annual pricing"
         }
       ]
+    },
+    "avec-peanut": {
+      "basis": "$523/mo with unlimited calls up to 1,000 a month; + $385 one-time setup",
+      "from": "$523/mo",
+      "plans": [
+        {
+          "name": "One plan",
+          "price": "$523/mo",
+          "includes": "unlimited calls up to 1,000 a month"
+        }
+      ],
+      "one_time": [
+        {
+          "label": "one-time setup",
+          "price": "$385"
+        }
+      ]
     }
   }
 }

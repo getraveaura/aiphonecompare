@@ -9,6 +9,13 @@ export const COVERAGE = [
     readOn: '2026-11-23',
   },
   {
+    slug: 'avec-peanut',
+    says: 'The answering-service page says it picks up every call in the company\'s name, day or night, 24 hours a day, 7 days a week, including nights, weekends and holidays.',
+    source: 'https://www.avecpeanut.com/ai-answering-service',
+    sourceLabel: 'avecpeanut.com/ai-answering-service',
+    readOn: '2026-11-24',
+  },
+  {
     slug: 'glossgenius-reception',
     says: 'The directory note says Reception answers calls and texts 24/7. That note was not re-read on the vendor site on 23 November 2026. It is an add-on for GlossGenius users.',
     source: 'https://genius.ai/reception',

@@ -1435,5 +1435,34 @@
       "result": "confirmed",
       "note": "Starting price read on the vendor's own page."
     }
+  },
+  {
+    "slug": "avec-peanut",
+    "name": "Avec Peanut",
+    "website": "https://www.avecpeanut.com",
+    "starting_price": "$523/mo with unlimited calls up to 1,000 a month; + $385 one-time setup",
+    "billing_model": "Flat monthly, unlimited calls up to 1,000 a month",
+    "free_trial": "",
+    "human_handoff": "Urgent calls are transferred to whoever is on call. The pages say a very upset caller or an odd question is handed to you, or it takes a message.",
+    "hipaa_baa": "",
+    "integrations": "Books into Google Calendar and Outlook. Jobber, Housecall Pro, and ServiceTitan are named only as \u201cask on the setup call what I can connect today.\u201d The contractor page also names JobNimbus and Buildertrend that way.",
+    "industries": [
+      "plumbing"
+    ],
+    "notes": "AI answering service for home-service businesses, set up by Kevin Luchansky. One public plan, month to month, with no long-term contract. Answers in the company\u2019s name, books the job or transfers emergencies, and texts a summary after every call. Has its own answering-service pages for plumbers, HVAC companies, and contractors. Spanish is not available yet, per the public pages. Avec Peanut also sells local SEO and Google Business Profile work; those are a separate product and are not part of this answering-service price.",
+    "sponsored": false,
+    "sources": [
+      "https://www.avecpeanut.com/ai-answering-service",
+      "https://www.avecpeanut.com/plumbing-answering-service",
+      "https://www.avecpeanut.com/hvac-answering-service",
+      "https://www.avecpeanut.com/contractor-answering-service",
+      "https://www.avecpeanut.com/answering-service-cost"
+    ],
+    "last_checked": "2026-11-24",
+    "price_check": {
+      "date": "2026-11-24",
+      "result": "confirmed",
+      "note": "Read on avecpeanut.com/ai-answering-service, avecpeanut.com/plumbing-answering-service, avecpeanut.com/hvac-answering-service, avecpeanut.com/contractor-answering-service, and avecpeanut.com/answering-service-cost on 24 November 2026. All five pages list $523 a month plus a $385 one-time setup, with unlimited calls up to 1,000 a month and no long-term contract. The pages say that if a business goes over 1,000 calls a month, a plan that fits will be set before the bill changes. No published overage rate, free trial, or marketed plan name beyond \u201cone plan\u201d was found."
+    }
   }
 ]

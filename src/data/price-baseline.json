@@ -351,6 +351,13 @@
       "starting_price": "The Reception product page says it is free on GlossGenius until 30 November 2026. The pricing page lists Reception by GlossGenius at $50/month. Included call or text minutes after the free period are not published on the pricing page",
       "last_checked": "2026-11-14",
       "source": "https://glossgenius.com/pricing"
+    },
+    {
+      "slug": "avec-peanut",
+      "name": "Avec Peanut",
+      "starting_price": "$523/mo with unlimited calls up to 1,000 a month; + $385 one-time setup",
+      "last_checked": "2026-11-24",
+      "source": "https://www.avecpeanut.com/ai-answering-service"
     }
   ]
 }

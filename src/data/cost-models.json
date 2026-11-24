@@ -125,6 +125,44 @@
       ]
     },
     {
+      "id": "avec-peanut",
+      "name": "Avec Peanut",
+      "slug": "avec-peanut",
+      "unit": "call",
+      "productKind": "ready",
+      "bestFor": "Flat monthly price, up to 1,000 calls",
+      "checked": "2026-11-24",
+      "sources": [
+        {
+          "href": "https://www.avecpeanut.com/ai-answering-service",
+          "label": "avecpeanut.com/ai-answering-service"
+        },
+        {
+          "href": "https://www.avecpeanut.com/answering-service-cost",
+          "label": "avecpeanut.com/answering-service-cost"
+        }
+      ],
+      "booking": "The answering-service pages say it books into open slots on a Google or Outlook calendar.",
+      "transfer": "The pages say urgent calls are transferred to whoever is on call. A separate transfer fee is not published, so none is added.",
+      "caveats": [
+        "Billed as a flat $523 a month, up to 1,000 calls. Call length does not change this row.",
+        "A $385 one-time setup fee is printed on the answering-service and cost pages and is included here.",
+        "The pages say there is no long-term contract, and that if you go over 1,000 calls a month a plan that fits will be set before the bill changes. No extra-call rate is published, so past 1,000 calls this row is only a partial subtotal.",
+        "Local SEO and Google Business Profile work are sold separately and are not included in this total."
+      ],
+      "plans": [
+        {
+          "id": "one-plan",
+          "name": "One plan",
+          "publishedMonthly": 523,
+          "included": 1000,
+          "overage": null,
+          "setupFee": 385,
+          "publishedLabel": "$523/month, unlimited calls up to 1,000 a month, plus $385 one-time setup"
+        }
+      ]
+    },
+    {
       "id": "bland-ai",
       "name": "Bland AI",
       "slug": "bland-ai",

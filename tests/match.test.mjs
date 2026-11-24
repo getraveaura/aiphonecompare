@@ -23,6 +23,7 @@ test('a blank BAA is unknown and a denial is not a yes', () => {
   assert.equal(baaState('Signs a BAA on the Scale plan'), 'yes');
   assert.equal(spanishState({ notes: '10 languages', integrations: '', starting_price: '' }), 'unknown');
   assert.equal(spanishState({ notes: 'English + Spanish.', integrations: '', starting_price: '' }), 'yes');
+  assert.equal(spanishState({ notes: 'Spanish is not available yet, per the public pages.', integrations: '', starting_price: '' }), 'no');
 });
 
 test('a contradicted must-have is left out of the three fits', () => {

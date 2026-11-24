@@ -41,15 +41,15 @@ test('Jobber add-on is not treated as a complete plan with fully published prici
   const complete = list.split('\n').find((line) => /fully published pricing/.test(line));
   assert.ok(complete, list);
   assert.doesNotMatch(complete, /Jobber|\$138\.50|Ruby|\$1,635/);
-  assert.match(complete, /\$99 to \$449 a month/);
+  assert.match(complete, /\$99 to \$523 a month/);
   assert.match(complete, /Live receptionist plans are not in that range/);
-  assert.match(complete, /plan prices checked 22–23 November 2026/);
+  assert.match(complete, /plan prices checked 22–24 November 2026/);
   assert.match(list, /The Jobber AI Receptionist add-on is \*\*\$138\.50\*\* a month at 150 conversations/);
   assert.match(list, /a Jobber software plan is not included/);
   assert.match(list, /yearly price and setup are not published \(checked 22 November 2026\)/);
   const cost = costAnswer(f);
   assert.doesNotMatch(cost, /\$138\.50|\$1,635|Ruby/);
-  assert.match(cost, /\$99 to \$449 a month/);
+  assert.match(cost, /\$99 to \$523 a month/);
   assert.match(cost, /150 calls of 3 minutes/);
   const costPage = read('src/pages/cost.astro');
   assert.match(costPage, /Ruby is a live receptionist/);
